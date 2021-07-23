@@ -28,6 +28,8 @@ game:
   Factorio: 1
   Minecraft: 1
   Subnautica: 1
+  Super Metroid: 1
+  
 requires:
   version: 0.1.5 # Version of Archipelago required for this yaml to work as expected.
 # Shared Options supported by all games:
