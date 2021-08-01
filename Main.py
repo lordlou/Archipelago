@@ -260,7 +260,7 @@ def main(args, seed=None):
                         or world.shufflepots[player] or world.bush_shuffle[player]
                         or world.killable_thieves[player])
 
-        rom = LocalRom(args.rom)
+        rom = LocalRom(args.lttp_rom)
 
         patch_rom(world, rom, player, team, use_enemizer)
 
