@@ -22,7 +22,6 @@ from Utils import output_path, parse_player_names, get_options, __version__, ver
 from worlds.generic.Rules import locality_rules, exclusion_rules
 from worlds import AutoWorld
 import Patch
-from variaRandomizer.logic.logic import Logic
 
 seeddigits = 20
 
@@ -49,7 +48,6 @@ def main(args, seed=None):
         output_path.cached_path = args.outputpath
 
     start = time.perf_counter()
-    Logic.factory('vanilla')
     # initialize the world
     world = MultiWorld(args.multi)
 
