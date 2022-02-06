@@ -379,7 +379,7 @@ def create_playthrough(world):
                 raise RuntimeError(f'Not all progression items reachable ({sphere_candidates}). '
                                    f'Something went terribly wrong here.')
             else:
-                world.spoiler.unreachables = sphere_candidates
+                world.spoiler.unreachables = list(sphere_candidates)
                 break
 
     # in the second phase, we cull each sphere such that the game is still beatable,
