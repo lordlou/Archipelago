@@ -68,6 +68,12 @@ class SMWeb(WebWorld):
 
 
 class SMWorld(World):
+    """
+     This is Very Adaptive Randomizer of Items and Areas for Super Metroid (VARIA SM). It supports
+     a wide range of options to randomize Item locations, required skills and even the connections 
+     between the main Areas!
+    """
+
     game: str = "Super Metroid"
     topology_present = True
     data_version = 1
@@ -592,8 +598,18 @@ class SMLocation(Location):
         super(SMLocation, self).__init__(player, name, address, parent)
 
     def can_fill(self, state: CollectionState, item: Item, check_access=True) -> bool:
-        return self.always_allow(state, item) or (self.item_rule(item) and (not check_access or self.can_reach(state)))
+        return self.always_allow(state, item) or (self.item_rule(item) and (not check_access or (self.can_reach(state) and self.can_comeback(state, item))))
 
+    def can_comeback(self, state: CollectionState, item: Item):
+        randoExec = state.world.worlds[self.player].variaRando.randoExec
+        for key in locationsDict[self.name].AccessFrom.keys():
+            if (randoExec.areaGraph.canAccess(  state.smbm[self.player], 
+                                                key,
+                                                randoExec.graphSettings.startAP,
+                                                state.smbm[self.player].maxDiff,
+                                                None)):
+                return True
+        return False
 
 class SMItem(Item):
     game = "Super Metroid"
