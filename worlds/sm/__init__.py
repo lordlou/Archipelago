@@ -428,7 +428,7 @@ class SMWorld(World):
     def generate_output(self, output_directory: str):
          # Turn Nothing items into event pairs.
         for location in self.locations.values():
-            if location.item.game == "Super Metroid" and location.item.type == "Nothing":
+            if location.item.game == "Super Metroid" and (location.item.type == "Nothing" or location.item.type == "NoEnergy"):
                 location.address = location.item.code = None
 
         outfilebase = 'AP_' + self.world.seed_name
