@@ -182,7 +182,8 @@ class SMWorld(World):
         for src, dest in self.variaRando.randoExec.areaGraph.InterAreaTransitions:
             src_region = self.world.get_region(src.Name, self.player)
             dest_region = self.world.get_region(dest.Name, self.player)
-            src_region.exits.append(Entrance(self.player, src.Name + "->" + dest.Name, src_region))
+            if ((src.Name + "->" + dest.Name, self.player) not in self.world._entrance_cache):
+                src_region.exits.append(Entrance(self.player, src.Name + "->" + dest.Name, src_region))
             srcDestEntrance = self.world.get_entrance(src.Name + "->" + dest.Name, self.player)
             srcDestEntrance.connect(dest_region)
             add_entrance_rule(self.world.get_entrance(src.Name + "->" + dest.Name, self.player), self.player, getAccessPoint(src.Name).traverse)
@@ -425,6 +426,11 @@ class SMWorld(World):
         romPatcher.writeRandoSettings(self.variaRando.randoExec.randoSettings, itemLocs)
 
     def generate_output(self, output_directory: str):
+         # Turn Nothing items into event pairs.
+        for location in self.locations.values():
+            if location.item.game == "Super Metroid" and location.item.type == "Nothing":
+                location.address = location.item.code = None
+
         outfilebase = 'AP_' + self.world.seed_name
         outfilepname = f'_P{self.player}'
         outfilepname += f"_{self.world.get_file_safe_player_name(self.player).replace(' ', '_')}"
@@ -565,11 +571,6 @@ class SMWorld(World):
                 if not world.get_location(bossLoc, player).can_reach(new_state):
                     world.state.smbm[player].onlyBossLeft = True
                     break
-
-        # Turn Nothing items into event pairs.
-        for location in world.get_locations():
-            if location.game == location.item.game == "Super Metroid" and location.item.type == "Nothing":
-                location.address = location.item.code = None
 
     def write_spoiler(self, spoiler_handle: TextIO):
         if self.world.area_randomization[self.player].value != 0:

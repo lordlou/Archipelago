@@ -22,9 +22,14 @@ def sweep_from_pool(base_state: CollectionState, itempool: typing.Sequence[Item]
 
 
 def fill_restrictive(world: MultiWorld, base_state: CollectionState, locations: typing.List[Location],
-                     itempool: typing.List[Item], single_player_placement: bool = False, lock: bool = False) -> None:
+                     itempool: typing.List[Item], single_player_placement: bool = False, lock: bool = False, local_item_counts = None) -> None:
     unplaced_items: typing.List[Item] = []
     placements: typing.List[Location] = []
+
+    if local_item_counts is not None:
+        locations_counter = Counter([location.player for location in locations]) - local_item_counts
+    else:
+        locations_counter = Counter([location.player for location in locations])
 
     swapped_items: typing.Counter[typing.Tuple[int, str]] = Counter()
     reachable_items: typing.Dict[int, typing.Deque[Item]] = {}
@@ -53,8 +58,10 @@ def fill_restrictive(world: MultiWorld, base_state: CollectionState, locations: 
 
             for i, location in enumerate(locations):
                 if (not single_player_placement or location.player == item_to_place.player) \
+                        and locations_counter[location.player] > 0 \
                         and location.can_fill(maximum_exploration_state, item_to_place, perform_access_check):
                     # poping by index is faster than removing by content,
+                    locations_counter[location.player] -= 1
                     spot_to_fill = locations.pop(i)
                     # skipping a scan for the element
                     break
@@ -166,12 +173,14 @@ def distribute_items_restrictive(world: MultiWorld) -> None:
     defaultlocations = locations[LocationProgressType.DEFAULT]
     excludedlocations = locations[LocationProgressType.EXCLUDED]
 
-    fill_restrictive(world, world.state, prioritylocations, progitempool)
+    localrestitempoolcounts = Counter({key: len(localrestitempool[key]) for key in localrestitempool})
+
+    fill_restrictive(world, world.state, prioritylocations, progitempool, False, False, localrestitempoolcounts)
     if prioritylocations:
         defaultlocations = prioritylocations + defaultlocations
 
     if progitempool:
-        fill_restrictive(world, world.state, defaultlocations, progitempool)
+        fill_restrictive(world, world.state, defaultlocations, progitempool, False, False, localrestitempoolcounts)
         if progitempool:
             raise FillError(
                 f'Not enough locations for progress items. There are {len(progitempool)} more items than locations')
@@ -180,7 +189,7 @@ def distribute_items_restrictive(world: MultiWorld) -> None:
         world.random.shuffle(defaultlocations)
         # needs logical fill to not conflict with local items
         fill_restrictive(
-            world, world.state, defaultlocations, nonexcludeditempool)
+            world, world.state, defaultlocations, nonexcludeditempool, False, False, localrestitempoolcounts)
         if nonexcludeditempool:
             raise FillError(
                 f'Not enough locations for non-excluded items. There are {len(nonexcludeditempool)} more items than locations')
@@ -228,7 +237,7 @@ def distribute_items_restrictive(world: MultiWorld) -> None:
         items_counter = Counter([location.item.player for location in world.get_locations() if location.item])
         locations_counter = Counter([location.player for location in world.get_locations()])
         items_counter.update([item.player for item in unplaced])
-        locations_counter.update([location.player for location in unfilled])
+        locations_counter.update([location.player for location in defaultlocations])
         print_data = {"items": items_counter, "locations": locations_counter}
         logging.info(f'Per-Player counts: {print_data})')
 
