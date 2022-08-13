@@ -93,8 +93,8 @@ entrance_shuffle_table = [
                         ('Bottom of the Well -> Kakariko Village',                          { 'index': 0x02A6 })),
     ('Dungeon',         ('ZF Ice Ledge -> Ice Cavern Beginning',                            { 'index': 0x0088 }),
                         ('Ice Cavern Beginning -> ZF Ice Ledge',                            { 'index': 0x03D4 })),
-    ('Dungeon',         ('Gerudo Fortress -> Gerudo Training Grounds Lobby',                { 'index': 0x0008 }),
-                        ('Gerudo Training Grounds Lobby -> Gerudo Fortress',                { 'index': 0x03A8 })),
+    ('Dungeon',         ('Gerudo Fortress -> Gerudo Training Ground Lobby',                 { 'index': 0x0008 }),
+                        ('Gerudo Training Ground Lobby -> Gerudo Fortress',                 { 'index': 0x03A8 })),
 
     ('Interior',        ('Kokiri Forest -> KF Midos House',                                 { 'index': 0x0433 }),
                         ('KF Midos House -> Kokiri Forest',                                 { 'index': 0x0443 })),
@@ -251,8 +251,8 @@ entrance_shuffle_table = [
                         ('Graveyard Shield Grave -> Graveyard',                             { 'index': 0x035D })),
     ('Grave',           ('Graveyard -> Graveyard Heart Piece Grave',                        { 'index': 0x031C }),
                         ('Graveyard Heart Piece Grave -> Graveyard',                        { 'index': 0x0361 })),
-    ('Grave',           ('Graveyard -> Graveyard Composers Grave',                          { 'index': 0x002D }),
-                        ('Graveyard Composers Grave -> Graveyard',                          { 'index': 0x050B })),
+    ('Grave',           ('Graveyard -> Graveyard Royal Familys Tomb',                       { 'index': 0x002D }),
+                        ('Graveyard Royal Familys Tomb -> Graveyard',                       { 'index': 0x050B })),
     ('Grave',           ('Graveyard -> Graveyard Dampes Grave',                             { 'index': 0x044F }),
                         ('Graveyard Dampes Grave -> Graveyard',                             { 'index': 0x0359 })),
 
@@ -365,15 +365,15 @@ def shuffle_random_entrances(ootworld):
 
     if ootworld.owl_drops:
         one_way_entrance_pools['OwlDrop'] = ootworld.get_shufflable_entrances(type='OwlDrop')
-    if ootworld.spawn_positions:
-        one_way_entrance_pools['Spawn'] = ootworld.get_shufflable_entrances(type='Spawn')
     if ootworld.warp_songs:
         one_way_entrance_pools['WarpSong'] = ootworld.get_shufflable_entrances(type='WarpSong')
-        if world.accessibility[player].current_key != 'minimal' and ootworld.logic_rules == 'glitchless':
+        if ootworld.logic_rules == 'glitchless':
             one_way_priorities['Bolero'] = priority_entrance_table['Bolero']
             one_way_priorities['Nocturne'] = priority_entrance_table['Nocturne']
             if not ootworld.shuffle_dungeon_entrances and not ootworld.shuffle_overworld_entrances:
                 one_way_priorities['Requiem'] = priority_entrance_table['Requiem']
+    if ootworld.spawn_positions:
+        one_way_entrance_pools['Spawn'] = ootworld.get_shufflable_entrances(type='Spawn')
 
     if ootworld.shuffle_dungeon_entrances:
         entrance_pools['Dungeon'] = ootworld.get_shufflable_entrances(type='Dungeon', only_primary=True)
@@ -577,11 +577,16 @@ def place_one_way_priority_entrance(ootworld, priority_name, allowed_regions, al
     for entrance in avail_pool:
         if entrance.replaces:
             continue
+        # With mask hints, child needs to be able to access the gossip stone.
         if entrance.parent_region.name == 'Adult Spawn' and (priority_name != 'Nocturne' or ootworld.hints == 'mask'):
             continue
+        # With dungeons unshuffled, adult needs to be able to access Shadow Temple.
         if not ootworld.shuffle_dungeon_entrances and priority_name == 'Nocturne':
             if entrance.type != 'WarpSong' and entrance.parent_region.name != 'Adult Spawn':
                 continue
+        # With overworld unshuffled, child can't spawn at Desert Colossus
+        if not ootworld.shuffle_overworld_entrances and priority_name == 'Requiem' and entrance.parent_region.name == 'Child Spawn':
+            continue
         for target in one_way_target_entrance_pools[entrance.type]:
             if target.connected_region and target.connected_region.name in allowed_regions:
                 if replace_entrance(ootworld, entrance, target, rollbacks, locations_to_ensure_reachable, all_state, none_state):

@@ -1,3 +1,5 @@
+import typing
+
 from BaseClasses import Dungeon
 from worlds.alttp.Bosses import BossFactory
 from Fill import fill_restrictive
@@ -108,21 +110,15 @@ def create_dungeons(world, player):
         world.dungeons[dungeon.name, dungeon.player] = dungeon
 
 
-def get_dungeon_item_pool(world):
-    items = [item for dungeon in world.dungeons.values() for item in dungeon.all_items]
-    for item in items:
-        item.world = world
-    return items
+def get_dungeon_item_pool(world) -> typing.List:
+    return [item for dungeon in world.dungeons.values() for item in dungeon.all_items]
 
 
-def get_dungeon_item_pool_player(world, player):
-    items = [item for dungeon in world.dungeons.values() if dungeon.player == player for item in dungeon.all_items]
-    for item in items:
-        item.world = world
-    return items
+def get_dungeon_item_pool_player(world, player) -> typing.List:
+    return [item for dungeon in world.dungeons.values() if dungeon.player == player for item in dungeon.all_items]
 
 
-def fill_dungeons_restrictive(autoworld, world):
+def fill_dungeons_restrictive(world):
     """Places dungeon-native items into their dungeons, places nothing if everything is shuffled outside."""
     localized: set = set()
     dungeon_specific: set = set()

@@ -4,24 +4,102 @@ import os
 import threading
 import typing
 
-from BaseClasses import Item, CollectionState
+from BaseClasses import Item, CollectionState, Tutorial
 from .SubClasses import ALttPItem
-from ..AutoWorld import World, LogicMixin
+from ..AutoWorld import World, WebWorld, LogicMixin
 from .Options import alttp_options, smallkey_shuffle
-from .Items import as_dict_item_table, item_name_groups, item_table
+from .Items import item_init_table, item_name_groups, item_table, GetBeemizerItem
 from .Regions import lookup_name_to_id, create_regions, mark_light_world_regions
 from .Rules import set_rules
 from .ItemPool import generate_itempool, difficulties
 from .Shops import create_shops, ShopSlotFill
 from .Dungeons import create_dungeons
-from .Rom import LocalRom, patch_rom, patch_race_rom, patch_enemizer, apply_rom_settings, get_hash_string, \
-    get_base_rom_path
+from .Rom import LocalRom, patch_rom, patch_race_rom, check_enemizer, patch_enemizer, apply_rom_settings, \
+    get_hash_string, get_base_rom_path, LttPDeltaPatch
 import Patch
+from itertools import chain
 
 from .InvertedRegions import create_inverted_regions, mark_dark_world_regions
 from .EntranceShuffle import link_entrances, link_inverted_entrances, plando_connect
 
 lttp_logger = logging.getLogger("A Link to the Past")
+
+extras_list = sum(difficulties['normal'].extras[0:5], [])
+
+class ALTTPWeb(WebWorld):
+    setup_en = Tutorial(
+        "Multiworld Setup Tutorial",
+        "A guide to setting up the Archipelago ALttP Software on your computer. This guide covers single-player, multiworld, and related software.",
+        "English",
+        "multiworld_en.md",
+        "multiworld/en",
+        ["Farrak Kilhn"]
+    )
+
+    setup_de = Tutorial(
+        setup_en.tutorial_name,
+        setup_en.description,
+        "Deutsch",
+        "multiworld_de.md",
+        "multiworld/de",
+        ["Fischfilet"]
+    )
+
+    setup_es = Tutorial(
+        setup_en.tutorial_name,
+        setup_en.description,
+        "Español",
+        "multiworld_es.md",
+        "multiworld/es",
+        ["Edos"]
+    )
+
+    setup_fr = Tutorial(
+        setup_en.tutorial_name,
+        setup_en.description,
+        "Français",
+        "multiworld_fr.md",
+        "multiworld/fr",
+        ["Coxla"]
+    )
+
+    msu = Tutorial(
+        "MSU-1 Setup Tutorial",
+        "A guide to setting up MSU-1, which allows for custom in-game music.",
+        "English",
+        "msu1_en.md",
+        "msu1/en",
+        ["Farrak Kilhn"]
+    )
+
+    msu_es = Tutorial(
+        msu.tutorial_name,
+        msu.description,
+        "Español",
+        "msu1_es.md",
+        "msu1/es",
+        ["Edos"]
+    )
+
+    msu_fr = Tutorial(
+        msu.tutorial_name,
+        msu.description,
+        "Français",
+        "msu1_fr.md",
+        "msu1/fr",
+        ["Coxla"]
+    )
+
+    plando = Tutorial(
+        "Plando Tutorial",
+        "A guide to creating Multiworld Plandos with LTTP",
+        "English",
+        "plando_en.md",
+        "plando/en",
+        ["Berserker"]
+    )
+
+    tutorials = [setup_en, setup_de, setup_es, setup_fr, msu, msu_es, msu_fr, plando]
 
 
 class ALTTPWorld(World):
@@ -43,6 +121,19 @@ class ALTTPWorld(World):
     data_version = 8
     remote_items: bool = False
     remote_start_inventory: bool = False
+    required_client_version = (0, 3, 2)
+    web = ALTTPWeb()
+
+    pedestal_credit_texts: typing.Dict[int, str] = \
+        {data.item_code: data.pedestal_credit for data in item_table.values() if data.pedestal_credit}
+    sickkid_credit_texts: typing.Dict[int, str] = \
+        {data.item_code: data.sick_kid_credit for data in item_table.values() if data.sick_kid_credit}
+    zora_credit_texts: typing.Dict[int, str] = \
+        {data.item_code: data.zora_credit for data in item_table.values() if data.zora_credit}
+    magicshop_credit_texts: typing.Dict[int, str] = \
+        {data.item_code: data.witch_credit for data in item_table.values() if data.witch_credit}
+    fluteboy_credit_texts: typing.Dict[int, str] = \
+        {data.item_code: data.flute_boy_credit for data in item_table.values() if data.flute_boy_credit}
 
     set_rules = set_rules
 
@@ -55,9 +146,18 @@ class ALTTPWorld(World):
         self.has_progressive_bows = False
         super(ALTTPWorld, self).__init__(*args, **kwargs)
 
+    @classmethod
+    def stage_assert_generate(cls, world):
+        rom_file = get_base_rom_path()
+        if not os.path.exists(rom_file):
+            raise FileNotFoundError(rom_file)
+
     def generate_early(self):
         player = self.player
         world = self.world
+
+        if self.use_enemizer():
+            check_enemizer(world.enemizer)
 
         # system for sharing ER layouts
         self.er_seed = str(world.random.randint(0, 2 ** 64))
@@ -69,7 +169,7 @@ class ALTTPWorld(World):
                 self.er_seed = "vanilla"
             elif seed.startswith("group-") or world.is_race:
                 self.er_seed = get_same_seed(world, (
-                    shuffle, seed, world.retro[player], world.mode[player], world.logic[player]))
+                    shuffle, seed, world.retro_caves[player], world.mode[player], world.logic[player]))
             else:  # not a race or group seed, use set seed as is.
                 self.er_seed = seed
         elif world.shuffle[player] == "vanilla":
@@ -90,17 +190,6 @@ class ALTTPWorld(World):
     def create_regions(self):
         player = self.player
         world = self.world
-        if world.open_pyramid[player] == 'goal':
-            world.open_pyramid[player] = world.goal[player] in {'crystals', 'ganontriforcehunt',
-                                                                'localganontriforcehunt', 'ganonpedestal'}
-        elif world.open_pyramid[player] == 'auto':
-            world.open_pyramid[player] = world.goal[player] in {'crystals', 'ganontriforcehunt',
-                                                                'localganontriforcehunt', 'ganonpedestal'} and \
-                                         (world.shuffle[player] in {'vanilla', 'dungeonssimple', 'dungeonsfull',
-                                                                    'dungeonscrossed'} or not world.shuffle_ganon)
-        else:
-            world.open_pyramid[player] = {'on': True, 'off': False, 'yes': True, 'no': False}.get(
-                world.open_pyramid[player], 'auto')
 
         world.triforce_pieces_available[player] = max(world.triforce_pieces_available[player],
                                                       world.triforce_pieces_required[player])
@@ -194,7 +283,7 @@ class ALTTPWorld(World):
                         return
                     elif state.has('Red Shield', item.player) and self.world.difficulty_requirements[item.player].progressive_shield_limit >= 3:
                         return 'Mirror Shield'
-                    elif state.has('Blue Shield', item.player)  and self.world.difficulty_requirements[item.player].progressive_shield_limit >= 2:
+                    elif state.has('Blue Shield', item.player) and self.world.difficulty_requirements[item.player].progressive_shield_limit >= 2:
                         return 'Red Shield'
                     elif self.world.difficulty_requirements[item.player].progressive_shield_limit >= 1:
                         return 'Blue Shield'
@@ -249,20 +338,25 @@ class ALTTPWorld(World):
     @classmethod
     def stage_pre_fill(cls, world):
         from .Dungeons import fill_dungeons_restrictive
-        fill_dungeons_restrictive(cls, world)
+        fill_dungeons_restrictive(world)
 
     @classmethod
     def stage_post_fill(cls, world):
         ShopSlotFill(world)
 
+    def use_enemizer(self):
+        world = self.world
+        player = self.player
+        return (world.boss_shuffle[player] != 'none' or world.enemy_shuffle[player]
+                or world.enemy_health[player] != 'default' or world.enemy_damage[player] != 'default'
+                or world.pot_shuffle[player] or world.bush_shuffle[player]
+                or world.killable_thieves[player])
+
     def generate_output(self, output_directory: str):
         world = self.world
         player = self.player
         try:
-            use_enemizer = (world.boss_shuffle[player] != 'none' or world.enemy_shuffle[player]
-                            or world.enemy_health[player] != 'default' or world.enemy_damage[player] != 'default'
-                            or world.pot_shuffle[player] or world.bush_shuffle[player]
-                            or world.killable_thieves[player])
+            use_enemizer = self.use_enemizer()
 
             rom = LocalRom(get_base_rom_path())
 
@@ -295,15 +389,18 @@ class ALTTPWorld(World):
                                palettes_options, world, player, True,
                                reduceflashing=world.reduceflashing[player] or world.is_race,
                                triforcehud=world.triforcehud[player].current_key,
-                               deathlink=world.death_link[player])
+                               deathlink=world.death_link[player],
+                               allowcollect=world.allow_collect[player])
 
             outfilepname = f'_P{player}'
-            outfilepname += f"_{world.player_name[player].replace(' ', '_')}" \
+            outfilepname += f"_{world.get_file_safe_player_name(player).replace(' ', '_')}" \
                 if world.player_name[player] != 'Player%d' % player else ''
 
             rompath = os.path.join(output_directory, f'AP_{world.seed_name}{outfilepname}.sfc')
             rom.write_to_file(rompath)
-            Patch.create_patch_file(rompath, player=player, player_name=world.player_name[player])
+            patch = LttPDeltaPatch(os.path.splitext(rompath)[0]+LttPDeltaPatch.patch_file_ending, player=player,
+                                   player_name=world.player_name[player], patched_path=rompath)
+            patch.write()
             os.unlink(rompath)
             self.rom_name = rom.name
         except:
@@ -319,15 +416,10 @@ class ALTTPWorld(World):
         # we skip in case of error, so that the original error in the output thread is the one that gets raised
         if rom_name:
             new_name = base64.b64encode(bytes(self.rom_name)).decode()
-            payload = multidata["connect_names"][self.world.player_name[self.player]]
-            multidata["connect_names"][new_name] = payload
-            del (multidata["connect_names"][self.world.player_name[self.player]])
-
-    def get_required_client_version(self) -> tuple:
-        return max((0, 2, 4), super(ALTTPWorld, self).get_required_client_version())
+            multidata["connect_names"][new_name] = multidata["connect_names"][self.world.player_name[self.player]]
 
     def create_item(self, name: str) -> Item:
-        return ALttPItem(name, self.player, **as_dict_item_table[name])
+        return ALttPItem(name, self.player, **item_init_table[name])
 
     @classmethod
     def stage_fill_hook(cls, world, progitempool, nonexcludeditempool, localrestitempool, nonlocalrestitempool,
@@ -365,17 +457,9 @@ class ALTTPWorld(World):
                 fill_locations.remove(loc)
             world.random.shuffle(fill_locations)
             # TODO: investigate not creating the key in the first place
-            if __debug__:
-                # keeping this here while I'm not sure we caught all instances of multiple HC small keys in the pool
-                count = len(progitempool)
-                progitempool[:] = [item for item in progitempool if
-                                   item.player not in standard_keyshuffle_players or
-                                   item.name != "Small Key (Hyrule Castle)"]
-                assert len(progitempool) + len(standard_keyshuffle_players) == count
-            else:
-                progitempool[:] = [item for item in progitempool if
-                                   item.player not in standard_keyshuffle_players or
-                                   item.name != "Small Key (Hyrule Castle)"]
+            progitempool[:] = [item for item in progitempool if
+                               item.player not in standard_keyshuffle_players or
+                               item.name != "Small Key (Hyrule Castle)"]
 
         if trash_counts:
             locations_mapping = {player: [] for player in trash_counts}
@@ -396,13 +480,32 @@ class ALTTPWorld(World):
                 while gtower_locations and gt_item_pool and trash_count > 0:
                     spot_to_fill = gtower_locations.pop()
                     item_to_place = gt_item_pool.pop()
-                    if item_to_place in localrest:
-                        localrest.remove(item_to_place)
-                    else:
-                        restitempool.remove(item_to_place)
-                    world.push_item(spot_to_fill, item_to_place, False)
-                    fill_locations.remove(spot_to_fill)  # very slow, unfortunately
-                    trash_count -= 1
+                    if spot_to_fill.item_rule(item_to_place):
+                        if item_to_place in localrest:
+                            localrest.remove(item_to_place)
+                        else:
+                            restitempool.remove(item_to_place)
+                        world.push_item(spot_to_fill, item_to_place, False)
+                        fill_locations.remove(spot_to_fill)  # very slow, unfortunately
+                        trash_count -= 1
+
+
+    def get_filler_item_name(self) -> str:
+        if self.world.goal[self.player] == "icerodhunt":
+            item = "Nothing"
+        else:
+            item = self.world.random.choice(extras_list)
+        return GetBeemizerItem(self.world, self.player, item)
+
+    def get_pre_fill_items(self):
+        res = []
+        if self.dungeon_local_item_names:
+            for (name, player), dungeon in self.world.dungeons.items():
+                if player == self.player:
+                    for item in dungeon.all_items:
+                        if item.name in self.dungeon_local_item_names:
+                            res.append(item)
+        return res
 
 
 def get_same_seed(world, seed_def: tuple) -> str:

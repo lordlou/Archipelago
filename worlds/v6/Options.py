@@ -7,6 +7,10 @@ class DoorCost(Range):
     range_end = 3
     default = 3
 
+class AreaCostRandomizer(Toggle):
+    """Randomize which Area requires which set of DoorCost Trinkets"""
+    display_name = "Area Cost Randomizer"
+
 class DeathLinkAmnesty(Range):
     """Amount of Deaths to take before sending a DeathLink signal, for balancing difficulty"""
     range_start = 0
@@ -15,16 +19,17 @@ class DeathLinkAmnesty(Range):
 
 class AreaRandomizer(Toggle):
     """Randomize Entrances to Areas"""
-    displayname = "Area Randomizer"
+    display_name = "Area Randomizer"
 
 class MusicRandomizer(Toggle):
     """Randomize Music"""
-    displayname = "Music Randomizer"
+    display_name = "Music Randomizer"
 
 v6_options: typing.Dict[str,type(Option)] = {
     "MusicRandomizer": MusicRandomizer,
     "AreaRandomizer": AreaRandomizer,
     "DoorCost": DoorCost,
-    "DeathLink": DeathLink,
+    "AreaCostRandomizer": AreaCostRandomizer,
+    "death_link": DeathLink,
     "DeathLinkAmnesty": DeathLinkAmnesty
 }
