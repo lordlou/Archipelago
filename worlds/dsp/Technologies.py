@@ -1,0 +1,155 @@
+from __future__ import annotations
+from typing import Dict, Union, List, Any, Set, FrozenSet
+import os
+import json
+import logging
+
+import Utils
+
+dsp_id = 86000
+
+def load_json_data(data_name: str) -> Union[List[str], Dict[str, Any]]:
+    import pkgutil
+    return json.loads(pkgutil.get_data(__name__, "data/" + data_name + ".json").decode())
+
+raw = load_json_data("techs")
+raw_recipes = load_json_data("recipes")
+raw = {x["Name"]:x for x in raw}
+raw_recipes = {x["Name"]:x for x in raw_recipes}
+
+tech_table: Dict[str, int] = {}
+technology_table: Dict[str, Technology] = {}
+
+always = lambda state: True
+
+class Technology():  # maybe make subclass of Location?
+    def __init__(self, name, ingredients, dsp_id):
+        self.name = name
+        self.dsp_id = dsp_id
+        self.ingredients = ingredients
+
+    def build_rule(self, player: int):
+        logging.debug(f"Building rules for {self.name}")
+        ingredient_rules = []
+        for ingredient in self.ingredients:
+            logging.debug(f"Building rules for ingredient {ingredient}")
+            technologies = required_technologies[ingredient]  # technologies that unlock the recipes
+            if technologies:
+                logging.debug(f"Required Technologies: {technologies}")
+                ingredient_rules.append(
+                    lambda state, technologies=technologies: all(state.has(technology.name, player)
+                                                                 for technology in technologies))
+        if ingredient_rules:
+            ingredient_rules = frozenset(ingredient_rules)
+            return lambda state: all(rule(state) for rule in ingredient_rules)
+
+        return always
+
+    def get_prior_technologies(self, allowed_packs) -> Set[Technology]:
+        """Get Technologies that have to precede this one to resolve tree connections."""
+        technologies = set()
+        for ingredient in self.ingredients:
+            if ingredient in allowed_packs:
+                technologies |= required_technologies[ingredient]  # technologies that unlock the recipes
+        return technologies
+
+    def __hash__(self):
+        return self.dsp_id
+
+    def __repr__(self):
+        return f"{self.__class__.__name__}({self.name})"
+
+    def get_custom(self, world, allowed_packs: Set[str], player: int) -> CustomTechnology:
+        return CustomTechnology(self, world, allowed_packs, player)
+
+class CustomTechnology(Technology):
+    """A particularly configured Technology for a world."""
+
+    def __init__(self, origin: Technology, world, allowed_packs: Set[str], player: int):
+        ingredients = origin.ingredients & allowed_packs
+        self.player = player
+        if world.random_tech_ingredients[player]:
+            ingredients = list(ingredients)
+            ingredients.sort() # deterministic sample
+            ingredients = world.random.sample(ingredients, world.random.randint(1, len(ingredients)))
+        super(CustomTechnology, self).__init__(origin.name, ingredients, origin.dsp_id)
+
+class Recipe():
+    def __init__(self, name, category, ingredients, products):
+        self.name = name
+        self.category = category
+        self.ingredients = ingredients
+        self.products = products
+
+    def __repr__(self):
+        return f"{self.__class__.__name__}({self.name})"
+
+    @property
+    def unlocking_technologies(self) -> Set[Technology]:
+        """Unlocked by any of the returned technologies. Empty set indicates a starting recipe."""
+        return {technology_table[tech_name] for tech_name in recipe_sources.get(self.name, ())}
+
+# recipes and technologies can share names in Factorio
+for technology_name in sorted(raw):
+    data = raw[technology_name]
+    dsp_id += 1
+    current_ingredients = set(data["Ingredients"])
+    technology = Technology(technology_name, current_ingredients, dsp_id)
+    dsp_id += 1
+    tech_table[technology_name] = technology.dsp_id
+    technology_table[technology_name] = technology
+
+recipe_sources: Dict[str, str] = {}  # recipe_name -> technology source
+
+for technology, data in raw.items():
+    for recipe_name in data["Unlocks"]:
+        recipe_sources.setdefault(recipe_name, set()).add(technology)
+
+del(raw)
+
+lookup_id_to_name: Dict[int, str] = {item_id: item_name for item_name, item_id in tech_table.items()}
+
+all_product_sources: Dict[str, Set[Recipe]] = {}
+for recipe_name, recipe_data in raw_recipes.items():
+    # example:
+    # "accumulator":{"ingredients":["iron-plate","battery"],"products":["accumulator"],"category":"crafting"}
+
+    recipe = Recipe(recipe_name, None, set(recipe_data["Ingredients"]), set(recipe_data["Products"]))
+    if recipe.products != recipe.ingredients and "empty-barrel" not in recipe.products:  # prevents loop recipes like uranium centrifuging
+        for product_name in recipe.products:
+            all_product_sources.setdefault(product_name, set()).add(recipe)
+
+
+# build requirements graph for all technology ingredients
+
+all_ingredient_names: Set[str] = set()
+for technology in technology_table.values():
+    all_ingredient_names |= technology.ingredients
+
+
+def recursively_get_unlocking_technologies(ingredient_name, _done=None) -> Set[Technology]:
+    if _done:
+        if ingredient_name in _done:
+            return set()
+        else:
+            _done.add(ingredient_name)
+    else:
+        _done = {ingredient_name}
+    recipes = all_product_sources.get(ingredient_name)
+    if not recipes:
+        return set()
+    current_technologies = set()
+    for recipe in recipes:
+        current_technologies |= recipe.unlocking_technologies
+        for ingredient_name in recipe.ingredients:
+            current_technologies |= recursively_get_unlocking_technologies(ingredient_name, _done)
+    return current_technologies
+
+
+required_technologies: Dict[str, FrozenSet[Technology]] = {}
+for ingredient_name in all_ingredient_names:
+    required_technologies[ingredient_name] = frozenset(recursively_get_unlocking_technologies(ingredient_name))
+
+advancement_technologies: Set[str] = set()
+for technologies in required_technologies.values():
+    advancement_technologies |= {technology.name for technology in technologies}
