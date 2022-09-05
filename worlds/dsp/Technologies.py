@@ -6,7 +6,11 @@ import logging
 
 import Utils
 
-dsp_id = 86000
+ap_base_id = 86000
+dsp_base_id = 500
+
+def ap_to_dsp_tech(id):
+    return id - ap_base_id + dsp_base_id
 
 def load_json_data(data_name: str) -> Union[List[str], Dict[str, Any]]:
     import pkgutil
@@ -23,8 +27,9 @@ technology_table: Dict[str, Technology] = {}
 always = lambda state: True
 
 class Technology():  # maybe make subclass of Location?
-    def __init__(self, name, ingredients, dsp_id):
+    def __init__(self, name, ingredients, ap_id, dsp_id):
         self.name = name
+        self.ap_id = ap_id
         self.dsp_id = dsp_id
         self.ingredients = ingredients
 
@@ -54,7 +59,7 @@ class Technology():  # maybe make subclass of Location?
         return technologies
 
     def __hash__(self):
-        return self.dsp_id
+        return self.ap_id
 
     def __repr__(self):
         return f"{self.__class__.__name__}({self.name})"
@@ -72,7 +77,7 @@ class CustomTechnology(Technology):
             ingredients = list(ingredients)
             ingredients.sort() # deterministic sample
             ingredients = world.random.sample(ingredients, world.random.randint(1, len(ingredients)))
-        super(CustomTechnology, self).__init__(origin.name, ingredients, origin.dsp_id)
+        super(CustomTechnology, self).__init__(origin.name, ingredients, origin.ap_id, origin.dsp_id)
 
 class Recipe():
     def __init__(self, name, category, ingredients, products):
@@ -89,14 +94,14 @@ class Recipe():
         """Unlocked by any of the returned technologies. Empty set indicates a starting recipe."""
         return {technology_table[tech_name] for tech_name in recipe_sources.get(self.name, ())}
 
+current_ap_id = ap_base_id
 # recipes and technologies can share names in Factorio
 for technology_name in sorted(raw):
     data = raw[technology_name]
-    dsp_id += 1
     current_ingredients = set(data["Ingredients"])
-    technology = Technology(technology_name, current_ingredients, dsp_id)
-    dsp_id += 1
-    tech_table[technology_name] = technology.dsp_id
+    technology = Technology(technology_name, current_ingredients, current_ap_id, data["ID"])
+    current_ap_id += 1
+    tech_table[technology_name] = technology.ap_id
     technology_table[technology_name] = technology
 
 recipe_sources: Dict[str, str] = {}  # recipe_name -> technology source

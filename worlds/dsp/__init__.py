@@ -9,7 +9,7 @@ from typing import List, Dict, Any
 
 from BaseClasses import Region, Entrance, Location, Item, Tutorial, ItemClassification, RegionType
 from worlds.AutoWorld import World, WebWorld
-from .Technologies import tech_table, recipe_sources, technology_table, advancement_technologies, required_technologies
+from .Technologies import tech_table, recipe_sources, technology_table, advancement_technologies, required_technologies, ap_to_dsp_tech
 from .Shapes import get_shapes
 from .Options import dsp_options
 
@@ -158,13 +158,15 @@ class DSPWorld(World):
         player_names = {x: self.world.get_player_name(x) for x in self.world.player_ids}
         locations = []
         for location in self.world.get_filled_locations(self.player):
-            locations.append((location.name, location.item.name, location.item.player))
+            locations.append({"location": location.name, "locationID": technology_table[location.name].dsp_id, "locationDSPTech": ap_to_dsp_tech(technology_table[location.name].ap_id), "item": location.item.name, "playerId": location.item.player})
         mod_name = f"AP-{self.world.seed_name}-P{self.player}-{self.world.get_player_name(self.player)}"
 
-        data = {"locations": locations, "player_names" : player_names, "tech_table": tech_table,
+        data = {"locations": locations, 
+                "player_names" : player_names, 
+                "tech_table": tech_table,
                 "mod_name": mod_name, "allowed_science_packs": list(self.world.max_science_pack[self.player].get_allowed_packs()),
                 #"tech_cost_scale": tech_cost, "custom_data": world.custom_data[player],
-                "tech_tree_layout_prerequisites": {key: list(value) for key, value in self.world.tech_tree_layout_prerequisites[self.player].items()},
+                "tech_tree_layout_prerequisites": {ap_to_dsp_tech(technology_table[key].ap_id): [ap_to_dsp_tech(technology_table[v].ap_id) for v in value] for key, value in self.world.tech_tree_layout_prerequisites[self.player].items()},
                 #"rocket_recipe" : rocket_recipes[world.max_science_pack[player].value],
                 "slot_name": self.world.get_player_name(self.player),
                 #"starting_items": self.world.starting_items[self.player]
