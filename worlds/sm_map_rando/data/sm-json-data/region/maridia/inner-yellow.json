@@ -1,0 +1,2756 @@
+{
+  "$schema": "../../schema/m3-region.schema.json",
+  "rooms": [
+    {
+      "id": 179,
+      "name": "Pseudo Plasma Spark Room",
+      "area": "Maridia",
+      "subarea": "Inner",
+      "subsubarea": "Yellow",
+      "playable": true,
+      "roomAddress": "0x7D1DD",
+      "roomEnvironments": [{ "heated": false } ],
+      "nodes": [
+        {
+          "id": 1,
+          "name": "Pseudo Plasma Spark Room Left Door (to Bug Room)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x001a4d4",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Pseudo Plasma Spark Room Left Door (to Bug Room)",
+              "length": 5,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "openEnd": 1
+            }
+          ],
+          "canLeaveCharged": [
+            {
+              "usedTiles": 33,
+              "framesRemaining": 0,
+              "openEnd": 2,
+              "strats": [
+                {
+                  "name": "Pseudo Plasma Spark Out Left",
+                  "notable": false,
+                  "note": "Charge near node 2 then climb up and spark out of the left door.",
+                  "requires": [
+                    "Gravity",
+                    "canWalljump",
+                    "canShinechargeMovementComplex"
+                  ]
+                }
+              ]
+            },
+            {
+              "usedTiles": 33,
+              "framesRemaining": 30,
+              "openEnd": 2,
+              "strats": [
+                {
+                  "name": "Pseudo Plasma Charge Out Left",
+                  "notable": false,
+                  "note": "Charge near node 2 then climb out and carry the spark through the left door.",
+                  "requires": [
+                    "Gravity",
+                    "HiJump",
+                    "canShinechargeMovement"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Pseudo Plasma Spark Room Bottom Door (to Crab Shaft)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x001a4e0",
+          "doorEnvironments": [{"physics": "water"}],
+          "canLeaveCharged": [
+            {
+              "usedTiles": 33,
+              "framesRemaining": 160,
+              "openEnd": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "Gravity" ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "name": "Missile (yellow Maridia false wall)",
+          "nodeType": "item",
+          "nodeSubType": "visible",
+          "nodeItem": "Missile",
+          "nodeAddress": "0x7C533"
+        }
+      ],
+      "enemies": [
+        {
+          "id": "e1",
+          "groupName": "Pseudo Plasma Spark Room Choots",
+          "enemyName": "Choot",
+          "quantity": 6,
+          "homeNodes": [ 1 ]
+        },
+        {
+          "id": "e2",
+          "groupName": "Pseudo Plasma Spark Room Skulteras",
+          "enemyName": "Skultera",
+          "quantity": 2,
+          "homeNodes": [ 2 ]
+        },
+        {
+          "id": "e3",
+          "groupName": "Pseudo Plasma Spark Room Owtch",
+          "enemyName": "Owtch",
+          "quantity": 1,
+          "homeNodes": [ 2 ]
+        }
+      ],
+      "links": [
+        {
+          "from": 1,
+          "to": [
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 2,
+          "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": ["Gravity"]
+                },
+                {
+                  "name": "Suitless Jump Assist",
+                  "notable": false,
+                  "requires": [
+                    "canSuitlessMaridia",
+                    "HiJump",
+                    "canSpringBallJumpMidAir"
+                  ]
+                },
+                {
+                  "name": "Suitless Frozen Skultera",
+                  "notable": false,
+                  "requires": [
+                    "canSuitlessMaridia",
+                    "canUseFrozenEnemies"
+                  ]
+                }
+              ]
+            },
+            {
+              "id": 3,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 3,
+          "to": [
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 180,
+      "name": "Northwest Maridia Bug Room",
+      "area": "Maridia",
+      "subarea": "Inner",
+      "playable": true,
+      "roomAddress": "0x7D16D",
+      "roomEnvironments": [{ "heated": false } ],
+      "nodes": [
+        {
+          "id": 1,
+          "name": "Northwest Maridia Bug Room Left Door (to Watering Hole)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x001a498",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Northwest Maridia Bug Room Left Door (to Watering Hole)",
+              "length": 5,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "openEnd": 1
+            }
+          ],
+          "canLeaveCharged": [
+            {
+              "usedTiles": 22,
+              "framesRemaining": 0,
+              "shinesparkFrames": 15,
+              "openEnd": 2,
+              "strats": [
+                {
+                  "name": "Bug Room Spark Out Left with Hijump",
+                  "notable": false,
+                  "requires": [
+                    "canShinechargeMovementComplex",
+                    "HiJump"
+                  ],
+                  "note": "Charge a spark below towards the right then run back and jump up and spark out of the left door."
+                },
+                {
+                  "name": "Bug Room Spark Out Left HiJumpless",
+                  "notable": true,
+                  "requires": [
+                    "canShinechargeMovementComplex",
+                    "canTrickyDashJump"
+                  ],
+                  "note": "Charge a spark below towards the right then run back and jump up and spark out of the left door."
+                }
+              ]
+            },
+            {
+              "usedTiles": 20,
+              "framesRemaining": 30,
+              "shinesparkFrames": 0,
+              "openEnd": 2,
+              "strats": [
+                {
+                  "name": "Bug Room Charge Out Left with Hijump",
+                  "notable": false,
+                  "requires": [
+                    "canShinechargeMovementComplex",
+                    "HiJump",
+                    "canWalljump"
+                  ],
+                  "note": "Charge a spark left and use the last bit of platform to jump up to the ledge above."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Northwest Maridia Bug Room Right Door (to Pseudo Plasma Spark)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x001a4a4",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Northwest Maridia Bug Room Right Door (to Pseudo Plasma Spark)",
+              "length": 4,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "openEnd": 1
+            }
+          ],
+          "canLeaveCharged": [
+            {
+              "usedTiles": 22,
+              "framesRemaining": 0,
+              "shinesparkFrames": 30,
+              "openEnd": 2,
+              "initiateRemotely": {
+                "initiateAt": 1,
+                "mustOpenDoorFirst": false,
+                "pathToDoor": [
+                  {
+                    "destinationNode": 2,
+                    "strats": ["Base"]
+                  }
+                ]
+              },
+              "strats": [
+                {
+                  "name": "Bug Room Charge Out Right (Gravityless)",
+                  "notable": true,
+                  "requires": [
+                    "canShinechargeMovementComplex",
+                    "canCarefulJump"
+                  ],
+                  "note": [
+                    "Charge below node 1 then carry the spark through the morph tunnel and out the right door.",
+                    "This is a lot trickier without Gravity because the tide must be timed correctly."
+                  ]
+                },
+                {
+                  "name": "Bug Room Charge Out Right (Gravity)",
+                  "notable": false,
+                  "requires": [
+                    "Gravity",
+                    "canShinechargeMovementComplex",
+                    "canCarefulJump"
+                  ],
+                  "note": [
+                    "Charge below node 1 then carry the spark through the morph tunnel and out the right door.",
+                    "This is easier with Gravity because the tide won't interfere."
+                  ]
+                }
+              ],
+              "devNote": "mustOpenDoorFirst is false because the door can be shot before initiating the spark."
+            }
+          ]
+        }
+      ],
+      "enemies": [
+        {
+          "id": "e1",
+          "groupName": "Maridia Bug Room Left Owtches",
+          "enemyName": "Owtch",
+          "quantity": 4,
+          "homeNodes": [ 1 ]
+        },
+        {
+          "id": "e2",
+          "groupName": "Maridia Bug Room Left Menus",
+          "enemyName": "Menu",
+          "quantity": 3,
+          "homeNodes": [ 1 ]
+        },
+        {
+          "id": "e3",
+          "groupName": "Maridia Bug Room Right Owtches",
+          "enemyName": "Owtch",
+          "quantity": 3,
+          "homeNodes": [ 2 ]
+        },
+        {
+          "id": "e4",
+          "groupName": "Maridia Bug Room Right Menus",
+          "enemyName": "Menu",
+          "quantity": 2,
+          "homeNodes": [ 2 ]
+        }
+      ],
+      "links": [
+        {
+          "from": 1,
+          "to": [
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [
+                    "Morph",
+                    "h_canNavigateUnderwater"
+                  ]
+                }
+              ],
+              "devNote": [
+                "It's not clear whether the risk of falling into the water pits should count as water navigation.",
+                "We went with yes for now, mostly because dealing with the Menus at the same time is not trivial."
+              ]
+            }
+          ]
+        },
+        {
+          "from": 2,
+          "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [
+                    "Morph",
+                    "h_canNavigateUnderwater",
+                    {"or":[
+                      "h_canBombThings",
+                      "h_canUseSpringBall"
+                    ]}
+                  ]
+                },
+                {
+                  "name": "Maridia Bug Room Frozen Menu Bridge",
+                  "notable": true,
+                  "requires": [
+                    "Morph",
+                    "h_canNavigateUnderwater",
+                    "canTrickyUseFrozenEnemies"
+                  ],
+                  "note": [
+                    "Freeze one of the bugs (called Menus) in a position where you can use it to get into the morph passage.",
+                    "That allows passage without having to gain height while being morphed."
+                  ]
+                },
+                {
+                  "name": "Maridia Bug Room Suitless MidAir Morph",
+                  "notable": false,
+                  "requires": [
+                    "h_canNavigateUnderwater",
+                    "h_canTwoTileJumpMorph"
+                  ]
+                },
+                {
+                  "name": "Maridia Bug Room MidAir Morph with Gravity",
+                  "notable": true,
+                  "requires": [
+                    "Morph",
+                    "Gravity"
+                  ],
+                  "note": [
+                    "With Gravity, it's possible to move forward and mid-air morph into the morph passage.",
+                    "The momentum can push Samus into the tunnel, no need to press forward while in mid-air."
+                  ],
+                  "devNote": "FIXME This probably needs to be behind a tech as well?"
+                }
+              ],
+              "devNote": [
+                "It's not clear whether the risk of falling into the water pits should count as water navigation.",
+                "We went with yes for now, mostly because dealing with the Menus at the same time is not trivial."
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 181,
+      "name": "Watering Hole",
+      "area": "Maridia",
+      "subarea": "Inner",
+      "playable": true,
+      "roomAddress": "0x7D13B",
+      "roomEnvironments": [{ "heated": false } ],
+      "nodes": [
+        {
+          "id": 1,
+          "name": "Watering Hole Door (to Bug Room)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x001a48c",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Watering Hole Door (to Bug Room)",
+              "length": 4,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "openEnd": 1
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Super Missile (yellow Maridia)",
+          "nodeType": "item",
+          "nodeSubType": "visible",
+          "nodeItem": "Super",
+          "nodeAddress": "0x7C4AF"
+        },
+        {
+          "id": 3,
+          "name": "Missile (yellow Maridia super missile)",
+          "nodeType": "item",
+          "nodeSubType": "visible",
+          "nodeItem": "Missile",
+          "nodeAddress": "0x7C4B5"
+        },
+        {
+          "id": 4,
+          "name": "Watering Hole Junction (Bottom of Water)",
+          "nodeType": "junction",
+          "nodeSubType": "junction"
+        }
+      ],
+      "enemies": [
+        {
+          "id": "e1",
+          "groupName": "Watering Hole Zebs",
+          "enemyName": "Zeb",
+          "quantity": 2,
+          "homeNodes": [ 1 ],
+          "farmCycles": [
+            {
+              "name": "Half-screen back and forth",
+              "cycleFrames": 200,
+              "requires": [],
+              "note": "Running back and forth with proper timing can be a bit faster than camping just one of them"
+            }
+          ]
+        },
+        {
+          "id": "e2",
+          "groupName": "Watering Hole Choot",
+          "enemyName": "Choot",
+          "quantity": 1,
+          "homeNodes": [ 1 ]
+        }
+      ],
+      "links": [
+        {
+          "from": 1,
+          "to": [
+            {
+              "id": 4,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 2,
+          "to": [
+            {
+              "id": 4,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 3,
+          "to": [
+            {
+              "id": 4,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 4,
+          "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": ["Gravity"]
+                },
+                {
+                  "name": "Suitless Springball Jump",
+                  "notable": false,
+                  "requires": [
+                    "canSuitlessMaridia",
+                    "canSpringBallJumpMidAir"
+                  ],
+                  "note": "Max height springball jump"
+                },
+                {
+                  "name": "Suitless HiJump",
+                  "notable": false,
+                  "requires": [
+                    "canSuitlessMaridia",
+                    "HiJump",
+                    {"or": [
+                       "canWalljump",
+                       "h_canCrouchJumpDownGrab"
+                     ]}
+                  ]
+                },
+                {
+                  "name": "Naked Watering Hole Escape",
+                  "notable": false,
+                  "requires": [
+                    "canSuitlessMaridia",
+                    "canStationarySpinJump",
+                    "canSunkenTileWideWallClimb"
+                  ],
+                  "note": "A stationary spinjump can fit into the 1 tile wide hole where Samus can slowly infinite walljump to freedom."
+                }
+              ]
+            },
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            },
+            {
+              "id": 3,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 197,
+      "name": "Plasma Spark Room",
+      "area": "Maridia",
+      "subarea": "Inner",
+      "playable": true,
+      "roomAddress": "0x7D340",
+      "roomEnvironments": [{ "heated": false } ],
+      "nodes": [
+        {
+          "id": 1,
+          "name": "Plasma Spark Room Left Door (to Toilet)",
+          "nodeType": "door",
+          "nodeSubType": "green",
+          "nodeAddress": "0x001a5ac",
+          "doorEnvironments": [{"physics": "air"}],
+          "locks": [
+            {
+              "name": "Plasma Spark Room Green Lock (to Toilet)",
+              "lockType": "coloredDoor",
+              "unlockStrats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "h_canOpenGreenDoors" ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Plasma Spark Room Bottom Right Door (to Butterfly Room)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x001a5a0",
+          "doorEnvironments": [{"physics": "water"}],
+          "runways": [
+            {
+              "name": "Base Runway - Plasma Spark Room Bottom Right Door (to Butterfly Room)",
+              "length": 33,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "Gravity" ]
+                }
+              ],
+              "openEnd": 1
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "name": "Plasma Spark Room Center Right Door (to Bug Sand Hole)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x001a5c4",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Plasma Spark Room Center Right Door (to Bug Sand Hole)",
+              "length": 4,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "openEnd": 1
+            }
+          ]
+        },
+        {
+          "id": 4,
+          "name": "Plasma Spark Room Top Right Door (to Kassiuz Room)",
+          "nodeType": "door",
+          "nodeSubType": "grey",
+          "nodeAddress": "0x001a5b8",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Plasma Spark Room Top Right Door (to Kassiuz Room)",
+              "length": 6,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "openEnd": 1
+            }
+          ],
+          "locks": [
+            {
+              "name": "Plasma Spark Room Grey Lock (to Kassiuz Room)",
+              "lockType": "gameFlag",
+              "unlockStrats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "f_DefeatedDraygon" ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 5,
+          "name": "Plasma Spark Room Top Junction",
+          "nodeType": "junction",
+          "nodeSubType": "junction",
+          "devNote": "This exists mostly in case it ends up being helpful for handling walljumps later"
+        }
+      ],
+      "enemies": [
+        {
+          "id": "e1",
+          "groupName": "Plasma Spark Room Left Choot",
+          "enemyName": "Choot",
+          "quantity": 1,
+          "homeNodes": [ 1 ]
+        },
+        {
+          "id": "e2",
+          "groupName": "Plasma Spark Room Bottom Choots",
+          "enemyName": "Choot",
+          "quantity": 2,
+          "homeNodes": [ 3 ]
+        },
+        {
+          "id": "e3",
+          "groupName": "Plasma Spark Room Top Choots",
+          "enemyName": "Choot",
+          "quantity": 2,
+          "homeNodes": [ 5 ]
+        },
+        {
+          "id": "e4",
+          "groupName": "Plasma Spark Room Owtches",
+          "enemyName": "Owtch",
+          "quantity": 4,
+          "homeNodes": [ 2 ]
+        },
+        {
+          "id": "e5",
+          "groupName": "Plasma Spark Room Top Skulteras",
+          "enemyName": "Skultera",
+          "quantity": 2,
+          "homeNodes": [ 2 ]
+        }
+      ],
+      "links": [
+        {
+          "from": 1,
+          "to": [
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            },
+            {
+              "id": 5,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 2,
+          "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": ["Gravity"]
+                },
+                {
+                  "name": "Suitless Jump Assist",
+                  "notable": false,
+                  "requires": [
+                    "canSuitlessMaridia",
+                    "HiJump",
+                    "canSpringBallJumpMidAir"
+                  ]
+                },
+                {
+                  "name": "Suitless Frozen Skultera",
+                  "notable": false,
+                  "requires": [
+                    "canSuitlessMaridia",
+                    "HiJump",
+                    "canUseFrozenEnemies"
+                  ]
+                }
+              ]
+            },
+            {
+              "id": 3,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": ["Gravity"]
+                },
+                {
+                  "name": "Suitless Jump Assist",
+                  "notable": false,
+                  "requires": [
+                    "canSuitlessMaridia",
+                    {"or": [
+                      "HiJump",
+                      "canSpringBallJumpMidAir"
+                    ]}
+                  ]
+                },
+                {
+                  "name": "Plasma Spark Fish Climb",
+                  "notable": true,
+                  "requires": [
+                    "canSuitlessMaridia",
+                    "canTrickyUseFrozenEnemies",
+                    {"or":[
+                      "h_canCrouchJumpDownGrab",
+                      {"or":[
+                        "canStationarySpinJump",
+                        "canSunkenTileWideWallClimb"
+                      ]}
+                    ]}
+                  ],
+                  "note": [
+                    "Use the Skultera to get onto the top right platform. There are two distinct ways to get up using the top Skultera.",
+                    "1. Freeze it at the bottom of its path to the left. Crouch jump and down grab to get onto it. The positioning is very precise.",
+                    "2. Freeze it about a half-tile from the right wall and very quickly stationary spin jump and quickly walljump mash to get up before it thaws.",
+                    "This may be easier by jumping away from the wall, towards the fish, to gain height faster."
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 3,
+          "to": [
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            },
+            {
+              "id": 4,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "canConsecutiveWalljump" ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 4,
+          "to": [
+            {
+              "id": 3,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            },
+            {
+              "id": 5,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [
+                    "canConsecutiveWalljump",
+                    {"or": [
+                      "canPreciseWalljump",
+                      "ScrewAttack",
+                      "h_canUsePowerBombs",
+                      {"enemyDamage": {
+                        "enemy": "Choot",
+                        "type": "contact",
+                        "hits": 1
+                      }}
+                    ]}
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 5,
+          "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            },
+            {
+              "id": 4,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 211,
+      "name": "Bug Sand Hole",
+      "area": "Maridia",
+      "subarea": "Inner",
+      "playable": true,
+      "roomAddress": "0x7D433",
+      "roomEnvironments": [{ "heated": false } ],
+      "nodes": [
+        {
+          "id": 1,
+          "name": "Bug Sand Hole Left Door (to Plasma Spark Room)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x001a630",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Bug Sand Hole Left Door (to Plasma Spark Room)",
+              "length": 0,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "openEnd": 1
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Bug Sand Hole Sand Exit (to Plasma Beach Quicksand Room)",
+          "nodeType": "exit",
+          "nodeSubType": "sandpit",
+          "nodeAddress": "0x001a624"
+        },
+        {
+          "id": 3,
+          "name": "Bug Sand Hole Right Door (to Thread the Needle Room)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x001a618",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Bug Sand Hole Right Door (to Thread the Needle Room)",
+              "length": 0,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "openEnd": 1
+            }
+          ]
+        }
+      ],
+      "enemies": [
+        {
+          "id": "e1",
+          "groupName": "Bug Sand Hole Zoa",
+          "enemyName": "Zoa",
+          "quantity": 1,
+          "homeNodes": [ 1, 3 ],
+          "farmCycles": [
+            {
+              "name": "Forget it",
+              "cycleFrames": 120,
+              "requires": ["never"],
+              "devNote": "Leaving this logically unfarmable until further notice because it sucks"
+            }
+          ]
+        },
+        {
+          "id": "e2",
+          "groupName": "Bug Sand Hole Yapping Maws",
+          "enemyName": "Yapping Maw",
+          "quantity": 2,
+          "homeNodes": [ 1,3 ]
+        }
+      ],
+      "reusableRoomwideNotable": [
+        {
+          "name": "Bug Sand Room Naked",
+          "note": [
+            "Cross the Bug Sand Room with nothing. Avoid the Yapping Maw after entering.",
+            "Then jump across while avoiding the Zoas, or damage boost using them."
+          ]
+        }
+      ],
+      "links": [
+        {
+          "from": 1,
+          "to": [
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            },
+            {
+              "id": 3,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": ["Gravity"]
+                },
+                {
+                  "name": "Bug Sand Hole Suitless HiJump (L to R)",
+                  "notable": false,
+                  "requires": [
+                    "canSuitlessMaridia",
+                    "HiJump"
+                  ]
+                },
+                {
+                  "name": "Bug Sand Hole Suitless Frozen Bridge (L to R)",
+                  "notable": false,
+                  "requires": [
+                    "canSuitlessMaridia",
+                    "canUseFrozenEnemies"
+                  ]
+                },
+                {
+                  "name": "Bug Sand Hole Suitless Kill Yapping Maws (L to R)",
+                  "notable": false,
+                  "requires": [
+                    "canSuitlessMaridia",
+                    {"or":[
+                      "canWalljump",
+                      "h_canCrouchJumpDownGrab"
+                    ]},
+                    {"enemyKill":{
+                      "enemies": [
+                        [ "Yapping Maw", "Yapping Maw" ]
+                      ]
+                    }}
+                  ]
+                },
+                {
+                  "name": "Naked Bug Sand Room (L to R)",
+                  "notable": true,
+                  "requires": [
+                    "canSuitlessMaridia",
+                    "canCarefulJump",
+                    {"or":[
+                      "canWalljump",
+                      "h_canCrouchJumpDownGrab"
+                    ]}
+                  ],
+                  "reusableRoomwideNotable": "Bug Sand Room Naked",
+                  "note": [
+                    "Avoid the Yapping Maw after entering by wall jumping when the water is low or using a crouch jump and down grab when it's high.",
+                    "Then jump across while avoiding the Zoas, or damage boost using them. Hitting the Zoas will drop Samus deep into the sand below."
+                  ]
+                },
+                {
+                  "name": "Bug Sand Room Space Jump (L to R)",
+                  "notable": false,
+                  "requires": ["SpaceJump"],
+                  "note": "Requires shooting the door in midair, otherwise water is involved."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 2,
+          "to": []
+        },
+        {
+          "from": 3,
+          "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": ["Gravity"]
+                },
+                {
+                  "name": "Bug Sand Room Suitless HiJump (R to L)",
+                  "notable": false,
+                  "requires": [
+                    "canSuitlessMaridia",
+                    "HiJump"
+                  ]
+                },
+                {
+                  "name": "Bug Sand Room Suitless Frozen Bridge (R to L)",
+                  "notable": false,
+                  "requires": [
+                    "canSuitlessMaridia",
+                    "canUseFrozenEnemies"
+                  ]
+                },
+                {
+                  "name": "Bug Sand Room Suitless Kill Yapping Maws (R to L)",
+                  "notable": false,
+                  "requires": [
+                    "canSuitlessMaridia",
+                    {"or":[
+                      "canWalljump",
+                      "h_canCrouchJumpDownGrab"
+                    ]},
+                    {"enemyKill":{
+                      "enemies": [
+                        [ "Yapping Maw", "Yapping Maw" ]
+                      ]
+                    }}
+                  ]
+                },
+                {
+                  "name": "Naked Bug Sand Room (R to L)",
+                  "notable": true,
+                  "requires": [
+                    "canSuitlessMaridia",
+                    "canCarefulJump",
+                    {"or":[
+                      "canWalljump",
+                      "h_canCrouchJumpDownGrab"
+                    ]}
+                  ],
+                  "reusableRoomwideNotable": "Bug Sand Room Naked",
+                  "note": [
+                    "Avoid the Yapping Maw after entering by wall jumping when the water is low or using a crouch jump and down grab when it's high.",
+                    "Then jump across while avoiding the Zoas, or damage boost using them. Hitting the Zoas will drop Samus deep into the sand below."
+                  ]
+                },
+                {
+                  "name": "Bug Sand Room Space Jump (R to L)",
+                  "notable": false,
+                  "requires": ["SpaceJump"],
+                  "note": "Requires shooting the door in midair, otherwise water is involved."
+                }
+              ]
+            },
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 212,
+      "name": "Plasma Beach Quicksand Room",
+      "area": "Maridia",
+      "subarea": "Inner",
+      "playable": true,
+      "roomAddress": "0x7D86E",
+      "roomEnvironments": [{ "heated": false } ],
+      "nodes": [
+        {
+          "id": 1,
+          "name": "Plasma Beach Quicksand Room Top Sand Entrance (from Bug Sand Hole)",
+          "nodeType": "entrance",
+          "nodeSubType": "sandpit"
+        },
+        {
+          "id": 2,
+          "name": "Plasma Beach Quicksand Room Bottom Sand Exit (to Butterfly Room)",
+          "nodeType": "exit",
+          "nodeSubType": "sandpit",
+          "nodeAddress": "0x001a8a0"
+        }
+      ],
+      "enemies": [
+        {
+          "id": "e1",
+          "groupName": "Plasma Beach Quicksand Bulls",
+          "enemyName": "Bull",
+          "quantity": 3,
+          "homeNodes": [ 1, 2 ]
+        }
+      ],
+      "links": [
+        {
+          "from": 1,
+          "to": [
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 213,
+      "name": "Butterfly Room",
+      "area": "Maridia",
+      "subarea": "Inner",
+      "playable": true,
+      "roomAddress": "0x7D5EC",
+      "roomEnvironments": [{ "heated": false } ],
+      "nodes": [
+        {
+          "id": 1,
+          "name": "Butterfly Room Left Door (to Plasma Spark Room)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x001a750",
+          "doorEnvironments": [{"physics": "water"}],
+          "runways": [
+            {
+              "name": "Base Runway - Butterfly Room Left Door (to Plasma Spark Room)",
+              "length": 0,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "Gravity" ]
+                }
+              ],
+              "openEnd": 1
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Butterfly Room Right Door (to West Cactus Alley)",
+          "nodeType": "door",
+          "nodeSubType": "grey",
+          "nodeAddress": "0x001a75c",
+          "doorEnvironments": [{"physics": "water"}],
+          "runways": [
+            {
+              "name": "Base Runway - Butterfly Room Right Door (to West Cactus Alley)",
+              "length": 0,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "Gravity" ]
+                }
+              ],
+              "openEnd": 1
+            }
+          ],
+          "locks": [
+            {
+              "name": "Butterfly Room Grey Lock (to West Cactus Alley)",
+              "lockType": "gameFlag",
+              "unlockStrats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "f_DefeatedDraygon" ]
+                }
+              ],
+              "bypassStrats": [
+                {
+                  "name": "Butterfly Room Door Lock Wall Ice Clip",
+                  "notable": true,
+                  "requires": [
+                    "h_canNavigateUnderwater",
+                    "canWallIceClip",
+                    {"enemyDamage": {
+                      "enemy": "Zoa",
+                      "type": "contact",
+                      "hits": 2
+                    }}
+                  ],
+                  "note": "Repeatedly freeze the Zoas to slowly push Samus into the wall and through the locked doorway.",
+                  "devNote": "The drops will keep Samus at high energy, but 2 hits enemy damage were added as a worst-case scenario where the next-to-last Zoa you kill doesn't give you energy."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "name": "Butterfly Room Top Sand Entrance (from Plasma Beach Quicksand Room)",
+          "nodeType": "entrance",
+          "nodeSubType": "sandpit"
+        }
+      ],
+      "enemies": [
+        {
+          "id": "e1",
+          "groupName": "Butterfly Room Right Zoas",
+          "enemyName": "Zoa",
+          "quantity": 2,
+          "homeNodes": [ 2 ],
+          "farmCycles": [
+            {
+              "name": "Farm 2 Zoas out of 3",
+              "cycleFrames": 225,
+              "requires": []
+            },
+            {
+              "name": "Grapple",
+              "cycleFrames": 175,
+              "requires": ["Grapple"]
+            }
+          ]
+        },
+        {
+          "id": "e2",
+          "groupName": "Butterfly Room Left Zoa",
+          "enemyName": "Zoa",
+          "quantity": 1,
+          "homeNodes": [ 1 ],
+          "farmCycles": [
+            {
+              "name": "Farm 1 Zoa out of 3",
+              "cycleFrames": 225,
+              "requires": []
+            },
+            {
+              "name": "Grapple",
+              "cycleFrames": 175,
+              "requires": ["Grapple"]
+            }
+          ]
+        }
+      ],
+      "reusableRoomwideNotable": [
+        {
+          "name": "Butterfly Room Careful Jump",
+          "note": [
+            "Kill all the Zoas and don't pick up their drops. If the door is unlocked, stand in the doorframe and jump across the room.",
+            "Otherwise, jump across the sand, starting 1.5 tiles away from the sandfall. Hold jump and forward the whole time. Samus will dip into the sand, but still make it to the other side."
+          ]
+        }
+      ],
+      "links": [
+        {
+          "from": 1,
+          "to": [
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": ["Gravity"]
+                },
+                {
+                  "name": "Suitless",
+                  "notable": false,
+                  "requires": [
+                    "canSuitlessMaridia",
+                    "HiJump"
+                  ]
+                },
+                {
+                  "name": "Frozen Zoa Bridge",
+                  "notable": false,
+                  "requires": [
+                    "canSuitlessMaridia",
+                    "canUseFrozenEnemies"
+                  ],
+                  "note": "Use the frozen Zoas as a bridge. Falling will require Samus to use ice beam and a crouch jump to escape."
+                },
+                {
+                  "name": "Suitless Bombs",
+                  "notable": false,
+                  "requires": [
+                    "canSuitlessMaridia",
+                    "h_canUseMorphBombs"
+                  ],
+                  "note": "It is relatively easy to get out of the sand with rapidly placing bombs."
+                },
+                {
+                  "name": "Butterfly Room Careful Jump (Left to Right)",
+                  "notable": true,
+                  "requires": [
+                    "canSuitlessMaridia",
+                    "canCarefulJump"
+                  ],
+                  "reusableRoomwideNotable": "Butterfly Room Careful Jump",
+                  "note": [
+                    "Kill all the Zoas and don't pick up their drops. If the door is unlocked, stand in the doorframe and jump across the room.",
+                    "Otherwise, jump across the sand, starting 1.5 tiles away from the sandfall. Hold jump and forward the whole time. Samus will dip into the sand, but still make it to the other side."
+                  ]
+                },
+                {
+                  "name": "Butterfly Room Suitless Sand Escape (Left to Right)",
+                  "notable": false,
+                  "requires": [
+                    "canSuitlessMaridia",
+                    "h_canCrouchJumpDownGrab",
+                    "canTrickyJump"
+                  ],
+                  "note": [
+                    "It is possible to get out of the sand with nothing.",
+                    "While holding down, crouch jump then press forward diagonal to clip into the wall enough to jump out."
+                  ],
+                  "devNote": "This will never be in logic because there are easier ways to cross the room, but can be used to escape the sand."
+                },
+                {
+                  "name": "Shinespark",
+                  "notable": false,
+                  "requires": [
+                    "h_canNavigateUnderwater",
+                    {"canComeInCharged": {
+                      "fromNode": 1,
+                      "inRoomPath": [1, 2],
+                      "framesRemaining": 0,
+                      "shinesparkFrames": 22,
+                      "excessShinesparkFrames": 12
+                    }}
+                  ]
+                },
+                {
+                  "name": "Cross Room Jump with Bomb Boost",
+                  "notable": false,
+                  "requires": [
+                    "canBombHorizontally",
+                    "canCrossRoomJumpIntoWater",
+                    {"adjacentRunway": {
+                      "fromNode": 1,
+                      "usedTiles": 0.5,
+                      "inRoomPath": [ 1, 2 ],
+                      "physics": ["air"]
+                    }}
+                  ],
+                  "note": [
+                    "Only requires a runway of approximately 0.5 tiles in the adjacent room.",
+                    "Bomb boost through the doorway and hold right."
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 2,
+          "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": ["Gravity"]
+                },
+                {
+                  "name": "Suitless",
+                  "notable": false,
+                  "requires": [
+                    "canSuitlessMaridia",
+                    "HiJump"
+                  ]
+                },
+                {
+                  "name": "Frozen Zoa Bridge",
+                  "notable": false,
+                  "requires": [
+                    "canSuitlessMaridia",
+                    "canUseFrozenEnemies"
+                  ],
+                  "note": "Use the frozen Zoas as a bridge. Falling will require Samus to use ice beam and a crouch jump to escape."
+                },
+                {
+                  "name": "Suitless Bombs",
+                  "notable": false,
+                  "requires": [
+                    "canSuitlessMaridia",
+                    "h_canUseMorphBombs"
+                  ],
+                  "note": "It is relatively easy to get out of the sand with rapidly placing bombs."
+                },
+                {
+                  "name": "Butterfly Room Careful Jump (Right to Left)",
+                  "notable": true,
+                  "requires": [
+                    "canSuitlessMaridia",
+                    "canCarefulJump"
+                  ],
+                  "reusableRoomwideNotable": "Butterfly Room Careful Jump",
+                  "note": [
+                    "Kill all the Zoas and don't pick up their drops. If the door is unlocked, stand in the doorframe and jump across the room.",
+                    "Otherwise, jump across the sand, starting 1.5 tiles away from the sandfall. Hold jump and forward the whole time. Samus will dip into the sand, but still make it to the other side."
+                  ]
+                },
+                {
+                  "name": "Butterfly Room Suitless Sand Escape (Right to Left)",
+                  "notable": false,
+                  "requires": [
+                    "canSuitlessMaridia",
+                    "h_canCrouchJumpDownGrab",
+                    "canTrickyJump"
+                  ],
+                  "note": [
+                    "It is possible to get out of the sand with nothing.",
+                    "While holding down, crouch jump then press forward diagonal to clip into the wall enough to jump out."
+                  ],
+                  "devNote": "This will never be in logic because there are easier ways to cross the room, but can be used to escape the sand."
+                },
+                {
+                  "name": "Shinespark",
+                  "notable": false,
+                  "requires": [
+                    "h_canNavigateUnderwater",
+                    {"canComeInCharged": {
+                      "fromNode": 2,
+                      "inRoomPath": [2, 1],
+                      "framesRemaining": 0,
+                      "shinesparkFrames": 22,
+                      "excessShinesparkFrames": 12
+                    }}
+                  ]
+                },
+                {
+                  "name": "Cross Room Jump with Bomb Boost",
+                  "notable": false,
+                  "requires": [
+                    "canBombHorizontally",
+                    "canCrossRoomJumpIntoWater",
+                    {"adjacentRunway": {
+                      "fromNode": 2,
+                      "usedTiles": 0.5,
+                      "inRoomPath": [ 2, 1 ],
+                      "physics": ["air"]
+                    }}
+                  ],
+                  "note": [
+                    "Only requires a runway of approximately 0.5 tiles in the adjacent room.",
+                    "Bomb boost through the doorway and hold right."
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 3,
+          "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "h_canNavigateUnderwater" ]
+                }
+              ],
+              "note": "When entering the room from above, fall to either side and avoid the sand, as it may lead to a softlock. It's best not to turn around during the fall."
+            },
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "h_canNavigateUnderwater" ]
+                }
+              ],
+              "note": "When entering the room from above, fall to either side and avoid the sand, as it may lead to a softlock. It's best not to turn around during the fall."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 214,
+      "name": "Thread The Needle Room",
+      "area": "Maridia",
+      "subarea": "Inner",
+      "playable": true,
+      "roomAddress": "0x7D2D9",
+      "roomEnvironments": [{ "heated": false } ],
+      "nodes": [
+        {
+          "id": 1,
+          "name": "Thread The Needle Room Left Door (to Bug Sand Hole)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x001a564",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Thread The Needle Room Left Door (to Bug Sand Hole)",
+              "length": 4,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "openEnd": 1
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Thread The Needle Room Right Door (to Elevator)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x001a570",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Thread The Needle Room Right Door (to Elevator)",
+              "length": 4,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "openEnd": 1
+            }
+          ]
+        }
+      ],
+      "enemies": [
+        {
+          "id": "e1",
+          "groupName": "Thread The Needle Room Left Choots",
+          "enemyName": "Choot",
+          "quantity": 5,
+          "homeNodes": [ 1 ]
+        },
+        {
+          "id": "e2",
+          "groupName": "Thread The Needle Room Left Puyos",
+          "enemyName": "Puyo",
+          "quantity": 5,
+          "homeNodes": [ 1 ]
+        },
+        {
+          "id": "e3",
+          "groupName": "Thread The Needle Room Right Choots",
+          "enemyName": "Choot",
+          "quantity": 3,
+          "homeNodes": [ 2 ]
+        },
+        {
+          "id": "e4",
+          "groupName": "Thread The Needle Room Right Puyos",
+          "enemyName": "Puyo",
+          "quantity": 2,
+          "homeNodes": [ 2 ]
+        }
+      ],
+      "links": [
+        {
+          "from": 1,
+          "to": [
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 2,
+          "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 215,
+      "name": "Maridia Elevator Room",
+      "area": "Maridia",
+      "subarea": "Inner",
+      "playable": true,
+      "roomAddress": "0x7D30B",
+      "roomEnvironments": [{ "heated": false } ],
+      "nodes": [
+        {
+          "id": 1,
+          "name": "Maridia Elevator Room Left Door (to Thread the Needle Room)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x001a57c",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Maridia Elevator Room Left Door (to Thread the Needle Room)",
+              "length": 1,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "usableComingIn": false,
+              "openEnd": 1
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Maridia Elevator Room Right Door (to Save)",
+          "nodeType": "door",
+          "nodeSubType": "red",
+          "nodeAddress": "0x001a588",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Maridia Elevator Room Right Door (to Save)",
+              "length": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "usableComingIn": false,
+              "openEnd": 1
+            }
+          ],
+          "locks": [
+            {
+              "name": "Maridia Elevator Room Red Lock (to Save)",
+              "lockType": "coloredDoor",
+              "unlockStrats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "h_canOpenRedDoors" ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "name": "Maridia Elevator to Crateria",
+          "nodeType": "door",
+          "nodeSubType": "elevator",
+          "nodeAddress": "0x001a594"
+        }
+      ],
+      "enemies": [
+        {
+          "id": "e1",
+          "groupName": "Maridia Elevator Room Owtch",
+          "enemyName": "Owtch",
+          "quantity": 1,
+          "homeNodes": [ 1 ]
+        },
+        {
+          "id": "e2",
+          "groupName": "Maridia Elevator Room Bottom Rippers",
+          "enemyName": "Ripper",
+          "quantity": 2,
+          "homeNodes": [ 2 ]
+        },
+        {
+          "id": "e3",
+          "groupName": "Maridia Elevator Room Middle Rippers",
+          "enemyName": "Ripper",
+          "quantity": 2,
+          "betweenNodes": [2,3]
+        },
+        {
+          "id": "e4",
+          "groupName": "Maridia Elevator Room Top Rippers",
+          "enemyName": "Ripper",
+          "quantity": 2,
+          "homeNodes": [ 3 ]
+        }
+      ],
+      "links": [
+        {
+          "from": 1,
+          "to": [
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            },
+            {
+              "id": 3,
+              "strats": [
+                {
+                  "name": "Shinespark",
+                  "notable": false,
+                  "requires": [
+                    {"or": [
+                      "HiJump",
+                      "canWalljump"
+                    ]},
+                    {"canComeInCharged": {
+                      "fromNode": 1,
+                      "framesRemaining": 60,
+                      "shinesparkFrames": 45
+                    }}
+                  ],
+                  "note": "Use Hijump or one walljump on the left before a diagonal spark."
+                }
+              ],
+              "note": "Only the the direct shinespark. Other strats should go 1 -> 2 -> 3."
+            }
+          ]
+        },
+        {
+          "from": 2,
+          "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            },
+            {
+              "id": 3,
+              "strats": [
+                {
+                  "name": "Frozen Rippers",
+                  "notable": false,
+                  "requires": ["canUseFrozenEnemies"]
+                },
+                {
+                  "name": "Kill Rippers",
+                  "notable": false,
+                  "requires": [
+                    {"or": [
+                      "canConsecutiveWalljump",
+                      {"and":[
+                        "HiJump",
+                        "canWalljump"
+                      ]}
+                    ]},
+                    {"enemyKill":{
+                      "enemies": [
+                        [
+                          "Ripper", "Ripper", "Ripper"
+                        ]
+                      ]
+                    }}
+                  ]
+                },
+                {
+                  "name": "Maridia Elevator Room Wall Climb",
+                  "notable": false,
+                  "requires": [
+                    "canPreciseWalljump",
+                    "canStaggeredWalljump"
+                  ],
+                  "note": "The walljumps are considered to require precision only if the Rippers are not killed"
+                },
+                {
+                  "name": "Shinespark",
+                  "notable": false,
+                  "requires": [
+                    {"canComeInCharged": {
+                      "fromNode": 2,
+                      "framesRemaining": 40,
+                      "shinesparkFrames": 35
+                    }}
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 3,
+          "to": [
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 216,
+      "name": "Forgotten Highway Save Room",
+      "area": "Maridia",
+      "subarea": "Inner",
+      "playable": true,
+      "roomAddress": "0x7D3DF",
+      "roomEnvironments": [{ "heated": false } ],
+      "nodes": [
+        {
+          "id": 1,
+          "name": "Forgotten Highway Save Room Door (to Elevator)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x001a5f4",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Forgotten Highway Save Room Door (to Elevator)",
+              "length": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "usableComingIn": false,
+              "openEnd": 1
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Forgotten Highway Save Station",
+          "utility": [ "save" ],
+          "nodeType": "utility",
+          "nodeSubType": "save"
+        }
+      ],
+      "enemies": [],
+      "links": [
+        {
+          "from": 1,
+          "to": [
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 2,
+          "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 217,
+      "name": "Plasma Climb aka Kassiuz Room",
+      "area": "Maridia",
+      "subarea": "Inner",
+      "playable": true,
+      "roomAddress": "0x7D387",
+      "roomEnvironments": [{ "heated": false } ],
+      "nodes": [
+        {
+          "id": 1,
+          "name": "Kassiuz Room Left Door (to Plasma Spark Room)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x001a5d0",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Kassiuz Room Left Door (to Plasma Spark Room)",
+              "length": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "usableComingIn": false,
+              "openEnd": 1
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Kassiuz Room Right Door (to Plasma Tutorial)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x001a5dc",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Kassiuz Room Right Door (to Plasma Tutorial)",
+              "length": 0,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "openEnd": 1
+            }
+          ]
+        }
+      ],
+      "enemies": [
+        {
+          "id": "e1",
+          "groupName": "Kassiuz Room Choots",
+          "enemyName": "Choot",
+          "quantity": 3,
+          "homeNodes": [ 1,2 ]
+        },
+        {
+          "id": "e2",
+          "groupName": "Kassiuz Room Puyos",
+          "enemyName": "Puyo",
+          "quantity": 4,
+          "homeNodes": [ 1,2 ]
+        }
+      ],
+      "links": [
+        {
+          "from": 1,
+          "to": [
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 2,
+          "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 218,
+      "name": "Plasma Tutorial Room",
+      "area": "Maridia",
+      "subarea": "Inner",
+      "playable": true,
+      "roomAddress": "0x7D27E",
+      "roomEnvironments": [{ "heated": false } ],
+      "nodes": [
+        {
+          "id": 1,
+          "name": "Plasma Tutorial Room Left Door (to Kassiuz Room)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x001a540",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Plasma Tutorial Room Left Door (to Kassiuz Room)",
+              "length": 3,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "openEnd": 0
+            },
+            {
+              "name": "Runway with no Enemies - Plasma Tutorial Room Left Door (to Kassiuz Room)",
+              "length": 12,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "usableComingIn": false,
+              "openEnd": 0
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Plasma Tutorial Room Right Door (to Plasma)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x001a54c",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Plasma Tutorial Room Right Door (to Plasma)",
+              "length": 7,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "openEnd": 0
+            },
+            {
+              "name": "Runway with no Enemies - Plasma Tutorial Room Right Door (to Plasma)",
+              "length": 12,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "usableComingIn": false,
+              "openEnd": 0
+            }
+          ]
+        }
+      ],
+      "enemies": [
+        {
+          "id": "e1",
+          "groupName": "Plasma Tutorial Room Puyos",
+          "enemyName": "Puyo",
+          "quantity": 6,
+          "homeNodes": [ 1 ]
+        }
+      ],
+      "links": [
+        {
+          "from": 1,
+          "to": [
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 2,
+          "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 219,
+      "name": "Plasma Room",
+      "area": "Maridia",
+      "subarea": "Inner",
+      "playable": true,
+      "roomAddress": "0x7D2AA",
+      "roomEnvironments": [{ "heated": false } ],
+      "nodes": [
+        {
+          "id": 1,
+          "name": "Plasma Room Door (to Plasma Tutorial)",
+          "nodeType": "door",
+          "nodeSubType": "grey",
+          "nodeAddress": "0x001a558",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Plasma Room Door (to Plasma Tutorial)",
+              "length": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "usableComingIn": false,
+              "openEnd": 1
+            }
+          ],
+          "locks": [
+            {
+              "name": "Plasma Grey Lock (to Plasma Tutorial)",
+              "lockType": "killEnemies",
+              "unlockStrats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [{"obstaclesCleared": ["A"]}],
+                  "note": "To avoid redundant requirements, obstacle must be destroyed by going to 2->3->1."
+                }
+              ],
+              "yields": [ "f_ZebesAwake" ]
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Plasma Beam",
+          "nodeType": "item",
+          "nodeSubType": "chozo",
+          "nodeItem": "Plasma",
+          "nodeAddress": "0x7C559"
+        },
+        {
+          "id": 3,
+          "name": "Plasma Room Junction (Middle of Room with all Standing Pirates Dead)",
+          "nodeType": "junction",
+          "nodeSubType": "junction",
+          "note": "Intended to logically separate killing the standing enemies (who have actual requirements) from climbing out of the room."
+        }
+      ],
+      "obstacles": [
+        {
+          "id": "A",
+          "name": "Pink Pirates",
+          "obstacleType": "enemies",
+          "note": "Enemies that must be cleared to unlock the room. Take note that the wall pirates do not have special immunities."
+        }
+      ],
+      "enemies": [
+        {
+          "id": "e1",
+          "groupName": "Plasma Room Top Standing Pirate",
+          "enemyName": "Pink Space Pirate (standing)",
+          "quantity": 1,
+          "homeNodes": [ 1 ]
+        },
+        {
+          "id": "e2",
+          "groupName": "Plasma Room Bottom Standing Pirates",
+          "enemyName": "Pink Space Pirate (standing)",
+          "quantity": 3,
+          "homeNodes": [ 2 ]
+        },
+        {
+          "id": "e3",
+          "groupName": "Plasma Room Wall Pirates",
+          "enemyName": "Pink Space Pirate (wall)",
+          "quantity": 2,
+          "homeNodes": [ 2 ]
+        }
+      ],
+      "links": [
+        {
+          "from": 1,
+          "to": [
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 2,
+          "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": ["SpaceJump"]
+                },
+                {
+                  "name": "Insane Walljump",
+                  "notable": false,
+                  "requires": [
+                    "canInsaneWalljump",
+                    "canConsecutiveWalljump"
+                  ],
+                  "note": "Lead the wallpirate into jumping across the room and dodge the standing pirate."
+                },
+                {
+                  "name": "HiJump Walljump",
+                  "notable": false,
+                  "requires": [
+                    "HiJump",
+                    "canPreciseWalljump"
+                  ],
+                  "note": "Lead the wallpirate into jumping across the room and dodge the standing pirate."
+                },
+                {
+                  "name": "HiJump Speedjump",
+                  "notable": false,
+                  "requires": [
+                    "HiJump",
+                    "SpeedBooster",
+                    "canTrickyJump",
+                    "canWalljump"
+                  ],
+                  "note": [
+                    "Watch the right-side standing pirate walk towards the wall as far as possible from below.",
+                    "The available running space is just enough to jump up and walljump the ledge by the door."
+                  ]
+                },
+                {
+                  "name": "HiJump Speedjump with Damage",
+                  "notable": false,
+                  "requires": [
+                    "HiJump",
+                    "SpeedBooster",
+                    "canWalljump",
+                    "canCarefulJump",
+                    { "enemyDamage": { "enemy": "Pink Space Pirate (standing)", "hits": 1, "type": "laser" } }
+                  ],
+                  "note": "Take a hit from the pirate to gain iframes for running through the pirate to use for a longer runway."
+                },
+                {
+                  "name": "Kill one then IBJ",
+                  "notable": false,
+                  "requires": [
+                    "canIBJ",
+                    {"or": [
+                      {"and": [
+                        "canShinechargeMovement",
+                        "canUseSpeedEchoes",
+                        { "canShineCharge": {
+                          "usedTiles": 19,
+                          "shinesparkFrames": 1,
+                          "excessShinesparkFrames": 1,
+                          "openEnd": 0
+                        }}
+                      ]},
+                      {"and": [
+                        "canShinechargeMovement",
+                        "canUseSpeedEchoes",
+                        { "enemyDamage": { "enemy": "Pink Space Pirate (standing)", "type": "contact", "hits": 1 } },
+                        { "canShineCharge": {
+                          "usedTiles": 21,
+                          "shinesparkFrames": 2,
+                          "excessShinesparkFrames": 2,
+                          "openEnd": 0
+                        }}
+                      ]},
+                      {"and": [
+                        "Charge",
+                        { "enemyDamage": { "enemy": "Pink Space Pirate (standing)", "type": "contact", "hits": 1 } }
+                      ]}
+                    ]}
+                  ],
+                  "note": "Pseudo screw the left pirate, or clear the left side with shinesparks, then IBJ out",
+                  "devNote": "If you can kill them without being hurt, you can take path 2->3->1."
+                },
+                {
+                  "name": "Jump into IBJ",
+                  "notable": false,
+                  "requires": ["canJumpIntoIBJ"],
+                  "failures": [
+                    {
+                      "name": "Fail Bomb Jump",
+                      "cost": [
+                        { "enemyDamage": { "enemy": "Pink Space Pirate (standing)", "hits": 1, "type": "laser" } }
+                      ]
+                    }
+                  ],
+                  "note": "Let the wall pirate jump to the otherside of the room.  Shooting the standing pirate (with anything) will prevent it from attacking."
+                },
+                {
+                  "name": "Kill Pirates With Shinesparks And Escape",
+                  "notable": false,
+                  "requires": [
+                    "canCarefulJump",
+                    "canShinechargeMovementComplex",
+                      {"canShineCharge": {
+                        "usedTiles": 21,
+                        "shinesparkFrames": 30,
+                        "excessShinesparkFrames": 7,
+                        "openEnd": 0
+                      }}
+                  ],
+                  "obstacles": [
+                    {
+                      "id": "A",
+                      "requires": [
+                        "canUseSpeedEchoes",
+                        {"or": [
+                          { "canShineCharge": {
+                            "usedTiles": 19,
+                            "shinesparkFrames": 2,
+                            "excessShinesparkFrames": 2,
+                            "openEnd": 0
+                          }},
+                          {"and": [
+                            { "canShineCharge": {
+                              "usedTiles": 21,
+                              "shinesparkFrames": 3,
+                              "excessShinesparkFrames": 3,
+                              "openEnd": 0
+                            }},
+                            { "enemyDamage": { "enemy": "Pink Space Pirate (standing)", "type": "laser", "hits": 1 } }
+                          ]}
+                         ]}
+                      ]
+                    }
+                  ],
+                  "failures": [
+                    {
+                      "name": "Miss Shortcharge",
+                      "cost": [{ "enemyDamage": { "enemy": "Pink Space Pirate (standing)", "type": "laser", "hits": 1 } }]
+                    }
+                  ],
+                  "note": [
+                    "Using the bottom of the room, shortcharge to use the echoes created by shinesparking to kill all of the Standing Pirates.",
+                    "Either lead the pirate to the left wall or take a hit to gain iframes to use the full runway to charge a spark",
+                    "To lead a pirate, have it shoot in the direction you want it to go.  Then jump overhead and crouch on the other side.",
+                    "Turn around and diagonal spark the ceiling to kill the lowest pirate, and later the middle pirates.",
+                    "Building a spark towards the left allows for enough run speed to jump to the middle level.",
+                    "Then vertical shinespark out which kills the top pirate."
+                  ],
+                  "devNote": "Killing the top pirate naturally puts you at 1"
+                },
+                {
+                  "name": "Frozen Wall Pirate Plasma Escape",
+                  "notable": false,
+                  "requires": [
+                    "canUseFrozenEnemies",
+                    "canPreciseWalljump"
+                  ],
+                  "note": [
+                    "Shoot at a wall pirate from below to freeze it.  Plasma is not required for wall pirates.",
+                    "Firing at a Standing Pirate with anything will prevent it from shooting for a short time."
+                  ]
+                },
+                {
+                  "name": "Walljump Springball Jump",
+                  "notable": false,
+                  "requires": ["canSpringwall"]
+                },
+                {
+                  "name": "HiJump Springball Jump",
+                  "notable": false,
+                  "requires": [
+                    "HiJump",
+                    "canSpringBallJumpMidAir"
+                  ]
+                }
+              ]
+            },
+            {
+              "id": 3,
+              "strats": [
+                {
+                  "name": "Simple Weapons",
+                  "notable": false,
+                  "requires": [],
+                  "obstacles": [
+                    {
+                      "id": "A",
+                      "requires": [
+                        {"or":[
+                          "Plasma",
+                          "ScrewAttack"
+                        ]}
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "Plasma Room Pseudo Screw",
+                  "notable": false,
+                  "requires": [],
+                  "obstacles": [
+                    {
+                      "id": "A",
+                      "requires": [
+                        "Charge",
+                        {"enemyDamage": {
+                          "enemy": "Pink Space Pirate (standing)",
+                          "type": "contact",
+                          "hits": 4
+                        }}
+                      ]
+                    }
+                  ],
+                  "note": "The 4 standing pirates take 2 Pseudo Screws to kill each, so Samus must take 4 hits.  No damage is taken when the enemy dies."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 3,
+          "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": ["h_canFly"]
+                },
+                {
+                  "name": "Speedjump",
+                  "notable": false,
+                  "requires": [
+                    "SpeedBooster",
+                    "HiJump",
+                    "canWalljump"
+                  ]
+                },
+                {
+                  "name": "Shinespark",
+                  "notable": false,
+                  "requires": [
+                    "canShinechargeMovement",
+                    {"or": [
+                      {"and": [
+                        "HiJump",
+                        { "canShineCharge": {
+                          "usedTiles": 21,
+                          "shinesparkFrames": 21,
+                          "excessShinesparkFrames": 7,
+                          "openEnd": 0
+                        }}
+                      ]},
+                      {"and": [
+                         "canShinechargeMovementComplex",
+                         "canCarefulJump",
+                        { "canShineCharge": {
+                          "usedTiles": 21,
+                          "shinesparkFrames": 30,
+                          "excessShinesparkFrames": 7,
+                          "openEnd": 0
+                        }}
+                      ]}
+                    ]}
+                  ]
+                },
+                {
+                  "name": "Frozen Wall Pirate Plasma Escape",
+                  "notable": false,
+                  "requires": [
+                    "canUseFrozenEnemies",
+                    "canPreciseWalljump"
+                  ],
+                  "note": [
+                    "It's possible to climb up with just ice by freezing the wall space pirates (who can be frozen and killed without Plasma).",
+                    "Clearing the grey door lock would require killing the frozen pirate after using it to climb."
+                  ]
+                },
+                {
+                  "name": "Hijump Walljump",
+                  "notable": false,
+                  "requires": [
+                    "canPreciseWalljump",
+                    "HiJump"
+                  ]
+                },
+                {
+                  "name": "Hjless Walljump",
+                  "notable": false,
+                  "requires": [
+                    "canInsaneWalljump",
+                    "canConsecutiveWalljump"
+                  ],
+                  "note": "This is the same size of ledge as writg."
+                },
+                {
+                  "name": "Walljump Springball Jump",
+                  "notable": false,
+                  "requires": ["canSpringwall"]
+                },
+                {
+                  "name": "HiJump Springball Jump",
+                  "notable": false,
+                  "requires": [
+                    "HiJump",
+                    "canSpringBallJumpMidAir"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

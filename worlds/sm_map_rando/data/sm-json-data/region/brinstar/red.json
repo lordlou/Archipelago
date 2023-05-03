@@ -1,0 +1,2665 @@
+{
+  "$schema": "../../schema/m3-region.schema.json",
+  "rooms": [
+    {
+      "id": 66,
+      "name": "Red Tower",
+      "area": "Brinstar",
+      "subarea": "Red",
+      "playable": true,
+      "roomAddress": "0x7A253",
+      "roomEnvironments": [{ "heated": false } ],
+      "nodes": [
+        {
+          "id": 1,
+          "name": "Red Tower Top Left Door (to Noob Bridge)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x001902a",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Red Tower Top Left Door (to Noob Bridge)",
+              "length": 10,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [],
+                  "devNote": "Assume no broken runway tiles since there is never a reason to break them."
+                }
+              ],
+              "openEnd": 1
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Red Tower Center Left Door (to Firefleas)",
+          "nodeType": "door",
+          "nodeSubType": "yellow",
+          "nodeAddress": "0x0019036",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Red Tower Center Left Door (to Firefleas)",
+              "length": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "usableComingIn": false,
+              "openEnd": 0
+            }
+          ],
+          "locks": [
+            {
+              "name": "Red Tower Yellow Lock (to Firefleas)",
+              "lockType": "coloredDoor",
+              "unlockStrats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "h_canOpenYellowDoors" ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "name": "Red Tower Bottom Left Door (to Sloaters Refill)",
+          "nodeType": "door",
+          "nodeSubType": "green",
+          "nodeAddress": "0x001904e",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Red Tower Bottom Left Door (to Sloaters Refill)",
+              "length": 12,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "openEnd": 0
+            }
+          ],
+          "locks": [
+            {
+              "name": "Sloaters Refill Green Lock (to Sloaters Refill)",
+              "lockType": "coloredDoor",
+              "unlockStrats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "h_canOpenGreenDoors" ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 4,
+          "name": "Red Tower Bottom Right Door (to Bat Room)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x0019042",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Red Tower Bottom Right Door (to Bat Room)",
+              "length": 12,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "openEnd": 0
+            }
+          ]
+        },
+        {
+          "id": 5,
+          "name": "Red Tower Top Right Door (to Hellway)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x001901e",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Red Tower Top Right Door (to Hellway)",
+              "length": 12,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "openEnd": 0
+            }
+          ]
+        },
+        {
+          "id": 6,
+          "name": "Red Tower Junction (Above Bottom Climb)",
+          "nodeType": "junction",
+          "nodeSubType": "junction",
+          "note": "This is under the orange door, below the shot blocks, but above the bottom climb"
+        },
+        {
+          "id": 7,
+          "name": "Red Tower Junction (Middle of Bottom Climb)",
+          "nodeType": "junction",
+          "nodeSubType": "junction",
+          "note": "This is meant to contain all Rippers in the bottom climb except the bottom one"
+        },
+        {
+          "id": 8,
+          "name": "Red Tower Bottom Junction",
+          "nodeType": "junction",
+          "nodeSubType": "junction"
+        },
+        {
+          "id": 9,
+          "name": "Red Tower Top Climb Junction",
+          "nodeType": "junction",
+          "nodeSubType": "junction",
+          "note": "This is meant to contain all Rippers in the top climb except the bottom one"
+        }
+      ],
+      "obstacles": [
+        {
+          "id": "A",
+          "name": "Top of Tower Rippers",
+          "obstacleType": "enemies"
+        },
+        {
+          "id": "B",
+          "name": "Power Bomb Blocks",
+          "obstacleType": "inanimate"
+        }
+      ],
+      "enemies": [
+        {
+          "id": "e1",
+          "groupName": "Red Tower Geegas",
+          "enemyName": "Geega",
+          "quantity": 2,
+          "homeNodes": [ 1 ],
+          "farmCycles": [
+            {
+              "name": "Alternating Geega Pipes",
+              "cycleFrames": 180,
+              "requires": [],
+              "note": "Standing on the platform next to the right spawner, must jump to get Geegas to spawn from the left one."
+            }
+          ]
+        },
+        {
+          "id": "e2",
+          "groupName": "Red Tower Beetom",
+          "enemyName": "Beetom",
+          "quantity": 1,
+          "betweenNodes": [1,2]
+        },
+        {
+          "id": "e3",
+          "groupName": "Red Tower Middle Rippers",
+          "enemyName": "Ripper",
+          "quantity": 3,
+          "homeNodes": [ 7 ]
+        },
+        {
+          "id": "e4",
+          "groupName": "Red Tower Bottom Ripper",
+          "enemyName": "Ripper",
+          "quantity": 1,
+          "homeNodes": [ 8 ]
+        },
+        {
+          "id": "e5",
+          "groupName": "Red Tower Top rippers",
+          "enemyName": "Ripper",
+          "quantity": 4,
+          "homeNodes": [ 9 ]
+        }
+      ],
+      "links": [
+        {
+          "from": 1,
+          "to": [
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [],
+                  "obstacles": [
+                    {
+                      "id": "B",
+                      "requires": [ "h_canUsePowerBombs" ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": 5,
+              "strats": [
+                {
+                  "name": "Red Tower Spark",
+                  "notable": true,
+                  "requires": [
+                    {"canComeInCharged": {
+                      "fromNode": 1,
+                      "framesRemaining": 100,
+                      "shinesparkFrames": 77,
+                      "excessShinesparkFrames": 3
+                     }},
+                    "Missile",
+                    {"ammo": {
+                      "type": "Missile",
+                      "count": 1
+                    }}
+                  ],
+                  "note": [
+                    "Come in charged from the top left door. With missiles selected, position Samus roughly in the horizontal center of the room.",
+                    "Crouch, aim up, then in very quick succession, shoot a missile upwards then spark up.",
+                    "If done correctly, Samus will pass the Missile, break the bomb block platforms, then be passed by the Missile which will break the shot blocks at the top."
+                  ]
+                }
+              ],
+              "note": "Direct link for shinespark. Other strats should go 1 -> 9 -> 5."
+            },
+            {
+              "id": 6,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            },
+            {
+              "id": 9,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [
+                    {"or": [
+                      "HiJump",
+                      "h_canFly",
+                      "canWalljump"
+                    ]}
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 2,
+          "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [],
+                  "obstacles": [
+                    {
+                      "id": "B",
+                      "requires": [ "h_canUsePowerBombs" ]
+                    }
+                  ]
+                },
+                {
+                  "name": "Red Tower X-Ray Climb",
+                  "notable": false,
+                  "requires": [
+                    "canRightFacingDoorXRayClimb",
+                    {"resetRoom":{
+                      "nodes": [2],
+                      "mustStayPut": true
+                    }},
+                    {"adjacentRunway": {
+                      "fromNode": 2,
+                      "usedTiles": 0.5,
+                      "overrideRunwayRequirements": true,
+                      "useFrames": 200
+                    }}
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 3,
+          "to": [
+            {
+              "id": 8,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 4,
+          "to": [
+            {
+              "id": 8,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 5,
+          "to": [
+            {
+              "id": 9,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 6,
+          "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            },
+            {
+              "id": 7,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 7,
+          "to": [
+            {
+              "id": 6,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [
+                    {"or":[
+                      "SpaceJump",
+                      {"and": [
+                        "HiJump",
+                        "SpeedBooster"
+                      ]},
+                      {"and": [
+                        "HiJump",
+                        "canConsecutiveWalljump"
+                      ]}
+                    ]}
+                  ]
+                },
+                {
+                  "name": "Use Frozen Enemies",
+                  "notable": false,
+                  "requires": [
+                    "canUseFrozenEnemies",
+                    {"or":[
+                      "HiJump",
+                      "canWalljump",
+                      "canSpringBallJumpMidAir",
+                      "canIBJ"
+                    ]}
+                  ]
+                },
+                {
+                  "name": "IBJ",
+                  "notable": false,
+                  "requires": [
+                    "canIBJ",
+                    {
+                      "enemyKill": {
+                        "enemies": [
+                          [ "Ripper", "Ripper", "Ripper", "Ripper" ]
+                        ]
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "Red Tower IBJ Between the Bottom Rippers",
+                  "notable": true,
+                  "requires": [
+                    "canDoubleBombJump",
+                    "canStaggeredIBJ"
+                  ],
+                  "note": "Requires switching between single and double IBJs. While Doubles are not techincally necessary, they make the strat more bearable."
+                },
+                {
+                  "name": "Red Tower Midair Spring Ball",
+                  "notable": false,
+                  "requires": [
+                    "canSpringBallJumpMidAir",
+                    "canWalljump"
+                  ]
+                },
+                {
+                  "name": "Red Tower Midair HBJ",
+                  "notable": true,
+                  "requires": [
+                    "canWallJumpBombBoost",
+                    "canHBJ"
+                  ],
+                  "note": [
+                    "Starting on the right ledge at the bottom of Red Tower, wall jump just below the middle plant, just above the top ripper.",
+                    "Place two bombs out of the wall jump landing on the first bomb and getting boosted by both.",
+                    "While rising, place two more bombs for a second HBJ. Colliding with the side of the ledge after the third bomb can help."
+                  ]
+                },
+                {
+                  "name": "Red Tower Diagonal Bomb Jump",
+                  "notable": false,
+                  "requires": [
+                    "canWalljump",
+                    "canDiagonalBombJump"
+                  ]
+                }
+              ]
+            },
+            {
+              "id": 8,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 8,
+          "to": [
+            {
+              "id": 3,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            },
+            {
+              "id": 4,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            },
+            {
+              "id": 6,
+              "strats": [
+                {
+                  "name": "Shinespark",
+                  "notable": false,
+                  "requires": [
+                    {"or":[
+                      {"canComeInCharged": {
+                        "fromNode": 4,
+                        "inRoomPath": [4, 8],
+                        "framesRemaining": 30,
+                        "shinesparkFrames": 45,
+                        "excessShinesparkFrames": 5
+                       }},
+                      {"canComeInCharged": {
+                        "fromNode": 3,
+                        "inRoomPath": [3, 8],
+                        "framesRemaining": 40,
+                        "shinesparkFrames": 45,
+                        "excessShinesparkFrames": 5
+                       }}
+                    ]}
+                  ]
+                }
+              ],
+              "note": "This link is only for sparking. Other strats go 8 -> 7 -> 6."
+            },
+            {
+              "id": 7,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 9,
+          "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            },
+            {
+              "id": 5,
+              "strats": [
+                {
+                  "name": "Use Frozen Enemies",
+                  "notable": false,
+                  "requires": ["canUseFrozenEnemies"]
+                },
+                {
+                  "name": "Red Tower Hero Shot",
+                  "notable": true,
+                  "requires": [
+                    "canPreciseWalljump",
+                    "canStaggeredWalljump"
+                  ],
+                  "note": "Wall jump up between the Rippers. Either shoot the block, fall, and quickly climb again, or shoot from the bottom and follow Samus's shot up the tower."
+                },
+                {
+                  "name": "Space Jump",
+                  "notable": false,
+                  "requires": [
+                    "SpaceJump"
+                  ],
+                  "obstacles": [
+                    {
+                      "id": "A",
+                      "requires": [
+                        {"enemyKill":{
+                          "enemies": [
+                            [ "Ripper", "Ripper", "Ripper", "Ripper" ]
+                          ]
+                        }}
+                      ]
+                    }
+                  ],
+                  "note": [
+                    "This strat is for killing all of the Rippers and then using Space Jump to get up without wall jumps.",
+                    "Space jump up near the shot block, then shoot it while falling right as it goes off screen, then space jump back up."
+                  ]
+                },
+                {
+                  "name": "Red Tower IBJ",
+                  "notable": false,
+                  "requires": [ "canBombAboveIBJ" ],
+                  "obstacles": [
+                    {
+                      "id": "A",
+                      "requires": [
+                        {"enemyKill":{
+                          "enemies": [
+                            [ "Ripper", "Ripper", "Ripper", "Ripper" ]
+                          ]
+                        }}
+                      ]
+                    }
+                  ],
+                  "note": "Without canJumpIntoIBJ, you will need to kill the rippers and break the bomb blocks then start from the platforms below."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 67,
+      "name": "Red Brinstar Fireflea Room",
+      "area": "Brinstar",
+      "subarea": "Red",
+      "playable": true,
+      "roomAddress": "0x7A293",
+      "roomEnvironments": [{ "heated": false } ],
+      "nodes": [
+        {
+          "id": 1,
+          "name": "Red Firefleas Left Door (to X-Ray)",
+          "nodeType": "door",
+          "nodeSubType": "red",
+          "nodeAddress": "0x001905a",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Red Firefleas Left Door (to X-Ray)",
+              "length": 5,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "openEnd": 1
+            }
+          ],
+          "locks": [
+            {
+              "name": "Red Firefleas Red Lock (to X-Ray)",
+              "lockType": "coloredDoor",
+              "unlockStrats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "h_canOpenRedDoors" ]
+                }
+              ]
+            }
+          ],
+          "canLeaveCharged": [
+            {
+              "usedTiles": 13,
+              "openEnd": 0,
+              "framesRemaining": 0,
+              "shinesparkFrames": 0,
+              "initiateRemotely": {
+                "initiateAt": 2,
+                "mustOpenDoorFirst": true,
+                "pathToDoor": [
+                  {
+                    "destinationNode": 1,
+                    "strats": ["In-Room Shinespark"]
+                  }
+                ]
+              },
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "note": [
+                "Requires opening the door, then going to the middle of the room to use the really small runway.",
+                "ShinesparkFrames are at 0 because the shinespark frames are accounted for in the path to door."
+              ]
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Red Firefleas Right Door (to Red Tower)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x0019066",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Red Firefleas Right Door (to Red Tower)",
+              "length": 4,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "openEnd": 1
+            }
+          ],
+          "canLeaveCharged": [
+            {
+              "usedTiles": 13,
+              "openEnd": 0,
+              "framesRemaining": 0,
+              "shinesparkFrames": 50,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ 
+                    "canShinechargeMovementComplex",
+                    "canMidairShinespark"
+                  ],
+                  "note": "Requires opening the door, then going to pit in the middle of the room to use the really small runway."
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "enemies": [
+        {
+          "id": "e1",
+          "groupName": "Red Brinstar Fireflea Room Wavers",
+          "enemyName": "Waver",
+          "quantity": 3,
+          "homeNodes": [ 1,2 ]
+        },
+        {
+          "id": "e2",
+          "groupName": "Red Brinstar Fireflea Room Left Yapping Maws",
+          "enemyName": "Yapping Maw",
+          "quantity": 2,
+          "betweenNodes": [1,2],
+          "dropRequires": [ "never" ]
+        },
+        {
+          "id": "e3",
+          "groupName": "Red Brinstar Fireflea Room Right Yapping Maw",
+          "enemyName": "Yapping Maw",
+          "quantity": 1,
+          "betweenNodes": [1,2]
+        },
+        {
+          "id": "e4",
+          "groupName": "Red Brinstar Firefleas",
+          "enemyName": "Fireflea",
+          "quantity": 5,
+          "homeNodes": [ 2 ]
+        }
+      ],
+      "links": [
+        {
+          "from": 1,
+          "to": [
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [
+                    {"or":[
+                      "Grapple",
+                      "SpaceJump"
+                    ]}
+                  ]
+                },
+                {
+                  "name": "Shinespark",
+                  "notable": false,
+                  "requires": [
+                    {"canComeInCharged": {
+                      "fromNode": 1,
+                      "framesRemaining": 0,
+                      "shinesparkFrames": 150,
+                      "excessShinesparkFrames": 57
+                     }}
+                  ],
+                  "note": "Enter the door high to avoid a frame perfect spike hit.",
+                  "devNote": [
+                    "FIXME: There is one frame where ending the spark early puts you over spikes with no avoiding them, unless you entered the room at top of door.",
+                    "Which frame is determined by actual shinesparkFrames and shinespark velocity."
+                  ]
+                },
+                {
+                  "name": "X-Ray Exit Damage Boost",
+                  "notable": true,
+                  "requires": [
+                    "canContinuousDboost",
+                    {"enemyDamage": {
+                      "enemy": "Waver",
+                      "type": "contact",
+                      "hits": 5
+                    }}
+                  ],
+                  "note": [
+                    "If you wait long enough, a Waver will arrive. After it turns around to go back to the right, damage boost off of it, then follow it.",
+                    "Continue to hit it to get iframes to avoid taking damage from any spikes."
+                  ]
+                },
+                {
+                  "name": "X-Ray Exit Spike Floor",
+                  "notable": false,
+                  "requires": [
+                    {"spikeHits": 4},
+                    {"or": [
+                      "canIframeSpikeJump",
+                      {"spikeHits": 3}
+                    ]}
+                  ],
+                  "note": "This strat is simply running and jumping across the spikes."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 2,
+          "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [
+                    {"or":[
+                      "SpaceJump",
+                      "Grapple"
+                    ]}
+                  ]
+                },
+                {
+                  "name": "Shinespark",
+                  "notable": false,
+                  "requires": [
+                    {"canComeInCharged": {
+                      "fromNode": 2,
+                      "framesRemaining": 0,
+                      "shinesparkFrames": 146,
+                      "excessShinesparkFrames": 6
+                     }}
+                  ]
+                },
+                {
+                  "name": "In-Room Shinespark",
+                  "notable": false,
+                  "requires": [
+                    "canMidairShinespark",
+                    "canShinechargeMovementComplex",
+                    {"canShineCharge": {
+                      "usedTiles": 13,
+                      "openEnd": 0,
+                      "shinesparkFrames": 107,
+                      "excessShinesparkFrames": 6
+                     }}
+                  ],
+                  "note": "Use the really small runway in a pit in the middle of the room."
+                },
+                {
+                  "name": "Use Frozen Waver",
+                  "notable": false,
+                  "requires": [
+                    "canUseFrozenEnemies",
+                    {"spikeHits": 3},
+                    {"or": [
+                      "canIframeSpikeJump",
+                      {"spikeHits": 3}
+                    ]}
+                  ]
+                },
+                {
+                  "name": "X-Ray Access IBJ",
+                  "notable": false,
+                  "requires": [
+                    "canJumpIntoIBJ",
+                    {"spikeHits": 5},
+                    {"or": [
+                      "canIframeSpikeJump",
+                      {"spikeHits": 3}
+                    ]}
+                  ]
+                },
+                {
+                  "name": "X-Ray Access Springwall",
+                  "notable": false,
+                  "requires": [
+                    "canSpringwall",
+                    {"spikeHits": 5},
+                    {"or": [
+                      "canIframeSpikeJump",
+                      {"spikeHits": 3}
+                    ]}
+                  ]
+                },
+                {
+                  "name": "X-Ray Access Speed HiJump",
+                  "notable": false,
+                  "requires": [
+                    "HiJump",
+                    {"spikeHits": 4},
+                    "SpeedBooster",
+                    {"or":[
+                      "canTrickyJump",
+                      "canWalljump"
+                    ]},
+                    {"or": [
+                      "canIframeSpikeJump",
+                      {"spikeHits": 2}
+                    ]}
+                  ]
+                },
+                {
+                  "name": "X-Ray Access MidAir Spring Ball",
+                  "notable": false,
+                  "requires": [
+                    "HiJump",
+                    {"spikeHits": 4},
+                    "canSpringBallJumpMidAir",
+                    {"or": [
+                      "canIframeSpikeJump",
+                      {"spikeHits": 3}
+                    ]}
+                  ]
+                },
+                {
+                  "name": "X-Ray Access Damage Boost",
+                  "notable": true,
+                  "requires": [
+                    "canContinuousDboost",
+                    {"enemyDamage": {
+                      "enemy": "Waver",
+                      "type": "contact",
+                      "hits": 6
+                    }}
+                  ],
+                  "note": [
+                    "A precise strat that involves crossing both gaps by dboosting off Wavers.",
+                    "The Wavers are also used for iframes to avoid taking damage from any spikes."
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 68,
+      "name": "X-Ray Scope Room",
+      "area": "Brinstar",
+      "subarea": "Red",
+      "playable": true,
+      "roomAddress": "0x7A2CE",
+      "roomEnvironments": [{ "heated": false } ],
+      "nodes": [
+        {
+          "id": 1,
+          "name": "X-Ray Room Door (to Firefleas)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x0019072",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - X-Ray Room Door (to Firefleas)",
+              "length": 7,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "openEnd": 0
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "X-Ray Scope",
+          "nodeType": "item",
+          "nodeSubType": "chozo",
+          "nodeItem": "XRayScope",
+          "nodeAddress": "0x78876"
+        },
+        {
+          "id": 3,
+          "name": "X-Ray Room Junction (Top of Statue with Broken Block)",
+          "nodeType": "junction",
+          "nodeSubType": "junction",
+          "note": "This junction is used to separate the breaking of the bomb block from escaping the room."
+        }
+      ],
+      "enemies": [],
+      "links": [
+        {
+          "from": 1,
+          "to": [
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": ["Morph"],
+                  "note": "There are additional requirements to get back out. It's a softlock if they aren't met."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 2,
+          "to": [
+            {
+              "id": 3,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": ["h_canDestroyBombWalls"]
+                }
+              ],
+              "note": "2 -> 3 and 3 -> 1 are fully separated, because it takes two PBs to break the block and then get into the tunnel."
+            }
+          ]
+        },
+        {
+          "from": 3,
+          "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [
+                    {"or":[
+                      "h_canBombThings",
+                      "h_canUseSpringBall"
+                    ]}
+                  ]
+                },
+                {
+                  "name": "X-Ray Escape Wall Morph",
+                  "notable": false,
+                  "requires": [ "h_canTwoTileJumpMorph" ]
+                },
+                {
+                  "name": "X-Ray Escape Running Morph",
+                  "notable": false,
+                  "requires": ["canLateralMidAirMorph"],
+                  "note": "A running lateral mid-air morph can squeeze into the hole with good enough timing."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 69,
+      "name": "Bat Room",
+      "area": "Brinstar",
+      "subarea": "Red",
+      "playable": true,
+      "roomAddress": "0x7A3DD",
+      "roomEnvironments": [{ "heated": false } ],
+      "nodes": [
+        {
+          "id": 1,
+          "name": "Bat Room Left Door (to Red Tower)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x00190f6",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Bat Room Left Door (to Red Tower)",
+              "length": 0,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "openEnd": 1
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Bat Room Right Door (to Below Spazer)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x0019102",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Bat Room Right Door (to Below Spazer)",
+              "length": 0,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "openEnd": 1
+            }
+          ]
+        }
+      ],
+      "enemies": [
+        {
+          "id": "e1",
+          "groupName": "Bat Room Skrees",
+          "enemyName": "Skree",
+          "quantity": 2,
+          "homeNodes": [ 2 ]
+        }
+      ],
+      "links": [
+        {
+          "from": 1,
+          "to": [
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 2,
+          "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 70,
+      "name": "Below Spazer",
+      "area": "Brinstar",
+      "subarea": "Red",
+      "playable": true,
+      "roomAddress": "0x7A408",
+      "roomEnvironments": [{ "heated": false } ],
+      "nodes": [
+        {
+          "id": 1,
+          "name": "Below Spazer Left Door (to Bat Room)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x001910e",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Below Spazer Left Door (to Bat Room)",
+              "length": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "usableComingIn": false,
+              "openEnd": 1
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Below Spazer Bottom Right Door (to West Tunnel)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x001911a",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Below Spazer Bottom Right Door (to West Tunnel)",
+              "length": 3,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "openEnd": 1
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "name": "Below Spazer Top Right Door (to Spazer)",
+          "nodeType": "door",
+          "nodeSubType": "green",
+          "nodeAddress": "0x0019126",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Below Spazer Top Right Door (to Spazer)",
+              "length": 4,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "openEnd": 1
+            }
+          ],
+          "locks": [
+            {
+              "name": "Below Spazer Green Lock (to Spazer)",
+              "lockType": "coloredDoor",
+              "unlockStrats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "h_canOpenGreenDoors" ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "enemies": [
+        {
+          "id": "e1",
+          "groupName": "Below Spazer Cacatac",
+          "enemyName": "Cacatac",
+          "quantity": 1,
+          "homeNodes": [ 2 ]
+        },
+        {
+          "id": "e2",
+          "groupName": "Below Spazer Yapping Maws",
+          "enemyName": "Yapping Maw",
+          "quantity": 2,
+          "homeNodes": [ 2 ],
+          "note": "Can pickup the drops without taking damage"
+        }
+      ],
+      "links": [
+        {
+          "from": 1,
+          "to": [
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            },
+            {
+              "id": 3,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [
+                    "h_canBombThings",
+                    {"or": [
+                      "HiJump",
+                      "h_canFly",
+                      "canWalljump"
+                    ]}
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 2,
+          "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            },
+            {
+              "id": 3,
+              "strats": [
+                {
+                  "name": "Below Spazer X-Ray Climb",
+                  "notable": false,
+                  "requires": [
+                    "canLeftFacingDoorXRayClimb",
+                    { "resetRoom": {
+                      "nodes": [2],
+                      "mustStayPut": true
+                    }},
+                    {"adjacentRunway": {
+                      "fromNode": 2,
+                      "usedTiles": 0.5,
+                      "overrideRunwayRequirements": true,
+                      "physics": ["normal"],
+                      "useFrames": 200
+                    }}
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 3,
+          "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": ["h_canBombThings"]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 71,
+      "name": "Spazer Room",
+      "area": "Brinstar",
+      "subarea": "Red",
+      "playable": true,
+      "roomAddress": "0x7A447",
+      "roomEnvironments": [{ "heated": false } ],
+      "nodes": [
+        {
+          "id": 1,
+          "name": "Spazer Door (to Below Spazer)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x0019132",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Spazer Door (to Below Spazer)",
+              "length": 3,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "openEnd": 1
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Spazer",
+          "nodeType": "item",
+          "nodeSubType": "chozo",
+          "nodeItem": "Spazer",
+          "nodeAddress": "0x7896E"
+        }
+      ],
+      "enemies": [],
+      "links": [
+        {
+          "from": 1,
+          "to": [
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 2,
+          "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 74,
+      "name": "Hellway",
+      "area": "Brinstar",
+      "subarea": "Red",
+      "playable": true,
+      "roomAddress": "0x7A2F7",
+      "roomEnvironments": [{ "heated": false } ],
+      "nodes": [
+        {
+          "id": 1,
+          "name": "Hellway Left Door (to Red Tower)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x001907e",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Hellway Left Door (to Red Tower)",
+              "length": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "usableComingIn": false,
+              "openEnd": 1
+            }
+          ],
+          "canLeaveCharged": [
+            {
+              "framesRemaining": 70,
+              "usedTiles": 33,
+              "openEnd": 0,
+              "strats": [
+                {
+                  "name": "Samus Eater Left",
+                  "requires": [
+                    "canSamusEaterStandUp",
+                    { "samusEaterFrames": 160 }
+                  ],
+                  "notable": false
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Hellway Right Door (to Caterpillar Room)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x001908a",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Hellway Right Door (to Caterpillar Room)",
+              "length": 8,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "openEnd": 1
+            }
+          ],
+          "canLeaveCharged": [
+            {
+              "framesRemaining": 40,
+              "usedTiles": 33,
+              "openEnd": 0,
+              "strats": [
+                {
+                  "name": "Samus Eater Right",
+                  "requires": [
+                    "canSamusEaterStandUp",
+                    { "samusEaterFrames": 160 }
+                  ],
+                  "notable": false
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "enemies": [
+        {
+          "id": "e1",
+          "groupName": "Hellway Left Zebbo",
+          "enemyName": "Zebbo",
+          "quantity": 1,
+          "homeNodes": [ 1 ],
+          "farmCycles": [
+            {
+              "name": "Crouch two tiles above spawn point",
+              "cycleFrames": 130,
+              "requires": []
+            }
+          ]
+        },
+        {
+          "id": "e2",
+          "groupName": "Hellway Middle Zebbo",
+          "enemyName": "Zebbo",
+          "quantity": 1,
+          "homeNodes": [ 1 ],
+          "farmCycles": [
+            {
+              "name": "Crouch two tiles above spawn point",
+              "cycleFrames": 130,
+              "requires": []
+            }
+          ]
+        },
+        {
+          "id": "e3",
+          "groupName": "Hellway Right Zebbos",
+          "enemyName": "Zebbo",
+          "quantity": 2,
+          "homeNodes": [ 1 ],
+          "farmCycles": [
+            {
+              "name": "Turnaround two tiles above spawn",
+              "cycleFrames": 240,
+              "requires": [],
+              "note": "Involves tiny hops to get the drops as well"
+            },
+            {
+              "name": "Grapple turnaround two tiles above spawn",
+              "cycleFrames": 175,
+              "requires": ["Grapple"]
+            }
+          ]
+        },
+        {
+          "id": "e4",
+          "groupName": "Hellway Zeelas",
+          "enemyName": "Zeela",
+          "quantity": 4,
+          "homeNodes": [ 1 ]
+        }
+      ],
+      "links": [
+        {
+          "from": 1,
+          "to": [
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 2,
+          "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 75,
+      "name": "Caterpillar Room",
+      "area": "Brinstar",
+      "subarea": "Red",
+      "playable": true,
+      "roomAddress": "0x7A322",
+      "roomEnvironments": [{ "heated": false } ],
+      "nodes": [
+        {
+          "id": 1,
+          "name": "Caterpillar Room Top Left Door (to Beta Power Bombs)",
+          "nodeType": "door",
+          "nodeSubType": "green",
+          "nodeAddress": "0x00190a2",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Caterpillar Room Top Left Door (to Beta Power Bombs)",
+              "length": 4,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "openEnd": 1
+            }
+          ],
+          "canLeaveCharged": [
+            {
+              "framesRemaining": 0,
+              "openEnd": 1,
+              "usedTiles": 17,
+              "shinesparkFrames": 22,
+              "strats": [
+                {
+                  "name": "Gate Open",
+                  "notable": false,
+                  "requires": [
+                    "canShinechargeMovementComplex",
+                    "Morph",
+                    {"obstaclesCleared": ["A"]}
+                  ],
+                  "note": "Slow rolling or getting a fast mockball work equally well."
+                  
+                }
+              ]
+            }
+          ],
+          "locks": [
+            {
+              "name": "Caterpillar Room Top Left Green Lock (to Beta Power Bombs)",
+              "lockType": "coloredDoor",
+              "unlockStrats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "h_canOpenGreenDoors" ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Caterpillar Room Center Left Door (to Hellway)",
+          "nodeType": "door",
+          "nodeSubType": "yellow",
+          "nodeAddress": "0x00190ae",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Caterpillar Room Center Left Door (to Hellway)",
+              "length": 8,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [
+                    {"resetRoom":{
+                      "nodes": [1, 2, 4, 5, 6],
+                      "nodesToAvoid": [3]
+                    }}
+                  ],
+                  "note": [
+                    "Runway not usable if the shot blocks are broken.",
+                    "Those blocks are not an obstacle right now, but there's no need to destroy them except when travelling between nodes 2 and 3."
+                  ]
+                }
+              ],
+              "openEnd": 0
+            }
+          ],
+          "locks": [
+            {
+              "name": "Caterpillar Room Yellow Lock (to Hellway)",
+              "lockType": "coloredDoor",
+              "unlockStrats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "h_canOpenYellowDoors" ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "name": "Caterpillar Room Bottom Left Door (to Alpha Power Bombs)",
+          "nodeType": "door",
+          "nodeSubType": "green",
+          "nodeAddress": "0x0019096",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Caterpillar Room Bottom Left Door (to Alpha Power Bombs)",
+              "length": 3,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "openEnd": 0
+            }
+          ],
+          "locks": [
+            {
+              "name": "Caterpillar Room Bottom Left Green Lock (to Alpha Power Bombs)",
+              "lockType": "coloredDoor",
+              "unlockStrats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "h_canOpenGreenDoors" ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 4,
+          "name": "Caterpillar Room Bottom Right Door (to Save)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x00190d2",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Caterpillar Room Bottom Right Door (to Save)",
+              "length": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "usableComingIn": false,
+              "openEnd": 1
+            }
+          ]
+        },
+        {
+          "id": 5,
+          "name": "Caterpillar Room Top Right Door (to Red Fish Room)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x00190c6",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Caterpillar Room Top Right Door (to Red Fish Room)",
+              "length": 7,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "openEnd": 0
+            },
+            {
+              "name": "Runway with Gate Open - Caterpillar Room Top Right Door (to Red Fish Room)",
+              "length": 17,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [],
+                  "obstacles": [
+                    {
+                      "id": "A",
+                      "requires": [
+                        "Super",
+                        {"ammo": {
+                          "type": "Super",
+                          "count": 1
+                        }}
+                      ]
+                    }
+                  ],
+                  "note": "This longer runway is only available if the green gate is open."
+                }
+              ],
+              "usableComingIn": false,
+              "openEnd": 0
+            }
+          ]
+        },
+        {
+          "id": 6,
+          "name": "Red Brinstar Elevator to Crateria",
+          "nodeType": "door",
+          "nodeSubType": "elevator",
+          "nodeAddress": "0x00190ba"
+        }
+      ],
+      "obstacles": [
+        {
+          "id": "A",
+          "name": "Green Gate",
+          "obstacleType": "inanimate"
+        }
+      ],
+      "enemies": [
+        {
+          "id": "e1",
+          "groupName": "Caterpillar Room Cacatacs",
+          "enemyName": "Cacatac",
+          "quantity": 2,
+          "homeNodes": [ 4 ]
+        },
+        {
+          "id": "e2",
+          "groupName": "Caterpillar Room Zeros",
+          "enemyName": "Zero",
+          "quantity": 3,
+          "homeNodes": [ 3 ]
+        }
+      ],
+      "links": [
+        {
+          "from": 1,
+          "to": [
+            {
+              "id": 4,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            },
+            {
+              "id": 5,
+              "strats": [
+                {
+                  "name": "Backtrack",
+                  "notable": false,
+                  "requires": [
+                    "Morph",
+                    {"obstaclesCleared": ["A"]}
+                  ],
+                  "note": [
+                    "Only doable if entering the room from 5 and backtracking.",
+                    "Only worthwhile to go kill the Zeros for PBs and Cacatacs for Supers."
+                  ]
+                }
+              ]
+            },
+            {
+              "id": 6,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 2,
+          "to": [
+            {
+              "id": 3,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            },
+            {
+              "id": 4,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [
+                    {"or":[
+                      "HiJump",
+                      "canWalljump",
+                      "h_canFly"
+                    ]}
+                  ]
+                },
+                {
+                  "name": "Frozen Caterpillar",
+                  "notable": false,
+                  "requires": [
+                    "canUseFrozenEnemies"
+                  ],
+                  "note": "Let the Caterpillar out and freeze it as a platform."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 3,
+          "to": [
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 4,
+          "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [
+                    {"or":[
+                      "HiJump",
+                      "canWalljump",
+                      "h_canFly"
+                    ]}
+                  ]
+                },
+                {
+                  "name": "Frozen Caterpillar",
+                  "notable": false,
+                  "requires": [
+                    "canUseFrozenEnemies"
+                  ],
+                  "note": "Let the Caterpillar out and freeze it as a platform."
+                },
+                {
+                  "name": "Crouch Jump Down Grab",
+                  "notable": false,
+                  "requires": [
+                    "h_canCrouchJumpDownGrab"
+                  ]
+                }
+              ]
+            },
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 5,
+          "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": ["Morph"],
+                  "obstacles": [
+                    {
+                      "id": "A",
+                      "requires": [
+                        "Super",
+                        {"ammo": {
+                          "type": "Super",
+                          "count": 1
+                        }}
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 6,
+          "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 76,
+      "name": "Alpha Power Bomb Room",
+      "area": "Brinstar",
+      "subarea": "Red",
+      "playable": true,
+      "roomAddress": "0x7A3AE",
+      "roomEnvironments": [{ "heated": false } ],
+      "nodes": [
+        {
+          "id": 1,
+          "name": "Alpha Power Bombs Door (to Caterpillar Room)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x00190ea",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Alpha Power Bombs Door (to Caterpillar Room)",
+              "length": 3,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "openEnd": 1
+            }
+          ],
+          "canLeaveCharged": [
+            {
+              "framesRemaining": 100,
+              "usedTiles": 33,
+              "openEnd": 0,
+              "strats": [
+                {
+                  "name": "Samus Eater",
+                  "notable": false,
+                  "requires": [
+                    "canSamusEaterStandUp",
+                    { "samusEaterFrames": 160 }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Power Bomb (red Brinstar spike room)",
+          "nodeType": "item",
+          "nodeSubType": "chozo",
+          "nodeItem": "PowerBomb",
+          "nodeAddress": "0x7890E"
+        },
+        {
+          "id": 3,
+          "name": "Missile (red Brinstar spike room)",
+          "nodeType": "item",
+          "nodeSubType": "visible",
+          "nodeItem": "Missile",
+          "nodeAddress": "0x78914"
+        }
+      ],
+      "enemies": [
+        {
+          "id": "e1",
+          "groupName": "Alpha Power Bomb Room Boyons",
+          "enemyName": "Boyon",
+          "quantity": 4,
+          "homeNodes": [ 2 ]
+        }
+      ],
+      "links": [
+        {
+          "from": 1,
+          "to": [
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 2,
+          "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            },
+            {
+              "id": 3,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "h_canUsePowerBombs" ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 3,
+          "to": [
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 77,
+      "name": "Beta Power Bomb Room",
+      "area": "Brinstar",
+      "subarea": "Red",
+      "playable": true,
+      "roomAddress": "0x7A37C",
+      "roomEnvironments": [{ "heated": false } ],
+      "nodes": [
+        {
+          "id": 1,
+          "name": "Beta Power Bombs Door (to Caterpillar Room)",
+          "nodeType": "door",
+          "nodeSubType": "grey",
+          "nodeAddress": "0x00190de",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Beta Power Bombs Door (to Caterpillar Room)",
+              "length": 28,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [
+                    {"obstaclesCleared": ["A"]},
+                    {"resetRoom": {
+                      "nodes": [1],
+                      "obstaclesToAvoid": ["B"]
+                    }}
+                  ],
+                  "note": [
+                    "This runway requires the PB blocks to be intact, but the sidehoppers to be dead.",
+                    "This is relevant because it can limit the player's options for killing the Sidehoppers."
+                  ],
+                  "devNote": "Killing the Sidehoppers requires going to 3 and back."
+                }
+              ],
+              "openEnd": 0
+            }
+          ],
+          "locks": [
+            {
+              "name": "Beta Power Bomb Grey Lock (to Caterpillar Room)",
+              "lockType": "killEnemies",
+              "unlockStrats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ {"obstaclesCleared": ["A"]} ],
+                  "note": "Killing the Sidehoppers requires going to 3 and back."
+                }
+              ],
+              "yields": [ "f_ZebesAwake" ]
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Power Bomb (red Brinstar sidehopper room)",
+          "nodeType": "item",
+          "nodeSubType": "visible",
+          "nodeItem": "PowerBomb",
+          "nodeAddress": "0x788CA"
+        },
+        {
+          "id": 3,
+          "name": "Beta Power Bomb Top Left Junction",
+          "nodeType": "junction",
+          "nodeSubType": "junction"
+        }
+      ],
+      "obstacles": [
+        {
+          "id": "A",
+          "name": "Sidehoppers",
+          "obstacleType": "enemies"
+        },
+        {
+          "id": "B",
+          "name": "Power Bomb Blocks",
+          "obstacleType": "enemies"
+        }
+      ],
+      "enemies": [
+        {
+          "id": "e1",
+          "groupName": "Beta Power Bomb Room Sidehoppers",
+          "enemyName": "Sidehopper",
+          "quantity": 3,
+          "homeNodes": [ 1, 3 ]
+        },
+        {
+          "id": "e2",
+          "groupName": "Beta Power Bomb Room Yapping Maws",
+          "enemyName": "Yapping Maw",
+          "quantity": 2,
+          "homeNodes": [ 1 ],
+          "note": "Wait for the Maws to reach up before killing them and the drops are reachable"
+        }
+      ],
+      "links": [
+        {
+          "from": 1,
+          "to": [
+            {
+              "id": 3,
+              "strats": [
+                {
+                  "name": "Power Beam Sidehopper Kill",
+                  "notable": false,
+                  "requires": [],
+                  "obstacles": [
+                    {
+                      "id": "A",
+                      "requires": [
+                        {"enemyDamage": {
+                          "enemy": "Sidehopper",
+                          "type": "contact",
+                          "hits": 4
+                        }}
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "Intermediate Weapon Sidehopper Kill",
+                  "notable": false,
+                  "requires": [],
+                  "obstacles": [
+                    {
+                      "id": "A",
+                      "requires": [
+                        {"enemyDamage": {
+                          "enemy": "Sidehopper",
+                          "type": "contact",
+                          "hits": 2
+                        }},
+                        {"or":[
+                          "Spazer",
+                          "Wave"
+                        ]}
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "Sidehopper Missile Kill",
+                  "notable": false,
+                  "requires": [],
+                  "obstacles": [
+                    {
+                      "id": "A",
+                      "requires": [
+                        {"enemyDamage": {
+                          "enemy": "Sidehopper",
+                          "type": "contact",
+                          "hits": 1
+                        }},
+                        {"enemyKill":{
+                          "enemies": [
+                            [ "Sidehopper", "Sidehopper", "Sidehopper"]
+                          ],
+                          "explicitWeapons": [
+                            "Missile"
+                          ]
+                        }}
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "Morph Power Beam Sidehopper Kill",
+                  "notable": false,
+                  "requires": [],
+                  "obstacles": [
+                    {
+                      "id": "A",
+                      "requires": ["Morph"]
+                    }
+                  ],
+                  "note": "The Sidehoppers can't hit a morphed Samus, so they can be picked off damage-free."
+                },
+                {
+                  "name": "PB Sidehopper Kill",
+                  "notable": false,
+                  "requires": [],
+                  "obstacles": [
+                    {
+                      "id": "A",
+                      "requires": [
+                        {"enemyKill":{
+                          "enemies": [
+                            [ "Sidehopper", "Sidehopper", "Sidehopper"]
+                          ],
+                          "explicitWeapons": [
+                            "PowerBomb"
+                          ]
+                        }}
+                      ],
+                      "additionalObstacles": ["B"]
+                    }
+                  ],
+                  "devNote": [
+                    "This is essentially redundant with the Morph Power Beam kill.",
+                    "It wouldn't be redundant if Power Beam were to be taken away, though."
+                  ]
+                },
+                {
+                  "name": "Safe Weapon Sidehopper Kill",
+                  "notable": false,
+                  "requires": [],
+                  "obstacles": [
+                    {
+                      "id": "A",
+                      "requires": [
+                        {"enemyKill":{
+                          "enemies": [
+                            [ "Sidehopper", "Sidehopper", "Sidehopper"]
+                          ],
+                          "explicitWeapons": [
+                            "Super",
+                            "ScrewAttack",
+                            "Plasma"
+                          ]
+                        }}
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 2,
+          "to": [
+            {
+              "id": 3,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [],
+                  "obstacles": [
+                    {
+                      "id": "B",
+                      "requires": ["h_canUsePowerBombs"]
+                    }
+                  ],
+                  "devNote": "The obstacle should already be broken, as it's required to get here."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 3,
+          "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            },
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [],
+                  "obstacles": [
+                    {
+                      "id": "B",
+                      "requires": ["h_canUsePowerBombs"]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 319,
+      "name": "Sloaters Refill",
+      "area": "Brinstar",
+      "subarea": "Red",
+      "playable": true,
+      "roomAddress": "0x7A618",
+      "roomEnvironments": [{ "heated": false } ],
+      "nodes": [
+        {
+          "id": 1,
+          "name": "Sloaters Refill Door (to Red Tower)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x00191fe",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Sloaters Refill Door (to Red Tower)",
+              "length": 3,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "openEnd": 1
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Sloaters Energy Refill",
+          "utility": [ "energy" ],
+          "nodeType": "utility",
+          "nodeSubType": "energy"
+        }
+      ],
+      "enemies": [],
+      "links": [
+        {
+          "from": 1,
+          "to": [
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 2,
+          "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 320,
+      "name": "Caterpillar Save Room",
+      "area": "Brinstar",
+      "subarea": "Red",
+      "playable": true,
+      "roomAddress": "0x7A734",
+      "roomEnvironments": [{ "heated": false } ],
+      "nodes": [
+        {
+          "id": 1,
+          "name": "Caterpillar Save Door (to Caterpillar Room)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x001926a",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Caterpillar Save Door (to Caterpillar Room)",
+              "length": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "usableComingIn": false,
+              "openEnd": 1
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Red Caterpillar Save Station",
+          "utility": [ "save" ],
+          "nodeType": "utility",
+          "nodeSubType": "save"
+        }
+      ],
+      "enemies": [],
+      "links": [
+        {
+          "from": 1,
+          "to": [
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 2,
+          "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

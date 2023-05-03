@@ -1,0 +1,313 @@
+{
+  "$schema": "./schema/m3-helpers.schema.json",
+  "helpers": [
+    {
+      "name": "h_canShoot",
+      "requires": [ "PowerBeam" ]
+    },
+    {
+      "name": "h_canBombThings",
+      "requires": [
+        {"or": [
+          "Bombs",
+          {"and": [
+            "PowerBomb",
+            {"ammo": {
+              "type": "PowerBomb",
+              "count": 1
+            }}
+          ]}
+        ]},
+        "Morph"
+      ]
+    },
+    {
+      "name": "h_heatProof",
+      "requires": [ 
+        {"or": [
+          "Varia",
+          "Gravity"
+        ]}
+      ],
+      "devNote": "This is set to how the original game works but most randomizers would want to remove Gravity"
+    },
+    {
+      "name": "h_heatResistant",
+      "requires": [ 
+        {"or": [
+          "Varia",
+          "Gravity"
+        ]}
+      ],
+      "devNote": [
+        "Partial to full heat reduction.",
+        "If a randomizer wants to reduce the heat resistance of Gravity to less than 50%, they will need to double check everywhere this is used."
+      ]
+    },
+    {
+      "name": "h_canNavigateHeatRooms",
+      "requires": [
+        {"or":[
+          "h_heatProof",
+          "canHeatRun"
+        ]}
+      ]
+    },
+    {
+      "name": "h_canNavigateUnderwater",
+      "requires": [
+        {"or":[
+          "Gravity",
+          "canSuitlessMaridia"
+        ]}
+      ]
+    },
+    {
+      "name": "h_canDestroyBombWalls",
+      "requires": [
+        {"or": [
+          "h_canBombThings",
+          "ScrewAttack"
+        ]}
+      ]
+    },
+    {
+      "name": "h_canFly",
+      "requires": [
+        {"or": [
+          "canIBJ",
+          "SpaceJump"
+        ]}
+      ]
+    },
+    {
+      "name": "h_canOpenGreenDoors",
+      "requires": [ 
+        "Super",
+        {"ammo": {
+          "type": "Super",
+          "count": 1
+        }}
+      ]
+    },
+    {
+      "name": "h_canOpenRedDoors",
+      "requires": [
+        {"or": [
+          {"and": [
+            "Missile",
+            {"ammo": {
+              "type": "Missile",
+              "count": 5
+            }}
+          ]},
+          {"and": [
+            "Super",
+            {"ammo": {
+              "type": "Super",
+              "count": 1
+            }}
+          ]}
+        ]}
+      ]
+    },
+    {
+      "name": "h_canUsePowerBombs",
+      "requires": [
+        "Morph",
+        "PowerBomb",
+        {"ammo": {
+          "type": "PowerBomb",
+          "count": 1
+        }}
+      ]
+    },
+    {
+      "name": "h_canOpenYellowDoors",
+      "requires": [ "h_canUsePowerBombs" ]
+    },
+    {
+      "name": "h_canOpenEyeDoors",
+      "requires": [
+        {"or": [
+          {"and": [
+            "Missile",
+            {"ammo": {
+              "type": "Missile",
+              "count": 3
+            }}     
+          ]},
+          {"and": [
+            "Super",
+            {"ammo": {
+              "type": "Super",
+              "count": 1
+            }}
+          ]}
+        ]}
+      ]
+    },
+    {
+      "name": "h_canOpenZebetites",
+      "requires": [
+        {"or": [
+          {"and": [
+            "Missile",
+            {"ammo": {
+              "type": "Missile",
+              "count": 12
+            }}
+          ]},
+          {"and": [
+            "Super",
+            {"ammo": {
+              "type": "Super",
+              "count": 4
+            }}
+          ]}
+        ]}
+      ]
+    },
+    {
+      "name": "h_canBreakOneDraygonTurret",
+      "requires" : [
+        {"or":[
+          {"and": [
+            "Missile",
+            {"ammo": {
+              "type": "Missile",
+              "count": 3
+            }}
+          ]},
+          {"and": [
+            "Super",
+            {"ammo": {
+              "type": "Super",
+              "count": 1
+            }}
+          ]}
+        ]}
+      ]
+    },
+    {
+      "name": "h_canBreakThreeDraygonTurrets",
+      "requires" : [
+        {"or":[
+          {"and": [
+            "Missile",
+            {"ammo": {
+              "type": "Missile",
+              "count": 9
+            }}
+          ]},
+          {"and": [
+            "Super",
+            {"ammo": {
+              "type": "Super",
+              "count": 3
+            }}
+          ]}
+        ]}
+      ]
+    },
+    {
+      "name": "h_canUseMorphBombs",
+      "requires": [
+        "Morph",
+        "Bombs"
+      ]
+    },
+    {
+      "name": "h_canUseSpringBall",
+      "requires": [
+        "SpringBall",
+        "Morph"
+      ]
+    },
+    {
+      "name": "h_hasBeamUpgrade",
+      "requires": [
+        {"or": [
+          "Charge",
+          "Ice",
+          "Wave",
+          "Spazer",
+          "Plasma"
+        ]},
+        "h_canShoot"
+      ]
+    },
+    {
+      "name": "h_canGreenGateGlitch",
+      "requires": [
+        "canGateGlitch",
+        "Super",
+        {"ammo": {
+          "type": "Super",
+          "count": 1
+        }}
+      ]
+    },
+    {
+      "name": "h_canBlueGateGlitch",
+      "requires": [
+        "canGateGlitch",
+        {"or": [
+          {"and": [
+            "Missile",
+            {"ammo": {
+              "type": "Missile",
+              "count": 1
+            }}
+          ]},
+          {"and": [
+            "Super",
+            {"ammo": {
+              "type": "Super",
+              "count": 1
+            }}
+          ]}
+        ]}
+      ]
+    },
+    {
+      "name": "h_canHeatedBlueGateGlitch",
+      "requires": [ 
+        "h_canNavigateHeatRooms",
+        {"heatFrames": 60},
+        "h_canBlueGateGlitch"
+      ]
+    },
+    {
+      "name": "h_canHeatedGreenGateGlitch",
+      "requires": [ 
+        "h_canNavigateHeatRooms",
+        {"heatFrames": 60},
+        "h_canGreenGateGlitch"
+      ]
+    },
+    {
+      "name": "h_canCrouchJumpDownGrab",
+      "requires": [ 
+        "canCrouchJump",
+        "canDownGrab"
+      ]
+    },
+    {
+      "name": "h_canPlasmaHitbox",
+      "requires": [
+        "Plasma",
+        "canHitbox"
+      ]
+    },
+    {
+      "name": "h_canTwoTileJumpMorph",
+      "requires": [
+        {"or": [
+          "can2HighWallMidAirMorph",
+          "canRJump"
+        ]}
+      ]
+    }
+  ]
+}

@@ -18,6 +18,7 @@ logger = logging.getLogger("Super Metroid")
 from .Options import smmr_options
 from .Rom import get_base_rom_path, SM_ROM_MAX_PLAYERID, SM_ROM_PLAYERDATA_COUNT, SMMapRandoDeltaPatch
 
+import MapRandomizer
 
 class SMMapRandoWeb(WebWorld):
     tutorials = [Tutorial(
@@ -52,6 +53,8 @@ class SMMapRandoWorld(World):
     def __init__(self, world: MultiWorld, player: int):
         self.rom_name_available_event = threading.Event()
         self.locations = {}
+        gameData = MapRandomizer.create_gamedata()
+        
         super().__init__(world, player)
 
     @classmethod

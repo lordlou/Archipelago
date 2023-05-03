@@ -1,0 +1,1594 @@
+{
+  "$schema": "../../schema/m3-region.schema.json",
+  "rooms": [
+    {
+      "id": 38,
+      "name": "Morph Ball Room",
+      "area": "Brinstar",
+      "subarea": "Blue",
+      "playable": true,
+      "roomAddress": "0x79E9F",
+      "roomEnvironments": [{ "heated": false } ],
+      "nodes": [
+        {
+          "id": 1,
+          "name": "Morph Ball Room Left Door (to Green Hill Zone)",
+          "nodeType": "door",
+          "nodeSubType": "grey",
+          "nodeAddress": "0x0018e9e",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Morph Ball Room Left Door (to Green Hill Zone)",
+              "length": 3,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "openEnd": 1
+            }
+          ],
+          "canLeaveCharged": [
+            {
+              "usedTiles": 25,
+              "framesRemaining": 80,
+              "openEnd": 0,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ 
+                    {"obstaclesCleared": ["C"]},
+                    "canShinechargeMovement"
+                  ],
+                  "devNote": "Destroy obstacle C by travelling between nodes 1 and 6."
+                }
+              ]
+            }
+          ],
+          "locks": [
+            {
+              "name": "Morph Ball Room Grey Lock (to Green Hill Zone)",
+              "lockType": "killEnemies",
+              "lock": [ "f_ZebesAwake" ],
+              "unlockStrats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ {"obstaclesCleared": ["C"]} ],
+                  "devNote": "Obstacle can be destroyed either going 1 -> 6 or 6 -> 1."
+                }
+              ],
+              "devNote":  "Technically this yields f_ZebesAwake, although it requires the same flag to spawn the enemies, so it's not possible here."
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Blue Brinstar Elevator to Crateria",
+          "nodeType": "door",
+          "nodeSubType": "elevator",
+          "nodeAddress": "0x0018eb6"
+        },
+        {
+          "id": 3,
+          "name": "Morph Ball Room Right Door (to Construction Zone)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x0018eaa",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Morph Ball Room Right Door (to Construction Zone)",
+              "length": 4,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "openEnd": 1
+            }
+          ],
+          "canLeaveCharged": [
+            {
+              "usedTiles": 30,
+              "framesRemaining": 100,
+              "openEnd": 0,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "canShinechargeMovement" ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 4,
+          "name": "Morphing Ball",
+          "nodeType": "item",
+          "nodeSubType": "visible",
+          "nodeItem": "Morph",
+          "nodeAddress": "0x786DE"
+        },
+        {
+          "id": 5,
+          "name": "Power Bomb (blue Brinstar)",
+          "nodeType": "item",
+          "nodeSubType": "visible",
+          "nodeItem": "PowerBomb",
+          "nodeAddress": "0x7874C",
+          "locks": [
+            {
+              "name": "Blue Brinstar Power Bombs Spawn Lock",
+              "lockType": "gameFlag",
+              "unlockStrats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": ["f_ZebesAwake"]
+                }
+              ],
+              "note": "Item doesn't appear before Zebes is awakened."
+            }
+          ]
+        },
+        {
+          "id": 6,
+          "name": "Morph Ball Room Junction (Right of Sidehoppers)",
+          "nodeType": "junction",
+          "nodeSubType": "junction"
+        }
+      ],
+      "obstacles": [
+        {
+          "id": "A",
+          "name": "Bomb Blocks",
+          "obstacleType": "inanimate"
+        },
+        {
+          "id": "B",
+          "name": "Power Bomb Blocks",
+          "obstacleType": "inanimate"
+        },
+        {
+          "id": "C",
+          "name": "Sidehopper trio",
+          "obstacleType": "enemies"
+        }
+      ],
+      "enemies": [
+        {
+          "id": "e1",
+          "groupName": "Morph Ball Room Sidehoppers",
+          "enemyName": "Sidehopper",
+          "quantity": 3,
+          "homeNodes": [ 1, 6 ],
+          "spawn": [ "f_ZebesAwake" ]
+        }
+      ],
+      "links": [
+        {
+          "from": 1,
+          "to": [
+            {
+              "id": 6,
+              "strats": [
+                {
+                  "name": "Run Through",
+                  "notable": false,
+                  "requires": [
+                    {"enemyDamage": {
+                      "enemy": "Sidehopper",
+                      "type": "contact",
+                      "hits": 1
+                    }}
+                  ]
+                },
+                {
+                  "name": "Power Beam Sidehopper Kill",
+                  "notable": false,
+                  "requires": [],
+                  "obstacles": [
+                    {
+                      "id": "C",
+                      "requires": [
+                        {"enemyDamage": {
+                          "enemy": "Sidehopper",
+                          "type": "contact",
+                          "hits": 6
+                        }}
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "Quick Sidehopper Kill",
+                  "notable": false,
+                  "requires": [],
+                  "obstacles": [
+                    {
+                      "id": "C",
+                      "requires": [
+                        {"enemyDamage": {
+                          "enemy": "Sidehopper",
+                          "type": "contact",
+                          "hits": 1
+                        }},
+                        {"or":[
+                          {"enemyKill":{
+                            "enemies": [
+                              ["Sidehopper", "Sidehopper"],
+                              ["Sidehopper"]
+                            ],
+                            "explicitWeapons": [
+                              "Missile",
+                              "Super",
+                              "PowerBomb",
+                              "ScrewAttack",
+                              "Plasma"
+                            ]
+                          }}
+                        ]}
+                      ]
+                    }
+                  ],
+                  "note": [
+                    "For the PB (and screw) kill, this strat assumes you don't know you're entering the room beforehand.",
+                    "If you know, it's possible to PB kill the first two Sidehoppers damage-free by morphing before entering.",
+                    "For Screw, just entering with a spinjump would work."
+                  ]
+                },
+                {
+                  "name": "Kill on Entry",
+                  "notable": false,
+                  "requires": [ "canPrepareForNextRoom" ],
+                  "obstacles": [
+                    {
+                      "id": "C",
+                      "requires": [
+                        {"or":[
+                          {"and": [
+                            "Plasma",
+                            "Charge"
+                          ]},
+                          "ScrewAttack",
+                          {"and": [
+                            "h_canUsePowerBombs",
+                            {"enemyKill":{
+                              "enemies": [
+                                ["Sidehopper"]
+                              ],
+                              "explicitWeapons": [
+                                "Missile",
+                                "Super",
+                                "PowerBomb"
+                              ]
+                            }}
+                          ]},
+                          {"canComeInCharged": {
+                            "fromNode": 1,
+                            "framesRemaining": 0,
+                            "shinesparkFrames": 40,
+                            "excessShinesparkFrames": 9
+                           }}
+                        ]}
+                      ]
+                    }
+                  ],
+                  "note": [
+                    "Enter the room ready to kill the hoppers before they can hit Samus.",
+                    "with a charge plasma shot ready, or in a shinespark, screw attack spin jump, or a morph, ready to lay a power bomb."
+                  ]
+                },
+                {
+                  "name": "PB Sidehopper Kill with Bomb Blocks",
+                  "notable": false,
+                  "requires": [],
+                  "obstacles": [
+                    {
+                      "id": "C",
+                      "requires": [
+                        {"enemyDamage": {
+                          "enemy": "Sidehopper",
+                          "type": "contact",
+                          "hits": 1
+                        }},
+                        {"or":[
+                          "canMockball",
+                          {"enemyDamage": {
+                            "enemy": "Sidehopper",
+                            "type": "contact",
+                            "hits": 1
+                          }}
+                        ]},
+                        {"enemyKill":{
+                          "enemies": [
+                            ["Sidehopper", "Sidehopper"],
+                            ["Sidehopper"]
+                          ],
+                          "explicitWeapons": [
+                            "PowerBomb"
+                          ]
+                        }}
+                      ],
+                      "additionalObstacles": ["A"]
+                    }
+                  ],
+                  "note": [
+                    "This strat assumes you don't know you're entering the room beforehand. Otherwise, it's possible to kill the first two Sidehoppers without taking damage.",
+                    "It's possible to take out obstacle A alongside the third Sidehopper, but there's a risk of taking an additional hit (negated by mockball)."
+                  ]
+                },
+                {
+                  "name": "Medium Sidehopper Kill",
+                  "notable": false,
+                  "requires": [],
+                  "obstacles": [
+                    {
+                      "id": "C",
+                      "requires": [
+                        {"enemyDamage": {
+                          "enemy": "Sidehopper",
+                          "type": "contact",
+                          "hits": 3
+                        }},
+                        {"or":[
+                          "Spazer",
+                          "Wave"
+                        ]}
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "note": "Requires either tanking one hit, or killing the Sidehoppers"
+            }
+          ]
+        },
+        {
+          "from": 2,
+          "to": [
+            {
+              "id": 3,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            },
+            {
+              "id": 4,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 3,
+          "to": [
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 4,
+          "to": [
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [
+                    {"or": [
+                      "canWalljump",
+                      "Morph",
+                      "SpaceJump",
+                      "HiJump"
+                    ]}
+                  ]
+                },
+                {
+                  "name": "Careful Jump",
+                  "notable": false,
+                  "requires": [
+                    "canCarefulJump"
+                  ]
+                },
+                {
+                  "name": "Crouch Jump Down Grab",
+                  "notable": false,
+                  "requires": [
+                    "h_canCrouchJumpDownGrab"
+                  ]
+                }
+              ]
+            },
+            {
+              "id": 5,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [],
+                  "obstacles": [
+                    {
+                      "id": "B",
+                      "requires": [ "h_canUsePowerBombs" ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 5,
+          "to": [
+            {
+              "id": 4,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [],
+                  "obstacles": [
+                    {
+                      "id": "B",
+                      "requires": [ "h_canUsePowerBombs" ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": 6,
+              "strats": [
+                {
+                  "name": "Bomb the Blocks",
+                  "notable": false,
+                  "requires": ["Morph"],
+                  "obstacles": [
+                    {
+                      "id": "A",
+                      "requires": [ "h_canBombThings" ]
+                    }
+                  ]
+                },
+                {
+                  "name": "Morph Ball Room Speedball (Right to Left)",
+                  "notable": false,
+                  "requires": [ "Morph" ],
+                  "obstacles": [
+                    {
+                      "id": "B",
+                      "requires": [ "h_canUsePowerBombs" ]
+                    },
+                    {
+                      "id": "A",
+                      "requires": [
+                        {"canShineCharge": {
+                          "usedTiles": 21,
+                          "shinesparkFrames": 0,
+                          "openEnd": 1
+                        }},
+                        "canMockball"
+                      ]
+                    }
+                  ],
+                  "note": [
+                    "It's a short charge into a speedball to break the bomb blocks.",
+                    "Obstacle B needs to be destroyed to have enough running room."
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 6,
+          "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Laugh at Dead Sidehoppers",
+                  "notable": false,
+                  "requires": [],
+                  "obstacles": [
+                    {
+                      "id": "C",
+                      "requires": ["never"]
+                    }
+                  ],
+                  "devNote": "This strat is there to override all other strats' requirement if the Sidehoppers are already dead."
+                },
+                {
+                  "name": "Tank the damage",
+                  "notable": false,
+                  "requires": [
+                    {"enemyDamage": {
+                      "enemy": "Sidehopper",
+                      "type": "contact",
+                      "hits": 1
+                    }}
+                  ]
+                },
+                {
+                  "name": "Safe Sidehopper Power Beam Kill",
+                  "notable": false,
+                  "requires": [
+                    "Morph",
+                    {"obstaclesCleared": ["A"]}
+                  ],
+                  "obstacles": [
+                    {
+                      "id": "C",
+                      "requires": []
+                    }
+                  ],
+                  "note": "If the bomb blocks are broken, the SideHoppers can be killed safely from behind with Power Beam.",
+                  "devNote": "Obstacle can be broken by going to 5 and back."
+                }
+              ]
+            },
+            {
+              "id": 5,
+              "strats": [
+                {
+                  "name": "Bomb the Blocks",
+                  "notable": false,
+                  "requires": ["Morph"],
+                  "obstacles": [
+                    {
+                      "id": "A",
+                      "requires": [ "h_canBombThings" ]
+                    }
+                  ]
+                },
+                {
+                  "name": "Morph Ball Room Speedball (Left to Right)",
+                  "notable": false,
+                  "requires": [
+                    "Morph",
+                    {"obstaclesCleared": ["C"]}
+                  ],
+                  "obstacles": [
+                    {
+                      "id": "A",
+                      "requires": [
+                        {"canShineCharge": {
+                          "usedTiles": 18,
+                          "shinesparkFrames": 0,
+                          "openEnd": 0
+                        }},
+                        "canMockball"
+                      ]
+                    }
+                  ],
+                  "note": [
+                    "It's a short charge into a speedball to break the bomb blocks.",
+                    "The Sidehoppers need to be destroyed beforehand to clear the running space."
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 39,
+      "name": "Construction Zone",
+      "area": "Brinstar",
+      "subarea": "Blue",
+      "playable": true,
+      "roomAddress": "0x79F11",
+      "roomEnvironments": [{ "heated": false } ],
+      "nodes": [
+        {
+          "id": 1,
+          "name": "Construction Zone Top Left Door (to Morph Ball)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x0018ec2",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Construction Zone Top Left Door (to Morph Ball)",
+              "length": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "usableComingIn": false,
+              "openEnd": 0
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Construction Zone Right Door (to Ceiling E-Tank)",
+          "nodeType": "door",
+          "nodeSubType": "red",
+          "nodeAddress": "0x0018ece",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Construction Zone Right Door (to Ceiling E-Tank)",
+              "length": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "usableComingIn": false,
+              "openEnd": 0
+            }
+          ],
+          "locks": [
+            {
+              "name": "Construction Zone Red Lock (to Ceiling E-Tank)",
+              "lockType": "coloredDoor",
+              "unlockStrats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": ["h_canOpenRedDoors"]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "name": "Construction Zone Bottom Left Door (to Alpha Missiles)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x0018eda",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Construction Zone Bottom Left Door (to Alpha Missiles)",
+              "length": 3,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "openEnd": 0
+            }
+          ]
+        },
+        {
+          "id": 4,
+          "name": "Construction Zone Top Junction",
+          "nodeType": "junction",
+          "nodeSubType": "junction"
+        }
+      ],
+      "enemies": [
+        {
+          "id": "e1",
+          "groupName": "Construction Zone Geemers",
+          "enemyName": "Geemer (blue)",
+          "quantity": 2,
+          "homeNodes": [ 4 ],
+          "spawn": [ "f_ZebesAwake" ]
+        }
+      ],
+      "links": [
+        {
+          "from": 1,
+          "to": [
+            {
+              "id": 4,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 2,
+          "to": [
+            {
+              "id": 4,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 3,
+          "to": [
+            {
+              "id": 4,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": ["Morph"]
+                },
+                {
+                  "name": "Construction Room X-Ray Climb",
+                  "notable": false,
+                  "requires": [
+                    "canRightFacingDoorXRayClimb",
+                    { "resetRoom": {
+                      "nodes": [3],
+                      "mustStayPut": true
+                    }},
+                    {"adjacentRunway": {
+                      "fromNode": 3,
+                      "usedTiles": 0.5,
+                      "overrideRunwayRequirements": true,
+                      "useFrames": 200
+                    }}
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 4,
+          "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            },
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            },
+            {
+              "id": 3,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "Morph" ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 40,
+      "name": "First Missile Room",
+      "area": "Brinstar",
+      "subarea": "Blue",
+      "playable": true,
+      "roomAddress": "0x7A107",
+      "roomEnvironments": [{ "heated": false } ],
+      "nodes": [
+        {
+          "id": 1,
+          "name": "First Missiles Room Door (to Construction Zone)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x0018fa6",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - First Missiles Room Door (to Construction Zone)",
+              "length": 9,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "openEnd": 0
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Missile (blue Brinstar bottom)",
+          "nodeType": "item",
+          "nodeSubType": "chozo",
+          "nodeItem": "Missile",
+          "nodeAddress": "0x78802"
+        }
+      ],
+      "enemies": [],
+      "links": [
+        {
+          "from": 1,
+          "to": [
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 2,
+          "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 41,
+      "name": "Blue Brinstar Energy Tank Room",
+      "area": "Brinstar",
+      "subarea": "Blue",
+      "playable": true,
+      "roomAddress": "0x79F64",
+      "roomEnvironments": [{ "heated": false } ],
+      "nodes": [
+        {
+          "id": 1,
+          "name": "Ceiling E-Tank Bottom Left Door (to Construction Zone)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x0018ee6",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Ceiling E-Tank Bottom Left Door (to Construction Zone)",
+              "length": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "usableComingIn": false,
+              "openEnd": 1
+            }
+          ],
+          "canLeaveCharged": [
+            {
+              "usedTiles": 31,
+              "framesRemaining": 120,
+              "openEnd": 0,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "canShinechargeMovement" ]
+                }
+              ]
+            },
+            {
+              "usedTiles": 33,
+              "framesRemaining": 120,
+              "openEnd": 0,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [
+                    "h_canUsePowerBombs",
+                    "canShinechargeMovement"
+                  ]
+                }
+              ]
+            }
+          ],
+          "viewableNodes": [
+            {
+              "id": 3,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Ceiling E-Tank Top Left Door (to Boulder Room)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x0018ef2",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Ceiling E-Tank Top Left Door (to Boulder Room)",
+              "length": 4,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "openEnd": 0
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "name": "Energy Tank, Brinstar Ceiling",
+          "nodeType": "item",
+          "nodeSubType": "hidden",
+          "nodeItem": "ETank",
+          "nodeAddress": "0x7879E"
+        },
+        {
+          "id": 4,
+          "name": "Missile (blue Brinstar middle)",
+          "nodeType": "item",
+          "nodeSubType": "visible",
+          "nodeItem": "Missile",
+          "nodeAddress": "0x78798"
+        }
+      ],
+      "obstacles": [
+        {
+          "id": "A",
+          "name": "Top Bomb Block",
+          "obstacleType": "inanimate"
+        },
+        {
+          "id": "B",
+          "name": "Crumble Block",
+          "obstacleType": "inanimate"
+        }
+      ],
+      "enemies": [
+        {
+          "id": "e1",
+          "groupName": "Ceiling E-Tank Geemers",
+          "enemyName": "Geemer (blue)",
+          "quantity": 2,
+          "homeNodes": [ 1 ],
+          "spawn": [ "f_ZebesAwake" ]
+        },
+        {
+          "id": "e2",
+          "groupName": "Ceiling E-Tank Skrees",
+          "enemyName": "Skree",
+          "quantity": 2,
+          "homeNodes": [ 1 ],
+          "spawn": [ "f_ZebesAwake" ]
+        },
+        {
+          "id": "e3",
+          "groupName": "Ceiling E-Tank Reo",
+          "enemyName": "Reo",
+          "quantity": 1,
+          "homeNodes": [ 1 ],
+          "spawn": [ "f_ZebesAwake" ]
+        }
+      ],
+      "links": [
+        {
+          "from": 1,
+          "to": [
+            {
+              "id": 3,
+              "strats": [
+                {
+                  "name":"Base",
+                  "notable": false,
+                  "requires": [
+                    {"or":[
+                      "HiJump",
+                      "SpaceJump",
+                      "canSpringBallJumpMidAir"
+                    ]}
+                  ]
+                },
+                {
+                  "name": "Use Frozen Enemy",
+                  "notable": false,
+                  "requires": [
+                    "f_ZebesAwake",
+                    "canUseFrozenEnemies"
+                  ]
+                },
+                {
+                  "name": "Ceiling E-Tank IBJ",
+                  "notable": false,
+                  "requires": ["canBombAboveIBJ"],
+                  "devNote": "Would've been notable due to breaking the shot block while maintaining ibj, but there's a tech for that."
+                },
+                {
+                  "name": "Ceiling E-Tank Jump Into IBJ",
+                  "notable": false,
+                  "requires": [
+                    "canJumpIntoIBJ",
+                    "canDoubleBombJump"
+                  ],
+                  "note": "An alternate strat to canBombAboveIBJ. Shoot the block, jump into an IBJ, then do a quick double bomb jump to make it in time."
+                },
+                {
+                  "name": "Ceiling E-Tank Dboost",
+                  "notable": false,
+                  "requires": [
+                    "f_ZebesAwake",
+                    "canDamageBoost",
+                    {"enemyDamage": {
+                      "enemy": "Reo",
+                      "hits": 1,
+                      "type": "contact"
+                    }}
+                  ]
+                },
+                {
+                  "name": "Ceiling E-Tank Speed Jump",
+                  "notable": false,
+                  "requires": ["SpeedBooster"],
+                  "note": "Does not require a shinespark. You can shoot the block, then just run and jump."
+                },
+                {
+                  "name": "Ceiling E-Tank PB Boost",
+                  "notable": false,
+                  "requires": ["canUnmorphBombBoost"]
+                },
+                {
+                  "name":"Taco Tank in Blue Brinstar Energy Tank Room",
+                  "notable": true,
+                  "requires": [
+                    "canCWJ",
+                    "canInsaneWalljump",
+                    "canStationarySpinJump"
+                  ],
+                  "note": "Triple frame perfect dashing stationary spinjump into delayed CWJ and precise hitbox manipulation."
+                }
+              ]
+            },
+            {
+              "id": 4,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "Morph" ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 2,
+          "to": [
+            {
+              "id": 4,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "Morph" ],
+                  "obstacles": [
+                    {
+                      "id": "A",
+                      "requires": [ "h_canDestroyBombWalls" ]
+                    },
+                    {
+                      "id": "B",
+                      "requires": []
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 3,
+          "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 4,
+          "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "Morph" ]
+                }
+              ]
+            },
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Go Back Up",
+                  "notable": false,
+                  "requires": [
+                    "Morph",
+                    {"or": [
+                      "canConsecutiveWalljump",
+                      "h_canFly"
+                    ]},
+                    {"obstaclesCleared": ["A", "B"]}
+                  ], 
+                  "note": "The Crumble Block does not respawn, so it's possible to go back up without breaking the PB blocks."
+                },
+                {
+                  "name": "Break the PB Blocks",
+                  "notable": false,
+                  "requires": [
+                    "h_canUsePowerBombs",
+                    {"or": [
+                      "canConsecutiveWalljump",
+                      "h_canFly"
+                    ]}
+                  ],
+                  "obstacles": [
+                    {
+                      "id": "A",
+                      "requires": [ "h_canDestroyBombWalls" ]
+                    }
+                  ],
+                  "note": "Base strat when entering the room from below."
+                },
+                {
+                  "name": "Shinespark",
+                  "notable": false,
+                  "requires": [
+                    "h_canUsePowerBombs",
+                    {"canShineCharge": {
+                      "usedTiles": 33,
+                      "shinesparkFrames": 43,
+                      "openEnd": 2
+                    }}
+                  ],
+                  "obstacles": [
+                    {
+                      "id": "A",
+                      "requires": []
+                    }
+                  ],
+                  "devNote": "The runway here is 31 tiles before breaking the PB blocks, but becomes longer after"
+                },
+                {
+                  "name": "Walljump Up Shaft and Shinespark",
+                  "notable": false,
+                  "requires": [
+                    "h_canUsePowerBombs",
+                    "canShinechargeMovementComplex",
+                    "canConsecutiveWalljump",
+                    {"canShineCharge": {
+                      "usedTiles": 33,
+                      "shinesparkFrames": 17,
+                      "openEnd": 2
+                    }}
+                  ],
+                  "obstacles": [
+                    {
+                      "id": "A",
+                      "requires": []
+                    }
+                  ],
+                  "note": [
+                    "Breaking the power bomb blocks exactly wide enough makes it easier to quickly enter the one-tile gap.",
+                    "Aligning the power bomb with the left side of the ceiling fixture that sticks down will position the explosion correctly for this."
+                  ],
+                  "devNote": "The runway here is 31 tiles before breaking the PB blocks, but becomes longer after"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 42,
+      "name": "Blue Brinstar Boulder Room",
+      "area": "Brinstar",
+      "subarea": "Blue",
+      "playable": true,
+      "roomAddress": "0x7A1AD",
+      "roomEnvironments": [{ "heated": false } ],
+      "nodes": [
+        {
+          "id": 1,
+          "name": "Boulder Room Left Door (to Billy Mays)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x0018fee",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Boulder Room Left Door (to Billy Mays)",
+              "length": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "usableComingIn": false,
+              "openEnd": 0
+            }
+          ],
+          "canLeaveCharged": [
+            {
+              "usedTiles": 19,
+              "framesRemaining": 100,
+              "openEnd": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Boulder Room Right Door (to Ceiling E-Tank)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x0018fe2",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Boulder Room Right Door (to Ceiling E-Tank)",
+              "length": 0,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "openEnd": 1
+            }
+          ],
+          "canLeaveCharged": [
+            {
+              "usedTiles": 19,
+              "framesRemaining": 80,
+              "openEnd": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ 
+                    "canShinechargeMovement",
+                    "Gravity"
+                  ]
+                }
+              ]
+            },
+            {
+              "usedTiles": 19,
+              "framesRemaining": 50,
+              "openEnd": 1,
+              "strats": [
+                {
+                  "name": "Boulder Room Shinecharge into PreOpened Door",
+                  "notable": true,
+                  "requires": [ 
+                    "canShinechargeMovement",
+                    "canCarefulJump"
+                  ],
+                  "note": [
+                    "Shoot the bridge to see where it ends.",
+                    "Opening the door requires a shot that is fired while Samus has some momentum from running to the right.",
+                    "Charge a spark running left then run off right into a preopened door."
+                  ],
+                  "devNote": [
+                    "Using the second openEnd means you cannot make it to the door in time.",
+                    "Could attach `canMomentumShot` tech if that gets added.",
+                    "Emphasis on Careful.  There is no jump."
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "enemies": [
+        {
+          "id": "e1",
+          "groupName": "Boulder Room Boulders",
+          "enemyName": "Boulder",
+          "quantity": 3,
+          "homeNodes": [ 1 ]
+        }
+      ],
+      "links": [
+        {
+          "from": 1,
+          "to": [
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [
+                    {"or":[
+                      "Gravity",
+                      "HiJump",
+                      "SpaceJump"
+                    ]}
+                  ]
+                },
+                {
+                  "name": "Wall Jump",
+                  "notable": false,
+                  "requires": [ "canWalljump" ],
+                  "note": "Wall jump when the water is low."
+                },
+                {
+                  "name": "Crouch Jump Down Grab",
+                  "notable": false,
+                  "requires": [ "h_canCrouchJumpDownGrab" ],
+                  "note": "Crouch jump down grab when the water is high."
+                },
+                {
+                  "name": "Careful Jump",
+                  "notable": false,
+                  "requires": [ "canCarefulJump" ],
+                  "note": "It is possible to open the doorway and jump through it without going into the water below."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 2,
+          "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [
+                    {"or":[
+                      "Gravity",
+                      "SpaceJump"
+                    ]}
+                  ]
+                },
+                {
+                  "name": "Boulder Room Jump Through the Door",
+                  "notable": false,
+                  "requires": [
+                    "canCarefulJump",
+                    {"adjacentRunway": {
+                      "fromNode": 2,
+                      "usedTiles": 0.5,
+                      "inRoomPath": [ 2, 1 ],
+                      "physics": ["normal"]
+                    }},
+                    "canWalljump"
+                  ],
+                  "note": "A doorsill with an open end is really all the room that's needed on the other side."
+                },
+                {
+                  "name": "Boulder Room Doorsill Jump",
+                  "notable": false,
+                  "requires": [
+                    "canPreciseWalljump",
+                    "canCarefulJump",
+                    {"or":[
+                      "canTrickyJump",
+                      "canMoonwalk",
+                      "canXrayTurnaround",
+                      "Morph"
+                     ]}
+                  ],
+                  "note": "It's not even necessary to jump through the door, the in-room doorsill gives enough running room to make it up."
+                },
+                {
+                  "name": "Boulder Room SpringWall",
+                  "notable": false,
+                  "requires": ["canSpringwall"]
+                },
+                {
+                  "name": "Boulder Room Naked Walljump",
+                  "notable": false,
+                  "requires": ["canInsaneWalljump"],
+                  "note": [
+                    "It's a delayed walljump while the water is low, followed by a tight walljump off the bridge.",
+                    "This strat is easily bypassed by jumping through the door, or if the door can be opened."
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 43,
+      "name": "Billy Mays Room",
+      "area": "Brinstar",
+      "subarea": "Blue",
+      "playable": true,
+      "roomAddress": "0x7A1D8",
+      "roomEnvironments": [{ "heated": false } ],
+      "nodes": [
+        {
+          "id": 1,
+          "name": "Billy Mays Room Door (to Boulder Room)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x0018ffa",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Billy Mays Room Door (to Boulder Room)",
+              "length": 1,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "usableComingIn": false,
+              "openEnd": 1
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Missile (blue Brinstar top)",
+          "nodeType": "item",
+          "nodeSubType": "visible",
+          "nodeItem": "Missile",
+          "nodeAddress": "0x78836"
+        },
+        {
+          "id": 3,
+          "name": "Missile (blue Brinstar behind missile)",
+          "nodeType": "item",
+          "nodeSubType": "hidden",
+          "nodeItem": "Missile",
+          "nodeAddress": "0x7883C"
+        }
+      ],
+      "enemies": [],
+      "links": [
+        {
+          "from": 1,
+          "to": [
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 2,
+          "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            },
+            {
+              "id": 3,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 3,
+          "to": [
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

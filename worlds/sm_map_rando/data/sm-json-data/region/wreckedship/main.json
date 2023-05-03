@@ -1,0 +1,2954 @@
+{
+  "$schema": "../../schema/m3-region.schema.json",
+  "rooms": [
+    {
+      "id": 154,
+      "name": "Wrecked Ship Entrance",
+      "area": "Wrecked Ship",
+      "subarea": "Main",
+      "playable": true,
+      "roomAddress": "0x7CA08",
+      "roomEnvironments": [{ "heated": false } ],
+      "nodes": [
+        {
+          "id": 1,
+          "name": "Wrecked Ship Entrance Left Door (to West Ocean)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x001a1b0",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Wrecked Ship Entrance Left Door (to West Ocean)",
+              "length": 33,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "openEnd": 1
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Wrecked Ship Entrance Right Door (to Main Shaft)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x001a1bc",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Wrecked Ship Entrance Right Door (to Main Shaft)",
+              "length": 33,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "openEnd": 1
+            }
+          ]
+        }
+      ],
+      "enemies": [],
+      "links": [
+        {
+          "from": 1,
+          "to": [
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 2,
+          "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 155,
+      "name": "Wrecked Ship Main Shaft",
+      "area": "Wrecked Ship",
+      "subarea": "Main",
+      "playable": true,
+      "roomAddress": "0x7CAF6",
+      "roomEnvironments": [{ "heated": false } ],
+      "nodes": [
+        {
+          "id": 1,
+          "name": "Wrecked Ship Main Shaft Top Door (to Attic)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x001a228",
+          "doorEnvironments": [{"physics": "air"}]
+        },
+        {
+          "id": 2,
+          "name": "Wrecked Ship Main Shaft Top Left Door (to Entrance)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x001a1f8",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Wrecked Ship Main Shaft Top Left Door (to Entrance)",
+              "length": 5,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "openEnd": 1
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "name": "Wrecked Ship Main Shaft Bottom Left Door (to West Supers)",
+          "nodeType": "door",
+          "nodeSubType": "grey",
+          "nodeAddress": "0x001a210",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Runway with Broken Blocks - Wrecked Ship Main Shaft Bottom Left Door (to West Supers)",
+              "length": 1,
+              "openEnd": 1,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "usableComingIn": false
+            },
+            {
+              "name": "Base Runway - Wrecked Ship Main Shaft Bottom Left Door (to West Supers)",
+              "length": 13,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [
+                    {"resetRoom": {
+                      "nodes": [1, 2, 3, 4, 5, 6],
+                      "obstaclesToAvoid": ["B"]
+                    }}
+                  ]
+                }
+              ],
+              "openEnd": 0,
+              "devNote": "It's technically possible to reset at 7 and keep the top layer of obstacle B intact by clipping through the blocks, but do we really need to represent that?"
+            }
+          ],
+          "locks": [
+            {
+              "name": "Wrecked Ship Main Shaft Bottom Left Grey Lock (to West Supers)",
+              "lockType": "gameFlag",
+              "unlockStrats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "f_DefeatedPhantoon" ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 4,
+          "name": "Wrecked Ship Main Shaft Top Right Door (to Save)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x001a240",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Wrecked Ship Main Shaft Top Right Door (to Save)",
+              "length": 12,
+              "steepUpTiles": 7,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "openEnd": 1
+            }
+          ]
+        },
+        {
+          "id": 5,
+          "name": "Wrecked Ship Main Shaft Middle Right Door (to Sponge Bath)",
+          "nodeType": "door",
+          "nodeSubType": "grey",
+          "nodeAddress": "0x001a204",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Wrecked Ship Main Shaft Middle Right Door (to Sponge Bath)",
+              "length": 11,
+              "steepUpTiles": 6,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "openEnd": 1
+            }
+          ],
+          "locks": [
+            {
+              "name": "Wrecked Ship Main Shaft Middle Right Grey Lock (to Sponge Bath)",
+              "lockType": "gameFlag",
+              "unlockStrats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "f_DefeatedPhantoon" ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 6,
+          "name": "Wrecked Ship Main Shaft Bottom Right Door (to East Supers)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x001a234",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Wrecked Ship Main Shaft Bottom Right Door (to East Supers)",
+              "length": 3,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "openEnd": 0
+            }
+          ]
+        },
+        {
+          "id": 7,
+          "name": "Wrecked Ship Main Shaft Bottom Door (to Basement)",
+          "nodeType": "door",
+          "nodeSubType": "green",
+          "nodeAddress": "0x001a21c",
+          "doorEnvironments": [{"physics": "air"}],
+          "locks": [
+            {
+              "name": "Wrecked Ship Main Shaft Green Lock (to Basement)",
+              "lockType": "coloredDoor",
+              "unlockStrats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "h_canOpenGreenDoors" ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 8,
+          "name": "Missile (Wrecked Ship middle)",
+          "nodeType": "item",
+          "nodeSubType": "visible",
+          "nodeItem": "Missile",
+          "nodeAddress": "0x7C265"
+        },
+        {
+          "id": 9,
+          "name": "Wrecked Ship Main Shaft Central Junction",
+          "nodeType": "junction",
+          "nodeSubType": "junction"
+        }
+      ],
+      "obstacles": [
+        {
+          "id": "A",
+          "name": "Right Bomb Blocks",
+          "obstacleType": "inanimate",
+          "note": "The bomb blocks that separate the bottom right door from the main shaft"
+        },
+        {
+          "id": "B",
+          "name": "Shot Blocks",
+          "obstacleType": "inanimate",
+          "note": "The shot blocks that separate the bottom door from the main shaft"
+        },
+        {
+          "id": "C",
+          "name": "Left Bomb Blocks",
+          "obstacleType": "inanimate",
+          "note": "The bomb blocks that separate the main shaft from the item on the left"
+        }
+      ],
+      "enemies": [
+        {
+          "id": "e1",
+          "groupName": "Wrecked Ship Main Shaft Covern",
+          "enemyName": "Covern",
+          "quantity": 1,
+          "homeNodes": [ 1, 7, 9 ],
+          "stopSpawn": [ "f_DefeatedPhantoon" ]
+        },
+        {
+          "id": "e2",
+          "groupName": "Wrecked Ship Main Shaft Trapped Atomics",
+          "enemyName": "Trapped Atomic",
+          "quantity": 2,
+          "homeNodes": [ 7 ],
+          "stopSpawn": [ "f_DefeatedPhantoon" ]
+        },
+        {
+          "id": "e3",
+          "groupName": "Wrecked Ship Main Shaft Atomics",
+          "enemyName": "Atomic",
+          "quantity": 4,
+          "homeNodes": [ 9 ],
+          "spawn": [ "f_DefeatedPhantoon" ]
+        }
+      ],
+      "links": [
+        {
+          "from": 1,
+          "to": [
+            {
+              "id": 9,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 2,
+          "to": [
+            {
+              "id": 9,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 3,
+          "to": [
+            {
+              "id": 9,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 4,
+          "to": [
+            {
+              "id": 9,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 5,
+          "to": [
+            {
+              "id": 9,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 6,
+          "to": [
+            {
+              "id": 9,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": ["Morph"],
+                  "obstacles": [
+                    {
+                      "id": "A",
+                      "requires": ["h_canBombThings"]
+                    }
+                  ]
+                }
+              ],
+              "devNote": "FIXME there is certainly a possible speedball here depending on adjacent room"
+            }
+          ]
+        },
+        {
+          "from": 7,
+          "to": [
+            {
+              "id": 9,
+              "strats": [
+                {
+                  "name": "Morph Bombs",
+                  "notable": false,
+                  "requires": ["Morph"],
+                  "obstacles": [
+                    {
+                      "id": "B",
+                      "requires": ["h_canUseMorphBombs"]
+                    }
+                  ]
+                },
+                {
+                  "name": "Shoot the Blocks",
+                  "notable": false,
+                  "requires": [ "Morph" ],
+                  "note": "Crouch+jump morph from the stairs or run and jump with no movement assists.",
+                  "obstacles": [
+                    {
+                      "id": "B",
+                      "requires": [
+                        {
+                          "or": [
+                            "Wave",
+                            "Spazer"
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "Partial Covern Ice Clip",
+                  "notable": true,
+                  "requires": [ "Morph" ],
+                  "note": "Crouch+jump morph from the stairs or run and jump with no movement assists.",
+                  "obstacles": [
+                    {
+                      "id": "B",
+                      "requires": [
+                        {
+                          "and": [
+                            "canUseFrozenEnemies",
+                            "canCeilingClip",
+                            { "not": "f_DefeatedPhantoon" },
+                            "canRiskPermanentLossOfAccess"
+                          ]
+                        }
+                      ],
+                      "note": "Use the Covern to partial ceiling clip so your beam can reach the obstacle shot block."
+                    }
+                  ]
+                },
+                {
+                  "name": "Power Bombs",
+                  "notable": false,
+                  "requires": ["Morph"],
+                  "obstacles": [
+                    {
+                      "id": "B",
+                      "requires": ["h_canUsePowerBombs"],
+                      "additionalObstacles": ["A"]
+                    }
+                  ],
+                  "note": [
+                    "It's possible to mid-air morph into the morph tunnel.",
+                    "This is why no PBs are needed if the obstacle is already broken."
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 8,
+          "to": [
+            {
+              "id": 9,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [
+                    "Morph",
+                    {"obstaclesCleared": ["C"]}
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 9,
+          "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            },
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            },
+            {
+              "id": 3,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            },
+            {
+              "id": 4,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            },
+            {
+              "id": 5,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            },
+            {
+              "id": 6,
+              "strats": [
+                {
+                  "name": "Morph Bombs",
+                  "notable": false,
+                  "requires": ["Morph"],
+                  "obstacles": [
+                    {
+                      "id": "A",
+                      "requires": ["h_canUseMorphBombs"]
+                    }
+                  ]
+                },
+                {
+                  "name": "Power Bombs",
+                  "notable": false,
+                  "requires": ["Morph"],
+                  "obstacles": [
+                    {
+                      "id": "A",
+                      "requires": ["h_canUsePowerBombs"],
+                      "additionalObstacles": ["B"]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": 7,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": ["Morph"],
+                  "obstacles": [
+                    {
+                      "id": "B",
+                      "requires": []
+                    }
+                  ],
+                  "note": "From this direction, obstacle B is fully breakable with Power Beam"
+                }
+              ]
+            },
+            {
+              "id": 8,
+              "strats": [
+                {
+                  "name": "Morph Bombs",
+                  "notable": false,
+                  "requires": [ "Morph" ],
+                  "obstacles": [
+                    {
+                      "id": "C",
+                      "requires": [ "h_canUseMorphBombs" ]
+                    }
+                  ]
+                },
+                {
+                  "name": "Power Bombs",
+                  "notable": false,
+                  "requires": [ "Morph" ],
+                  "obstacles": [
+                    {
+                      "id": "C",
+                      "requires": [ "h_canUsePowerBombs" ],
+                      "additionalObstacles": ["A", "B"]
+                    }
+                  ],
+                  "note": [
+                    "It is possible to use a single power bomb to break the bomb blocks going left to the item, right to the door, and shot blocks going down.",
+                    "Place the power bomb against the right wall at the top of the stairs between the three obstacles."
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 156,
+      "name": "Basement",
+      "area": "Wrecked Ship",
+      "subarea": "Main",
+      "playable": true,
+      "roomAddress": "0x7CC6F",
+      "roomEnvironments": [{ "heated": false } ],
+      "nodes": [
+        {
+          "id": 1,
+          "name": "Basement Left Door (to Map)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x001a2a0",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Basement Left Door (to Map)",
+              "length": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "usableComingIn": false,
+              "openEnd": 1
+            }
+          ],
+          "canLeaveCharged": [
+            {
+              "usedTiles": 33,
+              "framesRemaining": 120,
+              "openEnd": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Basement Top Door (to Main Shaft)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x001a294",
+          "doorEnvironments": [{"physics": "air"}],
+          "canLeaveCharged": [
+            {
+              "usedTiles": 33,
+              "framesRemaining": 60,
+              "openEnd": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "name": "Phantoon Eye Door",
+          "nodeType": "door",
+          "nodeSubType": "eye",
+          "nodeAddress": "0x001a2ac",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Phantoon Eye Door",
+              "length": 1,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "usableComingIn": false,
+              "openEnd": 1
+            }
+          ],
+          "locks": [
+            {
+              "name": "Phantoon Eye Lock",
+              "lockType": "coloredDoor",
+              "unlockStrats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "h_canOpenEyeDoors" ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "enemies": [
+        {
+          "id": "e1",
+          "groupName": "Basement Atomics",
+          "enemyName": "Atomic",
+          "quantity": 3,
+          "homeNodes": [ 1, 2 ],
+          "spawn": [ "f_DefeatedPhantoon" ]
+        },
+        {
+          "id": "e2",
+          "groupName": "Basement Workrobots",
+          "enemyName": "Workrobot",
+          "quantity": 2,
+          "homeNodes": [ 1,2 ],
+          "spawn": [ "f_DefeatedPhantoon" ]
+        }
+      ],
+      "links": [
+        {
+          "from": 1,
+          "to": [
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 2,
+          "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            },
+            {
+              "id": 3,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": ["h_canBombThings"]
+                },
+                {
+                  "name": "Basement Speedball (Phantoon Alive)",
+                  "notable": true,
+                  "requires": [
+                    "canMockball",
+                    {"canShineCharge": {
+                      "usedTiles": 25,
+                      "shinesparkFrames": 0,
+                      "openEnd": 0
+                    }}
+                  ],
+                  "note": "The speedball is more complicated because of the robot standing in the way."
+                },
+                {
+                  "name": "Basement Speedball (Phantoon Dead)",
+                  "notable": true,
+                  "requires": [
+                    "canMockball",
+                    "f_DefeatedPhantoon",
+                    {"canShineCharge": {
+                      "usedTiles": 33,
+                      "shinesparkFrames": 0,
+                      "openEnd": 2
+                    }}
+                  ],
+                  "note": [
+                    "An easier version of the speedball, since you can push the robots all the way left.",
+                    "It's even possible to setup the short hop mockball by bonking the center platform."
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 3,
+          "to": [
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "h_canBombThings" ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 157,
+      "name": "Wrecked Ship Map Room",
+      "area": "Wrecked Ship",
+      "subarea": "Main",
+      "playable": true,
+      "roomAddress": "0x7CCCB",
+      "roomEnvironments": [{ "heated": false } ],
+      "nodes": [
+        {
+          "id": 1,
+          "name": "Wrecked Ship Map Room Door (to Basement)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x001a2b8",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Wrecked Ship Map Room Door (to Basement)",
+              "length": 3,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "openEnd": 1
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Wrecked Ship Map Station",
+          "utility": [ "map" ],
+          "nodeType": "utility",
+          "nodeSubType": "map",
+          "locks": [
+            {
+              "name": "Wrecked Ship Map Station Lock",
+              "lockType": "gameFlag",
+              "unlockStrats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "f_DefeatedPhantoon" ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "enemies": [
+        {
+          "id": "e1",
+          "groupName": "Wrecked Ship Map Station Covern",
+          "enemyName": "Covern",
+          "quantity": 1,
+          "homeNodes": [ 1, 2 ],
+          "stopSpawn": [ "f_DefeatedPhantoon" ]
+        }
+      ],
+      "links": [
+        {
+          "from": 1,
+          "to": [
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 2,
+          "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 158,
+      "name": "Phantoon's Room",
+      "area": "Wrecked Ship",
+      "subarea": "Main",
+      "playable": true,
+      "roomAddress": "0x7CD13",
+      "roomEnvironments": [{ "heated": false } ],
+      "nodes": [
+        {
+          "id": 1,
+          "name": "Phantoon Room Door (to Basement)",
+          "nodeType": "door",
+          "nodeSubType": "grey",
+          "nodeAddress": "0x001a2c4",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Phantoon Room Door (to Basement)",
+              "length": 0,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "openEnd": 1
+            }
+          ],
+          "locks": [
+            {
+              "name": "Phantoon Room Grey Lock (to Basement)",
+              "lockType": "gameFlag",
+              "unlockStrats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "f_DefeatedPhantoon" ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Phantoon",
+          "nodeType": "event",
+          "nodeSubType": "boss",
+          "locks": [
+            {
+              "name": "Phantoon Fight",
+              "lockType": "bossFight",
+              "unlockStrats": [
+                {
+                  "name": "Charge",
+                  "notable": false,
+                  "requires": ["Charge"]
+                },
+                {
+                  "name": "Missiles",
+                  "notable": false,
+                  "requires": ["Missile"],
+                  "note": "No ammo count because Missiles are farmable here."
+                },
+                {
+                  "name": "Nintendo Power Phantoon",
+                  "notable": false,
+                  "requires": ["Super"],
+                  "note": "No ammo count because Supers are farmable here.",
+                  "devNote": "FIXME add tech/energy/item requirements to survive flames."
+                }
+              ]
+            }
+          ],
+          "yields": [ "f_DefeatedPhantoon" ]
+        }
+      ],
+      "enemies": [
+        {
+          "id": "e1",
+          "groupName": "Phantoon",
+          "enemyName": "Phantoon",
+          "quantity": 1,
+          "homeNodes": [ 2 ],
+          "stopSpawn": [ "f_DefeatedPhantoon" ]
+        }
+      ],
+      "links": [
+        {
+          "from": 1,
+          "to": [
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 2,
+          "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 159,
+      "name": "Wrecked Ship West Super Room",
+      "area": "Wrecked Ship",
+      "subarea": "Main",
+      "playable": true,
+      "roomAddress": "0x7CDA8",
+      "roomEnvironments": [{ "heated": false } ],
+      "nodes": [
+        {
+          "id": 1,
+          "name": "Wrecked Ship West Super Room Door (to Main Shaft)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x001a2e8",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Wrecked Ship West Super Room Door (to Main Shaft)",
+              "length": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "usableComingIn": false,
+              "openEnd": 1
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Super Missile (Wrecked Ship left)",
+          "nodeType": "item",
+          "nodeSubType": "visible",
+          "nodeItem": "Super",
+          "nodeAddress": "0x7C357",
+          "locks": [
+            {
+              "name": "Wrecked Ship Left Supers Spawn Lock",
+              "lockType": "gameFlag",
+              "unlockStrats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "f_DefeatedPhantoon" ],
+                  "note": "The item doesn't spawn until Phantoon is defeated."
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "enemies": [],
+      "links": [
+        {
+          "from": 1,
+          "to": [
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 2,
+          "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 160,
+      "name": "Attic",
+      "area": "Wrecked Ship",
+      "subarea": "Main",
+      "playable": true,
+      "roomAddress": "0x7CA52",
+      "roomEnvironments": [{ "heated": false } ],
+      "nodes": [
+        {
+          "id": 1,
+          "name": "Attic Left Door (to West Ocean)",
+          "nodeType": "door",
+          "nodeSubType": "grey",
+          "nodeAddress": "0x001a1e0",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Attic Left Door (to West Ocean)",
+              "length": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "usableComingIn": false,
+              "openEnd": 1
+            }
+          ],
+          "canLeaveCharged": [
+            {
+              "usedTiles": 33,
+              "framesRemaining": 0,
+              "shinesparkFrames": 80,
+              "openEnd": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ],
+          "locks": [
+            {
+              "name": "Attic Left Grey Lock (to West Ocean)",
+              "lockType": "killEnemies",
+              "unlockStrats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": ["f_DefeatedPhantoon"],
+                  "note": "The enemies are killable using Power Beam, once they actually spawn."
+                }
+              ],
+              "yields": [ "f_ZebesAwake" ],
+              "devNote":  "This is unlocked and yielded from killing the enemies, which are free to kill"
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Attic Bottom Door (to Main Shaft)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x001a1c8",
+          "doorEnvironments": [{"physics": "air"}],
+          "canLeaveCharged": [
+            {
+              "usedTiles": 33,
+              "framesRemaining": 60,
+              "openEnd": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ],
+          "locks": [
+            {
+              "name": "Attic Bottom Grey Lock (to Main Shaft)",
+              "lockType": "killEnemies",
+              "lock": [ "f_DefeatedPhantoon" ],
+              "unlockStrats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [],
+                  "note": "The enemies are killable using Power Beam, once they actually spawn."
+                }
+              ],
+              "yields": [ "f_ZebesAwake" ],
+              "devNote":  "This is unlocked and yielded from killing the enemies, which are free to kill"
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "name": "Attic Right Door (to East Missiles)",
+          "nodeType": "door",
+          "nodeSubType": "grey",
+          "nodeAddress": "0x001a1d4",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Attic Right Door (to East Missiles)",
+              "length": 16,
+              "steepUpTiles": 4,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "openEnd": 0
+            }
+          ],
+          "canLeaveCharged": [
+            {
+              "usedTiles": 33,
+              "framesRemaining": 30,
+              "openEnd": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ],
+          "locks": [
+            {
+              "name": "Attic Right Grey Lock (to East Missiles)",
+              "lockType": "killEnemies",
+              "unlockStrats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": ["f_DefeatedPhantoon"],
+                  "note": "The enemies are killable using Power Beam, once they actually spawn."
+                }
+              ],
+              "yields": [ "f_ZebesAwake" ],
+              "devNote":  "This is unlocked and yielded from killing the enemies, which are free to kill"
+            }
+          ]
+        }
+      ],
+      "enemies": [
+        {
+          "id": "e1",
+          "groupName": "Attic Covern",
+          "enemyName": "Covern",
+          "quantity": 1,
+          "homeNodes": [ 1, 2, 3 ],
+          "stopSpawn": [ "f_DefeatedPhantoon" ]
+        },
+        {
+          "id": "e2",
+          "groupName": "Attic Trapped Atomics",
+          "enemyName": "Trapped Atomic",
+          "quantity": 9,
+          "homeNodes": [ 1, 2, 3 ],
+          "stopSpawn": [ "f_DefeatedPhantoon" ]
+        },
+        {
+          "id": "e3",
+          "groupName": "Attic Atomics",
+          "enemyName": "Atomic",
+          "quantity": 4,
+          "homeNodes": [ 1, 2, 3 ],
+          "spawn": [ "f_DefeatedPhantoon" ]
+        },
+        {
+          "id": "e4",
+          "groupName": "Attic Kihunters",
+          "enemyName": "Kihunter (yellow)",
+          "quantity": 4,
+          "homeNodes": [ 1,2,3 ],
+          "spawn": [ "f_DefeatedPhantoon" ]
+        }
+      ],
+      "links": [
+        {
+          "from": 1,
+          "to": [
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 2,
+          "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            },
+            {
+              "id": 3,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 3,
+          "to": [
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 161,
+      "name": "Bowling Alley",
+      "area": "Wrecked Ship",
+      "subarea": "Main",
+      "playable": true,
+      "roomAddress": "0x7C98E",
+      "roomEnvironments": [{ "heated": false } ],
+      "nodes": [
+        {
+          "id": 1,
+          "name": "Bowling Alley Top Left Door (to West Ocean Upper)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x001a18c",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Bowling Alley Top Left Door (to West Ocean Upper)",
+              "length": 33,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "openEnd": 1
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Bowling Alley Middle Left Door (to West Ocean Lower)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x001a198",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Bowling Alley Middle Left Door (to West Ocean Lower)",
+              "length": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "usableComingIn": false,
+              "openEnd": 1
+            }
+          ],
+          "locks": [
+            {
+              "name": "Bowling Alley Top Left Grey Lock (to West Ocean Lower)",
+              "lockType": "permanent",
+              "lock": [ "f_DefeatedPhantoon" ],
+              "unlockStrats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": ["never"]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "name": "Bowling Alley Bottom Left Door (to Gravity)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x001a1a4",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Bowling Alley Bottom Left Door (to Gravity)",
+              "length": 0,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "openEnd": 1
+            }
+          ]
+        },
+        {
+          "id": 4,
+          "name": "Missile (Gravity Suit)",
+          "nodeType": "item",
+          "nodeSubType": "chozo",
+          "nodeItem": "Missile",
+          "nodeAddress": "0x7C2EF",
+          "locks": [
+            {
+              "name": "Bowling Alley Missiles Spawn Lock",
+              "lockType": "gameFlag",
+              "unlockStrats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "f_DefeatedPhantoon" ],
+                  "note": "The item doesn't spawn until Phantoon is defeated."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 5,
+          "name": "Reserve Tank, Wrecked Ship",
+          "nodeType": "item",
+          "nodeSubType": "visible",
+          "nodeItem": "ReserveTank",
+          "nodeAddress": "0x7C2E9",
+          "locks": [
+            {
+              "name": "Wrecked Ship Reserve Spawn Lock",
+              "lockType": "gameFlag",
+              "unlockStrats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "f_DefeatedPhantoon" ],
+                  "note": "The item doesn't spawn until Phantoon is defeated."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 6,
+          "name": "Bowling Statue",
+          "nodeType": "junction",
+          "nodeSubType": "junction"
+        }
+      ],
+      "enemies": [
+        {
+          "id": "e1",
+          "groupName": "Bowling Alley Workrobots",
+          "enemyName": "Workrobot",
+          "quantity": 2,
+          "betweenNodes": [ 3,4 ],
+          "spawn": [ "f_DefeatedPhantoon" ]
+        }
+      ],
+      "links": [
+        {
+          "from": 1,
+          "to": []
+        },
+        {
+          "from": 2,
+          "to": [
+            {
+              "id": 6,
+              "strats": [
+                {
+                  "name": "Grapple",
+                  "notable": false,
+                  "requires": ["Grapple"]
+                },
+                {
+                  "name": "Space Jump",
+                  "notable": false,
+                  "requires": ["SpaceJump"]
+                },
+                {
+                  "name": "2-hit Bowling",
+                  "notable": false,
+                  "requires": [
+                    "canTrickyJump",
+                    "canIframeSpikeJump",
+                    {"spikeHits": 2}
+                  ],
+                  "note": "This is doable even without any momentum from a previous room, but pretty tight."
+                },
+                {
+                  "name": "2-hit Speed Bowling",
+                  "notable": false,
+                  "requires": [
+                    "canCarefulJump",
+                    "canIframeSpikeJump",
+                    "SpeedBooster",
+                    {"spikeHits": 2}
+                  ],
+                  "note": "A bit easier than 2-hit bowling"
+                },
+                {
+                  "name": "3-hit Bowling",
+                  "notable": false,
+                  "requires": [
+                    "canIframeSpikeJump",
+                    {"spikeHits": 3}
+                  ]
+                },
+                {
+                  "name": "Bowling Spike Run",
+                  "notable": false,
+                  "requires": [
+                    {"spikeHits": 6}
+                  ]
+                },
+                {
+                  "name": "Shinespark",
+                  "notable": false,
+                  "requires": [
+                    {"canComeInCharged": {
+                      "fromNode": 2,
+                      "framesRemaining": 0,
+                      "shinesparkFrames": 90
+                    }}
+                  ],
+                  "devNote": [
+                    "Should we have this one if you're not assumed to know the layout? You can't go out of the room to set it up once you see what room it is.",
+                    "But then again, it'd be a softlock either way if you have no way through."
+                  ]
+                }
+              ],
+              "devNote": "It's one-way because there's no logical reason to go to the statue and back out to the door."
+            }
+          ]
+        },
+        {
+          "from": 3,
+          "to": [
+            {
+              "id": 4,
+              "strats": [
+                {
+                  "name": "Bomb the blocks",
+                  "notable": false,
+                  "requires": ["h_canBombThings"],
+                  "note": "If using PBs, doable with just one by placing it far enough right."
+                },
+                {
+                  "name": "Wave Screw",
+                  "notable": false,
+                  "requires": [
+                    "Wave",
+                    "ScrewAttack",
+                    "Morph"
+                  ],
+                  "note": "The shot blocks can be broken with Wave by scrolling the screen right then coming back out of the tunnel and walking right."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 4,
+          "to": [
+            {
+              "id": 3,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "h_canBombThings" ],
+                  "note": "Those bomb blocks respawn. They must be broken on the way back too."
+                }
+              ]
+            },
+            {
+              "id": 5,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [
+                    {"canShineCharge": {
+                      "usedTiles": 33,
+                      "shinesparkFrames": 40,
+                      "openEnd": 2
+                    }},
+                    "h_canUsePowerBombs"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 5,
+          "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Bowling Reserve Crystal Flash Grapple Clip",
+                  "notable": true,
+                  "requires": ["canCrystalFlashGrappleClip"]
+                }
+              ]
+            },
+            {
+              "id": 4,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [],
+                  "devNote": "No requirements, on the basis that the PB blocks must be destroyed to reach node 5 in the first place"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 6,
+          "to": [
+            {
+              "id": 3,
+              "strats": [
+                {
+                  "name": "Bowling!",
+                  "notable": false,
+                  "requires": [
+                    "f_DefeatedPhantoon",
+                    "Morph"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 162,
+      "name": "Gravity Suit Room",
+      "area": "Wrecked Ship",
+      "subarea": "Main",
+      "playable": true,
+      "roomAddress": "0x7CE40",
+      "roomEnvironments": [{ "heated": false } ],
+      "nodes": [
+        {
+          "id": 1,
+          "name": "Gravity Suit Room Left Door (to West Ocean)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x001a300",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Gravity Suit Room Left Door (to West Ocean)",
+              "length": 12,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "openEnd": 0
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Gravity Suit Room Right Door (to Bowling Alley)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x001a30c",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Gravity Suit Room Right Door (to Bowling Alley)",
+              "length": 12,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "openEnd": 0
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "name": "Gravity Suit",
+          "nodeType": "item",
+          "nodeSubType": "visible",
+          "nodeItem": "Gravity",
+          "nodeAddress": "0x7C36D",
+          "locks": [
+            {
+              "name": "Gravity Spawn Lock",
+              "lockType": "gameFlag",
+              "unlockStrats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "f_DefeatedPhantoon" ],
+                  "note": "The item doesn't spawn until Phantoon is defeated."
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "enemies": [],
+      "links": [
+        {
+          "from": 1,
+          "to": [
+            {
+              "id": 3,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 2,
+          "to": [
+            {
+              "id": 3,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 3,
+          "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            },
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 163,
+      "name": "Wrecked Ship East Super Room",
+      "area": "Wrecked Ship",
+      "subarea": "Main",
+      "playable": true,
+      "roomAddress": "0x7CDF1",
+      "roomEnvironments": [{ "heated": false } ],
+      "nodes": [
+        {
+          "id": 1,
+          "name": "Wrecked Ship East Super Room Door (to Main Shaft)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x001a2f4",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Wrecked Ship East Super Room Door (to Main Shaft)",
+              "length": 4,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "openEnd": 1,
+              "note": "The actual length is 4.5. Got halfwidth blocks"
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Right Super, Wrecked Ship",
+          "nodeType": "item",
+          "nodeSubType": "visible",
+          "nodeItem": "Super",
+          "nodeAddress": "0x7C365",
+          "locks": [
+            {
+              "name": "Wrecked Ship Right Super Spawn Lock",
+              "lockType": "gameFlag",
+              "unlockStrats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "f_DefeatedPhantoon" ],
+                  "note": "The item doesn't spawn until Phantoon is defeated."
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "enemies": [
+        {
+          "id": "e1",
+          "groupName": "Wrecked Ship East Supers Covern",
+          "enemyName": "Covern",
+          "quantity": 1,
+          "homeNodes": [ 1, 2 ],
+          "stopSpawn": [ "f_DefeatedPhantoon" ]
+        },
+        {
+          "id": "e2",
+          "groupName": "Wrecked Ship East Supers Bulls",
+          "enemyName": "Bull",
+          "quantity": 2,
+          "homeNodes": [ 1 ],
+          "spawn": [ "f_DefeatedPhantoon" ]
+        },
+        {
+          "id": "e3",
+          "groupName": "Wrecked Ship East Supers Workrobots",
+          "enemyName": "Workrobot",
+          "quantity": 2,
+          "homeNodes": [ 1 ],
+          "spawn": [ "f_DefeatedPhantoon" ]
+        },
+        {
+          "id": "e4",
+          "groupName": "Wrecked Ship East Supers Trapped Atomics",
+          "enemyName": "Trapped Atomic",
+          "quantity": 4,
+          "homeNodes": [ 1 ],
+          "stopSpawn": [ "f_DefeatedPhantoon" ]
+        }
+      ],
+      "links": [
+        {
+          "from": 1,
+          "to": [
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [
+                    "Morph",
+                    "h_canDestroyBombWalls",
+                    "f_DefeatedPhantoon"
+                  ],
+                  "note": "By normal means, the path can't be passed unless the Workrobot is activated (so Phantoon dead)"
+                },
+                {
+                  "name": "WS East Supers Robot Clip (Left to Right)",
+                  "notable": false,
+                  "requires": [
+                    "Morph",
+                    "h_canDestroyBombWalls",
+                    "canKago"
+                  ],
+                  "note": [
+                    "Kago through the Workrobot by jumping, pressing down, then morphing and moving right just before hitting the robot.",
+                    "The bomb blocks can be broken with a power bomb, morph bomb, or using screw attack.",
+                    "If using morph bombs, be careful when breaking the bottom bomb block - if morphed, you will be pushed into it and stuck.",
+                    "To do this, place a bomb at the bottom, then a bomb at the peak boost height and unmorph before landing. Alternatively use a short jump morph.",
+                    "If the morph tunnel is open, kagoing through the robot will force Samus into it."
+                  ],
+                  "devNote": [
+                    "If Phantoon is alive, 'Base' can be used instead.",
+                    "Note that this strat is useless in vanilla, as the item only spawns if Phantoon has been killed."
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 2,
+          "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [
+                    "Morph",
+                    "f_DefeatedPhantoon"
+                  ],
+                  "note": "By normal means, the path can't be passed unless the Workrobot is activated (so Phantoon dead)",
+                  "devNote": "This doesn't require breaking the bomb blocks on the premise that you can't get here without breaking them."
+                },
+                {
+                  "name": "WS East Supers Crystal Flash Clip (Right to Left)",
+                  "notable": true,
+                  "requires": [
+                    "canCrystalFlash",
+                    "canCeilingClip"
+                  ],
+                  "note": [
+                    "Crystal flash to force a standup then spin jump up then morph to bypass the dead robot. Use Coverns to damage down if necessary.",
+                    "Note that if the Covern spawns on Samus while crystal flashing, it will deal large amounts of damage.",
+                    "To avoid this, it is recommended to kill the Covern and leave its drop, then quickly get in the morph tunnel and CF."
+                  ],
+                  "devNote": [
+                    "If Phantoon is alive, 'Base' can be used instead.",
+                    "Note that this strat is useless in vanilla, as the item only spawns if Phantoon has been killed."
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 164,
+      "name": "Sponge Bath",
+      "area": "Wrecked Ship",
+      "subarea": "Main",
+      "playable": true,
+      "roomAddress": "0x7CD5C",
+      "roomEnvironments": [{ "heated": false } ],
+      "nodes": [
+        {
+          "id": 1,
+          "name": "Sponge Bath Left Door (to Main Shaft)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x001a2d0",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Sponge Bath Left Door (to Main Shaft)",
+              "length": 3,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "openEnd": 0
+            },
+            {
+              "name": "Submerged Runway - Sponge Bath Left Door (to Main Shaft)",
+              "length": 20,
+              "steepUpTiles": 3,
+              "strats": [
+                {
+                  "name": "Gravity",
+                  "notable": false,
+                  "requires": [ "Gravity" ]
+                },
+                {
+                  "name": "Unpowered",
+                  "notable": false,
+                  "requires": [
+                    { "not": "f_DefeatedPhantoon" },
+                    "canRiskPermanentLossOfAccess"
+                  ]
+                }
+              ],
+              "openEnd": 0
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Sponge Bath Right Door (to Spiky Death Room)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x001a2dc",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Sponge Bath Right Door (to Spiky Death Room)",
+              "length": 8,
+              "steepDownTiles": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "openEnd": 1
+            }
+          ]
+        }
+      ],
+      "enemies": [
+        {
+          "id": "e1",
+          "groupName": "Sponge Bath Bull",
+          "enemyName": "Bull",
+          "quantity": 1,
+          "homeNodes": [ 1, 2 ],
+          "spawn": [ "f_DefeatedPhantoon" ]
+        }
+      ],
+      "links": [
+        {
+          "from": 1,
+          "to": [
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Gravity",
+                  "notable": false,
+                  "requires": ["Gravity"]
+                },
+                {
+                  "name": "Ship Unpowered",
+                  "notable": false,
+                  "requires": [
+                    { "not": "f_DefeatedPhantoon" },
+                    "canRiskPermanentLossOfAccess"
+                  ]
+                },
+                {
+                  "name": "Space Jump",
+                  "notable": false,
+                  "requires": ["SpaceJump"]
+                },
+                {
+                  "name": "HiJump",
+                  "notable": false,
+                  "requires": [
+                    "HiJump",
+                    "canWalljump"
+                  ]
+                },
+                {
+                  "name": "Sponge Bath Bull Boost",
+                  "notable": true,
+                  "requires": [
+                    "HiJump",
+                    "canUseEnemies",
+                    "canDamageBoost",
+                    "canCrouchJump",
+                    "Morph",
+                    {
+                      "enemyDamage": {
+                        "enemy": "Bull",
+                        "hits": 1,
+                        "type": "contact"
+                      }
+                    }
+                  ],
+                  "note": "Position the Bull with beam shots before jumping into it."
+                },
+                {
+                  "name": "Bomb Jump",
+                  "notable": false,
+                  "requires": ["canBombJumpWaterEscape"],
+                  "devNote": "Could be a notable strat, but it already has its own tech."
+                },
+                {
+                  "name": "Midair SpringBall",
+                  "notable": false,
+                  "requires": ["canSpringBallJumpMidAir"]
+                },
+                {
+                  "name": "Shinespark",
+                  "notable": false,
+                  "requires": [
+                    {"canComeInCharged": {
+                      "fromNode": 1,
+                      "framesRemaining": 30,
+                      "shinesparkFrames": 50
+                    }}
+                  ]
+                },
+                {
+                  "name": "Exterior Speedjump",
+                  "notable": false,
+                  "requires": [
+                    {"adjacentRunway": {
+                      "fromNode": 1,
+                      "usedTiles": 3,
+                      "inRoomPath": [ 1, 2 ],
+                      "physics": ["normal"]
+                    }},
+                    "SpeedBooster",
+                    {"or": [
+                      "canWalljump",
+                      "HiJump"
+                    ]}
+                  ],
+                  "note": "A bit finicky for shorter runways, but exactly 3 tiles works."
+                },
+                {
+                  "name": "Sponge Bath In-Room Speedjump",
+                  "notable": false,
+                  "requires": [
+                    "canTrickyDashJump",
+                    "canWalljump"
+                  ],
+                  "note": "It doesn't work from flush against the door. Start moving about half a tile away from it."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 2,
+          "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 165,
+      "name": "Spiky Death Room",
+      "area": "Wrecked Ship",
+      "subarea": "Main",
+      "playable": true,
+      "roomAddress": "0x7CB8B",
+      "roomEnvironments": [{ "heated": false } ],
+      "nodes": [
+        {
+          "id": 1,
+          "name": "Spiky Death Room Left Door (to Sponge Bath)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x001a24c",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Spiky Death Room Left Door (to Sponge Bath)",
+              "length": 0,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "openEnd": 1
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Spiky Death Room Right Door (to Electric Death Room)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x001a258",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Spiky Death Room Right Door (to Electric Death Room)",
+              "length": 0,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "openEnd": 1
+            }
+          ]
+        }
+      ],
+      "enemies": [],
+      "links": [
+        {
+          "from": 1,
+          "to": [
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Unpowered",
+                  "notable": false,
+                  "requires": [
+                    { "not": "f_DefeatedPhantoon" },
+                    "canRiskPermanentLossOfAccess"
+                  ]
+                },
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ {"spikeHits": 2} ]
+                },
+                {
+                  "name": "Naked Spiky Death Room (Left to Right)",
+                  "notable": false,
+                  "requires": [ "canCarefulJump" ]
+                },
+                {
+                  "name": "Passage With Assist",
+                  "notable": false,
+                  "requires": [
+                    {"or": [
+                      "Morph",
+                      "Gravity",
+                      "SpaceJump"
+                    ]}
+                  ],
+                  "devNote": "The room is considerably more forgiving with Morph, Gravity, or Space Jump so this is there as an alternate strat."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 2,
+          "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Unpowered",
+                  "notable": false,
+                  "requires": [
+                    { "not": "f_DefeatedPhantoon" },
+                    "canRiskPermanentLossOfAccess"
+                  ]
+                },
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ {"spikeHits": 2} ]
+                },
+                {
+                  "name": "Naked Spiky Death Room (Right to Left)",
+                  "notable": false,
+                  "requires": [ "canCarefulJump" ]
+                },
+                {
+                  "name": "Passage With Assist",
+                  "notable": false,
+                  "requires": [
+                    {"or": [
+                      "Morph",
+                      "Gravity",
+                      "SpaceJump"
+                    ]}
+                  ],
+                  "devNote": "The room is considerably more forgiving with Morph, Gravity, or Space Jump so this is there as an alternate strat."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 166,
+      "name": "Electric Death Room",
+      "area": "Wrecked Ship",
+      "subarea": "Main",
+      "playable": true,
+      "roomAddress": "0x7CBD5",
+      "roomEnvironments": [{ "heated": false } ],
+      "nodes": [
+        {
+          "id": 1,
+          "name": "Electric Death Room Top Left Door (to E-Tank)",
+          "nodeType": "door",
+          "nodeSubType": "red",
+          "nodeAddress": "0x001a27c",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Electric Death Room Top Left Door (to E-Tank)",
+              "length": 3,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "openEnd": 0,
+              "note": "Actual length is 3.5. Got halfwidth blocks."
+            }
+          ],
+          "locks": [
+            {
+              "name": "Electric Death Room Red Lock (to E-Tank)",
+              "lockType": "coloredDoor",
+              "lock": ["f_DefeatedPhantoon"],
+              "unlockStrats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "h_canOpenRedDoors" ]
+                }
+              ],
+              "note": "Somehow this door is blue, not red, before Phantoon dies."
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Electric Death Room Right Door (to East Ocean)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x001a264",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Electric Death Room Right Door (to East Ocean)",
+              "length": 12,
+              "steepUpTiles": 3,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "openEnd": 0
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "name": "Electric Death Room Bottom Left Door (to Spiky Death Room)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x001a270",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Electric Death Room Bottom Left Door (to Spiky Death Room)",
+              "length": 0,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "openEnd": 1
+            }
+          ]
+        }
+      ],
+      "enemies": [],
+      "links": [
+        {
+          "from": 1,
+          "to": [
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 2,
+          "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            },
+            {
+              "id": 3,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [
+                    {
+                      "or": [
+                        "Gravity",
+                        "HiJump",
+                        "SpaceJump"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "Unpowered",
+                  "notable": false,
+                  "requires": [
+                    { "not": "f_DefeatedPhantoon" },
+                    "canRiskPermanentLossOfAccess"
+                  ]
+                },
+                {
+                  "name": "Down Grab",
+                  "notable": false,
+                  "requires": [ "canDownGrab" ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 3,
+          "to": [
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 167,
+      "name": "Wrecked Ship Energy Tank Room",
+      "area": "Wrecked Ship",
+      "subarea": "Main",
+      "playable": true,
+      "roomAddress": "0x7CC27",
+      "roomEnvironments": [{ "heated": false } ],
+      "nodes": [
+        {
+          "id": 1,
+          "name": "Wrecked Ship E-Tank Door (to Electric Death Room)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x001a288",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Wrecked Ship E-Tank Door (to Electric Death Room)",
+              "length": 6,
+              "steepUpTiles": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "openEnd": 0,
+              "note": "Run must be synched with the low tide"
+            },
+            {
+              "name": "Submerged Runway - Wrecked Ship E-Tank Door (to Electric Death Room)",
+              "length": 7,
+              "steepUpTiles": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "Gravity" ]
+                }
+              ],
+              "openEnd": 1
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Energy Tank, Wrecked Ship",
+          "nodeType": "item",
+          "nodeSubType": "chozo",
+          "nodeItem": "ETank",
+          "nodeAddress": "0x7C337",
+          "locks": [
+            {
+              "name": "Wrecked Ship Energy Tank Spawn Lock",
+              "lockType": "gameFlag",
+              "unlockStrats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "f_DefeatedPhantoon" ],
+                  "note": "The item doesn't spawn until Phantoon is defeated."
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "enemies": [
+        {
+          "id": "e1",
+          "groupName": "Wrecked Ship E-Tank Skulteras",
+          "enemyName": "Skultera",
+          "quantity": 2,
+          "homeNodes": [ 1 ],
+          "spawn": [ "f_DefeatedPhantoon" ],
+          "note": "Drops can be reached for free using the platforms"
+        }
+      ],
+      "links": [
+        {
+          "from": 1,
+          "to": [
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Wrecked Ship E-Tank Platforming",
+                  "notable": false,
+                  "requires": [ "canCarefulJump" ],
+                  "note": [
+                    "Jump onto the first platform, which is easiest when the water is low.",
+                    "Continue jumping on the platforms to prevent them from going into the water.",
+                    "Get a bit of run speed on the final platform, which is easiest while the water is low, then jump to the solid ground."
+                  ]
+                },
+                {
+                  "name": "Wrecked Ship E-Tank Spring Ball Bounce",
+                  "notable": false,
+                  "requires": [ "canSpringBallBounce" ],
+                  "note": [
+                    "From a standstill at the door, jump just before the first step.",
+                    "Do a lateral mid-air morph and bounce on the first platform.",
+                    "This should bounce on the third platform and get to the item."
+                  ]
+                },
+                {
+                  "name": "Grapple",
+                  "notable": false,
+                  "requires": ["Grapple"]
+                },
+                {
+                  "name": "Walljump",
+                  "notable": false,
+                  "requires": [
+                    "Gravity",
+                    "canWalljump"
+                  ],
+                  "note": [
+                    "Jump across the first platforms. It is fine to jump from them when they are a bit submerged.",
+                    "Get a bit of run speed on the final platform, and wall jump if necessary.",
+                    "When accidentally falling off the platforms, it may be best to take a spike hit and climb the left wall."
+                  ]
+                },
+                {
+                  "name": "Space Jump",
+                  "notable": false,
+                  "requires": ["SpaceJump"]
+                },
+                {
+                  "name": "Shinespark",
+                  "notable": false,
+                  "requires": [
+                    {"canComeInCharged": {
+                      "fromNode": 1,
+                      "framesRemaining": 0,
+                      "shinesparkFrames": 58
+                    }}
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 2,
+          "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [],
+                  "devNote": "No alternate strat since the only tricky jump is easy on the way back."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 168,
+      "name": "Wrecked Ship East Missile Room",
+      "area": "Wrecked Ship",
+      "subarea": "Main",
+      "playable": true,
+      "roomAddress": "0x7CAAE",
+      "roomEnvironments": [{ "heated": false } ],
+      "nodes": [
+        {
+          "id": 1,
+          "name": "Wrecked Ship East Missile Room Door (to Attic)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x001a1ec",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Wrecked Ship East Missile Room Door (to Attic)",
+              "length": 5,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "openEnd": 1,
+              "note": "This runway is actually 9 tiles long but got 5 speedblocks, leaving a buffer."
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Missile (Wrecked Ship top)",
+          "nodeType": "item",
+          "nodeSubType": "visible",
+          "nodeItem": "Missile",
+          "nodeAddress": "0x7C319",
+          "locks": [
+            {
+              "name": "Attic Missiles Spawn Lock",
+              "lockType": "gameFlag",
+              "unlockStrats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "f_DefeatedPhantoon" ],
+                  "note": "The item doesn't spawn until Phantoon is defeated."
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "enemies": [
+        {
+          "id": "e1",
+          "groupName": "Wrecked Ship East Missile Room Workrobot",
+          "enemyName": "Workrobot",
+          "quantity": 3,
+          "homeNodes": [ 1, 2 ],
+          "spawn": [ "f_DefeatedPhantoon" ]
+        }
+      ],
+      "links": [
+        {
+          "from": 1,
+          "to": [
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 2,
+          "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 304,
+      "name": "Wrecked Ship Save Room",
+      "area": "Wrecked Ship",
+      "subarea": "Main",
+      "playable": true,
+      "roomAddress": "0x7CE8A",
+      "roomEnvironments": [{ "heated": false } ],
+      "nodes": [
+        {
+          "id": 1,
+          "name": "Wrecked Ship Save Room Door (to Main Shaft)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x001a318",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Wrecked Ship Save Room Door (to Main Shaft)",
+              "length": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "usableComingIn": false,
+              "openEnd": 1
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Wrecked Ship Save station",
+          "utility": [ "save" ],
+          "nodeType": "utility",
+          "nodeSubType": "save",
+          "locks": [
+            {
+              "name": "Wrecked Ship Save Station Lock",
+              "lockType": "gameFlag",
+              "unlockStrats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "f_DefeatedPhantoon" ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "enemies": [
+        {
+          "id": "e1",
+          "groupName": "Wrecked Ship Save Room Covern",
+          "enemyName": "Covern",
+          "quantity": 1,
+          "homeNodes": [ 1, 2 ],
+          "stopSpawn": [ "f_DefeatedPhantoon" ]
+        }
+      ],
+      "links": [
+        {
+          "from": 1,
+          "to": [
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 2,
+          "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

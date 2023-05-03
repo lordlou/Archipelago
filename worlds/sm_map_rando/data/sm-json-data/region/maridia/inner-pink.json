@@ -1,0 +1,5552 @@
+{
+  "$schema": "../../schema/m3-region.schema.json",
+  "rooms": [
+    {
+      "id": 175,
+      "name": "Crab Shaft",
+      "area": "Maridia",
+      "subarea": "Inner",
+      "subsubarea": "Pink",
+      "playable": true,
+      "roomAddress": "0x7D1A3",
+      "roomEnvironments": [{ "heated": false } ],
+      "nodes": [
+        {
+          "id": 1,
+          "name": "Crab Shaft Left Door (to Mt. Everest)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x001a4b0",
+          "doorEnvironments": [{"physics": "water"}],
+          "runways": [
+            {
+              "name": "Base Runway - Crab Shaft Left Door (to Mt. Everest)",
+              "length": 13,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "Gravity" ]
+                }
+              ],
+              "openEnd": 0
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Crab Shaft Right Door (to Aqueduct)",
+          "nodeType": "door",
+          "nodeSubType": "green",
+          "nodeAddress": "0x001a4c8",
+          "doorEnvironments": [{"physics": "water"}],
+          "runways": [
+            {
+              "name": "Base Runway - Crab Shaft Right Door (to Aqueduct)",
+              "length": 3,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "Gravity" ]
+                }
+              ],
+              "openEnd": 1
+            }
+          ],
+          "canLeaveCharged": [
+            {
+              "usedTiles": 23,
+              "framesRemaining": 90,
+              "openEnd": 0,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "Gravity" ]
+                }
+              ]
+            }
+          ],
+          "locks": [
+            {
+              "name": "Crab Shaft Green Lock (to Aqueduct)",
+              "lockType": "coloredDoor",
+              "unlockStrats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "h_canOpenGreenDoors" ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "name": "Crab Shaft Top Door (to Pseudo Plasma Spark)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x001a4bc",
+          "doorEnvironments": [{"physics": "water"}],
+          "devNote": "No spawnAt and no junction below, because the door can be entered with just a crouch jump"
+        }
+      ],
+      "enemies": [
+        {
+          "id": "e1",
+          "groupName": "Crab Shaft Bottom Scisers",
+          "enemyName": "Sciser",
+          "quantity": 3,
+          "homeNodes": [ 2 ]
+        },
+        {
+          "id": "e2",
+          "groupName": "Crab Shaft Top Sciser",
+          "enemyName": "Sciser",
+          "quantity": 1,
+          "homeNodes": [ 3 ]
+        }
+      ],
+      "links": [
+        {
+          "from": 1,
+          "to": [
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            },
+            {
+              "id": 3,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [
+                    "Gravity",
+                    {"or": [
+                      "HiJump",
+                      "canWalljump",
+                      "h_canFly"
+                    ]}
+                  ]
+                },
+                {
+                  "name": "Crab Shaft Suitless Walljump Climb with HiJump",
+                  "notable": true,
+                  "requires": [
+                    "canSuitlessMaridia",
+                    "HiJump",
+                    "canConsecutiveWalljump"
+                  ],
+                  "note": "Wall jump back and forth up the shaft. It's a really long climb."
+                },
+                {
+                  "name": "Shinespark",
+                  "notable": false,
+                  "requires": [
+                    "canSuitlessMaridia",
+                    {"canComeInCharged": {
+                      "fromNode": 1,
+                      "framesRemaining": 60,
+                      "shinesparkFrames": 40
+                    }}
+                  ]
+                },
+                {
+                  "name": "Crab Shaft Crab Climb",
+                  "notable": false,
+                  "requires": [
+                    "canSuitlessMaridia",
+                    "canTrickyUseFrozenEnemies"
+                  ]
+                },
+                {
+                  "name": "Frozen HiJump",
+                  "notable": false,
+                  "requires": [
+                    "canSuitlessMaridia",
+                    "HiJump",
+                    "canUseFrozenEnemies"
+                  ],
+                  "note": "Differs from crab climb in that the crabs only serve as one-time stepping stone between platforms."
+                },
+                {
+                  "name": "Frozen SpringBall",
+                  "notable": false,
+                  "requires": [
+                    "canSuitlessMaridia",
+                    "canSpringBallJumpMidAir",
+                    "canUseFrozenEnemies"
+                  ],
+                  "note": "Differs from crab climb in that the crabs only serve as one-time stepping stone between platforms."
+                },
+                {
+                  "name": "Dual Jump Assist",
+                  "notable": false,
+                  "requires": [
+                    "canSuitlessMaridia",
+                    "canSpringBallJumpMidAir",
+                    "HiJump"
+                  ]
+                },
+                {
+                  "name": "Cross Room Jump with HiJump",
+                  "notable": false,
+                  "requires": [
+                    "HiJump",
+                    "canCrossRoomJumpIntoWater",
+                    "canMomentumConservingTurnaround",
+                    {"adjacentRunway": {
+                      "fromNode": 1,
+                      "usedTiles": 1,
+                      "inRoomPath": [ 1, 3 ],
+                      "physics": ["air"]
+                    }}
+                  ],
+                  "note": "Only requires a runway of approximately 1 tile in the adjacent room."
+                },
+                {
+                  "name": "Cross Room Jump with Speedbooster",
+                  "notable": false,
+                  "requires": [
+                    "SpeedBooster",
+                    "canCrossRoomJumpIntoWater",
+                    "canMomentumConservingTurnaround",
+                    "canDownGrab",
+                    {"adjacentRunway": {
+                      "fromNode": 1,
+                      "usedTiles": 13,
+                      "inRoomPath": [ 1, 3 ],
+                      "physics": ["air"]
+                    }}
+                  ],
+                  "note": "Requires at least 13 tiles in the adjacent room."
+                },
+                {
+                  "name": "Cross Room Jump with Speedbooster, Spring Ball",
+                  "notable": false,
+                  "requires": [
+                    "canTrickyDashJump",
+                    "canSpringBallJumpMidAir",
+                    "canCrossRoomJumpIntoWater",
+                    "canMomentumConservingTurnaround",
+                    {"adjacentRunway": {
+                      "fromNode": 1,
+                      "usedTiles": 7.5,
+                      "inRoomPath": [ 1, 3 ],
+                      "physics": ["air"]
+                    }}
+                  ],
+                  "note": [
+                    "Requires running a very precise distance of approximately 7.5 tiles in the adjacent room, to hit a peak in the speed / height relationship.",
+                    "The spring ball jump is used after landing near the top, to get to the platform below the door."
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 2,
+          "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": ["Gravity"]
+                },
+                {
+                  "name": "Jump Assist",
+                  "notable": false,
+                  "requires": [
+                    "canSuitlessMaridia",
+                    {"or": [
+                      "canSpringBallJumpMidAir",
+                      "HiJump"
+                    ]}
+                  ]
+                },
+                {
+                  "name": "Crab Shaft Bottom Frozen Falling Crab",
+                  "notable": false,
+                  "requires": [
+                    "canSuitlessMaridia",
+                    "Super",
+                    {"ammo": {
+                      "type": "Super",
+                      "count": 1
+                    }},
+                    "canTrickyUseFrozenEnemies"
+                  ],
+                  "note": "Involves a Super to freeze a crab in midair."
+                },
+                {
+                  "name": "Crab Shaft Bottom Frozen Crab Steps",
+                  "notable": false,
+                  "requires": [
+                    "canSuitlessMaridia",
+                    "canTrickyUseFrozenEnemies",
+                    "canCrouchJump"
+                  ],
+                  "note": [
+                    "Freeze a crab below the opening, and another one at the ceiling on the lip of the entrance.",
+                    "Stand on a frozen crab and crouch jump to the one on the ceiling.",
+                    "When against the top crab, press into it to be pushed up onto it."
+                  ]
+                },
+                {
+                  "name": "Crab Shaft Bottom Repetitive Walljumps",
+                  "notable": false,
+                  "requires": [
+                    "canSunkenTileWideWallClimb",
+                    "canUseFrozenEnemies",
+                    "canStationarySpinJump"
+                  ],
+                  "note": [
+                    "Similar to naked watering hole escape.",
+                    "Freeze a crab under the gap above, do a stationary spinjump facing right, then walljump until you're up.",
+                    "Another frozen crab can help complete the way up."
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 3,
+          "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 182,
+      "name": "Aqueduct Save Room",
+      "area": "Maridia",
+      "subarea": "Inner",
+      "playable": true,
+      "roomAddress": "0x7D765",
+      "roomEnvironments": [{ "heated": false } ],
+      "nodes": [
+        {
+          "id": 1,
+          "name": "Aqueduct Save Room Door (to Aqueduct)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x001a828",
+          "doorEnvironments": [{"physics": "water"}],
+          "runways": [
+            {
+              "name": "Base Runway - Aqueduct Save Room Door (to Aqueduct)",
+              "length": 3,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "Gravity" ]
+                }
+              ],
+              "openEnd": 1
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Aqueduct Save Station",
+          "utility": [ "save" ],
+          "nodeType": "utility",
+          "nodeSubType": "save"
+        }
+      ],
+      "enemies": [],
+      "links": [
+        {
+          "from": 1,
+          "to": [
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 2,
+          "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 183,
+      "name": "Aqueduct",
+      "area": "Maridia",
+      "subarea": "Inner",
+      "playable": true,
+      "roomAddress": "0x7D5A7",
+      "roomEnvironments": [{ "heated": false } ],
+      "nodes": [
+        {
+          "id": 1,
+          "name": "Aqueduct Top Left Door (to Crab Shaft)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x001a708",
+          "doorEnvironments": [{"physics": "water"}],
+          "runways": [
+            {
+              "name": "Base Runway - Aqueduct Top Left Door (to Crab Shaft)",
+              "length": 5,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "Gravity" ]
+                }
+              ],
+              "openEnd": 1
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Aqueduct Bottom Left Door (to Save)",
+          "nodeType": "door",
+          "nodeSubType": "red",
+          "nodeAddress": "0x001a744",
+          "doorEnvironments": [{"physics": "water"}],
+          "runways": [
+            {
+              "name": "Base Runway - Aqueduct Bottom Left Door (to Save)",
+              "length": 33,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "Gravity" ]
+                }
+              ],
+              "openEnd": 1
+            }
+          ],
+          "locks": [
+            {
+              "name": "Aqueduct Save Red Lock (to Save)",
+              "lockType": "coloredDoor",
+              "unlockStrats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "h_canOpenRedDoors" ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "name": "Aqueduct Left Sand Pit (to West Quicksand Room)",
+          "nodeType": "exit",
+          "nodeSubType": "sandpit",
+          "nodeAddress": "0x001a714"
+        },
+        {
+          "id": 4,
+          "name": "Aqueduct Right Sand Pit (to East Quicksand Room)",
+          "nodeType": "exit",
+          "nodeSubType": "sandpit",
+          "nodeAddress": "0x001a720"
+        },
+        {
+          "id": 5,
+          "name": "Aqueduct Right Door (to Below Botwoon E-Tank)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x001a738",
+          "doorEnvironments": [{"physics": "water"}],
+          "runways": [
+            {
+              "name": "Base Runway - Aqueduct Right Door (to Below Botwoon E-Tank)",
+              "length": 0,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "Gravity" ]
+                }
+              ],
+              "openEnd": 1
+            }
+          ],
+          "canLeaveCharged": [
+            {
+              "usedTiles": 20,
+              "framesRemaining": 60,
+              "openEnd": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "Gravity" ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 6,
+          "name": "Aqueduct Top Door (to Botwoon Hallway)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x001a72c",
+          "doorEnvironments": [{"physics": "water"}],
+          "spawnAt": 9
+        },
+        {
+          "id": 7,
+          "name": "Missile (pink Maridia)",
+          "nodeType": "item",
+          "nodeSubType": "visible",
+          "nodeItem": "Missile",
+          "nodeAddress": "0x7C603"
+        },
+        {
+          "id": 8,
+          "name": "Super Missile (pink Maridia)",
+          "nodeType": "item",
+          "nodeSubType": "visible",
+          "nodeItem": "Super",
+          "nodeAddress": "0x7C609"
+        },
+        {
+          "id": 9,
+          "name": "Aqueduct Junction (Below Top Door)",
+          "nodeType": "junction",
+          "nodeSubType": "junction"
+        }
+      ],
+      "obstacles": [
+        {
+          "id": "A",
+          "name": "Power Bomb Blocks",
+          "obstacleType": "inanimate"
+        }
+      ],
+      "enemies": [
+        {
+          "id": "e1",
+          "groupName": "Aqueduct Free-Roaming Yards",
+          "enemyName": "Yard",
+          "quantity": 3,
+          "homeNodes": [ 2, 5, 9 ],
+          "note": "They move around the external walls even when offscreen, and can be brought to any of their home nodes."
+        },
+        {
+          "id": "e2",
+          "groupName": "Aqueduct Middle Yard",
+          "enemyName": "Yard",
+          "quantity": 1,
+          "homeNodes": [ 2 ],
+          "note": "It circles around on one of the grapple panels."
+        },
+        {
+          "id": "e3",
+          "groupName": "Aqueduct Bottom Yard",
+          "enemyName": "Yard",
+          "quantity": 1,
+          "homeNodes": [ 4 ]
+        }
+      ],
+      "links": [
+        {
+          "from": 1,
+          "to": [
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [],
+                  "obstacles": [
+                    {
+                      "id": "A",
+                      "requires":[ "h_canUsePowerBombs" ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id":  9,
+              "strats": [
+                {
+                  "name": "Aqueduct Left-Side X-Ray Climb (Upper)",
+                  "notable": false,
+                  "requires": [
+                    "h_canNavigateUnderwater",
+                    "canRightFacingDoorXRayClimb",
+                    {"resetRoom":{
+                      "nodes": [1],
+                      "mustStayPut": true
+                    }},
+                    {"adjacentRunway": {
+                      "fromNode": 1,
+                      "usedTiles": 0.5,
+                      "overrideRunwayRequirements": true,
+                      "useFrames": 200
+                    }}
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 2,
+          "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": ["Gravity"],
+                  "obstacles": [
+                    {
+                      "id": "A",
+                      "requires": [ "h_canUsePowerBombs" ]
+                    }
+                  ]
+                },
+                {
+                  "name": "Snail Clip",
+                  "notable": false,
+                  "requires": [
+                    "Gravity",
+                    "canSnailClip"
+                  ]
+                },
+                {
+                  "name": "Aqueduct Left-Side X-Ray Climb (Lower)",
+                  "notable": false,
+                  "requires": [
+                    "h_canNavigateUnderwater",
+                    "canRightFacingDoorXRayClimb",
+                    {"resetRoom":{
+                      "nodes": [2],
+                      "mustStayPut": true
+                    }},
+                    {"adjacentRunway": {
+                      "fromNode": 2,
+                      "usedTiles": 0.5,
+                      "overrideRunwayRequirements": true,
+                      "useFrames": 200
+                    }}
+                  ]
+                },
+                {
+                  "name": "Suitless Jump Assist",
+                  "notable": false,
+                  "requires": [
+                    "canSuitlessMaridia",
+                    "HiJump",
+                    "canSpringBallJumpMidAir"
+                  ],
+                  "obstacles": [
+                    {
+                      "id": "A",
+                      "requires": [ "h_canUsePowerBombs" ]
+                    }
+                  ]
+                },
+                {
+                  "name": "Suitless Snail Climb",
+                  "notable": false,
+                  "requires": [
+                    "canSuitlessMaridia",
+                    "canSnailClimb"
+                  ],
+                  "obstacles": [
+                    {
+                      "id": "A",
+                      "requires": [ "h_canUsePowerBombs" ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": 4,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": ["Gravity"]
+                },
+                {
+                  "name": "Suitless",
+                  "notable": false,
+                  "requires": ["canSuitlessMaridia"]
+                }
+              ],
+              "note": "There's nothing difficult about getting here suitless, but it does run a heavy risk of leading the player into suitless Maridia situations"
+            },
+            {
+              "id": 5,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": ["Gravity"]
+                },
+                {
+                  "name": "Grapple Jump",
+                  "notable": false,
+                  "requires": [
+                    "canSuitlessMaridia",
+                    "canGrappleJump"
+                  ]
+                },
+                {
+                  "name": "Snail Climb",
+                  "notable": false,
+                  "requires": [
+                    "canSuitlessMaridia",
+                    "canSnailClimb"
+                  ]
+                }
+              ]
+            },
+            {
+              "id": 7,
+              "strats": [
+                {
+                  "name": "Shinespark",
+                  "notable": false,
+                  "requires": [
+                    "Gravity",
+                    {"canShineCharge": {
+                      "usedTiles": 33,
+                      "shinesparkFrames": 40,
+                      "openEnd": 2
+                    }}
+                  ]
+                }
+              ],
+              "note": "This direct link is just for the shinespark"
+            },
+            {
+              "id": 9,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [
+                    "Gravity",
+                    "canConsecutiveWalljump"
+                  ]
+                },
+                {
+                  "name": "Grapple Jump",
+                  "notable": false,
+                  "requires": [
+                    "canSuitlessMaridia",
+                    "canGrappleJump"
+                  ]
+                },
+                {
+                  "name": "Snail Climb",
+                  "notable": false,
+                  "requires": [
+                    "canSuitlessMaridia",
+                    "canSnailClimb"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 3,
+          "to": [
+            {
+              "id": 4,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": ["Gravity"]
+                },
+                {
+                  "name": "Suitless",
+                  "notable": false,
+                  "requires": ["canSuitlessMaridia"]
+                }
+              ],
+              "note": "There's nothing difficult about getting here suitless, but it does run a heavy risk of leading the player into suitless Maridia situations"            }
+          ]
+        },
+        {
+          "from": 4,
+          "to": [
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": ["Gravity"]
+                },
+                {
+                  "name": "Suitless",
+                  "notable": false,
+                  "requires": ["canSuitlessMaridia"]
+                }
+              ]
+            },
+            {
+              "id": 3,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": ["Gravity"]
+                },
+                {
+                  "name": "Suitless",
+                  "notable": false,
+                  "requires": ["canSuitlessMaridia"]
+                }
+              ],
+              "note": "There's nothing difficult about getting here suitless, but it does run a heavy risk of leading the player into suitless Maridia situations"
+            }
+          ]
+        },
+        {
+          "from": 5,
+          "to": [
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            },
+            {
+              "id": 7,
+              "strats": [
+                {
+                  "name": "Snail Clip",
+                  "notable": false,
+                  "requires": [
+                    "Gravity",
+                    "canSnailClip"
+                  ]
+                },
+                {
+                  "name": "Shinespark",
+                  "notable": false,
+                  "requires": [
+                    "Gravity",
+                    {"canShineCharge": {
+                      "usedTiles": 20,
+                      "shinesparkFrames": 25,
+                      "openEnd": 2
+                    }}
+                  ]
+                }
+              ]
+            },
+            {
+              "id": 8,
+              "strats": [
+                {
+                  "name": "Aqueduct Right-Side X-Ray Climb",
+                  "notable": false,
+                  "requires": [
+                    "canLeftFacingDoorXRayClimb",
+                    { "resetRoom": {
+                      "nodes": [5],
+                      "mustStayPut": true
+                    }},
+                    {"adjacentRunway": {
+                      "fromNode": 5,
+                      "usedTiles": 0.5,
+                      "overrideRunwayRequirements": true,
+                      "physics": ["normal"],
+                      "useFrames": 200
+                    }}
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 6,
+          "to": [
+            {
+              "id": 9,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 7,
+          "to": [
+            {
+              "id": 8,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 8,
+          "to": [
+            {
+              "id": 5,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            },
+            {
+              "id": 7,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 9,
+          "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [
+                    "Gravity",
+                    "h_canDestroyBombWalls"
+                  ]
+                },
+                {
+                  "name": "Suitless",
+                  "notable": false,
+                  "requires": [
+                    "canSuitlessMaridia",
+                    "h_canBombThings"
+                  ]
+                }
+              ]
+            },
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            },
+            {
+              "id": 6,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [
+                    {"or":[
+                      "Gravity",
+                      "HiJump",
+                      "canSpringBallJumpMidAir"
+                    ]}
+                  ]
+                },
+                {
+                  "name": "Aqueduct Top Door Snailstep",
+                  "notable": false,
+                  "requires": ["canUseEnemies"],
+                  "note": "Involves waiting around for a snail to come along, in order to reach the door by jumping while standing on it."
+                },
+                {
+                  "name": "Aqueduct Top Door Crouch Jump",
+                  "notable": false,
+                  "requires": [
+                    "canCrouchJump",
+                    "canCarefulJump"
+                  ],
+                  "note": "Crouch on the ledge to the left where Samus is mostly hanging off, jump then move over quickly without spin jumping."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 184,
+      "name": "Botwoon Hallway",
+      "area": "Maridia",
+      "subarea": "Inner",
+      "playable": true,
+      "roomAddress": "0x7D617",
+      "roomEnvironments": [{ "heated": false } ],
+      "nodes": [
+        {
+          "id": 1,
+          "name": "Botwoon Hallway Bottom Door (to Aqueduct)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x001a768",
+          "doorEnvironments": [{"physics": "water"}],
+          "canLeaveCharged": [
+            {
+              "usedTiles": 33,
+              "framesRemaining": 80,
+              "openEnd": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "Gravity" ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Botwoon Hallway Right Door (to Botwoon)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x001a774",
+          "doorEnvironments": [{"physics": "water"}],
+          "runways": [
+            {
+              "name": "Base Runway - Botwoon Hallway Right Door (to Botwoon)",
+              "length": 4,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "Gravity" ]
+                }
+              ],
+              "openEnd": 1
+            }
+          ],
+          "canLeaveCharged": [
+            {
+              "usedTiles": 33,
+              "framesRemaining": 90,
+              "openEnd": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "Gravity" ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "enemies": [
+        {
+          "id": "e1",
+          "groupName": "Botwoon Hallway Left Mochtroids",
+          "enemyName": "Mochtroid",
+          "quantity": 2,
+          "homeNodes": [ 1 ]
+        },
+        {
+          "id": "e2",
+          "groupName": "Botwoon Hallway Middle Mochtroid",
+          "enemyName": "Mochtroid",
+          "quantity": 1,
+          "betweenNodes": [1,2],
+          "dropRequires": [
+            {"or": [
+              "Morph",
+              "Grapple"
+            ]}
+          ],
+          "note": "It's stuck in a prison and you need morph to enter."
+        },
+        {
+          "id": "e3",
+          "groupName": "Botwoon Hallway Right Mochtroid",
+          "enemyName": "Mochtroid",
+          "quantity": 1,
+          "betweenNodes": [1,2]
+        },
+        {
+          "id": "e4",
+          "groupName": "Botwoon Hallway Puyos",
+          "enemyName": "Puyo",
+          "quantity": 2,
+          "betweenNodes": [1,2]
+        }
+      ],
+      "reusableRoomwideNotable": [
+        {
+          "name": "Botwoon Hallway Puyo Ice Clip",
+          "note": "Herding the rightmost puyo into the ice clip position. It will become uncooperative after a few tries"
+        },
+        {
+          "name": "Botwoon Hallway Suitless Crystal Flash Clip",
+          "note": [
+            "Find the crumble blocks and crystal flash mid-air, just below them.",
+            "Hold down as the CF ends to break the non-respawning crumble blocks.",
+            "This is for the much harder version, without Gravity and Morph Bombs."
+          ]
+        }
+      ],
+      "links": [
+        {
+          "from": 1,
+          "to": [
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [
+                    "Gravity",
+                    "SpeedBooster"
+                  ]
+                },
+                {
+                  "name": "Botwoon Hallway Puyo Ice Clip (Left to Right)",
+                  "notable": true,
+                  "requires": [
+                    "h_canNavigateUnderwater",
+                    "canPuyoIceClip"
+                  ],
+                  "reusableRoomwideNotable": "Botwoon Hallway Puyo Ice Clip"
+                },
+                {
+                  "name": "Botwoon Mochtroid Clip (Left to Right)",
+                  "notable": false,
+                  "requires": [
+                    "h_canNavigateUnderwater",
+                    "canMochtroidIceClip"
+                  ]
+                },
+                {
+                  "name": "Botwoon CF Clip (Left to Right)",
+                  "notable": false,
+                  "requires": [
+                    "canCrystalFlashClip",
+                    "Gravity",
+                    "Bombs"
+                  ],
+                  "note": [
+                    "Find the crumble blocks and crystal flash mid-air, just below them.",
+                    "They are on the far right of the ceiling of the bottom right pathway.",
+                    "Hold down as the CF ends to break the non-respawning crumble blocks.",
+                    "The vertical positioning can be setup using Gravity and Morph Bombs."
+                  ]
+                },
+                {
+                  "name": "Botwoon Hallway Suitless CF Clip (Left to Right)",
+                  "notable": true,
+                  "requires": [
+                    "canCrystalFlashClip",
+                    "canSuitlessMaridia"
+                  ],
+                  "reusableRoomwideNotable": "Botwoon Hallway Suitless Crystal Flash Clip",
+                  "note": [
+                    "Find the crumble blocks and crystal flash mid-air, just below them.",
+                    "They are on the far right of the ceiling of the bottom right pathway.",
+                    "Hold down as the CF ends to break the non-respawning crumble blocks.",
+                    "This is for the much harder version, without Gravity and Morph Bombs."
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 2,
+          "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [
+                    "Gravity",
+                    "SpeedBooster"
+                  ]
+                },
+                {
+                  "name": "Botwoon Hallway Puyo Ice Clip (Right to Left)",
+                  "notable": true,
+                  "requires": [
+                    "h_canNavigateUnderwater",
+                    "canPuyoIceClip"
+                  ],
+                  "reusableRoomwideNotable": "Botwoon Hallway Puyo Ice Clip"
+                },
+                {
+                  "name": "Botwoon Mochtroid Clip (Right to Left)",
+                  "notable": false,
+                  "requires": [
+                    "h_canNavigateUnderwater",
+                    "canMochtroidIceClip"
+                  ]
+                },
+                {
+                  "name": "Botwoon CF Clip (Right to Left)",
+                  "notable": false,
+                  "requires": [
+                    "canCrystalFlashClip",
+                    "Gravity",
+                    "Bombs"
+                  ],
+                  "note": [
+                    "Find the crumble blocks and crystal flash mid-air, just below them.",
+                    "They are on the far left of the ceiling of the middle left pathway.",
+                    "Hold down as the CF ends to break the non-respawning crumble blocks.",
+                    "The vertical positioning can be setup using Gravity and Morph Bombs."
+                  ]
+                },
+                {
+                  "name": "Botwoon Hallway Suitless CF Clip (Right to Left)",
+                  "notable": true,
+                  "requires": [
+                    "canCrystalFlashClip",
+                    "canSuitlessMaridia"
+                  ],
+                  "reusableRoomwideNotable": "Botwoon Hallway Suitless Crystal Flash Clip",
+                  "note": [
+                    "Find the crumble blocks and crystal flash mid-air, just below them.",
+                    "They are on the far left of the ceiling of the middle left pathway.",
+                    "Hold down as the CF ends to break the non-respawning crumble blocks.",
+                    "This is for the much harder version, without Gravity and Morph Bombs."
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 185,
+      "name": "Botwoon's Room",
+      "area": "Maridia",
+      "subarea": "Inner",
+      "playable": true,
+      "roomAddress": "0x7D95E",
+      "roomEnvironments": [{ "heated": false } ],
+      "nodes": [
+        {
+          "id": 1,
+          "name": "Botwoon Left Door (to Botwoon Hallway)",
+          "nodeType": "door",
+          "nodeSubType": "grey",
+          "nodeAddress": "0x001a90c",
+          "doorEnvironments": [{"physics": "water"}],
+          "locks": [
+            {
+              "name": "Botwoon Grey Lock (to Botwoon Hallway)",
+              "lockType": "gameFlag",
+              "unlockStrats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "f_DefeatedBotwoon" ]
+                }
+              ]
+            }
+          ],
+          "runways": [
+            {
+              "name": "Base Runway - Botwoon Left Door (to Botwoon Hallway)",
+              "length": 0,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "Gravity" ]
+                }
+              ],
+              "openEnd": 1
+            }
+          ],
+          "canLeaveCharged": [
+            {
+              "usedTiles": 16,
+              "framesRemaining": 100,
+              "openEnd": 0,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [
+                    "Gravity",
+                    "f_DefeatedBotwoon"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Botwoon Right Door (to E-Tank)",
+          "nodeSubType": "blue",
+          "nodeType": "door",
+          "nodeAddress": "0x001a918",
+          "doorEnvironments": [{"physics": "water"}],
+          "runways": [
+            {
+              "name": "Base Runway - Botwoon Right Door (to E-Tank)",
+              "length": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "Gravity" ]
+                }
+              ],
+              "usableComingIn": false,
+              "openEnd": 1
+            }
+          ],
+          "canLeaveCharged": [
+            {
+              "usedTiles": 16,
+              "framesRemaining": 40,
+              "openEnd": 0,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [
+                    "Gravity",
+                    "f_DefeatedBotwoon"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "name": "Botwoon 1",
+          "nodeType": "event",
+          "nodeSubType": "boss"
+        },
+        {
+          "id": 4,
+          "name": "Back-Side Botwoon",
+          "nodeType": "event",
+          "nodeSubType": "boss",
+          "locks": [
+            {
+              "name": "Back-Side Botwoon Fight: Charge, Wave, Gravity",
+              "lockType": "bossFight",
+              "unlockStrats": [
+                {
+                  "name": "Back-Side Botwoon Fight: Gravity, Charge, Wave",
+                  "notable": true,
+                  "requires": [
+                    "Gravity",
+                    "Charge",
+                    "Wave"
+                  ],
+                  "reusableRoomwideNotable": "Back-Side Botwoon Fight with Charge and Wave",
+                  "note": [
+                    "With Gravity, dodging the acid is pretty trivial.",
+                    "Even without knowing about the distance trick expected in the suitless version."
+                  ]
+                },
+                {
+                  "name": "Back-Side Botwoon Fight: Suitless, Charge, Wave",
+                  "notable": true,
+                  "requires": [
+                    "canSuitlessMaridia",
+                    "Charge",
+                    "Wave"
+                  ],
+                  "reusableRoomwideNotable": "Back-Side Botwoon Fight with Charge and Wave",
+                  "note": [
+                    "Even when suitless, it's possible to stand far enough that the acid attack doesn't spawn.",
+                    "Botwoon still gets hit. So there's a safe way to take no damage."
+                  ]
+                }
+              ]
+            }
+          ],
+          "yields": [ "f_DefeatedBotwoon" ],
+          "note": "This represents fighting Botwoon from behind the wall."
+        },
+        {
+          "id": 5,
+          "name": "Botwoon 2",
+          "nodeType": "event",
+          "nodeSubType": "boss",
+          "locks": [
+            {
+              "name": "Botwoon Fight",
+              "lockType": "bossFight",
+              "unlockStrats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [
+                    {"enemyKill":{
+                      "enemies": [
+                        [ "Botwoon 2" ]
+                      ]
+                    }}
+                  ]
+                }
+              ]
+            }
+          ],
+          "yields": [ "f_DefeatedBotwoon" ]
+        }
+      ],
+      "enemies": [
+        {
+          "id": "e1",
+          "groupName": "Botwoon 1",
+          "enemyName": "Botwoon 1",
+          "quantity": 1,
+          "homeNodes": [ 3 ],
+          "stopSpawn": [ "f_DefeatedBotwoon" ]
+        },
+        {
+          "id": "e2",
+          "groupName": "Botwoon 2",
+          "enemyName": "Botwoon 2",
+          "quantity": 1,
+          "homeNodes": [ 4 ],
+          "stopSpawn": [ "f_DefeatedBotwoon" ]
+        }
+      ],
+      "reusableRoomwideNotable": [
+        {
+          "name": "Back-Side Botwoon Fight with Charge and Wave",
+          "note": "Use Charge and Wave to kill Botwoon from the right, through the wall."
+        }
+      ],
+      "links": [
+        {
+          "from": 1,
+          "to": [
+            {
+              "id": 3,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 2,
+          "to": [
+            {
+              "id": 4,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 3,
+          "to": [
+            {
+              "id": 5,
+              "strats": [
+                {
+                  "name": "Already Killed",
+                  "notable": false,
+                  "requires": [ "f_DefeatedBotwoon" ]
+                },
+                {
+                  "name": "Gravity",
+                  "notable": false,
+                  "requires": [
+                    "Gravity",
+                    {"enemyKill":{
+                      "enemies": [
+                        [ "Botwoon 1" ]
+                      ]
+                    }}
+                  ]
+                },
+                {
+                  "name": "Suitless Botwoon Kill",
+                  "notable": true,
+                  "requires": [
+                    "canSuitlessMaridia",
+                    {"enemyKill":{
+                      "enemies": [
+                        [ "Botwoon 1" ]
+                      ]
+                    }}
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 4,
+          "to": [
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            },
+            {
+              "id": 5,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "f_DefeatedBotwoon" ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 5,
+          "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            },
+            {
+              "id": 4,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "f_DefeatedBotwoon" ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 186,
+      "name": "Botwoon Energy Tank Room",
+      "area": "Maridia",
+      "subarea": "Inner",
+      "playable": true,
+      "roomAddress": "0x7D7E4",
+      "roomEnvironments": [{ "heated": false } ],
+      "nodes": [
+        {
+          "id": 1,
+          "name": "Botwoon E-Tank Left Door (to Botwoon)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x001a84c",
+          "doorEnvironments": [{"physics": "water"}],
+          "runways": [
+            {
+              "name": "Base Runway - Botwoon E-Tank Left Door (to Botwoon)",
+              "length": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "Gravity" ]
+                }
+              ],
+              "usableComingIn": false,
+              "openEnd": 1
+            }
+          ],
+          "canLeaveCharged": [
+            {
+              "usedTiles": 33,
+              "framesRemaining": 120,
+              "openEnd": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "Gravity" ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Botwoon E-Tank Left Sand Pit (to Botwoon Quicksand Left)",
+          "nodeType": "exit",
+          "nodeSubType": "sandpit",
+          "nodeAddress": "0x001a858"
+        },
+        {
+          "id": 3,
+          "name": "Botwoon E-Tank Right Sand Pit (to Botwoon Quicksand Right)",
+          "nodeType": "exit",
+          "nodeSubType": "sandpit",
+          "nodeAddress": "0x001a864"
+        },
+        {
+          "id": 4,
+          "name": "Botwoon E-Tank Right Door (to Halfie Climb)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x001a870",
+          "doorEnvironments": [{"physics": "water"}],
+          "runways": [
+            {
+              "name": "Base Runway - Botwoon E-Tank Right Door (to Halfie Climb)",
+              "length": 22,
+              "gentleUpTiles": 4,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "Gravity" ]
+                }
+              ],
+              "openEnd": 1
+            }
+          ]
+        },
+        {
+          "id": 5,
+          "name": "Energy Tank, Botwoon",
+          "nodeType": "item",
+          "nodeSubType": "visible",
+          "nodeItem": "ETank",
+          "nodeAddress": "0x7C755"
+        },
+        {
+          "id": 6,
+          "name": "Botwoon E-Tank Junction (Right of Morph Passage)",
+          "nodeType": "junction",
+          "nodeSubType": "junction"
+        }
+      ],
+      "obstacles": [
+        {
+          "id": "A",
+          "name": "Speed Blocks",
+          "obstacleType": "inanimate"
+        }
+      ],
+      "enemies": [
+        {
+          "id": "e1",
+          "groupName": "Botwoon E-Tank Left Puyos",
+          "enemyName": "Puyo",
+          "quantity": 4,
+          "homeNodes": [ 1 ]
+        },
+        {
+          "id": "e2",
+          "groupName": "Botwoon E-Tank Right Puyo",
+          "enemyName": "Puyo",
+          "quantity": 1,
+          "homeNodes": [ 3 ]
+        },
+        {
+          "id": "e3",
+          "groupName": "Botwoon E-Tank Zoas",
+          "enemyName": "Zoa",
+          "quantity": 5,
+          "homeNodes": [ 4 ],
+          "farmCycles": [
+            {
+              "name": "Zoa Power Beam spam",
+              "cycleFrames": 150,
+              "requires": ["Gravity"],
+              "note": "Needs Gravity to get into the sand"
+            },
+            {
+              "name": "Zoa Power Beam suitless back and forth",
+              "cycleFrames": 300,
+              "requires": ["canSuitlessMaridia"]
+            },
+            {
+              "name": "Zoa diagonal Grapple",
+              "cycleFrames": 150,
+              "requires": ["Grapple"]
+            }
+          ]
+        }
+      ],
+      "links": [
+        {
+          "from": 1,
+          "to": [
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": ["Gravity"]
+                },
+                {
+                  "name": "Suitless",
+                  "notable": false,
+                  "requires": ["canSuitlessMaridia"]
+                }
+              ],
+              "note": "There's nothing difficult about getting here suitless, but it does run a heavy risk of leading the player into suitless Maridia situations"
+            },
+            {
+              "id": 3,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": ["Gravity"]
+                },
+                {
+                  "name": "Suitless",
+                  "notable": false,
+                  "requires": ["canSuitlessMaridia"]
+                }
+              ],
+              "note": "There's nothing difficult about getting here suitless, but it does run a heavy risk of leading the player into suitless Maridia situations"
+            },
+            {
+              "id": 4,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": ["Gravity"],
+                  "obstacles": [
+                    {
+                      "id": "A",
+                      "requires":["SpeedBooster"]
+                    }
+                  ]
+                },
+                {
+                  "name": "Suitless Spark",
+                  "notable": false,
+                  "requires": ["canSuitlessMaridia"],
+                  "obstacles": [
+                    {
+                      "id": "A",
+                      "requires": [
+                        {"canComeInCharged": {
+                          "fromNode": 1,
+                          "framesRemaining": 80,
+                          "shinesparkFrames": 159
+                        }}
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "note": "Direct link passing below. Passage above should go 1 -> 5 -> 4."
+            },
+            {
+              "id": 5,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [
+                    "Gravity",
+                    "Morph"
+                  ]
+                },
+                {
+                  "name": "Suitless Jump Assist",
+                  "notable": false,
+                  "requires": [
+                    "canSuitlessMaridia",
+                    "Morph",
+                    {"or": [
+                      "canSpringBallJumpMidAir",
+                      "HiJump"
+                    ]}
+                  ]
+                },
+                {
+                  "name": "Suitless Frozen Puyo",
+                  "notable": false,
+                  "requires": [
+                    "canSuitlessMaridia",
+                    "Morph",
+                    "canUseFrozenEnemies"
+                  ]
+                },
+                {
+                  "name": "Cross Room Jump with Speedbooster",
+                  "notable": false,
+                  "requires": [
+                    "Morph",
+                    "canCrossRoomJumpIntoWater",
+                    "SpeedBooster",
+                    {"adjacentRunway": {
+                      "fromNode": 1,
+                      "usedTiles": 44,
+                      "inRoomPath": [ 1, 5 ],
+                      "physics": ["air"]
+                    }}
+                  ],
+                  "note": "Needs max horizontal speed coming from 44 runway tiles in the adjacent room."
+                },
+                {
+                  "name": "Cross Room Jump with Speedbooster, Spring Ball",
+                  "notable": false,
+                  "requires": [
+                    "Morph",
+                    "canCrossRoomJumpIntoWater",
+                    "SpeedBooster",
+                    "canSpringBallBounce",
+                    {"adjacentRunway": {
+                      "fromNode": 1,
+                      "usedTiles": 7.5,
+                      "inRoomPath": [ 1, 5 ],
+                      "physics": ["air"]
+                    }}
+                  ],
+                  "note": "Needs a runway of approximately 7.5 tiles in the adjacent room, to get enough height. This is a peak of height with speed booster, no hjb, while underwater."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 2,
+          "to": []
+        },
+        {
+          "from": 3,
+          "to": []
+        },
+        {
+          "from": 4,
+          "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": ["Gravity"],
+                  "obstacles": [
+                    {
+                      "id": "A",
+                      "requires": [
+                        {"or": [
+                          {"canComeInCharged": {
+                            "fromNode": 4,
+                            "framesRemaining": 180,
+                            "shinesparkFrames": 0
+                          }},
+                          {"canComeInCharged": {
+                            "fromNode": 4,
+                            "framesRemaining": 80,
+                            "shinesparkFrames": 115
+                          }}
+                        ]}
+                      ]
+                    }
+                  ],
+                  "note": "The canComeInCharged with 180 frames remaining is intended to logically include an in-room short charge."
+                },
+                {
+                  "name": "Suitless Spark",
+                  "notable": false,
+                  "requires": ["canSuitlessMaridia"],
+                  "obstacles": [
+                    {
+                      "id": "A",
+                      "requires": [
+                        {"canComeInCharged": {
+                          "fromNode": 4,
+                          "framesRemaining": 160,
+                          "shinesparkFrames": 147
+                        }}
+                      ]
+                    }
+                  ],
+                  "note": "Coming in with zero momentum, all it takes is one non-hjb full height bounce forward, then activate."
+                }
+              ],
+              "note": "Direct link passing below. Passage above should go 4 -> 5 -> 1."
+            },
+            {
+              "id": 6,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [
+                    "Gravity"
+                  ]
+                },
+                {
+                  "name": "Suitless Jump Assist",
+                  "notable": false,
+                  "requires": [
+                    "canSuitlessMaridia",
+                    {"or": [
+                      "canSpringBallJumpMidAir",
+                      "HiJump"
+                    ]}
+                  ]
+                },
+                {
+                  "name": "Suitless Frozen Zoa",
+                  "notable": false,
+                  "requires": [
+                    "canSuitlessMaridia",
+                    "canUseFrozenEnemies"
+                  ]
+                },
+                {
+                  "name": "Cross Room Jump with Speedbooster",
+                  "notable": false,
+                  "requires": [
+                    "canCrossRoomJumpIntoWater",
+                    "SpeedBooster",
+                    {"adjacentRunway": {
+                      "fromNode": 4,
+                      "usedTiles": 7.5,
+                      "inRoomPath": [ 4, 6 ],
+                      "physics": ["air"]
+                    }}
+                  ],
+                  "note": "Requires approximately 7.5 tiles in the adjacent room, as this is a peak in jump speed."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 5,
+          "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "Morph" ]
+                }
+              ]
+            },
+            {
+              "id": 6,
+              "strats": [
+                {
+                  "name": "Midair Morph",
+                  "notable": false,
+                  "requires": [
+                    "h_canNavigateUnderwater",
+                    "Morph"
+                  ],
+                  "note": [
+                    "With Gravity, this means taking it off to mid-air morph. That doesn't count as true suitless Maridia.",
+                    "There are otherways to do this than a mid-air morph, but they have more requirements than this strat which isn't even notable."
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 6,
+          "to": [
+            {
+              "id": 4,
+              "strats" : [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            },
+            {
+              "id": 5,
+              "strats": [
+                {
+                  "name": "Midair Morph",
+                  "notable": false,
+                  "requires": [
+                    "h_canNavigateUnderwater",
+                    "Morph"
+                  ],
+                  "note": [
+                    "With Gravity, this means taking it off to mid-air morph. That doesn't count as true suitless Maridia.",
+                    "There are otherways to do this than a mid-air morph, but they have more requirements than this strat which isn't even notable."
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 187,
+      "name": "Halfie Climb Room",
+      "area": "Maridia",
+      "subarea": "Inner",
+      "playable": true,
+      "roomAddress": "0x7D913",
+      "roomEnvironments": [{ "heated": false } ],
+      "nodes": [
+        {
+          "id": 1,
+          "name": "Halfie Climb Top Left Door (to East Cactus Alley)",
+          "nodeType": "door",
+          "nodeSubType": "grey",
+          "nodeAddress": "0x001a900",
+          "doorEnvironments": [{"physics": "water"}],
+          "runways": [
+            {
+              "name": "Base Runway - Halfie Climb Top Left Door (to East Cactus Alley)",
+              "length": 1,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "Gravity" ]
+                }
+              ],
+              "usableComingIn": false,
+              "openEnd": 1
+            }
+          ],
+          "locks": [
+            {
+              "name": "Halfie Climb Grey Lock (to East Cactus Alley)",
+              "lockType": "gameFlag",
+              "unlockStrats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "f_DefeatedDraygon" ]
+                }
+              ],
+              "bypassStrats": [
+                {
+                  "name": "Halfie Climb Room Xray Climb Grapple Clip",
+                  "notable": true,
+                  "requires": [
+                    "h_canNavigateUnderwater",
+                    "canRightFacingDoorXRayClimb",
+                    "canGrappleClip",
+                    {"resetRoom":{
+                      "nodes": [2],
+                      "mustStayPut": true
+                    }},
+                    {"adjacentRunway": {
+                      "fromNode": 2,
+                      "usedTiles": 0.5,
+                      "overrideRunwayRequirements": true,
+                      "useFrames": 200
+                    }}
+
+                  ],
+                  "note": [
+                    "Perform an Xray Climb until you are just above the door into Cacatac Alley.",
+                    "Walk left into the gap between pipes, behind the grapple blocks.",
+                    "Walk to the left wall, turn around, crouch, grapple the block and release.",
+                    "Samus will fall into the door transition.",
+                    "The camera Does not follow Samus but the pipes are still visually in the same position.  And the camera does not break after the transition."
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Halfie Climb Bottom Left Door (to Botwoon E-Tank)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x001a8dc",
+          "doorEnvironments": [{"physics": "water"}],
+          "runways": [
+            {
+              "name": "Base Runway - Halfie Climb Bottom Left Door (to Botwoon E-Tank)",
+              "length": 12,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "Gravity" ]
+                }
+              ],
+              "openEnd": 0
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "name": "Halfie Climb Bottom Right Door (to Recharge)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x001a8f4",
+          "doorEnvironments": [{"physics": "water"}],
+          "runways": [
+            {
+              "name": "Base Runway - Halfie Climb Bottom Right Door (to Recharge)",
+              "length": 0,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "Gravity" ]
+                }
+              ],
+              "openEnd": 1
+            }
+          ],
+          "canLeaveCharged": [
+            {
+              "usedTiles": 33,
+              "framesRemaining": 120,
+              "openEnd": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "Gravity" ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 4,
+          "name": "Halfie Climb Top Right Door (to Colosseum)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x001a8e8",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Halfie Climb Top Right Door (to Colosseum)",
+              "length": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "usableComingIn": false,
+              "openEnd": 1
+            }
+          ]
+        }
+      ],
+      "enemies": [
+        {
+          "id": "e1",
+          "groupName": "Halfie Climb Mochtroids",
+          "enemyName": "Mochtroid",
+          "quantity": 3,
+          "homeNodes": [ 1, 2 ]
+        },
+        {
+          "id": "e2",
+          "groupName": "Halfie Climb Oums",
+          "enemyName": "Oum",
+          "quantity": 3,
+          "homeNodes": [ 3 ]
+        }
+      ],
+      "links": [
+        {
+          "from": 1,
+          "to": [
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            },
+            {
+              "id": 4,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [
+                    "Gravity",
+                    {"or": [
+                      "HiJump",
+                      "canConsecutiveWalljump"
+                    ]}
+                  ]
+                },
+                {
+                  "name": "Shinespark",
+                  "notable": false,
+                  "requires": [
+                    {"canComeInCharged": {
+                      "fromNode": 1,
+                      "framesRemaining": 20,
+                      "shinesparkFrames": 25
+                    }}
+                  ]
+                },
+                {
+                  "name": "Mochtroid Climb",
+                  "notable": false,
+                  "requires": [
+                    "canSuitlessMaridia",
+                    "canMochtroidIceClimb"
+                  ]
+                },
+                {
+                  "name": "Suitless Grapple",
+                  "notable": false,
+                  "requires": [
+                    "canSuitlessMaridia",
+                    "Grapple"
+                  ]
+                },
+                {
+                  "name": "Break Free",
+                  "notable": false,
+                  "requires": [
+                    "canSuitlessMaridia",
+                    "HiJump",
+                    "SpaceJump"
+                  ]
+                },
+                {
+                  "name": "Cross Room Jump with Wall Jump",
+                  "notable": false,
+                  "requires": [
+                    "canWalljump",
+                    "canCrossRoomJumpIntoWater",
+                    {"adjacentRunway": {
+                      "fromNode": 1,
+                      "usedTiles": 1.5,
+                      "inRoomPath": [ 1, 4 ],
+                      "physics": ["air"]
+                    }}
+                  ],
+                  "note": "Requires a runway of approximately 1.5 tiles in the adjacent room."
+                },
+                {
+                  "name": "Cross Room Jump with Space Jump",
+                  "notable": false,
+                  "requires": [
+                    "SpaceJump",
+                    "canCrossRoomJumpIntoWater",
+                    {"adjacentRunway": {
+                      "fromNode": 1,
+                      "usedTiles": 1.5,
+                      "inRoomPath": [ 1, 4 ],
+                      "physics": ["air"]
+                    }}
+                  ],
+                  "note": "Requires a runway of approximately 1.5 tiles in the adjacent room."
+                },
+                {
+                  "name": "Cross Room Jump with IBJ",
+                  "notable": false,
+                  "requires": [
+                    "canJumpIntoIBJ",
+                    {"or":[
+                      "canDoubleBombJump",
+                      {"enemyDamage": {
+                        "enemy": "Mochtroid",
+                        "type": "contact",
+                        "hits": 2
+                      }}
+                    ]},
+                    "canCrossRoomJumpIntoWater",
+                    "canMomentumConservingTurnaround",
+                    {"adjacentRunway": {
+                      "fromNode": 1,
+                      "usedTiles": 1,
+                      "inRoomPath": [ 1, 4 ],
+                      "physics": ["air"]
+                    }}
+                  ],
+                  "note": [
+                    "Only requires a runway of approximately 1 tile in the adjacent room.",
+                    "Take two Mochtroid hits or use a double bomb jump."
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 2,
+          "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [
+                    "Gravity",
+                    {"or": [
+                      "canWalljump",
+                      {"and": [
+                        "HiJump",
+                        "SpeedBooster"
+                      ]}
+                    ]}
+                  ]
+                },
+                {
+                  "name": "Shinespark",
+                  "notable": false,
+                  "requires": [
+                    {"canComeInCharged": {
+                      "fromNode": 2,
+                      "framesRemaining": 30,
+                      "shinesparkFrames": 20
+                    }}
+                  ]
+                },
+                {
+                  "name": "Halfie Climb X-Ray Climb",
+                  "notable": false,
+                  "requires": [
+                    "canSuitlessMaridia",
+                    "canRightFacingDoorXRayClimb",
+                    {"resetRoom":{
+                      "nodes": [2],
+                      "mustStayPut": true
+                    }},
+                    {"adjacentRunway": {
+                      "fromNode": 2,
+                      "usedTiles": 0.5,
+                      "overrideRunwayRequirements": true,
+                      "useFrames": 200
+                    }}
+                  ]
+                },
+                {
+                  "name": "Mochtroid Climb",
+                  "notable": false,
+                  "requires": [
+                    "canSuitlessMaridia",
+                    "canMochtroidIceClimb"
+                  ]
+                },
+                {
+                  "name": "Suitless Grapple",
+                  "notable": false,
+                  "requires": [
+                    "canSuitlessMaridia",
+                    "Grapple"
+                  ]
+                },
+                {
+                  "name": "Cross Room Jump",
+                  "notable": false,
+                  "requires": [
+                    "canCrossRoomJumpIntoWater",
+                    {"adjacentRunway": {
+                      "fromNode": 2,
+                      "usedTiles": 1.5,
+                      "inRoomPath": [ 2, 1 ],
+                      "physics": ["air"]
+                    }}
+                  ],
+                  "note": "Only requires a runway of approximately 1.5 tiles in the adjacent room."
+                },
+                {
+                  "name": "Cross Room Jump with Turnaround",
+                  "notable": false,
+                  "requires": [
+                    "canCrossRoomJumpIntoWater",
+                    "canMomentumConservingTurnaround",
+                    {"adjacentRunway": {
+                      "fromNode": 2,
+                      "usedTiles": 0.5,
+                      "inRoomPath": [ 2, 1 ],
+                      "physics": ["air"]
+                    }}
+                  ],
+                  "note": "Only requires a runway of approximately 0.5 tiles in the adjacent room."
+                }
+              ]
+            },
+            {
+              "id": 3,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [
+                    "Morph",
+                    "Gravity"
+                  ]
+                },
+                {
+                  "name": "Suitless",
+                  "notable": false,
+                  "requires": [
+                    "Morph",
+                    "canSuitlessMaridia",
+                    {"or": [
+                      "canSpringBallJumpMidAir",
+                      "HiJump",
+                      "canSunkenTileWideWallClimb"
+                     ]}
+                  ],
+                  "devNote": "Run away from the oums and reclimb after each to avoid needing to jump over them."
+                }
+              ]
+            },
+            {
+              "id": 4,
+              "strats": [
+                {
+                  "name": "Shinespark",
+                  "notable": false,
+                  "requires": [
+                    {"canComeInCharged": {
+                      "fromNode": 2,
+                      "framesRemaining": 30,
+                      "shinesparkFrames": 45
+                    }}
+                  ]
+                },
+                {
+                  "name": "Cross Room Jump with Speedbooster, HiJump",
+                  "notable": false,
+                  "requires": [
+                    "SpeedBooster",
+                    "HiJump",
+                    "canDownGrab",
+                    "canCrossRoomJumpIntoWater",
+                    {"adjacentRunway": {
+                      "fromNode": 2,
+                      "usedTiles": 8.5,
+                      "inRoomPath": [ 2, 4 ],
+                      "physics": ["air"]
+                    }}
+                  ],
+                  "note": "Requires a runway of approximately 8.5 tiles in the adjacent room."
+                },
+                {
+                  "name": "Cross Room Jump with Spring Ball and IBJ",
+                  "notable": false,
+                  "requires": [
+                    "canSpringBallJumpMidAir",
+                    "canJumpIntoIBJ",
+                    {"or":[
+                      "canDoubleBombJump",
+                      {"enemyDamage": {
+                        "enemy": "Mochtroid",
+                        "type": "contact",
+                        "hits": 2
+                      }}
+                    ]},
+                    "canCrossRoomJumpIntoWater",
+                    {"adjacentRunway": {
+                      "fromNode": 2,
+                      "usedTiles": 1.5,
+                      "inRoomPath": [ 2, 4 ],
+                      "physics": ["air"]
+                    }}
+                  ],
+                  "note": [
+                    "Requires a runway of approximately 1.5 tiles in the adjacent room.",
+                    "Use a spring ball jump after breaking the water, then ibj.",
+                    "Take two Mochtroid hits or use a double bomb jump."
+                  ]
+                },
+                {
+                  "name": "Cross Room Jump with Wall Jump",
+                  "notable": false,
+                  "requires": [
+                    "canPreciseWalljump",
+                    "canCrossRoomJumpIntoWater",
+                    {"adjacentRunway": {
+                      "fromNode": 2,
+                      "usedTiles": 1.5,
+                      "inRoomPath": [ 2, 4 ],
+                      "physics": ["air"]
+                    }}
+                  ],
+                  "note": [
+                    "Requires a runway of approximately 1.5 tiles in the adjacent room.",
+                    "There is just enough room to wall jump after breaking the water."
+                  ]
+                }
+              ],
+              "note": "This link is only for the shinespark or cross room jump. Other strats should go 2 -> 1 -> 4."
+            }
+          ]
+        },
+        {
+          "from": 3,
+          "to": [
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [
+                    "Morph",
+                    "Gravity"
+                  ]
+                },
+                {
+                  "name": "Suitless With Jump Assist",
+                  "notable": false,
+                  "requires": [
+                    "Morph",
+                    "canSuitlessMaridia",
+                    {"or": [
+                      "canSpringBallJumpMidAir",
+                      "HiJump"
+                    ]}
+                  ]
+                },
+                {
+                  "name": "Halfie Climb Enter with Shinespark from the Bottom Right",
+                  "notable": true,
+                  "requires": [
+                    "Morph",
+                    "canSuitlessMaridia",
+                    "canUseEnemies",
+                    {"canComeInCharged": {
+                      "framesRemaining": 100,
+                      "fromNode": 3,
+                      "shinesparkFrames": 91,
+                      "excessShinesparkFrames": 4
+                    }}
+                  ],
+                  "note": [
+                    "Quickly shoot out the 3 shot blocks then horizontal spark breaking the speed blocks.",
+                    "Wait for the Oums to roll on their own to a place where they can be climbed.",
+                    "Do not stand on the Oums when they begin to attack."
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 4,
+          "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 188,
+      "name": "Maridia Missile Refill Room",
+      "area": "Maridia",
+      "subarea": "Inner",
+      "playable": true,
+      "roomAddress": "0x7D845",
+      "roomEnvironments": [{ "heated": false } ],
+      "nodes": [
+        {
+          "id": 1,
+          "name": "Maridia Missile Refill Room Door (to Halfie Climb)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x001a894",
+          "doorEnvironments": [{"physics": "water"}],
+          "runways": [
+            {
+              "name": "Base Runway - Maridia Missile Refill Room Door (to Halfie Climb)",
+              "length": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "Gravity" ]
+                }
+              ],
+              "usableComingIn": false,
+              "openEnd": 1
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Maridia Missile Refill",
+          "utility": [ "missile" ],
+          "nodeType": "utility",
+          "nodeSubType": "missile"
+        }
+      ],
+      "enemies": [],
+      "links": [
+        {
+          "from": 1,
+          "to": [
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 2,
+          "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 189,
+      "name": "Colosseum",
+      "area": "Maridia",
+      "subarea": "Inner",
+      "playable": true,
+      "roomAddress": "0x7D72A",
+      "roomEnvironments": [{ "heated": false } ],
+      "nodes": [
+        {
+          "id": 1,
+          "name": "Colosseum Left Door (to Halfie Climb)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x001a7e0",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Colosseum Left Door (to Halfie Climb)",
+              "length": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "openEnd": 1
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Colosseum Bottom Right Door (to Precious Room)",
+          "nodeType": "door",
+          "nodeSubType": "green",
+          "nodeAddress": "0x001a7f8",
+          "doorEnvironments": [{"physics": "water"}],
+          "runways": [
+            {
+              "name": "Base Runway - Colosseum Bottom Right Door (to Precious Room)",
+              "length": 3,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "Gravity" ]
+                }
+              ],
+              "openEnd": 1
+            }
+          ],
+          "locks": [
+            {
+              "name": "Colosseum Green Lock (to Previous Room)",
+              "lockType": "coloredDoor",
+              "unlockStrats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "h_canOpenGreenDoors" ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "name": "Colosseum Top Right Door (to Save)",
+          "nodeType": "door",
+          "nodeSubType": "red",
+          "nodeAddress": "0x001a7ec",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Colosseum Top Right Door (to Save)",
+              "length": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "usableComingIn": false,
+              "openEnd": 1
+            }
+          ],
+          "locks": [
+            {
+              "name": "Colosseum Red Lock (to Save)",
+              "lockType": "coloredDoor",
+              "unlockStrats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "h_canOpenRedDoors" ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "enemies": [
+        {
+          "id": "e1",
+          "groupName": "Colosseum Mochtroids",
+          "enemyName": "Mochtroid",
+          "quantity": 8,
+          "betweenNodes": [1,3]
+        }
+      ],
+      "reusableRoomwideNotable": [
+        {
+          "name": "Colosseum Suitless Grapple Only",
+          "note": "Cross the Colosseum with Grapple. Even if this is turned off it can be expected to go from the bottom right to top right door."
+        }
+      ],
+      "links": [
+        {
+          "from": 1,
+          "to": [
+            {
+              "id": 3,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [
+                    "Gravity",
+                    {"or": [
+                      "HiJump",
+                      "canConsecutiveWalljump"
+                    ]}
+                  ],
+                  "note" : "While that one walljump near the end is a bit precise, it does not require a delayed walljump."
+                },
+                {
+                  "name": "Space Jump",
+                  "notable": false,
+                  "requires": ["SpaceJump"],
+                  "note": "No water involved here, so no need for Gravity or canSuitlessMaridia."
+                },
+                {
+                  "name": "Shinespark",
+                  "notable": false,
+                  "requires": [
+                    {"canComeInCharged": {
+                      "fromNode": 1,
+                      "framesRemaining": 60,
+                      "shinesparkFrames": 125
+                    }}
+                  ]
+                },
+                {
+                  "name": "Colosseum Suitless Grapple (Left to Right)",
+                  "notable": true,
+                  "requires": [
+                    "canSuitlessMaridia",
+                    "Grapple"
+                  ],
+                  "reusableRoomwideNotable": "Colosseum Suitless Grapple Only"
+                },
+                {
+                  "name": "Colosseum Mochtroid Climb (Left to Right)",
+                  "notable": false,
+                  "requires": [
+                    "canSuitlessMaridia",
+                    "canSandMochtroidIceClimb"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 2,
+          "to": [
+            {
+              "id": 3,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": ["Gravity"]
+                },
+                {
+                  "name": "Mochtroid Climb",
+                  "notable": false,
+                  "requires": [
+                    "canSuitlessMaridia",
+                    "canMochtroidIceClimb"
+                  ]
+                },
+                {
+                  "name": "Suitless Grapple",
+                  "notable": false,
+                  "requires": [
+                    "canSuitlessMaridia",
+                    "Grapple"
+                  ]
+                },
+                {
+                  "name": "Cross Room Jump with IBJ",
+                  "notable": false,
+                  "requires": [
+                    "canIBJ",
+                    "canCrossRoomJumpIntoWater",
+                    "canMomentumConservingTurnaround",
+                    {"adjacentRunway": {
+                      "fromNode": 2,
+                      "usedTiles": 1,
+                      "inRoomPath": [ 2, 3 ],
+                      "physics": ["air"]
+                    }},
+                    {"enemyDamage": {
+                      "enemy": "Mochtroid",
+                      "type": "contact",
+                      "hits": 2
+                    }}
+                  ],
+                  "note": "Only requires a runway of approximately one tile in the adjacent room."
+                },
+                {
+                  "name": "Cross Room Jump with HiJump",
+                  "notable": false,
+                  "requires": [
+                    "HiJump",
+                    "canCrossRoomJumpIntoWater",
+                    "canMomentumConservingTurnaround",
+                    "canDownGrab",
+                    {"adjacentRunway": {
+                      "fromNode": 2,
+                      "usedTiles": 1.5,
+                      "inRoomPath": [ 2, 3 ],
+                      "physics": ["air"]
+                    }}
+                  ],
+                  "note": "Barely possible to do with a runway of one tile in the adjacent room."
+                },
+                {
+                  "name": "Cross Room Jump with Speedbooster",
+                  "notable": false,
+                  "requires": [
+                    "canTrickyDashJump",
+                    "canCrossRoomJumpIntoWater",
+                    "canMomentumConservingTurnaround",
+                    "canDownGrab",
+                    {"adjacentRunway": {
+                      "fromNode": 2,
+                      "usedTiles": 7.5,
+                      "inRoomPath": [ 2, 3 ],
+                      "physics": ["air"]
+                    }}
+                  ],
+                  "note": "Requires running a very precise distance of approximately 7.5 tiles in the adjacent room, to hit a peak of the speed vs height graph."
+                },
+                {
+                  "name": "Cross Room Jump with Spring Ball",
+                  "notable": false,
+                  "requires": [
+                    "canSpringBallJumpMidAir",
+                    "canCrossRoomJumpIntoWater",
+                    "canMomentumConservingTurnaround",
+                    {"adjacentRunway": {
+                      "fromNode": 2,
+                      "usedTiles": 1,
+                      "inRoomPath": [ 2, 3 ],
+                      "physics": ["air"]
+                    }}
+                  ],
+                  "note": "Only requires a runway of approximately one tile in the adjacent room."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 3,
+          "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [
+                    "Gravity",
+                    {"or": [
+                      "HiJump",
+                      "canConsecutiveWalljump"
+                    ]}
+                  ]
+                },
+                {
+                  "name": "Space Jump",
+                  "notable": false,
+                  "requires": ["SpaceJump"],
+                  "note": "No water involved here, so no need for Gravity or canSuitlessMaridia."
+                },
+                {
+                  "name": "Shinespark",
+                  "notable": false,
+                  "requires": [
+                    {"canComeInCharged": {
+                      "fromNode": 3,
+                      "framesRemaining": 60,
+                      "shinesparkFrames": 125
+                    }}
+                  ]
+                },
+                {
+                  "name": "Colosseum Suitless Grapple (Right to Left)",
+                  "notable": true,
+                  "requires": [
+                    "canSuitlessMaridia",
+                    "Grapple"
+                  ],
+                  "reusableRoomwideNotable": "Colosseum Suitless Grapple Only"
+                },
+                {
+                  "name": "Colosseum Mochtroid Climb (Right to Left)",
+                  "notable": false,
+                  "requires": [
+                    "canSuitlessMaridia",
+                    "canSandMochtroidIceClimb"
+                  ]
+                }
+              ]
+            },
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": ["Gravity"]
+                },
+                {
+                  "name": "Suitless",
+                  "notable": false,
+                  "requires": ["canSuitlessMaridia"]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 190,
+      "name": "Draygon Save Room",
+      "area": "Maridia",
+      "subarea": "Inner",
+      "playable": true,
+      "roomAddress": "0x7D81A",
+      "roomEnvironments": [{ "heated": false } ],
+      "nodes": [
+        {
+          "id": 1,
+          "name": "Draygon Save Room Left Door (to Colosseum)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x001a888",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Draygon Save Room Left Door (to Colosseum)",
+              "length": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "usableComingIn": false,
+              "openEnd": 1
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Draygon Save Room Right Door (to Recharge)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x001a87c",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Draygon Save Room Right Door (to Recharge)",
+              "length": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "usableComingIn": false,
+              "openEnd": 1
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "name": "Draygon Save Station",
+          "utility": [ "save" ],
+          "nodeType": "utility",
+          "nodeSubType": "save"
+        }
+      ],
+      "enemies": [],
+      "links": [
+        {
+          "from": 1,
+          "to": [
+            {
+              "id": 3,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 2,
+          "to": [
+            {
+              "id": 3,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 3,
+          "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            },
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 191,
+      "name": "Maridia Health Refill Room",
+      "area": "Maridia",
+      "subarea": "Inner",
+      "playable": true,
+      "roomAddress": "0x7D9D4",
+      "roomEnvironments": [{ "heated": false } ],
+      "nodes": [
+        {
+          "id": 1,
+          "name": "Maridia Health Refill Room Door (to Save)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x001a930",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Maridia Health Refill Room Door (to Save)",
+              "length": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "usableComingIn": false,
+              "openEnd": 1
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Maridia Energy Refill",
+          "utility": [ "energy" ],
+          "nodeType": "utility",
+          "nodeSubType": "energy"
+        }
+      ],
+      "enemies": [],
+      "links": [
+        {
+          "from": 1,
+          "to": [
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 2,
+          "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 192,
+      "name": "The Precious Room",
+      "area": "Maridia",
+      "subarea": "Inner",
+      "playable": true,
+      "roomAddress": "0x7D78F",
+      "roomEnvironments": [{ "heated": false } ],
+      "nodes": [
+        {
+          "id": 1,
+          "name": "Precious Room Top Left Door (to Colosseum)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x001a834",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Precious Room Top Left Door (to Colosseum)",
+              "length": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "Gravity" ]
+                }
+              ],
+              "openEnd": 1
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Draygon Eye Door",
+          "nodeType": "door",
+          "nodeSubType": "eye",
+          "nodeAddress": "0x001a840",
+          "doorEnvironments": [{"physics": "water"}],
+          "runways": [
+            {
+              "name": "Base Runway - Draygon Eye Door",
+              "length": 12,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "Gravity" ]
+                }
+              ],
+              "openEnd": 0
+            }
+          ],
+          "locks": [
+            {
+              "name": "Draygon Eye Lock",
+              "lockType": "coloredDoor",
+              "unlockStrats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "h_canOpenEyeDoors" ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "name": "Missile (Draygon)",
+          "nodeType": "item",
+          "nodeSubType": "hidden",
+          "nodeItem": "Missile",
+          "nodeAddress": "0x7C74D"
+        }
+      ],
+      "enemies": [],
+      "links": [
+        {
+          "from": 1,
+          "to": [
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            },
+            {
+              "id": 3,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": ["Gravity"]
+                },
+                {
+                  "name": "Suitless",
+                  "notable": false,
+                  "requires": ["canSuitlessMaridia"]
+                }
+              ],
+              "note": "Since this involves water and failure involves more water, it won't be expected without gravity suit unless suitless is expected"
+            }
+          ]
+        },
+        {
+          "from": 2,
+          "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [
+                    "Gravity",
+                    {"or": [
+                      "canGravityJump",
+                      "h_canFly",
+                      "canSpringBallJumpMidAir",
+                      "HiJump"
+                    ]}
+                  ]
+                },
+                {
+                  "name": "Precious Room Delayed Walljump",
+                  "notable": false,
+                  "requires": [
+                    "Gravity",
+                    "canDelayedWalljump"
+                  ]
+                },
+                {
+                  "name": "Suited Shinespark",
+                  "notable": false,
+                  "requires": [
+                    "Gravity",
+                    {"canComeInCharged": {
+                      "fromNode": 2,
+                      "framesRemaining": 40,
+                      "shinesparkFrames": 40
+                    }}
+                  ]
+                },
+                {
+                  "name": "Suitless Shinespark",
+                  "notable": false,
+                  "requires": [
+                    "canSuitlessMaridia",
+                    {"canComeInCharged": {
+                      "fromNode": 2,
+                      "framesRemaining": 60,
+                      "shinesparkFrames": 40
+                    }}
+                  ],
+                  "note": "It takes a bit more time to set up the spark when suitless."
+                },
+                {
+                  "name": "Precious Room X-Ray Climb",
+                  "notable": false,
+                  "requires": [
+                    "h_canNavigateUnderwater",
+                    "canRightFacingDoorXRayClimb",
+                    {"resetRoom":{
+                      "nodes": [2],
+                      "mustStayPut": true
+                    }},
+                    {"adjacentRunway": {
+                      "fromNode": 2,
+                      "usedTiles": 0.5,
+                      "overrideRunwayRequirements": true,
+                      "useFrames": 200
+                    }}
+                  ]
+                },
+                {
+                  "name": "Suitless Jump Assist",
+                  "notable": false,
+                  "requires": [
+                    "canSuitlessMaridia",
+                    "HiJump",
+                    "canSpringBallJumpMidAir"
+                  ]
+                },
+                {
+                  "name": "Cross Room Jump with HiJump",
+                  "notable": false,
+                  "requires": [
+                    "HiJump",
+                    "canCrossRoomJumpIntoWater",
+                    {"or":[
+                      "canMomentumConservingTurnaround",
+                      "canMidairWiggle"
+                    ]},
+                    {"adjacentRunway": {
+                      "fromNode": 2,
+                      "usedTiles": 0.5,
+                      "inRoomPath": [ 2, 1 ],
+                      "physics": ["air"]
+                    }}
+                  ],
+                  "note": [
+                    "Only requires a runway of approximately 0.5 tiles in the adjacent room.",
+                    "A momentum conserving turnaround is easier than a midair wiggle."
+                  ]
+                },
+                {
+                  "name": "Cross Room Jump with Speedbooster",
+                  "notable": false,
+                  "requires": [
+                    "SpeedBooster",
+                    "canCrossRoomJumpIntoWater",
+                    {"or":[
+                      "canMomentumConservingTurnaround",
+                      "canMidairWiggle"
+                    ]},
+                    {"adjacentRunway": {
+                      "fromNode": 2,
+                      "usedTiles": 7.5,
+                      "inRoomPath": [ 2, 1 ],
+                      "physics": ["air"]
+                    }}
+                  ],
+                  "note": [
+                    "Requires a runway of approximately 7.5 tiles in the adjacent room.",
+                    "A momentum conserving turnaround is easier than a midair wiggle."
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 3,
+          "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": ["Gravity"]
+                },
+                {
+                  "name": "Suitless",
+                  "notable": false,
+                  "requires": ["canSuitlessMaridia"]
+                }
+              ],
+              "note": "Since this involves water and failure involves more water, it shouldn't be expected without gravity suit unless suitless is expected"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 193,
+      "name": "Draygon's Room",
+      "area": "Maridia",
+      "subarea": "Inner",
+      "playable": true,
+      "roomAddress": "0x7DA60",
+      "roomEnvironments": [{ "heated": false } ],
+      "nodes": [
+        {
+          "id": 1,
+          "name": "Draygon Left Door (to Space Jump)",
+          "nodeType": "door",
+          "nodeSubType": "grey",
+          "nodeAddress": "0x001a978",
+          "doorEnvironments": [{"physics": "water"}],
+          "runways": [
+            {
+              "name": "Base Runway - Draygon Left Door (to Space Jump)",
+              "length": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "Gravity" ]
+                }
+              ],
+              "usableComingIn": false,
+              "openEnd": 1
+            }
+          ],
+          "canLeaveCharged": [
+            {
+              "usedTiles": 22,
+              "framesRemaining": 80,
+              "openEnd": 0,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "Gravity" ]
+                }
+              ]
+            }
+          ],
+          "locks": [
+            {
+              "name": "Draygon Left Grey Lock (to Space Jump)",
+              "lockType": "gameFlag",
+              "unlockStrats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "f_DefeatedDraygon" ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Draygon Right Door (to Precious Room)",
+          "nodeType": "door",
+          "nodeSubType": "grey",
+          "nodeAddress": "0x001a96c",
+          "doorEnvironments": [{"physics": "water"}],
+          "runways": [
+            {
+              "name": "Base Runway - Draygon Right Door (to Precious Room)",
+              "length": 5,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "Gravity" ]
+                }
+              ],
+              "openEnd": 1
+            }
+          ],
+          "locks": [
+            {
+              "name": "Draygon Right Grey Lock (to Precious Room)",
+              "lockType": "gameFlag",
+              "unlockStrats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "f_DefeatedDraygon" ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "name": "Draygon",
+          "nodeType": "event",
+          "nodeSubType": "boss",
+          "locks": [
+            {
+              "name": "Draygon Fight",
+              "lockType": "bossFight",
+              "unlockStrats": [
+                {
+                  "name": "Draygon Grapple Kill",
+                  "notable": true,
+                  "requires": [
+                    "h_canNavigateUnderwater",
+                    "Grapple",
+                    {"draygonElectricityFrames": 240},
+                    {"enemyDamage": {
+                      "enemy": "Draygon",
+                      "type": "contact",
+                      "hits": 5
+                    }}
+                  ],
+                  "note": [
+                    "Kill Draygon by grappling to the top left turret.",
+                    "Number of Draygon hits seems to vary, taking a worst case guess at 5."
+                  ]
+                },
+                {
+                  "name": "Draygon Grapple Quick Kill",
+                  "notable": true,
+                  "requires": [
+                    "h_canNavigateUnderwater",
+                    "Grapple",
+                    "h_canBreakOneDraygonTurret",
+                    {"draygonElectricityFrames": 240}
+                  ],
+                  "note": [
+                    "Kill Draygon by grappling to a bottom turret as you get grabbed.",
+                    "Avoids taking all the hits from Draygon."
+                  ]
+                },
+                {
+                  "name": "Draygon Shinespark Kill",
+                  "notable": true,
+                  "requires": [
+                    "Gravity",
+                    {"canShineCharge": {
+                      "usedTiles": 22,
+                      "shinesparkFrames": 150,
+                      "openEnd": 0
+                    }}
+                  ],
+                  "note": "Shinecharge in-room, then horizontally spark through Draygon multiple times.",
+                  "devNote": "150 frames is an approximate sum of all required shinesparks."
+                },
+                {
+                  "name": "Gravity Draygon",
+                  "notable": false,
+                  "requires": [
+                    "Gravity",
+                    {"enemyKill": {
+                      "enemies": [
+                        ["Draygon"]
+                      ],
+                      "farmableAmmo": ["Missile", "Super"]
+                    }}
+                  ]
+                },
+                {
+                  "name": "Suitless Draygon",
+                  "notable": true,
+                  "requires": [
+                    "canSuitlessMaridia",
+                    "Morph",
+                    "h_canBreakThreeDraygonTurrets",
+                    {"enemyKill": {
+                      "enemies": [
+                        ["Draygon"]
+                      ],
+                      "farmableAmmo": ["Missile", "Super"]
+                    }}
+                  ],
+                  "note": "Fight Draygon without gravity, but with morph.",
+                  "devNote": "This will require coming into the fight with ammo to kill the turrets. Although that ammo could instead be farmed in the fight."
+                }
+              ]
+            }
+          ],
+          "yields": [ "f_DefeatedDraygon" ]
+        }
+      ],
+      "enemies": [
+        {
+          "id": "e1",
+          "groupName": "Draygon",
+          "enemyName": "Draygon",
+          "quantity": 1,
+          "homeNodes": [ 3 ],
+          "stopSpawn": [ "f_DefeatedDraygon" ]
+        }
+      ],
+      "links": [
+        {
+          "from": 1,
+          "to": [
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Cross Room Jump",
+                  "notable": false,
+                  "requires": [
+                    "canCrossRoomJumpIntoWater",
+                    {"adjacentRunway": {
+                      "fromNode": 1,
+                      "usedTiles": 2.5,
+                      "inRoomPath": [ 1, 2 ],
+                      "physics": ["air"]
+                    }}
+                  ],
+                  "note": "Requires a runway of at least 2.5 tiles in the adjacent room."
+                },
+                {
+                  "name": "Cross Room Jump with Down Grab",
+                  "notable": false,
+                  "requires": [
+                    "canCrossRoomJumpIntoWater",
+                    "canDownGrab",
+                    {"adjacentRunway": {
+                      "fromNode": 1,
+                      "usedTiles": 2,
+                      "inRoomPath": [ 1, 2 ],
+                      "physics": ["air"]
+                    }}
+                  ],
+                  "note": "Requires a runway of at least 2 tiles in the adjacent room"
+                },
+                {
+                  "name": "Cross Room Jump with Air Ball",
+                  "notable": false,
+                  "requires": [
+                    "canCrossRoomJumpIntoWater",
+                    "canLateralMidAirMorph",
+                    {"adjacentRunway": {
+                      "fromNode": 1,
+                      "usedTiles": 1.5,
+                      "inRoomPath": [ 1, 2 ],
+                      "physics": ["air"]
+                    }}
+                  ],
+                  "note": "Requires an air ball and a runway of at least 1.5 tiles in the adjacent room"
+                }
+              ],
+              "devNote": "All other strats should go 1 -> 3 -> 2."
+            },
+            {
+              "id": 3,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 2,
+          "to": [
+            {
+              "id": 3,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 3,
+          "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            },
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [
+                    "Gravity",
+                    "h_canFly"
+                  ]
+                },
+                {
+                  "name": "Gravity Jump",
+                  "notable": false,
+                  "requires": [
+                    "Gravity",
+                    "canGravityJump"
+                  ]
+                },
+                {
+                  "name": "Spring Ball Jump",
+                  "notable": false,
+                  "requires": [
+                    "Gravity",
+                    "HiJump",
+                    "canSpringBallJumpMidAir"
+                  ]
+                },
+                {
+                  "name": "Speedjump",
+                  "notable": false,
+                  "requires": [
+                    "Gravity",
+                    "HiJump",
+                    "SpeedBooster"
+                  ]
+                },
+                {
+                  "name": "Draygon HiJumpless Speedjump",
+                  "notable": false,
+                  "requires": [
+                    "Gravity",
+                    "canTrickyDashJump",
+                    "canPreciseWalljump"
+                  ],
+                  "note": [
+                    "There is a very precise speed where the hjless speedjump is doable.",
+                    "Starting against the left wall, jump just to the left of the rightmost pipe sticking out of the ground."
+                  ]
+                },
+                {
+                  "name": "Suited Shinespark",
+                  "notable": false,
+                  "requires": [
+                    "Gravity",
+                    {"canComeInCharged": {
+                      "fromNode": 1,
+                      "inRoomPath": [1, 3],
+                      "framesRemaining": 50,
+                      "shinesparkFrames": 25
+                    }}
+                  ]
+                },
+                {
+                  "name": "Draygon Springwall",
+                  "notable": false,
+                  "requires": [
+                    "Gravity",
+                    "canSpringwall"
+                  ]
+                },
+                {
+                  "name": "Short Charge",
+                  "notable": false,
+                  "requires": [
+                    "Gravity",
+                    {"canShineCharge": {
+                      "usedTiles": 22,
+                      "shinesparkFrames": 30,
+                      "openEnd": 1
+                    }}
+                  ]
+                },
+                {
+                  "name": "Suitless shinespark",
+                  "notable": false,
+                  "requires": [
+                    "canSuitlessMaridia",
+                    {"canComeInCharged": {
+                      "fromNode": 1,
+                      "inRoomPath": [1, 3],
+                      "framesRemaining": 90,
+                      "shinesparkFrames": 25
+                    }}
+                  ],
+                  "note": "Takes more time to setup than suited. but you can spark from a bit farther out because of the water physics."
+                },
+                {
+                  "name": "Draygon Grapple Jump",
+                  "notable": false,
+                  "requires": [
+                    "canSuitlessMaridia",
+                    "canDraygonTurretGrappleJump",
+                    "h_canBreakOneDraygonTurret"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 194,
+      "name": "Space Jump Room",
+      "area": "Maridia",
+      "subarea": "Inner",
+      "playable": true,
+      "roomAddress": "0x7D9AA",
+      "roomEnvironments": [{ "heated": false } ],
+      "nodes": [
+        {
+          "id": 1,
+          "name": "Space Jump Room Door (to Draygon)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x001a924",
+          "doorEnvironments": [{"physics": "water"}],
+          "runways": [
+            {
+              "name": "Base Runway - Space Jump Room Door (to Draygon)",
+              "length": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "Gravity" ]
+                }
+              ],
+              "usableComingIn": false,
+              "openEnd": 1
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Space Jump",
+          "nodeType": "item",
+          "nodeSubType": "chozo",
+          "nodeItem": "SpaceJump",
+          "nodeAddress": "0x7C7A7"
+        }
+      ],
+      "enemies": [],
+      "links": [
+        {
+          "from": 1,
+          "to": [
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 2,
+          "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 195,
+      "name": "West Cactus Alley Room",
+      "area": "Maridia",
+      "subarea": "Inner",
+      "playable": true,
+      "roomAddress": "0x7D9FE",
+      "roomEnvironments": [{ "heated": false } ],
+      "nodes": [
+        {
+          "id": 1,
+          "name": "West Cactus Alley Left Door (to Butterfly Room)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x001a93c",
+          "doorEnvironments": [{"physics": "water"}],
+          "runways": [
+            {
+              "name": "Base Runway - West Cactus Alley Left Door (to Butterfly Room)",
+              "length": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "Gravity" ]
+                }
+              ],
+              "usableComingIn": false,
+              "openEnd": 1
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "West Cactus Alley Right Door (to East Cactus Alley)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x001a948",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - West Cactus Alley Right Door (to East Cactus Alley)",
+              "length": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "usableComingIn": false,
+              "openEnd": 1
+            }
+          ]
+        }
+      ],
+      "enemies": [
+        {
+          "id": "e1",
+          "groupName": "West Cactus Alley Top Cacatacs",
+          "enemyName": "Cacatac",
+          "quantity": 2,
+          "homeNodes": [2]
+        },
+        {
+          "id": "e2",
+          "groupName": "West Cactus Alley Bottom Cacatac",
+          "enemyName": "Cacatac",
+          "quantity": 1,
+          "homeNodes": [1]
+        },
+        {
+          "id": "e3",
+          "groupName": "West Cactus Alley Middle Cacatac",
+          "enemyName": "Cacatac",
+          "quantity": 1,
+          "betweenNodes": [1,2]
+        }
+      ],
+      "links": [
+        {
+          "from": 1,
+          "to": [
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": ["Gravity"]
+                },
+                {
+                  "name": "Suitless Dual Jump Assist",
+                  "notable": false,
+                  "requires": [
+                    "canSuitlessMaridia",
+                    "HiJump",
+                    "canSpringBallJumpMidAir"
+                  ]
+                },
+                {
+                  "name": "Suitless HiJump Frozen Cacatac",
+                  "notable": false,
+                  "requires": [
+                    "canSuitlessMaridia",
+                    "canUseFrozenEnemies",
+                    "HiJump"
+                  ]
+                },
+                {
+                  "name": "Suitless SpringBall Frozen Cacatac",
+                  "notable": false,
+                  "requires": [
+                    "canSuitlessMaridia",
+                    "canUseFrozenEnemies",
+                    "canSpringBallJumpMidAir"
+                  ]
+                },
+                {
+                  "name": "West Cactus Alley X-Ray Climb",
+                  "notable": false,
+                  "requires": [
+                    "canSuitlessMaridia",
+                    "canRightFacingDoorXRayClimb",
+                    {"resetRoom":{
+                     "nodes": [1],
+                     "mustStayPut": true
+                   }},
+                   {"adjacentRunway": {
+                     "fromNode": 1,
+                     "usedTiles": 0.5,
+                     "overrideRunwayRequirements": true,
+                     "useFrames": 200
+                   }}
+                  ]
+                },
+                {
+                  "name": "Cross Room Jump",
+                  "notable": false,
+                  "requires": [
+                    "canCrossRoomJumpIntoWater",
+                    "canMomentumConservingTurnaround",
+                    {"adjacentRunway": {
+                      "fromNode": 1,
+                      "usedTiles": 2,
+                      "inRoomPath": [ 1, 2 ],
+                      "physics": ["air"]
+                    }}
+                  ],
+                  "note": "Requires a runway of approximately 2 tiles in the adjacent room."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 2,
+          "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 196,
+      "name": "East Cactus Alley Room",
+      "area": "Maridia",
+      "subarea": "Inner",
+      "playable": true,
+      "roomAddress": "0x7DA2B",
+      "roomEnvironments": [{ "heated": false } ],
+      "nodes": [
+        {
+          "id": 1,
+          "name": "East Cactus Alley Left Door (to West Cactus Alley)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x001a954",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - East Cactus Alley Left Door (to West Cactus Alley)",
+              "length": 4,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "openEnd": 1
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "East Cactus Alley Right Door (to Halfie Climb)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x001a960",
+          "doorEnvironments": [{"physics": "water"}],
+          "runways": [
+            {
+              "name": "Base Runway - East Cactus Alley Right Door (to Halfie Climb)",
+              "length": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "Gravity" ]
+                }
+              ],
+              "usableComingIn": false,
+              "openEnd": 1
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "name": "East Cactus Alley Junction (Bottom Left)",
+          "nodeType": "junction",
+          "nodeSubType": "junction"
+        },
+        {
+          "id": 4,
+          "name": "East Cactus Alley Junction (Top Right)",
+          "nodeType": "junction",
+          "nodeSubType": "junction"
+        }
+      ],
+      "enemies": [
+        {
+          "id": "e1",
+          "groupName": "East Cactus Alley Left Cacatac",
+          "enemyName": "Cacatac",
+          "quantity": 1,
+          "homeNodes": [3]
+        },
+        {
+          "id": "e2",
+          "groupName": "East Cactus Alley Right Cacatacs",
+          "enemyName": "Cacatac",
+          "quantity": 3,
+          "betweenNodes": [3, 4]
+        }
+      ],
+      "links": [
+        {
+          "from": 1,
+          "to": [
+            {
+              "id": 3,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [],
+                  "note": "Doesn't require anything, but getting out does."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 2,
+          "to": [
+            {
+              "id": 4,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [
+                    "Gravity",
+                    {"or":[
+                      "SpaceJump",
+                      "canWalljump",
+                      {"and":[
+                        "canJumpIntoIBJ",
+                        "canIframeSpikeJump",
+                        {"spikeHits": 1}
+                      ]}
+                    ]}
+                  ]
+                },
+                {
+                  "name": "Shinespark",
+                  "notable": false,
+                  "requires": [
+                    "h_canNavigateUnderwater",
+                    {"canComeInCharged": {
+                      "fromNode": 2,
+                      "framesRemaining": 20,
+                      "shinesparkFrames": 20
+                    }}
+                  ]
+                },
+                {
+                  "name": "Cross Room Jump with Assist",
+                  "notable": false,
+                  "requires": [
+                    {"or":[
+                      "canWalljump",
+                      "canSpringBallJumpMidAir",
+                      "SpaceJump"
+                    ]},
+                    "canCrossRoomJumpIntoWater",
+                    {"adjacentRunway": {
+                      "fromNode": 2,
+                      "usedTiles": 1.5,
+                      "inRoomPath": [ 2, 4 ],
+                      "physics": ["air"]
+                    }}
+                  ],
+                  "note": "Requires a runway of at least 1.5 tiles in the adjacent room, although it is easier with more."
+                },
+                {
+                  "name": "East Cac Alley Cross Room Jump with IBJ",
+                  "notable": true,
+                  "requires": [
+                    "canJumpIntoIBJ",
+                    "canBombHorizontally",
+                    "canResetFallSpeed",
+                    "canCrossRoomJumpIntoWater",
+                    {"adjacentRunway": {
+                      "fromNode": 2,
+                      "usedTiles": 1.5,
+                      "inRoomPath": [ 2, 4 ],
+                      "physics": ["air"]
+                    }}
+                  ],
+                  "note": [
+                    "Requires a runway of at least 1.5 tiles in the adjacent room, although it is easier with more.",
+                    "Start the IBJ as far left as possible. The furthest right is just right of the waterfall.",
+                    "At the top of the IBJ bomb to the left and unmorph to reset fall speed."
+                  ]
+                },
+                {
+                  "name": "Cross Room Jump with HiJump",
+                  "notable": false,
+                  "requires": [
+                    "HiJump",
+                    "canCrossRoomJumpIntoWater",
+                    {"adjacentRunway": {
+                      "fromNode": 2,
+                      "usedTiles": 2,
+                      "inRoomPath": [ 2, 4 ],
+                      "physics": ["air"]
+                    }}
+                  ],
+                  "note": "Requires a runway of at least 2 tiles in the adjacent room."
+                },
+                {
+                  "name": "East Cac Alley Cross Room Jump with Spring Ball, Bomb Boost",
+                  "notable": true,
+                  "requires": [
+                    "canBombHorizontally",
+                    "canSpringBallJumpMidAir",
+                    "canCrossRoomJumpIntoWater",
+                    {"adjacentRunway": {
+                      "fromNode": 2,
+                      "usedTiles": 0.5,
+                      "inRoomPath": [ 2, 4 ],
+                      "physics": ["air"]
+                    }},
+                    {"or":[
+                      "canIBJ",
+                      {"and":[
+                        "h_canBombThings",
+                        "canUnmorphBombBoost"
+                      ]}
+                    ]}
+                  ],
+                  "note": "Use the bomb boost as Samus is going through the doorway, then spring ball after breaking the water, then ibj or use an unmorph bomb boost.",
+                  "devNote": [
+                    "This strat requires a minimum of 2 bomb/PBs.",
+                    "FIXME This is technically not canSpringBallJumpMidAir, but instead a bomb boost then springball jump, this tech should be added eventually."
+                  ]
+                },
+                {
+                  "name": "Cross Room Jump with Speedbooster",
+                  "notable": false,
+                  "requires": [
+                    "SpeedBooster",
+                    "canCrossRoomJumpIntoWater",
+                    {"adjacentRunway": {
+                      "fromNode": 2,
+                      "usedTiles": 7.5,
+                      "inRoomPath": [ 2, 4 ],
+                      "physics": ["air"]
+                    }}
+                  ],
+                  "note": [
+                    "Requires a runway of approximately 7.5 tiles in the adjacent room, to hit a peak of the speed vs height graph.",
+                    "Spring ball can be used with the speed to get all the way to 3, but it's tricky"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 3,
+          "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [
+                    "Gravity",
+                    "SpaceJump"
+                  ]
+                },
+                {
+                  "name": "HiJump Walljump",
+                  "notable": false,
+                  "requires": [
+                    "h_canNavigateUnderwater",
+                    "HiJump",
+                    "canPreciseWalljump",
+                    {"or":[
+                      "Gravity",
+                      "canConsecutiveWalljump"
+                    ]}
+                  ],
+                  "note": "HiJump also makes it possible to escape the water suitless."
+                },
+                {
+                  "name": "East Cactus Hjless Walljump",
+                  "notable": false,
+                  "requires": [
+                    "canPreciseWalljump",
+                    "Gravity",
+                    "canConsecutiveWalljump"
+                  ]
+                },
+                {
+                  "name": "East Cactus Springwall",
+                  "notable": false,
+                  "requires": [
+                    "Gravity",
+                    "canSpringwall"
+                  ],
+                  "devNote": "Requires only Gravity because suitless requires HiJump anyway."
+                }
+              ]
+            },
+            {
+              "id": 4,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [
+                    "Gravity",
+                    "Morph",
+                    {"or":[
+                      "SpaceJump",
+                      "canWalljump",
+                      "canSpringBallJumpMidAir",
+                      {"and":[
+                        "canJumpIntoIBJ",
+                        "canIframeSpikeJump",
+                        {"spikeHits": 1}
+                      ]}
+                    ]}
+                  ],
+                  "note" : [
+                    "This requires taking off Gravity to do a mid-air morph.",
+                    "There is a way to get across without taking any damage from spikes or Cacatacs, although it's a bit tricky."
+                  ]
+                },
+                {
+                  "name": "Cacatac Alley Springball Spike Boost",
+                  "notable": true,
+                  "requires": [
+                    "canSuitlessMaridia",
+                    "canSpringBallJumpMidAir",
+                    "canLateralMidAirMorph",
+                    "canDamageBoost",
+                    { "enemyDamage": { "enemy": "Cacatac", "hits": 2, "type": "spike" } }
+                  ],
+                  "note": "When the Cacatac on the ground fires a spike, perform a  springball Jump to break the waterline and then hit the spike for extra height."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 4,
+          "to": [
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            },
+            {
+              "id": 3,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [
+                    "Gravity",
+                    "Morph",
+                    {"or":[
+                      "SpaceJump",
+                      "canWalljump",
+                      "HiJump",
+                      "canCarefulJump",
+                      {"spikeHits": 1}
+                    ]}
+                  ],
+                  "note": "There is a way to avoid taking damage through the room, even without mid-air unmorphing."
+                },
+                {
+                  "name": "Suitless",
+                  "notable": false,
+                  "requires": [
+                    "canSuitlessMaridia",
+                    "Morph",
+                    {"or":[
+                      {"and":[
+                        "HiJump",
+                        "canWalljump"
+                      ]},
+                      "canSpringBallJumpMidAir",
+                      "canCarefulJump",
+                      {"spikeHits": 1}
+                    ]}
+                  ],
+                  "note": "There is a way to avoid taking damage through the room, even without mid-air unmorphing."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 204,
+      "name": "Botwoon Quicksand Room",
+      "area": "Maridia",
+      "subarea": "Inner",
+      "playable": true,
+      "roomAddress": "0x7D898",
+      "roomEnvironments": [{ "heated": false } ],
+      "nodes": [
+        {
+          "id": 1,
+          "name": "Botwoon Quicksand Top Left Sand Entrance (from E-Tank Left)",
+          "nodeType": "entrance",
+          "nodeSubType": "sandpit"
+        },
+        {
+          "id": 2,
+          "name": "Botwoon Quicksand Bottom Left Sand Exit (to Below E-Tank Left)",
+          "nodeType": "exit",
+          "nodeSubType": "sandpit",
+          "nodeAddress": "0x001a8ac"
+        },
+        {
+          "id": 3,
+          "name": "Botwoon Quicksand Top Right Sand Entrance (from E-Tank Right)",
+          "nodeType": "entrance",
+          "nodeSubType": "sandpit"
+        },
+        {
+          "id": 4,
+          "name": "Botwoon Quicksand Bottom Right Sand Exit (to Below E-Tank Right)",
+          "nodeType": "exit",
+          "nodeSubType": "sandpit",
+          "nodeAddress": "0x001a8b8"
+        },
+        {
+          "id": 5,
+          "name": "Botwoon Quicksand Central Junction",
+          "nodeType": "junction",
+          "nodeSubType": "junction"
+        }
+      ],
+      "enemies": [
+        {
+          "id": "e1",
+          "groupName": "Botwoon Quicksand Bulls",
+          "enemyName": "Bull",
+          "quantity": 9,
+          "homeNodes": [ 2, 4 ]
+        }
+      ],
+      "links": [
+        {
+          "from": 1,
+          "to": [
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            },
+            {
+              "id": 5,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "Morph" ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 3,
+          "to": [
+            {
+              "id": 4,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            },
+            {
+              "id": 5,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "Morph" ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 5,
+          "to": [
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "Morph" ]
+                }
+              ]
+            },
+            {
+              "id": 4,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "Morph" ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 205,
+      "name": "Below Botwoon Energy Tank",
+      "area": "Maridia",
+      "subarea": "Inner",
+      "playable": true,
+      "roomAddress": "0x7D6FD",
+      "roomEnvironments": [{ "heated": false } ],
+      "nodes": [
+        {
+          "id": 1,
+          "name": "Below Botwoon E-Tank Door (to Aqueduct)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x001a7d4",
+          "doorEnvironments": [{"physics": "water"}],
+          "runways": [
+            {
+              "name": "Base Runway - Below Botwoon E-Tank Door (to Aqueduct)",
+              "length": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "Gravity" ]
+                }
+              ],
+              "usableComingIn": false,
+              "openEnd": 1
+            }
+          ],
+          "canLeaveCharged": [
+            {
+              "usedTiles": 23,
+              "framesRemaining": 120,
+              "openEnd": 1,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "Gravity" ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Below Botwoon E-Tank Left Sand Entrance (from Botwoon Quicksand Left)",
+          "nodeType": "entrance",
+          "nodeSubType": "sandpit"
+        },
+        {
+          "id": 3,
+          "name": "Below Botwoon E-Tank Right Sand Entrance (from Botwoon Quicksand Right)",
+          "nodeType": "entrance",
+          "nodeSubType": "sandpit"
+        }
+      ],
+      "enemies": [
+        {
+          "id": "e1",
+          "groupName": "Below Botwoon E-Tank Left Zoas",
+          "enemyName": "Zoa",
+          "quantity": 3,
+          "homeNodes": [ 1 ],
+          "farmCycles": [
+            {
+              "name": "Zoa Power Beam spam",
+              "cycleFrames": 150,
+              "requires": [],
+              "note": "Doable without getting in the sand here"
+            }
+          ]
+        },
+        {
+          "id": "e2",
+          "groupName": "Below Botwoon E-Tank Middle Zoa",
+          "enemyName": "Zoa",
+          "quantity": 1,
+          "homeNodes": [ 2 ],
+          "farmCycles": [
+            {
+              "name": "Zoa Power Beam spam",
+              "cycleFrames": 150,
+              "requires": [],
+              "note": "Doable without getting in the sand here, as long as you can reach the node."
+            }
+          ]
+        },
+        {
+          "id": "e3",
+          "groupName": "Below Botwoon E-Tank Right Zoa",
+          "enemyName": "Zoa",
+          "quantity": 1,
+          "homeNodes": [ 3 ],
+          "farmCycles": [
+            {
+              "name": "Zoa Power Beam spam",
+              "cycleFrames": 150,
+              "requires": [],
+              "note": "Doable without getting in the sand here, as long as you can reach the node."
+            }
+          ]
+        },
+        {
+          "id": "e4",
+          "groupName": "Below Botwoon E-Tank Owtch",
+          "enemyName": "Owtch",
+          "quantity": 1,
+          "homeNodes": [ 1 ]
+        }
+      ],
+      "links": [
+        {
+          "from": 1,
+          "to": [
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": ["Gravity"]
+                },
+                {
+                  "name": "Suitless",
+                  "notable": false,
+                  "requires": [
+                    "canSuitlessMaridia",
+                    "HiJump"
+                  ]
+                }
+              ]
+            },
+            {
+              "id": 3,
+              "strats": [
+                {
+                  "name": "Suitless Frozen Zoa",
+                  "notable": false,
+                  "requires": [
+                    "canSuitlessMaridia",
+                    "canUseFrozenEnemies"
+                  ]
+                }
+              ],
+              "note": "This link refers specifically to crossing on frozen enemies. Failing here will lead to a softlock",
+              "devNote": "Could use a failure definition?"
+            }
+          ]
+        },
+        {
+          "from": 2,
+          "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": ["Gravity"]
+                },
+                {
+                  "name": "Suitless",
+                  "notable": false,
+                  "requires": [
+                    "canSuitlessMaridia",
+                    "HiJump"
+                  ]
+                }
+              ]
+            },
+            {
+              "id": 3,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": ["Gravity"]
+                },
+                {
+                  "name": "Suitless",
+                  "notable": false,
+                  "requires": [
+                    "canSuitlessMaridia",
+                    "HiJump"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 3,
+          "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Suitless Frozen Zoa",
+                  "notable": false,
+                  "requires": [
+                    "canSuitlessMaridia",
+                    "canUseFrozenEnemies"
+                  ]
+                }
+              ],
+              "note": "This link refers specifically to crossing on frozen enemies. Failing here will lead to a softlock",
+              "devNote": "Could use a failure definition?"
+            },
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": ["Gravity"]
+                },
+                {
+                  "name": "Suitless",
+                  "notable": false,
+                  "requires": [
+                    "canSuitlessMaridia",
+                    "HiJump"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 206,
+      "name": "West Aqueduct Quicksand Room",
+      "area": "Maridia",
+      "subarea": "Inner",
+      "playable": true,
+      "roomAddress": "0x7D54D",
+      "roomEnvironments": [{ "heated": false } ],
+      "nodes": [
+        {
+          "id": 1,
+          "name": "West Aqueduct Quicksand Room Top Sand Entrance (From Aqueduct Left)",
+          "nodeType": "entrance",
+          "nodeSubType": "sandpit",
+          "nodeAddress": "0x001a6d8"
+        },
+        {
+          "id": 2,
+          "name": "West Aqueduct Quicksand Room Bottom Sand Exit (to West Sand Hole)",
+          "nodeType": "exit",
+          "nodeSubType": "sandpit",
+          "nodeAddress": "0x001a6e4"
+        }
+      ],
+      "enemies": [
+        {
+          "id": "e1",
+          "groupName": "West Aqueduct Quicksand Bulls",
+          "enemyName": "Bull",
+          "quantity": 7,
+          "homeNodes": [ 1,2 ]
+        }
+      ],
+      "links": [
+        {
+          "from": 1,
+          "to": [
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 207,
+      "name": "East Aqueduct Quicksand Room",
+      "area": "Maridia",
+      "subarea": "Inner",
+      "playable": true,
+      "roomAddress": "0x7D57A",
+      "roomEnvironments": [{ "heated": false } ],
+      "nodes": [
+        {
+          "id": 1,
+          "name": "East Aqueduct Quicksand Room Top Sand Entrance (from Aqueduct Right)",
+          "nodeType": "entrance",
+          "nodeSubType": "sandpit",
+          "nodeAddress": "0x001a6f0"
+        },
+        {
+          "id": 2,
+          "name": "East Aqueduct Quicksand Room Bottom Sand Exit (to East Sand Hole)",
+          "nodeType": "exit",
+          "nodeSubType": "sandpit",
+          "nodeAddress": "0x001a6fc"
+        }
+      ],
+      "enemies": [
+        {
+          "id": "e1",
+          "groupName": "East Aqueduct Quicksand Bulls",
+          "enemyName": "Bull",
+          "quantity": 6,
+          "homeNodes": [ 1,2 ]
+        }
+      ],
+      "links": [
+        {
+          "from": 1,
+          "to": [
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 208,
+      "name": "East Sand Hole",
+      "area": "Maridia",
+      "subarea": "Inner",
+      "playable": true,
+      "roomAddress": "0x7D51E",
+      "roomEnvironments": [{ "heated": false } ],
+      "nodes": [
+        {
+          "id": 1,
+          "name": "East Sand Hole Top Sand Entrance (From East Aqueduct Quicksand Room)",
+          "nodeType": "entrance",
+          "nodeSubType": "sandpit",
+          "nodeAddress": "0x001a6c0"
+        },
+        {
+          "id": 2,
+          "name": "East Sand Hole Bottom Sand Exit (to East Sand Hall)",
+          "nodeType": "exit",
+          "nodeSubType": "sandpit",
+          "nodeAddress": "0x001a6cc"
+        },
+        {
+          "id": 3,
+          "name": "Missile (right Maridia sand pit room)",
+          "nodeType": "item",
+          "nodeSubType": "visible",
+          "nodeItem": "Missile",
+          "nodeAddress": "0x7C5EB"
+        },
+        {
+          "id": 4,
+          "name": "Power Bomb (right Maridia sand pit room)",
+          "nodeType": "item",
+          "nodeSubType": "visible",
+          "nodeItem": "PowerBomb",
+          "nodeAddress": "0x7C5F1"
+        }
+      ],
+      "enemies": [],
+      "links": [
+        {
+          "from": 1,
+          "to": [
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            },
+            {
+              "id": 3,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": ["Gravity"]
+                },
+                {
+                  "name": "Suitless",
+                  "notable": false,
+                  "requires": [
+                    "canSuitlessMaridia",
+                    {"or": [
+                      "canSpringBallJumpMidAir",
+                      "HiJump"
+                    ]}
+                  ],
+                  "note": [
+                    "It's possible to get out of the sand suitless and without hjb after falling from the chute, by hugging the left side and moving quickly.",
+                    "However, getting across the sand chute right-to-left or left-to-right without sinking isn't possible in those conditions."
+                  ]
+                }
+              ]
+            },
+            {
+              "id": 4,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [
+                    "Morph",
+                    "Gravity"
+                  ]
+                },
+                {
+                  "name": "Suitless",
+                  "notable": false,
+                  "requires": [
+                    "Morph",
+                    "canSuitlessMaridia",
+                    "HiJump",
+                    "canSpringBallJumpMidAir"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 2,
+          "to": []
+        },
+        {
+          "from": 3,
+          "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 4,
+          "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 209,
+      "name": "West Sand Hole",
+      "area": "Maridia",
+      "subarea": "Inner",
+      "playable": true,
+      "roomAddress": "0x7D4EF",
+      "roomEnvironments": [{ "heated": false } ],
+      "nodes": [
+        {
+          "id": 1,
+          "name": "West Sand Hole Top Sand Entrance (from West Aqueduct Quicksand Room)",
+          "nodeType": "entrance",
+          "nodeSubType": "sandpit",
+          "nodeAddress": "0x001a6a8"
+        },
+        {
+          "id": 2,
+          "name": "West Sand Hole Bottom Sand Exit (to West Sand Hall)",
+          "nodeType": "exit",
+          "nodeSubType": "sandpit",
+          "nodeAddress": "0x001a6b4"
+        },
+        {
+          "id": 3,
+          "name": "Missile (left Maridia sand pit room)",
+          "nodeType": "item",
+          "nodeSubType": "visible",
+          "nodeItem": "Missile",
+          "nodeAddress": "0x7C5DD"
+        },
+        {
+          "id": 4,
+          "name": "Reserve Tank, Maridia",
+          "nodeType": "item",
+          "nodeSubType": "visible",
+          "nodeItem": "ReserveTank",
+          "nodeAddress": "0x7C5E3"
+        },
+        {
+          "id": 5,
+          "name": "West Sand Hole Junction (Midway Point)",
+          "nodeType": "junction",
+          "nodeSubType": "junction"
+        },
+        {
+          "id": 6,
+          "name": "West Sand Hole Top Junction",
+          "nodeType": "junction",
+          "nodeSubType": "junction",
+          "note": "Positioned in a tunnel above 5. You actually have to go back to 5 to move between the left and right portions of this junction, but access both ways has the same requirements."
+        },
+        {
+          "id": 7,
+          "name": "West Sand Hole Junction (Bottom Middle)",
+          "nodeType": "junction",
+          "nodeSubType": "junction",
+          "note": "Positioned below 5, next to the crumble blocks."
+        }
+      ],
+      "enemies": [
+        {
+          "id": "e1",
+          "groupName": "West Sand Hole Boulders",
+          "enemyName": "Boulder",
+          "quantity": 2,
+          "homeNodes": [ 7 ]
+        }
+      ],
+      "links": [
+        {
+          "from": 1,
+          "to": [
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            },
+            {
+              "id": 7,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [
+                    "Gravity"
+                  ]
+                },
+                {
+                  "name": "West Sand Hole Suitless Wall Jump Break Free",
+                  "notable": true,
+                  "requires": [
+                    "canSuitlessMaridia",
+                    "HiJump",
+                    "canConsecutiveWalljump",
+                    "canPreciseWalljump"
+                  ],
+                  "note": "Perform several wall jumps to climb up to the water level, then precise wall jumps to break free."
+                },
+                {
+                  "name": "West Sand Hole Space Wall Climb",
+                  "notable": false,
+                  "requires": [
+                    "canSuitlessMaridia",
+                    "HiJump",
+                    "canConsecutiveWalljump",
+                    "SpaceJump"
+                  ]
+                },
+                {
+                  "name": "Suitless Dual Jump Assist",
+                  "notable": false,
+                  "requires": [
+                    "canSuitlessMaridia",
+                    "HiJump",
+                    "canSpringBallJumpMidAir"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 2,
+          "to": []
+        },
+        {
+          "from": 3,
+          "to": [
+            {
+              "id": 6,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [
+                    {"or": [
+                      "h_canBombThings",
+                      "h_canUseSpringBall"
+                    ]}
+                  ]
+                },
+                {
+                  "name": "MidAir Morph",
+                  "notable": false,
+                  "requires": [ "h_canTwoTileJumpMorph" ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 4,
+          "to": [
+            {
+              "id": 6,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": ["Morph"]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 5,
+          "to": [
+            {
+              "id": 6,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": ["h_canUseSpringBall"]
+                },
+                {
+                  "name": "IBJ",
+                  "notable": false,
+                  "requires": ["canIBJ"]
+                },
+                {
+                  "name": "West Sand Hole MidAir Morph",
+                  "notable": false,
+                  "requires": [
+                    {"or": [
+                      "can3HighMidAirMorph",
+                      "h_canTwoTileJumpMorph"
+                    ]}
+                  ]
+                }
+              ]
+            },
+            {
+              "id": 7,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": ["Morph"]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 6,
+          "to": [
+            {
+              "id": 3,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [
+                    {"or": [
+                      "h_canBombThings",
+                      "h_canUseSpringBall"
+                    ]}
+                  ]
+                },
+                {
+                  "name": "MidAir Morph",
+                  "notable": false,
+                  "requires": [ "h_canTwoTileJumpMorph" ]
+                }
+              ]
+            },
+            {
+              "id": 4,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [
+                    {"or": [
+                      "h_canBombThings",
+                      "h_canUseSpringBall"
+                    ]}
+                  ]
+                },
+                {
+                  "name": "Turnaround Aim Cancel",
+                  "notable": false,
+                  "requires": ["canTurnaroundAimCancel"]
+                },
+                {
+                  "name": "Xray Turnaround",
+                  "notable": false,
+                  "requires": [ "canXrayTurnaround" ]
+                }
+              ]
+            },
+            {
+              "id": 5,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": ["Morph"]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 7,
+          "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": ["Gravity"]
+                },
+                {
+                  "name": "Suitless Way Back",
+                  "notable": false,
+                  "requires": [
+                    "canSuitlessMaridia",
+                    "HiJump"
+                  ]
+                },
+                {
+                  "name": "Suitless Crumble Blocks",
+                  "notable": false,
+                  "requires": [
+                    "canSuitlessMaridia",
+                    "Morph"
+                  ]
+                }
+              ]
+            },
+            {
+              "id": 5,
+              "strats": [
+                {
+                  "name": "West Sand Hole MidAir Morph Over Crumbles",
+                  "notable": false,
+                  "requires": [
+                    "canWalljump",
+                    "Morph",
+                    {"or": [
+                      "Gravity",
+                      {"and": [
+                        "canSuitlessMaridia",
+                        "HiJump"
+                      ]}
+                    ]}
+                  ],
+                  "note": "Mid-air morph off the left wall."
+                },
+                {
+                  "name": "West Sand Hole MidAir Morph (Bootless Suitless)",
+                  "notable": true,
+                  "requires": [
+                    "canSuitlessMaridia",
+                    "canPreciseWalljump",
+                    "Morph",
+                    "SpaceJump"
+                  ],
+                  "note": "Using space jump and precise wall jumps, break free of the water to get up to the morph tunnel."
+                },
+                {
+                  "name": "Spring Ball",
+                  "notable": false,
+                  "requires": [
+                    "h_canUseSpringBall",
+                    "HiJump"
+                  ],
+                  "devNote": "This is just an easier alternative to the notable strats."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 321,
+      "name": "Toilet Bowl",
+      "area": "Maridia",
+      "subarea": "Inner",
+      "playable": false,
+      "roomAddress": "0x7D408",
+      "nodes": [
+        {
+          "id": 1,
+          "name": "Toilet Bowl Top Door (to Plasma Spark)",
+          "nodeType": "door",
+          "nodeSubType": "vertical",
+          "nodeAddress": "0x001a60c",
+          "spawnAt": 2
+        },
+        {
+          "id": 2,
+          "name": "Toilet Bowl Bottom Door (to Oasis)",
+          "nodeType": "door",
+          "nodeSubType": "vertical",
+          "nodeAddress": "0x001a600",
+          "spawnAt": 1
+        }
+      ],
+      "links": [
+        {
+          "from": 1,
+          "to": []
+        },
+        {
+          "from": 2,
+          "to": []
+        }
+      ],
+      "note": "This is the vertical pipe that connects Plasma Spark Room and Oasis. Visually it looks like a portion of Aqueduct and Botwoon Hallway (and surroundings).",
+      "devNote": [
+        "There are no links because Samus can't move freely between the nodes.",
+        "Traversal through the room happens via each node's spawnAt property, placing Samus at the other end of the room with no option but to leave."
+      ]
+    }
+  ]
+}

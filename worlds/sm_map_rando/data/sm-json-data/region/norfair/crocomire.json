@@ -1,0 +1,2412 @@
+{
+  "$schema": "../../schema/m3-region.schema.json",
+  "rooms": [
+    {
+      "id": 122,
+      "name": "Crocomire's Room",
+      "area": "Norfair",
+      "subarea": "Crocomire",
+      "playable": true,
+      "roomEnvironments": [{ "heated": false } ],
+      "roomAddress": "0x7A98D",
+      "nodes": [
+        {
+          "id": 1,
+          "name": "Crocomire Room Left Door (to Farming Room)",
+          "nodeType": "door",
+          "nodeSubType": "blue",          
+          "nodeAddress": "0x00193de",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Crocomire Room Left Door (to Farming Room)",
+              "length": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "usableComingIn": false,
+              "openEnd": 1
+            }
+          ],
+          "canLeaveCharged": [
+            {
+              "usedTiles": 33,
+              "framesRemaining": 50,
+              "openEnd": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Crocomire Room Top Door (to Crocomire Speedway)",
+          "nodeType": "door",
+          "nodeSubType": "grey",
+          "nodeAddress": "0x00193ea",
+          "doorEnvironments": [{"physics": "air"}],
+          "spawnAt": 5,
+          "canLeaveCharged": [
+            {
+              "usedTiles": 33,
+              "framesRemaining": 80,
+              "openEnd": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ],
+          "locks": [
+            {
+              "name": "Crocomire Room Grey Lock (to Crocomire Speedway)",
+              "lockType": "gameFlag",
+              "unlockStrats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "f_DefeatedCrocomire" ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "name": "Energy Tank, Crocomire",
+          "nodeType": "item",
+          "nodeSubType": "visible",
+          "nodeItem": "ETank",
+          "nodeAddress": "0x78BA4"
+        },
+        {
+          "id": 4,
+          "name": "Crocomire",
+          "nodeType": "event",
+          "nodeSubType": "boss",
+          "locks": [
+            {
+              "name": "Crocomire Fight",
+              "lockType": "bossFight",
+              "unlockStrats": [
+                {
+                  "name": "Charge",
+                  "notable": false,
+                  "requires": [ "Charge" ]
+                },
+                {
+                  "name": "Missiles",
+                  "notable": false,
+                  "requires": [
+                    "Missile",
+                    {"or": [
+                      {"ammo": { "type": "Missile", "count": 2 }},
+                      {"and": [
+                        "Super",
+                        {"ammo": { "type": "Super", "count": 2 }}
+                      ]}
+                    ]},
+                    {"resourceCapacity": [
+                      {"type": "Missile", "count": 10}
+                    ]}
+                  ],
+                  "note": [
+                    "With a max of 5 missiles, Crocomire may not stop and shoot farmables often enough to kill it.",
+                    "So, we're requiring 10 here."
+                  ],
+                  "devNote": [
+                    "Crocomire does not have a farming phase until he has been hit twice.",
+                    "It is possible to get to the farming phase with 1 PB, but sometimes Croc will just rush Samus into the spikes without ever having farm phases, so it is ignored here."
+                  ]
+                },
+                {
+                  "name": "Supers",
+                  "notable": false,
+                  "requires": [
+                    "Super",
+                    {"ammo": {
+                      "type": "Super",
+                      "count": 8
+                    }}
+                  ],
+                  "note": [
+                    "While Crocomire's farmables may drop Supers, the rate is too low to rely on.",
+                    "If you run out, Croc will most likely push you into the spikes.",
+                    "It takes 8 Supers to kill croc if you don't let it move forward."
+                  ]
+                }
+              ]
+            }
+          ],
+          "yields": [ "f_DefeatedCrocomire" ]
+        },
+        {
+          "id": 5,
+          "name": "Crocomire's Room Junction (Central Junction)",
+          "nodeType": "junction",
+          "nodeSubType": "junction"
+        },
+        {
+          "id": 6,
+          "name": "Crocomire's Room Junction (Behind Crocomire)",
+          "nodeType": "junction",
+          "nodeSubType": "junction"
+        }
+      ],
+      "enemies": [
+        {
+          "id": "e1",
+          "groupName": "Crocomire",
+          "enemyName": "Crocomire",
+          "quantity": 1,
+          "homeNodes": [ 4 ],
+          "stopSpawn": [ "f_DefeatedCrocomire" ]
+        }
+      ],
+      "links": [
+        {
+          "from": 1,
+          "to": [
+            {
+              "id": 5,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "f_DefeatedCrocomire" ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 2,
+          "to": [
+            {
+              "id": 5,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 3,
+          "to": [
+            {
+              "id": 6,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [
+                    "f_DefeatedCrocomire",
+                    {"or":[
+                      "SpaceJump",
+                      "Grapple"
+                    ]}
+                  ]
+                },
+                {
+                  "name": "Gravity Acid",
+                  "notable": false,
+                  "requires": [
+                    "f_DefeatedCrocomire",
+                    "Gravity",
+                    {"acidFrames": 30}
+                  ]
+                },
+                {
+                  "name": "Acid Bath",
+                  "notable": false,
+                  "requires": [
+                    "f_DefeatedCrocomire",
+                    {"acidFrames": 130}
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 4,
+          "to": [
+            {
+              "id": 5,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            },
+            {
+              "id": 6,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": ["f_DefeatedCrocomire"]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 5,
+          "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "f_DefeatedCrocomire" ]
+                }
+              ]
+            },
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [
+                    {"or": [
+                      "SpeedBooster",
+                      "HiJump",
+                      "h_canFly",
+                      "canWalljump",
+                      "canSpringBallJumpMidAir"
+                    ]}
+                  ]
+                }
+              ]
+            },
+            {
+              "id": 4,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 6,
+          "to": [
+            {
+              "id": 3,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [
+                    {"or": [
+                      "SpaceJump",
+                      "Grapple"
+                    ]}
+                  ]
+                },
+                {
+                  "name": "Gravity Acid",
+                  "notable": false,
+                  "requires": [
+                    "Gravity",
+                    {"acidFrames": 20}
+                  ]
+                },
+                {
+                  "name": "Acid Bath",
+                  "notable": false,
+                  "requires": [
+                    "canWalljump",
+                    {"acidFrames": 60}
+                  ]
+                },
+                {
+                  "name": "Shinespark",
+                  "notable": false,
+                  "requires": [
+                    {"canShineCharge": {
+                      "usedTiles": 33,
+                      "shinesparkFrames": 50,
+                      "openEnd": 2
+                    }}
+                  ]
+                },
+                {
+                  "name": "Crocomire Speedjump",
+                  "notable": false,
+                  "requires": [
+                    "SpeedBooster",
+                    "canTrickyJump",
+                    "canWalljump"
+                  ],
+                  "note": "With a precise enough jump, it's possible to avoid acid damage without a shinespark."
+                }
+              ]
+            },
+            {
+              "id": 4,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 123,
+      "name": "Post Crocomire Farming Room",
+      "area": "Norfair",
+      "subarea": "Crocomire",
+      "playable": true,
+      "roomAddress": "0x7AA82",
+      "roomEnvironments": [{ "heated": false } ],
+      "nodes": [
+        {
+          "id": 1,
+          "name": "Post Crocomire Farming Room Left Door (to Power Bombs)",
+          "nodeType": "door",
+          "nodeSubType": "red",
+          "nodeAddress": "0x001943e",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Post Crocomire Farming Room Left Door (to Power Bombs)",
+              "length": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "usableComingIn": false,
+              "openEnd": 1
+            }
+          ],
+          "locks": [
+            {
+              "name": "Post Crocomire Farming Room Red Lock (to Power Bombs)",
+              "lockType": "coloredDoor",
+              "unlockStrats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "h_canOpenRedDoors" ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Post Crocomire Farming Room Bottom Door (to Shaft)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x001944a",
+          "doorEnvironments": [{"physics": "air"}],
+          "canLeaveCharged": [
+            {
+              "usedTiles": 18,
+              "framesRemaining": 120,
+              "openEnd": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "name": "Post Crocomire Farming Room Bottom Right Door (to Save)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x0019456",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Post Crocomire Farming Room Bottom Right Door (to Save)",
+              "length": 10,
+              "gentleUpTiles": 4,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "openEnd": 0
+            },
+            {
+              "name": "Runway with no Enemies - Post Crocomire Farming Room Bottom Right Door (to Save)",
+              "length": 18,
+              "gentleUpTiles": 4,
+              "gentleDownTiles": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "usableComingIn": false,
+              "openEnd": 1,
+              "note": "Involves leaving some drops hanging after killing the Gamets so they don't respawn."
+            }
+          ]
+        },
+        {
+          "id": 4,
+          "name": "Post Crocomire Farming Room Top Right Door (to Crocomire)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x0019432",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Post Crocomire Farming Room Top Right Door (to Crocomire)",
+              "length": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "usableComingIn": false,
+              "openEnd": 1
+            }
+          ]
+        },
+        {
+          "id": 5,
+          "name": "Post Crocomire Farming Room Main Junction",
+          "nodeType": "junction",
+          "nodeSubType": "junction"
+        }
+      ],
+      "enemies": [
+        {
+          "id": "e1",
+          "groupName": "Post Crocomire Farming Room Ripper 2",
+          "enemyName": "Ripper 2 (green)",
+          "quantity": 1,
+          "homeNodes": [ 5 ]
+        },
+        {
+          "id": "e2",
+          "groupName": "Post Crocomire Farming Room Gamets",
+          "enemyName": "Gamet",
+          "quantity": 5,
+          "homeNodes": [ 5 ],
+          "farmCycles": [
+            {
+              "name": "Crouch over Gamets",
+              "cycleFrames": 120,
+              "requires": []
+            }
+          ]
+        }
+      ],
+      "links": [
+        {
+          "from": 1,
+          "to": [
+            {
+              "id": 5,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 2,
+          "to": [
+            {
+              "id": 5,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 3,
+          "to": [
+            {
+              "id": 5,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 4,
+          "to": [
+            {
+              "id": 5,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 5,
+          "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [
+                    "h_canFly"
+                  ]
+                },
+                {
+                  "name": "Ripper Grapple",
+                  "notable": false,
+                  "requires": [
+                    "canUseEnemies",
+                    "Grapple"
+                  ],
+                  "note": "Involves grappling off a Ripper 2."
+                },
+                {
+                  "name": "Use Frozen Enemies",
+                  "notable": false,
+                  "requires": ["canUseFrozenEnemies"],
+                  "note": "Use the moving platform (Kamer) to elevate the Gamets and then freeze them."
+                },
+                {
+                  "name": "Hi Jump from Moving Platform",
+                  "notable": false,
+                  "requires": ["HiJump"],
+                  "note": "Run on the moving platform (Kamer)."
+                },
+                {
+                  "name": "Post Crocomire Farming Room Speed Jump",
+                  "notable": true,
+                  "requires": [
+                    "canTrickyDashJump",
+                    "canWalljump"
+                  ],
+                  "note": [
+                    "Doesn't require opening the bottom right door, even. Just using the available space and jumping late enough.",
+                    "It does require killing the Gamets and leaving the drops there so they don't kill your momentum."
+                  ]
+                },
+                {
+                  "name": "Shinespark",
+                  "notable": false,
+                  "requires": [
+                    {"or":[
+                      {"canComeInCharged": {
+                        "fromNode": 2,
+                        "inRoomPath": [2, 5],
+                        "framesRemaining": 0,
+                        "shinesparkFrames": 25
+                      }},
+                      {"canComeInCharged": {
+                        "fromNode": 3,
+                        "inRoomPath": [3, 5],
+                        "framesRemaining": 50,
+                        "shinesparkFrames": 25
+                      }},
+                      {"canComeInCharged": {
+                        "fromNode": 4,
+                        "inRoomPath": [4, 5],
+                        "framesRemaining": 0,
+                        "shinesparkFrames": 45
+                      }}
+                    ]}
+                  ]
+                },
+                {
+                  "name": "Post Crocomire Farming Room Dboost",
+                  "notable": true,
+                  "requires": [
+                    "canTrickyJump",
+                    "canDamageBoost",
+                    {"enemyDamage": {
+                      "enemy": "Gamet",
+                      "type": "contact",
+                      "hits": 1
+                    }}
+                  ],
+                  "note": "Use the moving platform (Kamer) to elevate the Gamets."
+                }
+              ]
+            },
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            },
+            {
+              "id": 3,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            },
+            {
+              "id": 4,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [
+                    {"or":[
+                      "HiJump",
+                      "SpaceJump",
+                      "canWalljump"
+                    ]}
+                  ]
+                },
+                {
+                  "name": "Ripper Grapple",
+                  "notable": false,
+                  "requires": [
+                    "canUseEnemies",
+                    "Grapple"
+                  ],
+                  "note": "Involves grappling off a Ripper 2."
+                },
+                {
+                  "name": "Use Frozen Enemies",
+                  "notable": false,
+                  "requires": ["canUseFrozenEnemies"],
+                  "note": "Use the moving platform (Kamer) to elevate the Gamets and then freeze them."
+                },
+                {
+                  "name": "Jump Into IBJ",
+                  "notable": false,
+                  "requires": [ "canJumpIntoIBJ" ],
+                  "note": [
+                    "Jump into an IBJ from the moving platform (Kamer).",
+                    "Although it is possible to do it without jumping, by starting next to the Gamet farm, it is harder and more obscure."
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 124,
+      "name": "Post Crocomire Power Bomb Room",
+      "area": "Norfair",
+      "subarea": "Crocomire",
+      "playable": true,
+      "roomAddress": "0x7AADE",
+      "roomEnvironments": [{ "heated": true } ],
+      "nodes": [
+        {
+          "id": 1,
+          "name": "Post Crocomire Power Bomb Room Door (to Farming Room)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x001946e",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Post Crocomire Power Bomb Room Door (to Farming Room)",
+              "length": 4,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [
+                    "h_canNavigateHeatRooms",
+                    {"heatFrames": 50}
+                  ]
+                }
+              ],
+              "openEnd": 0
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Power Bomb (Crocomire)",
+          "nodeType": "item",
+          "nodeSubType": "visible",
+          "nodeItem": "PowerBomb",
+          "nodeAddress": "0x78C04"
+        }
+      ],
+      "enemies": [],
+      "links": [
+        {
+          "from": 1,
+          "to": [
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [
+                    "h_canNavigateHeatRooms",
+                    {"heatFrames": 100}
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 2,
+          "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [
+                    "h_canNavigateHeatRooms",
+                    {"heatFrames": 100}
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 125,
+      "name": "Post Crocomire Shaft",
+      "area": "Norfair",
+      "subarea": "Crocomire",
+      "playable": true,
+      "roomAddress": "0x7AB07",
+      "roomEnvironments": [{ "heated": false } ],
+      "nodes": [
+        {
+          "id": 1,
+          "name": "Post Crocomire Shaft Left Door (to Grapple Tutorial 3)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x0019486",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Post Crocomire Shaft Left Door (to Grapple Tutorial 3)",
+              "length": 9,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "openEnd": 1
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Post Crocomire Shaft Bottom Door (to Jump Room)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x001949e",
+          "doorEnvironments": [{"physics": "air"}]
+        },
+        {
+          "id": 3,
+          "name": "Post Crocomire Shaft Right Door (to Cosine Room)",
+          "nodeType": "door",
+          "nodeSubType": "red",
+          "nodeAddress": "0x0019492",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Post Crocomire Shaft Right Door (to Cosine Room)",
+              "length": 3,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "openEnd": 1
+            }
+          ],
+          "locks": [
+            {
+              "name": "Post Crocomire Shaft Red Lock (to Cosine Room)",
+              "lockType": "coloredDoor",
+              "unlockStrats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "h_canOpenRedDoors" ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 4,
+          "name": "Post Crocomire Shaft Top Door (to Farming Room)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x001947a",
+          "doorEnvironments": [{"physics": "air"}]
+        }
+      ],
+      "enemies": [
+        {
+          "id": "e1",
+          "groupName": "Post Crocomire Shaft Bottom Violas",
+          "enemyName": "Viola",
+          "quantity": 2,
+          "homeNodes": [ 2 ]
+        },
+        {
+          "id": "e2",
+          "groupName": "Post Crocomire Shaft Top Violas",
+          "enemyName": "Viola",
+          "quantity": 2,
+          "homeNodes": [ 3 ]
+        }
+      ],
+      "links": [
+        {
+          "from": 1,
+          "to": [
+            {
+              "id": 4,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 2,
+          "to": [
+            {
+              "id": 3,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 3,
+          "to": [
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            },
+            {
+              "id": 4,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [
+                    {"or": [
+                      "canConsecutiveWalljump",
+                      "h_canFly"
+                    ]}
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 4,
+          "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            },
+            {
+              "id": 3,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 126,
+      "name": "Post Crocomire Missile Room",
+      "area": "Norfair",
+      "subarea": "Crocomire",
+      "playable": true,
+      "roomAddress": "0x7AB3B",
+      "roomEnvironments": [{ "heated": false } ],
+      "nodes": [
+        {
+          "id": 1,
+          "name": "Cosine Room Left Door (to Shaft)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x00194aa",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Cosine Room Left Door (to Shaft)",
+              "length": 4,
+              "gentleUpTiles": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "openEnd": 0
+            },
+            {
+              "name": "Runway with Acid Timing - Cosine Room Left Door (to Shaft)",
+              "length": 33,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "usableComingIn": false,
+              "openEnd": 1
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Missile (below Crocomire)",
+          "nodeType": "item",
+          "nodeSubType": "visible",
+          "nodeItem": "Missile",
+          "nodeAddress": "0x78C14"
+        }
+      ],
+      "enemies": [
+        {
+          "id": "e1",
+          "groupName": "Cosine Room Metarees",
+          "enemyName": "Metaree",
+          "quantity": 2,
+          "homeNodes": [ 1 ]
+        },
+        {
+          "id": "e2",
+          "groupName": "Cosine Room Gamets",
+          "enemyName": "Gamet",
+          "quantity": 5,
+          "homeNodes": [ 2 ],
+          "farmCycles": [
+            {
+              "name": "Crouch 3 tiles over Gamets",
+              "cycleFrames": 165,
+              "requires": []
+            }
+          ],
+          "devNote": "With the gamets spawning over acid, there probably isn't a more effective strat."
+        }
+      ],
+      "links": [
+        {
+          "from": 1,
+          "to": [
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "Morph" ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 2,
+          "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "Morph" ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 127,
+      "name": "Post Crocomire Jump Room",
+      "area": "Norfair",
+      "subarea": "Crocomire",
+      "playable": true,
+      "roomAddress": "0x7AB8F",
+      "roomEnvironments": [{ "heated": false } ],
+      "nodes": [
+        {
+          "id": 1,
+          "name": "Post Crocomire Jump Room Left Door (to Grapple)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x00194da",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Post Crocomire Jump Room Left Door (to Grapple)",
+              "length": 9,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "openEnd": 1
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Post Crocomire Jump Room Top Door (to Shaft)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x00194ce",
+          "doorEnvironments": [{"physics": "air"}],
+          "canLeaveCharged": [
+            {
+              "usedTiles": 32,
+              "framesRemaining": 60,
+              "openEnd": 1,
+              "strats": [
+                {
+                  "name": "Speed Blocks Broken",
+                  "notable": false,
+                  "requires": [ {"obstaclesCleared": ["B"]} ],
+                  "note": "This is available if obstacle B can be destroyed by travelling to node 4."
+                }
+              ]
+            },
+            {
+              "usedTiles": 33,
+              "framesRemaining": 120,
+              "openEnd": 2,
+              "strats": [
+                {
+                  "name": "Break Power Bomb Blocks",
+                  "notable": false,
+                  "requires": [],
+                  "obstacles": [
+                    {
+                      "id": "A",
+                      "requires": ["h_canUsePowerBombs"]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "name": "Missile (Grapple Beam)",
+          "nodeType": "item",
+          "nodeSubType": "visible",
+          "nodeItem": "Missile",
+          "nodeAddress": "0x78C2A"
+        },
+        {
+          "id": 4,
+          "name": "Post Crocomire Jump Room Junction (Speed Ramp, with Speed Blocks Broken)",
+          "nodeType": "junction",
+          "nodeSubType": "junction",
+          "note": [
+            "This node strictly represents access to the speed ramp *with the speed blocks broken*.",
+            "If they can't be broken, this node is not considered accessible but node 5 might be."
+          ]
+        },
+        {
+          "id": 5,
+          "name": "Post Crocomire Jump Room Junction (Small Platforms)",
+          "nodeType": "junction",
+          "nodeSubType": "junction",
+          "note": [
+            "This node represents the small platforms above the acid.",
+            "In some situations, it may be accessible without access to node 4, if the Speed blocks can't be broken."
+          ]
+        }
+      ],
+      "obstacles":[
+        {
+          "id": "A",
+          "name": "Power bomb blocks",
+          "obstacleType": "inanimate"
+        },
+        {
+          "id": "B",
+          "name": "Speed blocks",
+          "obstacleType": "inanimate"
+        }
+      ],
+      "enemies": [
+        {
+          "id": "e1",
+          "groupName": "Post Crocomire Jump Room Rippers 2s",
+          "enemyName": "Ripper 2 (green)",
+          "quantity": 4,
+          "betweenNodes": [1,3]
+        },
+        {
+          "id": "e2",
+          "groupName": "Post Crocomire Jump Room Mellas",
+          "enemyName": "Mella",
+          "quantity": 5,
+          "homeNodes": [ 2 ]
+        }
+      ],
+      "reusableRoomwideNotable": [
+        {
+          "name": "PCJR Indiana Jones Grapple",
+          "note": "Involves grappling off several Rippers, where falling may lead to a soft lock."
+        }
+      ],
+      "links": [
+        {
+          "from": 1,
+          "to": [
+            {
+              "id": 3,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": ["SpaceJump"]
+                },
+                {
+                  "name": "PCJR Left-Side Indiana Jones Shinespark",
+                  "notable": false,
+                  "requires": [
+                    "canWalljump",
+                    "canShinechargeMovement",
+                    "canMidairShinespark",
+                    {"canComeInCharged": {
+                      "fromNode": 1,
+                      "framesRemaining": 150,
+                      "shinesparkFrames": 40
+                    }}
+                  ],
+                  "note" : "Doesn't need hjb. Takes two walljumps, and must do the shinespark at the apex."
+                },
+                {
+                  "name": "Indiana Jones Grapple",
+                  "notable": true,
+                  "requires": [
+                    "canUseEnemies",
+                    "Grapple"
+                  ],
+                  "reusableRoomwideNotable": "PCJR Indiana Jones Grapple",
+                  "note": "Involves grappling off several Ripper 2."
+                }
+              ]
+            },
+            {
+              "id": 4,
+              "strats": [
+                {
+                  "name": "PCJR Full Room Space Jump Through Speed Blocks",
+                  "notable": true,
+                  "requires": [
+                    {"canComeInCharged": {
+                      "fromNode": 1,
+                      "framesRemaining": 180,
+                      "shinesparkFrames": 0
+                    }},
+                    "canBlueSpaceJump"
+                  ],
+                  "note": "The blocks can be broken if you can generate a blue suit using the previous room's runway, and carry it to the blocks by slowing floating down with Space Jump."
+                }
+              ]
+            },
+            {
+              "id": 5,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 2,
+          "to": [
+            {
+              "id": 4,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [],
+                  "obstacles": [
+                    {
+                      "id": "A",
+                      "requires": ["h_canUsePowerBombs"]
+                    },
+                    {
+                      "id": "B",
+                      "requires": ["SpeedBooster"]
+                    }
+                  ]
+                },
+                {
+                  "name": "Base with Broken Obstacle",
+                  "notable": false,
+                  "requires": [ {"obstaclesCleared": ["B"]} ],
+                  "devNote": [
+                    "This exists to guarantee going back is free after the speed blocks have been broken.",
+                    "None of the other strats can work as a proper substitute.",
+                    "The base strat requires obstacle A.",
+                    "The shinespark strat may not be possible.",
+                    "The stutter-3 is notable and could be turned off."
+                  ]
+                },
+                {
+                  "name": "Shinespark",
+                  "notable": false,
+                  "requires": [],
+                  "obstacles": [
+                    {
+                      "id": "B",
+                      "requires": [
+                        {"canComeInCharged": {
+                          "fromNode": 2,
+                          "framesRemaining": 100,
+                          "shinesparkFrames": 120
+                        }}
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "PCJR Stutter-3",
+                  "notable": false,
+                  "requires": [],
+                  "obstacles": [
+                    {
+                      "id": "B",
+                      "requires": [
+                        {"canShineCharge": {
+                          "usedTiles": 17,
+                          "shinesparkFrames": 0,
+                          "openEnd": 0
+                        }}
+                      ]
+                    }
+                  ],
+                  "note": "Commonly known as a stutter-3, this is also doable as a 4-tap."
+                }
+              ]
+            },
+            {
+              "id": 5,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "Morph" ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 3,
+          "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Indiana Jones Grapple in Reverse",
+                  "notable": true,
+                  "requires": [
+                    "canUseEnemies",
+                    "Grapple"
+                  ],
+                  "reusableRoomwideNotable": "PCJR Indiana Jones Grapple",
+                  "note": "Involves grappling off several Ripper 2."
+                }
+              ],
+              "devNote": "No Space Jump strat because that's taken care of by 3 -> 5 -> 1."
+            },
+            {
+              "id": 5,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 4,
+          "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "PCJR Walljump Shinespark to Grapple",
+                  "notable": false,
+                  "requires": [
+                    "canWalljump",
+                    "canShinechargeMovement",
+                    "canMidairShinespark",
+                    {"canShineCharge": {
+                      "usedTiles": 32,
+                      "shinesparkFrames": 90,
+                      "openEnd": 1
+                    }}
+                  ],
+                  "note": "Fire off the shinespark at the apex of two consecutive walljumps.",
+                  "devNote": "You can have a 'max' length runway available here if you break the PB blocks, but we won't duplicate strats for that right now."
+                },
+                {
+                  "name": "PCJR Big Jump Shinespark",
+                  "notable": true,
+                  "requires": [
+                    "canShinechargeMovement",
+                    "canMidairShinespark",
+                    {"canShineCharge": {
+                      "usedTiles": 32,
+                      "shinesparkFrames": 52,
+                      "openEnd": 1
+                    }}
+                  ],
+                  "note": "Charge a spark to the right, then come back, run and jump, and do a horizontal spark at the apex.",
+                  "devNote": "You can have a 'max' length runway available here if you break the PB blocks, but we won't duplicate strats for that right now."
+                },
+                {
+                  "name": "Short run Speedjump",
+                  "notable": false,
+                  "requires": [
+                    "SpeedBooster",
+                    "HiJump"
+                  ]
+                },
+                {
+                  "name": "Long Run Speedjump",
+                  "notable": false,
+                  "requires": ["SpeedBooster"],
+                  "obstacles": [
+                    {
+                      "id": "A",
+                      "requires": [ "h_canUsePowerBombs" ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "devNote": "Since node 4 is only accessed if Speed blocks are broken, access back to 2 is free"
+            },
+            {
+              "id": 3,
+              "strats": [
+                {
+                  "name": "Shinespark",
+                  "notable": false,
+                  "requires": [
+                    {"canShineCharge": {
+                      "usedTiles": 32,
+                      "shinesparkFrames": 40,
+                      "openEnd": 1
+                    }}
+                  ],
+                  "devNote": "You can have a capped length runway available here if you break the PB blocks, but we won't duplicate strats for that right now."
+                },
+                {
+                  "name": "Speedjump",
+                  "notable": false,
+                  "requires": [
+                    "SpeedBooster",
+                    "HiJump"
+                  ]
+                }
+              ],
+              "note": "All strats that don't require speed blocks to be broken are in 5 -> 3."
+            },
+            {
+              "id": 5,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 5,
+          "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": ["SpaceJump"]
+                },
+                {
+                  "name": "PCJR Door IBJ",
+                  "notable": false,
+                  "requires": ["canJumpIntoIBJ"]
+                },
+                {
+                  "name": "Speedjump",
+                  "notable": false,
+                  "requires": [
+                    "SpeedBooster",
+                    "HiJump",
+                    "canWalljump"
+                  ],
+                  "note": "Run on the moving platform (Kamer)."
+                },
+                {
+                  "name": "PCJR Frozen Mella Door",
+                  "notable": false,
+                  "requires": [
+                    "canUseFrozenEnemies",
+                    "canManipulateMellas",
+                    {"or":[
+                      {"obstaclesCleared": ["B"]},
+                      "Morph"
+                    ]}
+                  ],
+                  "note": [
+                    "Lure a Mella from the right by breaking the speed blocks or using Morph.",
+                    "Then you need to manipulate it to go high enough to be used as a stepping stone once frozen."
+                  ]
+                }
+              ]
+            },
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [ "Morph" ]
+                }
+              ],
+              "note": "If the speed blocks are broken, free access can be attained via node 4"
+            },
+            {
+              "id": 3,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": ["h_canFly"]
+                },
+                {
+                  "name": "PCJR Speedjump SpringBall",
+                  "notable": false,
+                  "requires": [
+                    "HiJump",
+                    "SpeedBooster",
+                    "canSpringBallJumpMidAir"
+                  ]
+                },
+                {
+                  "name": "PCJR Springwall",
+                  "notable": true,
+                  "requires": [
+                    "HiJump",
+                    "canSpringwall",
+                    "canPreciseWalljump",
+                    "can2HighWallMidAirMorph"
+                  ],
+                  "note": [
+                    "A particularly precise springwall.",
+                    "Aim the walljump at the bottom of the second sloped wall fixture, where it looks like you cant jump off of.",
+                    "Optimize pause timing, use an instant morph, and get a max height springball jump. A delayed wall jump helps."
+                  ]
+                },
+                {
+                  "name": "Indy Jones Short Mella",
+                  "notable": false,
+                  "requires": [
+                    "canUseFrozenEnemies",
+                    "canManipulateMellas",
+                    "HiJump",
+                    {"or":[
+                      {"obstaclesCleared": ["B"]},
+                      "Morph"
+                    ]}
+                  ],
+                  "note": [
+                    "Lure a Mella from the right by breaking the speed blocks or using Morph.",
+                    "Then you need to manipulate it to go high enough to be used as a stepping stone once frozen."
+                  ]
+                },
+                {
+                  "name": "Indy Jones Long Mella",
+                  "notable": false,
+                  "requires": [
+                    "canUseFrozenEnemies",
+                    "canManipulateMellas",
+                    "canBePatient",
+                    "canConsecutiveWalljump",
+                    {"or":[
+                      {"obstaclesCleared": ["B"]},
+                      "Morph"
+                    ]}
+                  ],
+                  "note": [
+                    "Lure a Mella from the right by breaking the speed blocks or using Morph.",
+                    "Then you need to manipulate it to go high enough to be used as a stepping stone once frozen."
+                  ]
+                },
+                {
+                  "name": "Indy Jones Mella Ice Clip",
+                  "notable": false,
+                  "requires": [
+                    "Morph",
+                    "canMellaIceClip",
+                    {"or":[
+                      "canConsecutiveWalljump",
+                      {"and":[
+                        "HiJump",
+                        "canWalljump"
+                      ]}
+                    ]}
+                  ],
+                  "note": [
+                    "Position the frozen Mella such that you can ice clip through the crumble block, then wall jump up the long channel and mid air morph to get out."
+                  ]
+                }
+              ]
+            },
+            {
+              "id": 4,
+              "strats": [
+                {
+                  "name": "PCJR Acid Shinespark",
+                  "notable": true,
+                  "requires": [],
+                  "obstacles": [
+                    {
+                      "id": "B",
+                      "requires": [
+                        "Gravity",
+                        {"canShineCharge": {
+                          "usedTiles": 33,
+                          "shinesparkFrames":35,
+                          "openEnd": 2
+                        }},
+                        {"acidFrames": 140}
+                      ]
+                    }
+                  ],
+                  "note": "Gravity makes it possible to charge a spark in the acid in order to break the speed blocks."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 128,
+      "name": "Grapple Beam Room",
+      "area": "Norfair",
+      "subarea": "Crocomire",
+      "playable": true,
+      "roomAddress": "0x7AC2B",
+      "roomEnvironments": [{ "heated": false } ],
+      "nodes": [
+        {
+          "id": 1,
+          "name": "Grapple Room Top Right Door (to Grapple Tutorial 1)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x0019522",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Grapple Room Top Right Door (to Grapple Tutorial 1)",
+              "length": 0,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "openEnd": 1
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Grapple Bottom Right Door (to Jump Room)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x0019516",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Grapple Bottom Right Door (to Jump Room)",
+              "length": 9,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "openEnd": 0
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "name": "Grapple Beam",
+          "nodeType": "item",
+          "nodeSubType": "chozo",
+          "nodeItem": "Grapple",
+          "nodeAddress": "0x78C36"
+        }
+      ],
+      "enemies": [],
+      "links": [
+        {
+          "from": 1,
+          "to": [
+            {
+              "id": 3,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 2,
+          "to": [
+            {
+              "id": 3,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 3,
+          "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [
+                    {"or": [
+                      {"and": [
+                        "HiJump",
+                        "Grapple"
+                      ]},
+                      "canWalljump",
+                      "h_canFly"
+                    ]}
+                  ]
+                },
+                {
+                  "name": "Shinespark",
+                  "notable": false,
+                  "requires": [
+                    {"canComeInCharged": {
+                      "fromNode": 2,
+                      "inRoomPath": [2, 3],
+                      "framesRemaining": 20,
+                      "shinesparkFrames": 40
+                    }}
+                  ]
+                }
+              ]
+            },
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 129,
+      "name": "Grapple Tutorial Room 1",
+      "area": "Norfair",
+      "subarea": "Crocomire",
+      "playable": true,
+      "roomAddress": "0x7AC00",
+      "roomEnvironments": [{ "heated": false } ],
+      "nodes": [
+        {
+          "id": 1,
+          "name": "Grapple Tutorial Room 1 Left Door (to Grapple)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x00194fe",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Grapple Tutorial Room 1 Left Door (to Grapple)",
+              "length": 9,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "openEnd": 1
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Grapple Tutorial Room 1 Right Door (to Grapple Tutorial 2)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x001950a",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Grapple Tutorial Room 1 Right Door (to Grapple Tutorial 2)",
+              "length": 8,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "openEnd": 1
+            }
+          ]
+        }
+      ],
+      "enemies": [],
+      "links": [
+        {
+          "from": 1,
+          "to": [
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 2,
+          "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 130,
+      "name": "Grapple Tutorial Room 2",
+      "area": "Norfair",
+      "subarea": "Crocomire",
+      "playable": true,
+      "roomAddress": "0x7ABD2",
+      "roomEnvironments": [{ "heated": false } ],
+      "nodes": [
+        {
+          "id": 1,
+          "name": "Grapple Tutorial Room 2 Left Door (to Grapple Tutorial 1)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x00194e6",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Grapple Tutorial Room 2 Left Door (to Grapple Tutorial 1)",
+              "length": 3,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "openEnd": 1
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Grapple Tutorial Room 2 Right Door (to Grapple Tutorial 3)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x00194f2",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Grapple Tutorial Room 2 Right Door (to Grapple Tutorial 3)",
+              "length": 0,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "openEnd": 1
+            }
+          ]
+        }
+      ],
+      "enemies": [
+        {
+          "id": "e1",
+          "groupName": "Grapple Tutorial Room 2 Funes",
+          "enemyName": "Fune",
+          "quantity": 3,
+          "homeNodes": [ 1 ]
+        }
+      ],
+      "links": [
+        {
+          "from": 1,
+          "to": [
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [
+                    "h_canFly"
+                  ]
+                },
+                {
+                  "name": "Grapple",
+                  "notable": false,
+                  "requires": [
+                    "Grapple",
+                    {"or":[
+                      "HiJump",
+                      "canWalljump"
+                    ]}
+                  ]
+                },
+                {
+                  "name": "Hi Jump",
+                  "notable": false,
+                  "requires": [
+                    "HiJump",
+                    "canWalljump"
+                  ]
+                },
+                {
+                  "name": "SpringBall Jump",
+                  "notable": false,
+                  "requires": [
+                    "canSpringBallJumpMidAir"
+                  ]
+                },
+                {
+                  "name": "Shinespark",
+                  "notable": false,
+                  "requires": [
+                    {"canComeInCharged": {
+                      "fromNode": 1,
+                      "framesRemaining": 120,
+                      "shinesparkFrames": 30
+                    }}
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 2,
+          "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 131,
+      "name": "Grapple Tutorial Room 3",
+      "area": "Norfair",
+      "subarea": "Crocomire",
+      "playable": true,
+      "roomAddress": "0x7AB64",
+      "roomEnvironments": [{ "heated": false } ],
+      "nodes": [
+        {
+          "id": 1,
+          "name": "Grapple Tutorial Room 3 Left Door (to Grapple Tutorial 2)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x00194b6",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Grapple Tutorial Room 3 Left Door (to Grapple Tutorial 2)",
+              "length": 3,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "openEnd": 1
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Grapple Tutorial Room 3 Right Door (to Shaft)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x00194c2",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Grapple Tutorial Room 3 Right Door (to Shaft)",
+              "length": 3,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "openEnd": 0
+            },
+            {
+              "name": "Runway with Gate Open - Grapple Tutorial Room 3 Right Door (to Shaft)",
+              "length": 6,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [],
+                  "obstacles": [
+                    {
+                      "id": "A",
+                      "requires": [ "h_canGreenGateGlitch" ]
+                    }
+                  ]
+                }
+              ],
+              "usableComingIn": false,
+              "openEnd": 1
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "name": "Grapple Tutorial Room 3 Junction (Left of Green Gate)",
+          "nodeType": "junction",
+          "nodeSubType": "junction"
+        }
+      ],
+      "enemies": [
+        {
+          "id": "e1",
+          "groupName": "Grapple Tutorial Room 3 Gamets",
+          "enemyName": "Gamet",
+          "quantity": 5,
+          "homeNodes": [ 1 ],
+          "farmCycles": [
+            {
+              "name": "Crouch over Gamets",
+              "cycleFrames": 120,
+              "requires": []
+            }
+          ]
+        },
+        {
+          "id": "e2",
+          "groupName": "Grapple Tutorial Room 3 Puyos",
+          "enemyName": "Puyo",
+          "quantity": 5,
+          "betweenNodes": [ 1, 2 ]
+        }
+      ],
+      "obstacles": [
+        {
+          "id": "A",
+          "name": "Green Gate",
+          "obstacleType": "inanimate"
+        }
+      ],
+      "links": [
+        {
+          "from": 1,
+          "to": [
+            {
+              "id": 3,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [
+                    {"or":[
+                      {"and": [
+                        "canWalljump",
+                        "Gravity"
+                      ]},
+                      "Grapple",
+                      "SpaceJump"
+                    ]}
+                  ]
+                },
+                {
+                  "name": "Shinespark",
+                  "notable": false,
+                  "requires": [
+                    {"canComeInCharged": {
+                      "fromNode": 1,
+                      "framesRemaining": 0,
+                      "shinesparkFrames": 60
+                    }}
+                  ]
+                },
+                {
+                  "name": "Grapple Tutorial Speedjump",
+                  "notable": false,
+                  "requires": [
+                    "SpeedBooster",
+                    "canTrickyJump",
+                    "canWalljump"
+                  ]
+                },
+                {
+                  "name": "Grapple Tutorial Frozen Gamet",
+                  "notable": true,
+                  "requires": ["canTrickyUseFrozenEnemies"],
+                  "note": [
+                    "1- Bring a Gamet above the water line.",
+                    "2- Freeze the Gamet before it starts moving left.",
+                    "3- Cross the first moat.",
+                    "4- Wait for it to thaw and freeze it a second time to cross the second moat."
+                  ]
+                },
+                {
+                  "name": "Grapple Tutorial Double Dboost",
+                  "notable": false,
+                  "requires": [
+                    "canContinuousDboost",
+                    {"enemyDamage": {
+                      "enemy": "Gamet",
+                      "type": "contact",
+                      "hits": 2
+                    }}
+                  ],
+                  "note": [
+                    "1- Stand near the farm point, on the edge of where you make Gamets spawn.",
+                    "2- Wait for the proper water position.",
+                    "3- Move to make the Gamets spawn. Moonwalk is useful here.",
+                    "4- Quickly climb up to the last ledge before the dor.",
+                    "5- Move as far left as possible, wait for the Gamets to start deploying vertically.",
+                    "6- Run, jump, dboost off a Gamet. Make sure you make the top one move right.",
+                    "7- Dboost a second time off the Gamet to cross the second moat."
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 2,
+          "to": [
+            {
+              "id": 3,
+              "strats": [
+                {
+                  "name": "GGG",
+                  "notable": false,
+                  "requires": [],
+                  "obstacles": [
+                    {
+                      "id": "A",
+                      "requires": [ "h_canGreenGateGlitch" ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 3,
+          "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            },
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [],
+                  "obstacles": [
+                    {
+                      "id": "A",
+                      "requires": [ "h_canOpenGreenDoors" ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 311,
+      "name": "Post Crocomire Save Room",
+      "area": "Norfair",
+      "subarea": "Crocomire",
+      "playable": true,
+      "roomAddress": "0x7AAB5",
+      "roomEnvironments": [{ "heated": false } ],
+      "nodes": [
+        {
+          "id": 1,
+          "name": "Post Crocomire Save Room Door (to Farming Room)",
+          "nodeType": "door",
+          "nodeSubType": "blue",
+          "nodeAddress": "0x0019462",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Post Crocomire Save Room Door (to Farming Room)",
+              "length": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "usableComingIn": false,
+              "openEnd": 1
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Post Crocomire Save Station",
+          "utility": [ "save" ],
+          "nodeType": "utility",
+          "nodeSubType": "save"
+        }
+      ],
+      "enemies": [],
+      "links": [
+        {
+          "from": 1,
+          "to": [
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "from": 2,
+          "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
