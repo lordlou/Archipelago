@@ -18,7 +18,7 @@ logger = logging.getLogger("Super Metroid")
 from .Options import smmr_options
 from .Rom import get_base_rom_path, SM_ROM_MAX_PLAYERID, SM_ROM_PLAYERDATA_COUNT, SMMapRandoDeltaPatch
 
-import MapRandomizer
+from map_randomizer import APRandomizer, Item as MRItem, create_gamedata
 
 class SMMapRandoWeb(WebWorld):
     tutorials = [Tutorial(
@@ -44,8 +44,11 @@ class SMMapRandoWorld(World):
     data_version = 0
     option_definitions = smmr_options
 
-    item_name_to_id = {}
-    location_name_to_id = {}
+    gamedata = create_gamedata()
+
+    item_name_to_id = {k: items_start_id + int(v) for k, v in vars(MRItem).items() if not k.startswith("__")}
+    location_name_to_id = {loc: locations_start_id + idx for idx, loc in enumerate(gamedata.get_location_names())}
+
     web = SMMapRandoWeb()
 
     required_client_version = (0, 2, 6)
@@ -53,7 +56,7 @@ class SMMapRandoWorld(World):
     def __init__(self, world: MultiWorld, player: int):
         self.rom_name_available_event = threading.Event()
         self.locations = {}
-        gameData = MapRandomizer.create_gamedata()
+        self.map_rando = APRandomizer(12345)
         
         super().__init__(world, player)
 
@@ -66,17 +69,26 @@ class SMMapRandoWorld(World):
     def generate_early(self):
         pass
 
-    
     def create_items(self):
-        pass
+        pool = []
+        for idx, type_count in enumerate(self.map_rando.randomizer.initial_items_remaining):
+            for item_count in range(type_count):
+                mr_item = SMMRItem(SMMapRandoWorld.item_id_to_name[items_start_id + idx], 
+                            ItemClassification.progression if idx == 0 else ItemClassification.filler, 
+                            items_start_id + idx, 
+                            player=self.player)
+                pool.append(mr_item)
+        self.multiworld.itempool += pool
 
+    def create_regions(self):
+        for loc_name, loc_id in SMMapRandoWorld.location_name_to_id.items():
+            self.locations[loc_name] = SMMRLocation(self.player, loc_name, loc_id)
+        
 
     def set_rules(self):
         self.multiworld.completion_condition[self.player] =\
         lambda state: True
     
-    def create_regions(self):
-        pass
 
     def collect(self, state: CollectionState, item: Item) -> bool:
         pass
@@ -156,3 +168,16 @@ class SMMapRandoWorld(World):
     def fill_slot_data(self): 
         slot_data = {}      
         return slot_data
+    
+    
+class SMMRLocation(Location):
+    game: str = "Super Metroid Map Rando"
+
+    def __init__(self, player: int, name: str, address=None, parent=None):
+        super(SMMRLocation, self).__init__(player, name, address, parent)
+
+class SMMRItem(Item):
+    game = "Super Metroid Map Rando"
+
+    def __init__(self, name, classification, code, player: int):
+        super(SMMRItem, self).__init__(name, classification, code, player)
