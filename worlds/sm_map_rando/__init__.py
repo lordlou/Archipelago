@@ -18,7 +18,25 @@ logger = logging.getLogger("Super Metroid")
 from .Options import smmr_options
 from .Rom import get_base_rom_path, SM_ROM_MAX_PLAYERID, SM_ROM_PLAYERDATA_COUNT, SMMapRandoDeltaPatch
 
-from map_randomizer import APRandomizer, Item as MRItem, create_gamedata
+from map_randomizer import create_gamedata, APRandomizer, APCollectionState
+
+class SMMRCollectionState(metaclass=AutoLogicRegister):
+    def init_mixin(self, parent: MultiWorld):
+        
+        # for unit tests where MultiWorld is instantiated before worlds
+        if hasattr(parent, "state"):
+            self.smmrcs = {player: copy.deepcopy(parent.state.smmrcs[player]) for player in parent.get_game_players(SMMapRandoWorld.game)}
+            for player, group in parent.groups.items():
+                if (group["game"] == SMMapRandoWorld.game):
+                    self.smmrcs[player] = APCollectionState(None)
+                    if player not in parent.state.smmrcs:
+                        parent.state.smmrcs[player] = APCollectionState(None)
+        else:
+            self.smmrcs = {}
+
+    def copy_mixin(self, ret) -> CollectionState:
+        ret.smmrcs = {player: copy.deepcopy(self.smmrcs[player]) for player in self.smmrcs}
+        return ret
 
 class SMMapRandoWeb(WebWorld):
     tutorials = [Tutorial(
@@ -46,19 +64,19 @@ class SMMapRandoWorld(World):
 
     gamedata = create_gamedata()
 
-    item_name_to_id = {k: items_start_id + int(v) for k, v in vars(MRItem).items() if not k.startswith("__")}
-    location_name_to_id = {loc: locations_start_id + idx for idx, loc in enumerate(gamedata.get_location_names())}
+    item_name_to_id = {item_name: items_start_id + idx for idx, item_name in enumerate(gamedata.item_isv)}
+    location_name_to_id = {loc_name: locations_start_id + idx for idx, loc_name in enumerate(gamedata.get_location_names())}
 
     web = SMMapRandoWeb()
 
     required_client_version = (0, 2, 6)
 
     def __init__(self, world: MultiWorld, player: int):
+        super().__init__(world, player)
         self.rom_name_available_event = threading.Event()
         self.locations = {}
         self.map_rando = APRandomizer(12345)
         
-        super().__init__(world, player)
 
     @classmethod
     def stage_assert_generate(cls, multiworld: MultiWorld):
@@ -67,7 +85,7 @@ class SMMapRandoWorld(World):
             raise FileNotFoundError(rom_file)
 
     def generate_early(self):
-        pass
+        self.multiworld.state.smmrcs[self.player] = APCollectionState(self.map_rando)
 
     def create_items(self):
         pool = []
@@ -80,11 +98,47 @@ class SMMapRandoWorld(World):
                 pool.append(mr_item)
         self.multiworld.itempool += pool
 
+    def create_region(self, world: MultiWorld, player: int, name: str, locations=None, exits=None):
+        ret = Region(name, player, world)
+        if locations:
+            for loc in locations:
+                location = self.locations[loc]
+                location.parent_region = ret
+                ret.locations.append(location)
+        if exits:
+            for exit in exits:
+                ret.exits.append(Entrance(player, exit, ret))
+        return ret
+
     def create_regions(self):
+        # create locations
         for loc_name, loc_id in SMMapRandoWorld.location_name_to_id.items():
             self.locations[loc_name] = SMMRLocation(self.player, loc_name, loc_id)
         
+        # create regions
+        regions = []
+        for (vertex_name, location_name) in self.map_rando.randomizer.game_data.get_vertex_names():
+            regions.append(self.create_region(  self.multiworld, 
+                                                self.player, 
+                                                vertex_name,
+                                                [location_name] if location_name != None else None))
 
+        self.multiworld.regions += regions
+
+        #create entrances
+        for (link_from, link_to), link_map in self.map_rando.get_links_infos().items():
+            src_region = regions[link_from]
+            dest_region = regions[link_to]
+            srcDestEntrance = SMMREntrance(self.player, src_region.name + "->" + dest_region.name, src_region, link_map)
+            src_region.exits.append(srcDestEntrance)
+            srcDestEntrance.connect(dest_region)
+            add_rule(srcDestEntrance, lambda state: state.smmrcs[self.player].can_traverse(link_from, srcDestEntrance.strats_links))
+
+        self.multiworld.regions += [self.create_region(self.multiworld, self.player, 'Menu', None, ['StartAP'])]
+
+        startAP = self.multiworld.get_entrance('StartAP', self.player)
+        startAP.connect(self.multiworld.get_region("Ship", self.player))    
+        
     def set_rules(self):
         self.multiworld.completion_condition[self.player] =\
         lambda state: True
@@ -171,13 +225,20 @@ class SMMapRandoWorld(World):
     
     
 class SMMRLocation(Location):
-    game: str = "Super Metroid Map Rando"
+    game: str = SMMapRandoWorld.game
 
     def __init__(self, player: int, name: str, address=None, parent=None):
         super(SMMRLocation, self).__init__(player, name, address, parent)
 
 class SMMRItem(Item):
-    game = "Super Metroid Map Rando"
+    game: str = SMMapRandoWorld.game
 
     def __init__(self, name, classification, code, player: int):
         super(SMMRItem, self).__init__(name, classification, code, player)
+
+class SMMREntrance(Entrance):
+    game: str = SMMapRandoWorld.game
+
+    def __init__(self, player: int, name: str = '', parent: Region = None, strats_links: Dict[str, List[int]] = None):
+        super(SMMREntrance, self).__init__(player, name, parent)
+        self.strats_links = strats_links
