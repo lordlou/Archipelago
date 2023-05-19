@@ -6,6 +6,7 @@ import os
 import shutil
 import threading
 import base64
+import itertools
 from typing import Any, Dict, Iterable, List, Set, TextIO, TypedDict
 
 from BaseClasses import Region, Entrance, Location, MultiWorld, Item, ItemClassification, CollectionState, Tutorial
@@ -64,8 +65,8 @@ class SMMapRandoWorld(World):
 
     gamedata = create_gamedata()
 
-    item_name_to_id = {item_name: items_start_id + idx for idx, item_name in enumerate(gamedata.item_isv)}
-    location_name_to_id = {loc_name: locations_start_id + idx for idx, loc_name in enumerate(gamedata.get_location_names())}
+    item_name_to_id = {item_name: items_start_id + idx for idx, item_name in enumerate(itertools.chain(gamedata.item_isv, gamedata.flag_isv))}
+    location_name_to_id = {loc_name: locations_start_id + idx for idx, loc_name in enumerate(itertools.chain(gamedata.get_location_names(), gamedata.get_event_location_names()))}
 
     web = SMMapRandoWeb()
 
@@ -91,12 +92,26 @@ class SMMapRandoWorld(World):
         pool = []
         for idx, type_count in enumerate(self.map_rando.randomizer.initial_items_remaining):
             for item_count in range(type_count):
+                # 3 etanks
+                # 3 missiles
+                # 2 supers
+                # 1 powerbomb
+                is_progression = item_count == 0 if idx > 2 else (item_count < 3 if idx < 2 else item_count < 2)
                 mr_item = SMMRItem(SMMapRandoWorld.item_id_to_name[items_start_id + idx], 
-                            ItemClassification.progression if idx == 0 else ItemClassification.filler, 
+                            ItemClassification.progression if is_progression else ItemClassification.filler, 
                             items_start_id + idx, 
                             player=self.player)
                 pool.append(mr_item)
         self.multiworld.itempool += pool
+
+        gamedata = self.map_rando.randomizer.game_data
+        for (room_id, node_id, flag_id) in gamedata.flag_locations:
+            item = SMMRItem(SMMapRandoWorld.item_id_to_name[items_start_id + len(gamedata.item_isv) + flag_id], 
+                            ItemClassification.progression, 
+                            items_start_id + len(gamedata.item_isv) + flag_id, 
+                            player=self.player)
+            self.multiworld.get_location(gamedata.flag_isv[flag_id] + f" ({room_id}, {node_id})", self.player).place_locked_item(item)
+            self.multiworld.get_location(gamedata.flag_isv[flag_id] + f" ({room_id}, {node_id})", self.player).address = None
 
     def create_region(self, world: MultiWorld, player: int, name: str, locations=None, exits=None):
         ret = Region(name, player, world)
@@ -111,6 +126,9 @@ class SMMapRandoWorld(World):
         return ret
 
     def create_regions(self):
+        def add_entrance_rule(srcDestEntrance, player, link_from):
+            add_rule(srcDestEntrance, lambda state: state.smmrcs[player].can_traverse(link_from, srcDestEntrance.strats_links))
+
         # create locations
         for loc_name, loc_id in SMMapRandoWorld.location_name_to_id.items():
             self.locations[loc_name] = SMMRLocation(self.player, loc_name, loc_id)
@@ -126,30 +144,40 @@ class SMMapRandoWorld(World):
         self.multiworld.regions += regions
 
         #create entrances
-        for (link_from, link_to), link_map in self.map_rando.get_links_infos().items():
+        test = self.map_rando.get_links_infos()
+        for (link_from, link_to), link_map in test.items():
             src_region = regions[link_from]
             dest_region = regions[link_to]
             srcDestEntrance = SMMREntrance(self.player, src_region.name + "->" + dest_region.name, src_region, link_map)
             src_region.exits.append(srcDestEntrance)
             srcDestEntrance.connect(dest_region)
-            add_rule(srcDestEntrance, lambda state: state.smmrcs[self.player].can_traverse(link_from, srcDestEntrance.strats_links))
+            add_entrance_rule(srcDestEntrance, self.player, link_from)
 
         self.multiworld.regions += [self.create_region(self.multiworld, self.player, 'Menu', None, ['StartAP'])]
+
+        victory_entrance = self.multiworld.get_entrance("Ship->Escape Zebes", self.player)
+        add_rule(victory_entrance, lambda state: state.has('f_ZebesSetAblaze', self.player))
 
         startAP = self.multiworld.get_entrance('StartAP', self.player)
         startAP.connect(self.multiworld.get_region("Ship", self.player))    
         
     def set_rules(self):
-        self.multiworld.completion_condition[self.player] =\
-        lambda state: True
-    
+        self.multiworld.completion_condition[self.player] = lambda state: state.has('f_BeatSuperMetroid', self.player)
 
     def collect(self, state: CollectionState, item: Item) -> bool:
-        pass
+        if (item.code - items_start_id < len(self.gamedata.item_isv)):
+            state.smmrcs[self.player].add_item(item.code - items_start_id)
+        else:
+            state.smmrcs[self.player].add_flag(item.code - items_start_id - len(self.gamedata.item_isv))
+        return super(SMMapRandoWorld, self).collect(state, item)
 
     def remove(self, state: CollectionState, item: Item) -> bool:
-        pass
-
+        if (item.code - items_start_id < len(self.gamedata.item_isv)):
+            state.smmrcs[self.player].remove_item(item.code - items_start_id)
+        else:
+            state.smmrcs[self.player].remove_flag(item.code - items_start_id - len(self.gamedata.item_isv))
+        return super(SMMapRandoWorld, self).remove(state, item)
+    
     def create_item(self, name: str) -> Item:
         pass
 
