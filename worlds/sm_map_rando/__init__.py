@@ -4,6 +4,7 @@ import logging
 import copy
 import os
 import shutil
+import tempfile
 import threading
 import base64
 import itertools
@@ -19,7 +20,7 @@ logger = logging.getLogger("Super Metroid")
 from .Options import smmr_options
 from .Rom import get_base_rom_path, SM_ROM_MAX_PLAYERID, SM_ROM_PLAYERDATA_COUNT, SMMapRandoDeltaPatch
 
-from map_randomizer import create_gamedata, APRandomizer, APCollectionState
+from map_randomizer import create_gamedata, APRandomizer, APCollectionState, patch_rom
 
 class SMMRCollectionState(metaclass=AutoLogicRegister):
     def init_mixin(self, parent: MultiWorld):
@@ -185,10 +186,16 @@ class SMMapRandoWorld(World):
         pass
         
     def generate_output(self, output_directory: str):
+        sorted_item_locs = list(self.locations.values())
+        items = [itemLoc.item.code - items_start_id for itemLoc in sorted_item_locs if itemLoc.address is not None]
+
+        patched_rom_bytes = patch_rom(get_base_rom_path(), self.map_rando.randomizer, items)
+
         outfilebase = self.multiworld.get_out_file_name_base(self.player)
         outputFilename = os.path.join(output_directory, f"{outfilebase}.sfc")
 
-        shutil.copyfile(get_base_rom_path(), outputFilename)
+        with open(outputFilename, "wb") as binary_file:
+            binary_file.write(bytes(patched_rom_bytes))
 
         try:
             self.write_crc(outputFilename)
