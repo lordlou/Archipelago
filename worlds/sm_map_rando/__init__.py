@@ -20,7 +20,7 @@ logger = logging.getLogger("Super Metroid")
 from .Options import smmr_options
 from .Rom import get_base_rom_path, SM_ROM_MAX_PLAYERID, SM_ROM_PLAYERDATA_COUNT, SMMapRandoDeltaPatch
 
-from map_randomizer import create_gamedata, APRandomizer, APCollectionState, patch_rom
+from map_randomizer import create_gamedata, APRandomizer, APCollectionState, patch_rom, Options
 
 class SMMRCollectionState(metaclass=AutoLogicRegister):
     def init_mixin(self, parent: MultiWorld):
@@ -77,7 +77,32 @@ class SMMapRandoWorld(World):
         super().__init__(world, player)
         self.rom_name_available_event = threading.Event()
         self.locations = {}
-        self.map_rando = APRandomizer(12345)
+
+        options = Options(world.preset[self.player].value,
+                          list(world.techs[self.player].value),
+                          list(world.strats[self.player].value),
+                          world.shinespark_tiles[self.player].value,
+                          world.resource_multiplier[self.player].value,
+                          world.phantoon_proficiency[self.player].value,
+                          world.draygon_proficiency[self.player].value,
+                          world.ridley_proficiency[self.player].value,
+                          world.botwoon_proficiency[self.player].value,
+                          world.escape_timer_multiplier[self.player].value,
+                          world.save_animals[self.player].value == 1,
+                          world.objectives[self.player].value,
+                          "",
+                          world.quality_of_life[self.player].value,
+                          world.supers_double[self.player].value == 1,
+                          world.mother_brain_short[self.player].value == 1,
+                          world.escape_enemies_cleared[self.player].value == 1,
+                          world.escape_movement_items[self.player].value == 1,
+                          world.mark_map_stations[self.player].value == 1,
+                          world.item_markers[self.player].value,
+                          world.all_items_spawn[self.player].value == 1,
+                          world.fast_elevators[self.player].value == 1,
+                          world.fast_doors[self.player].value == 1,
+                          )
+        self.map_rando = APRandomizer(options, world.seed)
         
 
     @classmethod
@@ -109,7 +134,7 @@ class SMMapRandoWorld(World):
         for (room_id, node_id, flag_id) in gamedata.flag_locations:
             item = SMMRItem(SMMapRandoWorld.item_id_to_name[items_start_id + len(gamedata.item_isv) + flag_id], 
                             ItemClassification.progression, 
-                            items_start_id + len(gamedata.item_isv) + flag_id, 
+                            None, #items_start_id + len(gamedata.item_isv) + flag_id, 
                             player=self.player)
             self.multiworld.get_location(gamedata.flag_isv[flag_id] + f" ({room_id}, {node_id})", self.player).place_locked_item(item)
             self.multiworld.get_location(gamedata.flag_isv[flag_id] + f" ({room_id}, {node_id})", self.player).address = None
@@ -156,20 +181,26 @@ class SMMapRandoWorld(World):
 
         self.multiworld.regions += [self.create_region(self.multiworld, self.player, 'Menu', None, ['StartAP'])]
 
-        victory_entrance = self.multiworld.get_entrance("Ship->Escape Zebes", self.player)
-        add_rule(victory_entrance, lambda state: state.has('f_ZebesSetAblaze', self.player))
+        #victory_entrance = self.multiworld.get_entrance("Ship->Escape Zebes", self.player)
+        #add_rule(victory_entrance, lambda state: state.has('f_ZebesSetAblaze', self.player))
 
         startAP = self.multiworld.get_entrance('StartAP', self.player)
         startAP.connect(self.multiworld.get_region("Ship", self.player))    
         
     def set_rules(self):
-        self.multiworld.completion_condition[self.player] = lambda state: state.has('f_BeatSuperMetroid', self.player)
+        goals = [
+                    ["f_DefeatedKraid", "f_DefeatedPhantoon", "f_DefeatedDraygon", "f_DefeatedRidley"],
+                    ["f_DefeatedBotwoon", "f_DefeatedCrocomire", "f_DefeatedSporeSpawn", "f_DefeatedGoldenTorizo"],
+                    ["f_KilledMetroidRoom1", "f_KilledMetroidRoom2", "f_KilledMetroidRoom3", "f_KilledMetroidRoom4"]
+                ]
+
+        self.multiworld.completion_condition[self.player] = lambda state: state.has_all(goals[self.multiworld.objectives[self.player].value], self.player) #'f_BeatSuperMetroid'
 
     def collect(self, state: CollectionState, item: Item) -> bool:
-        if (item.code - items_start_id < len(self.gamedata.item_isv)):
+        if (item.code != None): # - items_start_id < len(self.gamedata.item_isv)):
             state.smmrcs[self.player].add_item(item.code - items_start_id)
         else:
-            state.smmrcs[self.player].add_flag(item.code - items_start_id - len(self.gamedata.item_isv))
+            state.smmrcs[self.player].add_flag(SMMapRandoWorld.item_name_to_id[item.name] - items_start_id - len(self.gamedata.item_isv))
         return super(SMMapRandoWorld, self).collect(state, item)
 
     def remove(self, state: CollectionState, item: Item) -> bool:
