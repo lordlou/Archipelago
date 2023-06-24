@@ -4,11 +4,11 @@ import time
 
 from NetUtils import ClientStatus, color
 from worlds.AutoSNIClient import SNIClient
-from .Rom import SM_ROM_MAX_PLAYERID
+from .Rom import SMMR_ROM_MAX_PLAYERID
 
 snes_logger = logging.getLogger("SNES")
 
-GAME_SM = "Super Metroid"
+GAME_SM = "Super Metroid Map Rando"
 
 # FXPAK Pro protocol memory mapping used by SNI
 ROM_START = 0x000000
@@ -35,8 +35,8 @@ SM_DEATH_LINK_ACTIVE_ADDR = ROM_START + 0x277F04    # 1 byte
 SM_REMOTE_ITEM_FLAG_ADDR = ROM_START + 0x277F06    # 1 byte
 
 
-class SMSNIClient(SNIClient):
-    game = "Super Metroid"
+class SMMRSNIClient(SNIClient):
+    game = "Super Metroid Map Rando"
 
     async def deathlink_kill_player(self, ctx):
         from SNIClient import DeathState, snes_buffered_write, snes_flush_writes, snes_read
@@ -61,18 +61,13 @@ class SMSNIClient(SNIClient):
         from SNIClient import snes_buffered_write, snes_flush_writes, snes_read
 
         rom_name = await snes_read(ctx, SM_ROMNAME_START, ROMNAME_SIZE)
-        if rom_name is None or rom_name == bytes([0] * ROMNAME_SIZE) or rom_name[:2] != b"SM" or rom_name[2] not in b"1234567890" or rom_name[:3] == b"SMW":
+        if rom_name is None or rom_name == bytes([0] * ROMNAME_SIZE) or rom_name[:4] != b"SMMR":
             return False
 
         ctx.game = self.game
 
-        # versions lower than 0.3.0 dont have item handling flag nor remote item support
-        romVersion = int(rom_name[2:5].decode('UTF-8'))
-        if romVersion < 30:
-            ctx.items_handling = 0b001 # full local
-        else:
-            item_handling = await snes_read(ctx, SM_REMOTE_ITEM_FLAG_ADDR, 1)
-            ctx.items_handling = 0b001 if item_handling is None else item_handling[0]
+        item_handling = await snes_read(ctx, SM_REMOTE_ITEM_FLAG_ADDR, 1)
+        ctx.items_handling = 0b001 if item_handling is None else item_handling[0]
 
         ctx.rom = rom_name
 
@@ -143,7 +138,7 @@ class SMSNIClient(SNIClient):
             else:
                 location_id = 0x00 #backward compat
 
-            player_id = item.player if item.player <= SM_ROM_MAX_PLAYERID else 0
+            player_id = item.player if item.player <= SMMR_ROM_MAX_PLAYERID else 0
             snes_buffered_write(ctx, SM_RECV_QUEUE_START + item_out_ptr * 4, bytes(
                 [player_id & 0xFF, (player_id >> 8) & 0xFF, item_id & 0xFF, location_id & 0xFF]))
             item_out_ptr += 1
