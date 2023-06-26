@@ -125,7 +125,7 @@ class SMMapRandoWorld(World):
                           world.fast_elevators[self.player].value == 1,
                           world.fast_doors[self.player].value == 1,
                           )
-        self.map_rando = APRandomizer(options, 1) # world.seed)
+        self.map_rando = APRandomizer(options, world.seed // 10)
         
 
     @classmethod
