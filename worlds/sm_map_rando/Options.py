@@ -243,6 +243,12 @@ class FastDoors(Toggle):
     """
     display_name = "Fast doors"
 
+class VanillaMap(Toggle):
+    """
+    If enabled, replace randomization of rooms and use the vanilla map layout instead.
+    """
+    display_name = "Vanilla Map"
+
 
 smmr_options: typing.Dict[str, type(Option)] = {
     "remote_items": RemoteItems,
@@ -269,5 +275,6 @@ smmr_options: typing.Dict[str, type(Option)] = {
     "item_markers": ItemMarkers,
     "all_items_spawn": AllItemsSpawn,
     "fast_elevators": FastElevators,
-    "fast_doors": FastDoors
+    "fast_doors": FastDoors,
+    "vanilla_map": VanillaMap,
     }

@@ -124,6 +124,7 @@ class SMMapRandoWorld(World):
                           world.all_items_spawn[self.player].value == 1,
                           world.fast_elevators[self.player].value == 1,
                           world.fast_doors[self.player].value == 1,
+                          world.vanilla_map[self.player].value == 1,
                           )
         self.map_rando = APRandomizer(options, world.seed // 10)
         
@@ -198,7 +199,10 @@ class SMMapRandoWorld(World):
         for (link_from, link_to), link_map in test.items():
             src_region = regions[link_from]
             dest_region = regions[link_to]
-            srcDestEntrance = SMMREntrance(self.player, src_region.name + "->" + dest_region.name, src_region, link_map)
+            link_map_debug = {}
+            for name, links in link_map.items():
+                link_map_debug[name] = [self.map_rando.get_link_requirement(link) for link in links]
+            srcDestEntrance = SMMREntrance(self.player, src_region.name + "->" + dest_region.name, src_region, link_map, link_map_debug)
             src_region.exits.append(srcDestEntrance)
             srcDestEntrance.connect(dest_region)
             add_entrance_rule(srcDestEntrance, self.player, link_from)
@@ -621,6 +625,7 @@ class SMMRItem(Item):
 class SMMREntrance(Entrance):
     game: str = SMMapRandoWorld.game
 
-    def __init__(self, player: int, name: str = '', parent: Region = None, strats_links: Dict[str, List[int]] = None):
+    def __init__(self, player: int, name: str = '', parent: Region = None, strats_links: Dict[str, List[int]] = None, strats_links_debug: Dict[str, List[str]] = None):
         super(SMMREntrance, self).__init__(player, name, parent)
         self.strats_links = strats_links
+        self.strats_links_debug = strats_links_debug
