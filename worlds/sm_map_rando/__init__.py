@@ -136,7 +136,7 @@ class SMMapRandoWorld(World):
             raise FileNotFoundError(rom_file)
 
     def generate_early(self):
-        self.multiworld.state.smmrcs[self.player] = APCollectionState(self.map_rando)
+        self.multiworld.state.smmrcs[self.player] = APCollectionState(self.multiworld.worlds[self.player].map_rando)
 
     def create_items(self):
         self.startItems = [variaItem for item in self.multiworld.precollected_items[self.player] for variaItem in self.item_name_to_id.keys() if variaItem.Name == item.name]
@@ -164,8 +164,8 @@ class SMMapRandoWorld(World):
             self.multiworld.get_location(gamedata.flag_isv[flag_id] + f" ({room_id}, {node_id})", self.player).place_locked_item(item)
             self.multiworld.get_location(gamedata.flag_isv[flag_id] + f" ({room_id}, {node_id})", self.player).address = None
 
-    def create_region(self, world: MultiWorld, player: int, name: str, locations=None, exits=None):
-        ret = Region(name, player, world)
+    def create_region(self, world: MultiWorld, player: int, name: str, index: int, locations=None, exits=None):
+        ret = SMMRRegion(name, player, world, index)
         if locations:
             for loc in locations:
                 location = self.locations[loc]
@@ -186,11 +186,15 @@ class SMMapRandoWorld(World):
         
         # create regions
         regions = []
-        for (vertex_name, location_name) in self.map_rando.randomizer.game_data.get_vertex_names():
+        self.region_dict = {}
+        for i, (vertex_name, location_name) in enumerate(self.map_rando.randomizer.game_data.get_vertex_names()):
             regions.append(self.create_region(  self.multiworld, 
                                                 self.player, 
                                                 vertex_name,
+                                                i,
                                                 [location_name] if location_name != None else None))
+        for region in regions:
+            self.region_dict[region.index] = region
 
         self.multiworld.regions += regions
 
@@ -205,9 +209,9 @@ class SMMapRandoWorld(World):
             srcDestEntrance = SMMREntrance(self.player, src_region.name + "->" + dest_region.name, src_region, link_map, link_map_debug)
             src_region.exits.append(srcDestEntrance)
             srcDestEntrance.connect(dest_region)
-            add_entrance_rule(srcDestEntrance, self.player, link_from)
+            # add_entrance_rule(srcDestEntrance, self.player, link_from)
 
-        self.multiworld.regions += [self.create_region(self.multiworld, self.player, 'Menu', None, ['StartAP'])]
+        self.multiworld.regions += [self.create_region(self.multiworld, self.player, 'Menu', -1, None, ['StartAP'])]
 
         #victory_entrance = self.multiworld.get_entrance("Ship->Escape Zebes", self.player)
         #add_rule(victory_entrance, lambda state: state.has('f_ZebesSetAblaze', self.player))
@@ -629,3 +633,26 @@ class SMMREntrance(Entrance):
         super(SMMREntrance, self).__init__(player, name, parent)
         self.strats_links = strats_links
         self.strats_links_debug = strats_links_debug
+
+class SMMRRegion(Region):
+    game: str = SMMapRandoWorld.game
+
+    def __init__(self, name: str, player: int, multiworld: MultiWorld, index:int, hint: Optional[str] = None):
+        super(SMMRRegion, self).__init__(name, player, multiworld, hint)
+        self.index = index
+
+    def can_reach(self, state: CollectionState) -> bool:
+        f_regions = set()
+        r_regions = set()
+        if state.stale[self.player]:
+            state.stale[self.player] = False
+            (bi_reachability, f_reachability, r_reachability) = self.multiworld.worlds[self.player].map_rando.update_reachability(state.smmrcs[self.player].randomization_state)
+            for i, region in enumerate(bi_reachability):
+                if region:
+                    state.reachable_regions[self.player].add(self.multiworld.worlds[self.player].region_dict[i])
+                if (f_reachability[i]):
+                    f_regions.add(self.multiworld.worlds[self.player].region_dict[i])
+                if (r_reachability[i]):
+                    r_regions.add(self.multiworld.worlds[self.player].region_dict[i])
+            #state.update_reachable_regions(self.player)
+        return self in state.reachable_regions[self.player]
