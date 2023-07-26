@@ -111,20 +111,33 @@ class SMMapRandoWorld(World):
                           world.ridley_proficiency[self.player].value,
                           world.botwoon_proficiency[self.player].value,
                           world.escape_timer_multiplier[self.player].value,
+                          False, #randomized_start
                           world.save_animals[self.player].value == 1,
                           world.objectives[self.player].value,
-                          "",
-                          world.quality_of_life[self.player].value,
+                          "", #filler_items
                           world.supers_double[self.player].value == 1,
                           world.mother_brain_short[self.player].value == 1,
                           world.escape_enemies_cleared[self.player].value == 1,
+                          False, #escape_refill
                           world.escape_movement_items[self.player].value == 1,
                           world.mark_map_stations[self.player].value == 1,
+                          False, #transition_letters
                           world.item_markers[self.player].value,
+                          False, #item_dots_disappear
                           world.all_items_spawn[self.player].value == 1,
+                          False, #acid_chozo
                           world.fast_elevators[self.player].value == 1,
                           world.fast_doors[self.player].value == 1,
+                          False, #fast_pause_menu
+                          False, #respin
+                          False, #infinite_space_jump
+                          False, #disable_walljump
+                          False, #maps_revealed
                           world.vanilla_map[self.player].value == 1,
+                          False, #ultra_low_qol
+                          "", #skill_assumptions_preset
+                          "", #item_progression_preset
+                          0, #quality_of_life_preset
                           )
         self.map_rando = APRandomizer(options, world.seed // 10)
         

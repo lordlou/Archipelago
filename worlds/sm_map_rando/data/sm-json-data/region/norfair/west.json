@@ -5,7 +5,8 @@
       "id": 86,
       "name": "Business Center",
       "area": "Norfair",
-      "subarea": "West",
+      "subarea": "Upper",
+      "subsubarea": "West",
       "playable": true,
       "roomAddress": "0x7A7DE",
       "roomEnvironments": [{ "heated": false } ],
@@ -405,7 +406,8 @@
       "id": 87,
       "name": "Norfair Map Room",
       "area": "Norfair",
-      "subarea": "West",
+      "subarea": "Upper",
+      "subsubarea": "West",
       "playable": true,
       "roomAddress": "0x7B0B4",
       "roomEnvironments": [{ "heated": false } ],
@@ -478,7 +480,8 @@
       "id": 88,
       "name": "Hi Jump Energy Tank Room",
       "area": "Norfair",
-      "subarea": "West",
+      "subarea": "Upper",
+      "subsubarea": "West",
       "playable": true,
       "roomAddress": "0x7AA41",
       "roomEnvironments": [{ "heated": false } ],
@@ -755,9 +758,10 @@
                   ]
                 },
                 {
-                  "name": "Crumble Blocks Gone",
-                  "notable": false,
-                  "requires": [ {"obstaclesCleared": ["A"]} ]
+                  "name": "HiJump E-Tank Return Through Crumble Blocks",
+                  "notable": true,
+                  "requires": [ {"obstaclesCleared": ["A"]} ],
+                  "note": "The crumble blocks do not respawn, so it is possible to enter from the right, obtain the left item and return, without needing to break the bomb blocks."
                 },
                 {
                   "name": "HiJump Etank X-Ray Clip",
@@ -779,7 +783,8 @@
       "id": 89,
       "name": "Hi Jump Boots Room",
       "area": "Norfair",
-      "subarea": "West",
+      "subarea": "Upper",
+      "subsubarea": "West",
       "playable": true,
       "roomAddress": "0x7A9E5",
       "roomEnvironments": [{ "heated": false } ],
@@ -853,7 +858,8 @@
       "id": 106,
       "name": "Ice Beam Gate Room",
       "area": "Norfair",
-      "subarea": "West",
+      "subarea": "Upper",
+      "subsubarea": "West",
       "playable": true,
       "roomAddress": "0x7A815",
       "roomEnvironments": [{ "heated": false } ],
@@ -956,7 +962,7 @@
             },
             {
               "name": "Runway with no Enemies - Ice Beam Gate Room Bottom Left Door (to Crumble Shaft)",
-              "length": 33,
+              "length": 45,
               "strats": [
                 {
                   "name": "Base",
@@ -1314,7 +1320,8 @@
       "id": 107,
       "name": "Ice Beam Acid Room",
       "area": "Norfair",
-      "subarea": "West",
+      "subarea": "Upper",
+      "subsubarea": "West",
       "playable": true,
       "roomAddress": "0x7A75D",
       "roomEnvironments": [{ "heated": true } ],
@@ -1426,7 +1433,8 @@
       "id": 108,
       "name": "Ice Beam Snake Room",
       "area": "Norfair",
-      "subarea": "West",
+      "subarea": "Upper",
+      "subsubarea": "West",
       "playable": true,
       "roomAddress": "0x7A8B9",
       "roomEnvironments": [{ "heated": true } ],
@@ -1649,7 +1657,7 @@
                   "requires": [
                     "h_canNavigateHeatRooms",
                     "Morph",
-                    {"heatFrames": 100}
+                    {"heatFrames": 80}
                   ]
                 }
               ]
@@ -1668,51 +1676,136 @@
                   "requires": [
                     "h_canNavigateHeatRooms",
                     "Morph",
-                      {"or": [
-                        "HiJump",
+                    {"or": [
+                      "HiJump",
+                      {"and": [
                         "SpaceJump",
-                        "canWalljump"
+                        {"heatFrames": 40}
                       ]},
-                    {"heatFrames": 300},
-                      {"or": [
-                        "h_heatProof",
-                          {"enemyDamage": {
-                            "enemy": "Sova",
-                            "type": "contact",
-                            "hits": 1
-                          }}
+                      "canWalljump",
+                      "canSpringBallJumpMidAir",
+                      {"and": [
+                        "h_canJumpIntoIBJ",
+                        {"heatFrames": 240}
+                      ]},
+                      {"and": [
+                        "h_canJumpIntoIBJ",
+                        "h_canDoubleBombJump",
+                        {"heatFrames": 120}
+                      ]},
+                      {"and": [
+                        "h_canDoubleBombJump",
+                        {"heatFrames": 300}
                       ]}
+                    ]},
+                    {"heatFrames": 260},
+                    {"enemyDamage": {
+                      "enemy": "Sova",
+                      "type": "contact",
+                      "hits": 1
+                    }}
                   ],
-                  "note": "The Sovas should be killed if you are heat proof."
+                  "devNote": "Base IBJ should kill the Sovas or go around."
                 },
                 {
-                  "name": "Power Bombs",
-                  "notable": false,
-                  "requires": [
-                    "h_canNavigateHeatRooms",
-                    "h_canUsePowerBombs",
-                      {"or": [
-                        "HiJump",
-                        "SpaceJump",
-                        "canWalljump"
-                      ]},
-                    {"heatFrames": 300}
-                  ]
-                },
-                {
-                  "name": "Wave Beam",
+                  "name": "Kill Sovas",
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
                     "Morph",
-                    "Wave",
-                      {"or": [
-                        "HiJump",
+                    {"or": [
+                      "HiJump",
+                      {"and": [
                         "SpaceJump",
-                        "canWalljump"
+                        {"heatFrames": 40}
                       ]},
-                    {"heatFrames": 300}
+                      "canWalljump",
+                      "canSpringBallJumpMidAir",
+                      {"and": [
+                        "h_canIBJ",
+                        {"heatFrames": 900}
+                      ]},
+                      {"and": [
+                        "h_canJumpIntoIBJ",
+                        {"heatFrames": 240}
+                      ]},
+                      {"and": [
+                        "h_canJumpIntoIBJ",
+                        "h_canDoubleBombJump",
+                        {"heatFrames": 120}
+                      ]},
+                      {"and": [
+                        "h_canDoubleBombJump",
+                        {"heatFrames": 300}
+                      ]}
+                    ]},
+                    {"or": [
+                      "h_heatProof",
+                      {"and": [
+                        "Wave",
+                        "Plasma"
+                      ]},
+                      "h_canUsePowerBombs"
+                    ]},
+                    {"heatFrames": 260}
                   ]
+                },
+                {
+                  "name": "Speedrun Ice Beam Entry",
+                  "notable": false,
+                  "requires": [
+                    "h_canNavigateHeatRooms",
+                    "Morph",
+                    "canTrickyJump",
+                    {"or": [
+                      "canPreciseWalljump",
+                      "HiJump"
+                    ]},
+                    {"or": [
+                      {"enemyKill": {
+                        "enemies": [["Sova"]],
+                        "explicitWeapons": ["Wave", "Spazer", "Plasma", "PowerBomb"]
+                      }},
+                      {"enemyDamage": {
+                        "enemy": "Sova",
+                        "type": "contact",
+                        "hits": 1
+                      }}
+                    ]},
+                    {"heatFrames": 230}
+                  ],
+                  "note": [
+                    "Smoothly jump into the morph tunnel while killing the Sovas.",
+                    "Unmorph at the end of the tunnel to clear more Sovas is needed."
+                  ]
+                },
+                {
+                  "name": "Damage Boost",
+                  "notable": false,
+                  "requires": [
+                    "h_canNavigateHeatRooms",
+                    "canCrouchJump",
+                    "Morph",
+                    "canDamageBoost",
+                    {"enemyDamage": {
+                      "enemy": "Sova",
+                      "type": "contact",
+                      "hits": 1
+                    }},
+                    {"heatFrames": 420}
+                  ],
+                  "note": "Wait for the Sova to leave the tunnel and jump morph into them to bounce up into the hole."
+                },
+                {
+                  "name": "Sova Freeze",
+                  "notable": false,
+                  "requires": [
+                    "h_canNavigateHeatRooms",
+                    "Morph",
+                    "canUseFrozenEnemies",
+                    {"heatFrames": 840}
+                  ],
+                  "note": "Freeze a Sova once it enters one of the slots on the wall and then use it as a platform."
                 }
               ]
             },
@@ -1815,7 +1908,8 @@
       "id": 109,
       "name": "Ice Beam Room",
       "area": "Norfair",
-      "subarea": "West",
+      "subarea": "Upper",
+      "subsubarea": "West",
       "playable": true,
       "roomAddress": "0x7A890",
       "roomEnvironments": [{ "heated": false } ],
@@ -1889,7 +1983,8 @@
       "id": 110,
       "name": "Ice Beam Tutorial Room",
       "area": "Norfair",
-      "subarea": "West",
+      "subarea": "Upper",
+      "subsubarea": "West",
       "playable": true,
       "roomAddress": "0x7A865",
       "roomEnvironments": [{ "heated": true } ],
@@ -1977,7 +2072,56 @@
                     "h_canNavigateHeatRooms",
                     "Morph",
                     "Gravity",
-                    {"heatFrames": 350}
+                    {"heatFrames": 330},
+                    {"lavaFrames": 25}
+                  ],
+                  "devNote": "FIXME: Add a lava dip + spring ball midair strat, and a HiJump + damage boost strat."
+                },
+                {
+                  "name": "Speedy Jump",
+                  "notable": false,
+                  "requires": [
+                    "h_canNavigateHeatRooms",
+                    "Morph",
+                    "SpeedBooster",
+                    "canCarefulJump",
+                    {"heatFrames": 275}
+                  ],
+                  "note": "Use the full runway in order to get a good jump."
+                },
+                {
+                  "name": "Boyon PB Kill",
+                  "notable": false,
+                  "requires": [
+                    "h_canNavigateHeatRooms",
+                    "Morph",
+                    "canWalljump",
+                    "canCarefulJump",
+                    {"enemyKill": {
+                      "enemies": [ [ "Boyon", "Boyon", "Boyon" ] ],
+                      "explicitWeapons": [ "PowerBomb" ]
+                    }},
+                    {"heatFrames": 780}
+                  ],
+                  "note": "Requires laying PBs on the very edge of the platform by the doorway, mostly hanging over the lava, in order to double hit the rightmost Boyon."
+                },
+                {
+                  "name": "Boyon Super Kill",
+                  "notable": false,
+                  "requires": [
+                    "h_canNavigateHeatRooms",
+                    "Morph",
+                    "canWalljump",
+                    "canCarefulJump",
+                    {"enemyKill": {
+                      "enemies": [ [ "Boyon" ] ],
+                      "explicitWeapons": [ "Super" ]
+                    }},
+                    {"heatFrames": 540}
+                  ],
+                  "note": [
+                    "Jump and shoot supers diagonally down at the rightmost Boyon.",
+                    "Jump at the edge of the platform and shoot just before hitting the ceiling, or start one tile left and shoot while at the ceiling."
                   ]
                 },
                 {
@@ -2035,13 +2179,22 @@
                   "requires": [
                     "h_canNavigateHeatRooms",
                     "Morph",
-                    {"heatFrames": 300},
-                    {"lavaFrames": 70},
-                    {"enemyDamage": {
-                      "enemy": "Boyon",
-                      "type": "contact",
-                      "hits": 1
-                    }}
+                    {"heatFrames": 270},
+                    {"or": [
+                      {"lavaFrames": 70},
+                      {"and": [
+                        "Gravity",
+                        {"lavaFrames": 25}
+                      ]}
+                    ]},
+                    {"or": [
+                      {"enemyDamage": {
+                        "enemy": "Boyon",
+                        "type": "contact",
+                        "hits": 1
+                      }},
+                      {"heatFrames": 30}
+                    ]}
                   ]
                 },
                 {
@@ -2059,7 +2212,7 @@
                   "name": "Heat and Lava Proof",
                   "notable": false,
                   "requires": [
-                    "Varia",
+                    "h_heatProof",
                     "Gravity",
                     "Morph"
                   ],
@@ -2075,7 +2228,8 @@
       "id": 111,
       "name": "Crumble Shaft",
       "area": "Norfair",
-      "subarea": "West",
+      "subarea": "Upper",
+      "subsubarea": "West",
       "playable": true,
       "roomAddress": "0x7A8F8",
       "roomEnvironments": [{ "heated": true } ],
@@ -2277,13 +2431,15 @@
                 },
                 {
                   "name": "Crumble Shaft Consecutive Crumble Climb",
-                  "notable": true,
+                  "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
                     "canCrumbleJump",
+                    "canTrickyJump",
                     {"heatFrames": 800}
                   ],
-                  "note": "Do 9 successive crumble jumps up the platforms."
+                  "note": "Do 9 successive crumble jumps up the platforms.",
+                  "devNote": "This is only really useful without wall jumps."
                 },
                 {
                   "name": "Crumble Shaft Wall/Crumble Climb",
@@ -2332,8 +2488,8 @@
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
-                    "canIBJ",
-                    "canStaggeredIBJ",
+                    "h_canIBJ",
+                    "h_canStaggeredIBJ",
                     {"heatFrames": 4000}
                   ],
                   "note": [
@@ -2347,7 +2503,7 @@
                   "notable": false,
                   "requires": [
                     "h_heatProof",
-                    "canIBJ"
+                    "h_canIBJ"
                   ],
                   "note": [
                     "Kill the Sova on the bottom-right platform, then IBJ right next to the left of the platform.",
@@ -2401,13 +2557,25 @@
                       "nodes": [2],
                       "mustStayPut": true
                     }},
-                    {"adjacentRunway": {
-                      "fromNode": 2,
-                      "usedTiles": 0.5,
-                      "overrideRunwayRequirements": true,
-                      "physics": ["normal"],
-                      "useFrames": 200
-                    }},
+                    {"or": [
+                      {"adjacentRunway": {
+                        "fromNode": 2,
+                        "usedTiles": 0.5,
+                        "overrideRunwayRequirements": true,
+                        "physics": ["normal"],
+                        "useFrames": 200
+                      }},
+                      {"and": [
+                        "canSubmergedLeftFacingDoorXRayClimb",
+                        {"adjacentRunway": {
+                          "fromNode": 2,
+                          "usedTiles": 0.5,
+                          "overrideRunwayRequirements": true,
+                          "physics": ["water"],
+                          "useFrames": 200
+                        }}
+                      ]}
+                    ]},
                     {"heatFrames": 4000}
                   ],
                   "note": "Heat frames split into the actual climb and the setup in the adjacent room."
@@ -2431,8 +2599,8 @@
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
-                    "canIBJ",
-                    "canStaggeredIBJ",
+                    "h_canIBJ",
+                    "h_canStaggeredIBJ",
                     {"heatFrames": 4000}
                   ],
                   "note": "IBJ against the left-most wall. Changing the IBJ speed may be necessary to get past the Sova."
@@ -2442,7 +2610,7 @@
                   "notable": false,
                   "requires": [
                     "h_heatProof",
-                    "canIBJ"
+                    "h_canIBJ"
                   ],
                   "note": "IBJ against the left-most wall. Place bombs to kill the Sova. Drop to the bottom and restart if necessary."
                 },
@@ -2536,7 +2704,8 @@
       "id": 120,
       "name": "Crocomire Speedway",
       "area": "Norfair",
-      "subarea": "West",
+      "subarea": "Upper",
+      "subsubarea": "West",
       "playable": true,
       "roomAddress": "0x7A923",
       "roomEnvironments": [{ "heated": true } ],
@@ -2578,7 +2747,7 @@
           "runways": [
             {
               "name": "Base Runway - Crocomire Speedway Far Left Door (to Crumble Shaft)",
-              "length": 33,
+              "length": 45,
               "strats": [
                 {
                   "name": "Base",
@@ -2880,32 +3049,60 @@
                     {
                       "id": "A",
                       "requires": [
-                        {"canComeInCharged":{
-                          "fromNode": 3,
-                          "inRoomPath": [3, 6],
-                          "framesRemaining": 60,
-                          "shinesparkFrames": 84,
-                          "excessShinesparkFrames": 45
-                        }},
-                        {"canComeInCharged":{
-                          "fromNode": 4,
-                          "inRoomPath": [4, 6],
-                          "framesRemaining": 180,
-                          "shinesparkFrames": 84,
-                          "excessShinesparkFrames": 45
-                        }},
-                        {"canComeInCharged":{
-                          "fromNode": 4,
-                          "inRoomPath": [4, 6],
-                          "framesRemaining": 0,
-                          "shinesparkFrames": 94,
-                          "excessShinesparkFrames": 45
-                        }}
+                        {"or": [
+                          {"canComeInCharged":{
+                            "fromNode": 3,
+                            "inRoomPath": [3, 6],
+                            "framesRemaining": 60,
+                            "shinesparkFrames": 84,
+                            "excessShinesparkFrames": 45
+                          }},
+                          {"canComeInCharged":{
+                            "fromNode": 4,
+                            "inRoomPath": [4, 6],
+                            "framesRemaining": 180,
+                            "shinesparkFrames": 84,
+                            "excessShinesparkFrames": 45
+                          }},
+                          {"canComeInCharged":{
+                            "fromNode": 4,
+                            "inRoomPath": [4, 6],
+                            "framesRemaining": 0,
+                            "shinesparkFrames": 94,
+                            "excessShinesparkFrames": 45
+                          }}
+                        ]}
                       ]
                     }
                   ],
                   "note": "Spark left through the speed blocks through Croc Speedway. Then run to the right and back to get speed to go through the rest.",
                   "devNote": "FIXME: There are a lot of health values that would put Samus just above the crumble blocks leading into spikes. The second pirate can also cause problems."
+                },
+                {
+                  "name": "Croc Speedway Reverse Speedball",
+                  "notable": true,
+                  "requires": [
+                    "h_canNavigateHeatRooms",
+                    "canMockball",
+                    "canCarefulJump",
+                    "SpeedBooster",
+                    {"heatFrames": 570}
+                  ],
+                  "obstacles": [
+                    {
+                      "id": "A",
+                      "requires": [
+                        {"canComeInCharged": {
+                          "fromNode": 4,
+                          "inRoomPath": [4,6],
+                          "framesRemaining": 180,
+                          "shinesparkFrames": 0,
+                          "unusableTiles": 1
+                        }}
+                      ]
+                    }
+                  ],
+                  "note": ["Break the Speedway Speed blocks by jumping over the gap with speed and continuing through the room in mockball."]
                 }
               ]
             },
@@ -2956,7 +3153,8 @@
       "id": 121,
       "name": "Crocomire Escape",
       "area": "Norfair",
-      "subarea": "West",
+      "subarea": "Upper",
+      "subsubarea": "West",
       "playable": true,
       "roomAddress": "0x7AA0E",
       "roomEnvironments": [{ "heated": true } ],
@@ -3090,7 +3288,7 @@
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
-                    "canJumpIntoIBJ",
+                    "h_canJumpIntoIBJ",
                     {"heatFrames": 1650}
                   ]
                 },
@@ -3100,7 +3298,7 @@
                   "requires": [
                     "h_heatProof",
                     "Gravity",
-                    "canIBJ"
+                    "h_canIBJ"
                   ],
                   "note": "Kill the Dragon with bombs, then start the IBJ in the lava. It's an option without canJumpIntoIBJ."
                 },
@@ -3248,17 +3446,22 @@
                   "requires": [
                     "h_canNavigateHeatRooms",
                     {"heatFrames": 350},
-                    {"lavaFrames": 70},
                     {"or":[
+                      {"lavaFrames": 70},
+                      {"and":[
+                        "Gravity",
+                        {"lavaFrames": 45}
+                      ]}
+                    ]},
+                    {"or":[
+                      "canCarefulJump",
                       {"enemyDamage": {
                         "enemy": "Dragon",
                         "type": "contact",
                         "hits": 1
                       }},
                       {"enemyKill":{
-                        "enemies": [
-                          ["Dragon"]
-                        ],
+                        "enemies": [ ["Dragon"] ],
                         "explicitWeapons": [ "Super", "Missile", "Plasma", "ScrewAttack" ]
                       }}
                     ]}
@@ -3283,7 +3486,8 @@
       "id": 303,
       "name": "Crocomire Save Room",
       "area": "Norfair",
-      "subarea": "West",
+      "subarea": "Upper",
+      "subsubarea": "West",
       "playable": true,
       "roomAddress": "0x7B192",
       "roomEnvironments": [{ "heated": false } ],

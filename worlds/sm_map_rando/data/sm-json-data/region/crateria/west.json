@@ -20,7 +20,7 @@
           "runways": [
             {
               "name": "Base Runway - Terminator Left Door (to Green Pirates Shaft)",
-              "length": 33,
+              "length": 45,
               "strats": [
                 {
                   "name": "Base",
@@ -30,7 +30,27 @@
               ],
               "openEnd": 1
             }
-          ]
+          ],
+          "leaveWithGModeSetup": [
+            {
+              "strats": [
+                {
+                  "name": "Get hit by Waver or Geemer",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ],
+          "gModeImmobile": {
+            "requires": [
+              {"enemyDamage": {
+                "enemy": "Waver",
+                "type": "contact",
+                "hits": 1
+              }}
+            ]
+          }
         },
         {
           "id": 2,
@@ -42,7 +62,7 @@
           "runways": [
             {
               "name": "Base Runway - Terminator Right Door (to Parlor)",
-              "length": 33,
+              "length": 45,
               "strats": [
                 {
                   "name": "Base",
@@ -52,7 +72,27 @@
               ],
               "openEnd": 1
             }
-          ]
+          ],
+          "leaveWithGModeSetup": [
+            {
+              "strats": [
+                {
+                  "name": "Get hit by Geemer or Waver",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ],
+          "gModeImmobile": {
+            "requires": [
+              {"enemyDamage": {
+                "enemy": "Waver",
+                "type": "contact",
+                "hits": 1
+              }}
+            ]
+          }
         },
         {
           "id": 3,
@@ -357,13 +397,25 @@
                       "nodes": [2], 
                       "mustStayPut": true
                     }},
-                    {"adjacentRunway": {
-                      "fromNode": 2,
-                      "usedTiles": 0.5,
-                      "overrideRunwayRequirements": true,
-                      "useFrames": 200,
-                      "physics": ["normal"]
-                    }}
+                    {"or": [
+                      {"adjacentRunway": {
+                        "fromNode": 2,
+                        "usedTiles": 0.5,
+                        "overrideRunwayRequirements": true,
+                        "physics": ["normal"],
+                        "useFrames": 200
+                      }},
+                      {"and": [
+                        "canSubmergedLeftFacingDoorXRayClimb",
+                        {"adjacentRunway": {
+                          "fromNode": 2,
+                          "usedTiles": 0.5,
+                          "overrideRunwayRequirements": true,
+                          "physics": ["water"],
+                          "useFrames": 200
+                        }}
+                      ]}
+                    ]}
                   ],
                   "note": [
                     "Climb until the camera fully shows Samus on the bottom of the screen.  Shoot up to clear the shot blocks and resume climbing until you can walk out to the left.",
@@ -491,13 +543,25 @@
                        "nodes": [4], 
                        "mustStayPut": true
                     }},
-                    {"adjacentRunway": {
-                      "fromNode": 4,
-                      "usedTiles": 0.5,
-                      "overrideRunwayRequirements": true,
-                      "useFrames": 200,
-                      "physics": ["normal"]
-                    }},
+                    {"or": [
+                      {"adjacentRunway": {
+                        "fromNode": 4,
+                        "usedTiles": 0.5,
+                        "overrideRunwayRequirements": true,
+                        "physics": ["normal"],
+                        "useFrames": 200
+                      }},
+                      {"and": [
+                        "canSubmergedLeftFacingDoorXRayClimb",
+                        {"adjacentRunway": {
+                          "fromNode": 4,
+                          "usedTiles": 0.5,
+                          "overrideRunwayRequirements": true,
+                          "physics": ["water"],
+                          "useFrames": 200
+                        }}
+                      ]}
+                    ]},
                     {"or": [
                       { "enemyDamage": { "enemy": "Green Space Pirate (standing)", "hits": 1, "type": "laser" } },
                       { "enemyKill": { 
@@ -602,8 +666,7 @@
                   "requires": [
                     "canXRayClimb",
                     "Morph",
-                    "canPixelPerfectIceClip",
-                    "canBeetomIceClip",
+                    "canWallIceClip",
                     "canBePatient",
                     {"enemyDamage": { "enemy": "Beetom", "hits": 25, "type": "contact"}},
                     {"or": [
@@ -636,6 +699,26 @@
                   "name": "Base",
                   "notable": false,
                   "requires": [ "Morph" ]
+                },
+                {
+                  "name": "Green Pirate Shaft Beetom Moondance",
+                  "notable": true,
+                  "requires": [
+                    "canMoondance",
+                    "canTrickyUseFrozenEnemies",
+                    {"enemyDamage": {
+                      "enemy": "Beetom",
+                      "type": "contact",
+                      "hits": 4
+                    }}
+                  ],
+                  "note": [
+                    "Pick up a Beetom and bring it up to the centered platform below the crumble blocks.",
+                    "Freeze it at about head height where Samus can move around inside its sprite, and use it to Moondance.",
+                    "Refreeze the Beetom regularly to keep it in place.",
+                    "Once the clip begins, hold down to shrink Samus' hitbox so that she can fall through the Solid tile next to the power bomb block.",
+                    "The shot block needs to be cleared in advance."
+                  ]
                 }
               ]
             }
@@ -676,7 +759,7 @@
             },
             {
               "name": "Runway with no Enemies - Lower Mushrooms Left Door (to Elevator)",
-              "length": 33,
+              "length": 45,
               "strats": [
                 {
                   "name": "Base",
@@ -687,6 +770,19 @@
               "usableComingIn": false,
               "openEnd": 1,
               "note": "This longer runway has no requirements, but it's not usable coming in because of enemies in the way."
+            }
+          ],
+          "leaveWithGModeSetup": [
+            {
+              "strats": [
+                {
+                  "name": "Get hit by Geemer",
+                  "notable": false,
+                  "requires": [
+                    {"ammo": {"type": "Super", "count": 1}}
+                  ]
+                }
+              ]
             }
           ]
         },
@@ -714,7 +810,7 @@
             },
             {
               "name": "Runway with no Enemies - Lower Mushrooms Right Door (to Green Pirates Shaft)",
-              "length": 33,
+              "length": 45,
               "strats": [
                 {
                   "name": "Base",
@@ -725,6 +821,19 @@
               "usableComingIn": false,
               "openEnd": 1,
               "note": "This longer runway has no requirements, but it's not usable coming in because of enemies in the way."
+            }
+          ],
+          "leaveWithGModeSetup": [
+            {
+              "strats": [
+                {
+                  "name": "Get hit by Geemer",
+                  "notable": false,
+                  "requires": [
+                    {"ammo": {"type": "Super", "count": 1}}
+                  ]
+                }
+              ]
             }
           ]
         }
@@ -814,7 +923,25 @@
           "name": "Elevator to Green Brinstar",
           "nodeType": "door",
           "nodeSubType": "elevator",
-          "nodeAddress": "0x0018c0a"
+          "nodeAddress": "0x0018c0a",
+          "leaveWithGMode": [
+            {
+              "leavesWithArtificialMorph": false,
+              "strats": [
+                {
+                  "name": "Carry G-Mode Down the Elevator",
+                  "notable": false,
+                  "requires": [
+                    {"comeInWithGMode": {
+                      "fromNodes": [1, 2],
+                      "artificialMorph": false,
+                      "mode": "any"
+                    }}
+                  ]
+                }
+              ]
+            }
+          ]
         }
       ],
       "enemies": [],
@@ -1019,7 +1146,25 @@
           "name": "Elevator to Tourian",
           "nodeType": "door",
           "nodeSubType": "elevator",
-          "nodeAddress": "0x0019222"
+          "nodeAddress": "0x0019222",
+          "leaveWithGMode": [
+            {
+              "leavesWithArtificialMorph": false,
+              "strats": [
+                {
+                  "name": "Carry G-Mode Down the Elevator",
+                  "notable": false,
+                  "requires": [
+                    {"comeInWithGMode": {
+                      "fromNodes": [1, 2],
+                      "artificialMorph": false,
+                      "mode": "any"
+                    }}
+                  ]
+                }
+              ]
+            }
+          ]
         },
         {
           "id": 3,
@@ -1156,12 +1301,12 @@
                     "f_TourianOpen",
                     "Gravity",
                     {"or": [
-                       "HiJump",
-                       "h_canFly",
-                       "canSpringBallJumpMidAir",
-                       "canWalljump",
-                       "canGravityJump"
-                     ]}
+                      "HiJump",
+                      "h_canFly",
+                      "canSpringBallJumpMidAir",
+                      "canWalljump",
+                      "canGravityJump"
+                    ]}
                   ]
                 },
                 {
@@ -1182,14 +1327,23 @@
                     "h_canNavigateUnderwater",
                     "canShinechargeMovement",
                     {"canComeInCharged": {
-                       "framesRemaining": 40,
-                       "fromNode": 2,
-                       "shinesparkFrames": 21,
-                       "excessShinesparkFrames": 7,
-                       "inRoomPath": [2,4]
-                     }}
+                      "framesRemaining": 40,
+                      "fromNode": 2,
+                      "shinesparkFrames": 21,
+                      "excessShinesparkFrames": 7,
+                      "inRoomPath": [2,4]
+                    }}
                   ],
                   "note": "Jump to either side and diagonal spark out."
+                },
+                {
+                  "name": "Golden Four Underwater Walljumps",
+                  "notable": true,
+                  "requires": [
+                    "f_TourianOpen",
+                    "canUnderwaterWalljump"
+                  ],
+                  "note": "Walljump up the elevator room walls without Gravity suit.  Space Jump helps once the waterline is reached."
                 }
               ],
               "note": [
@@ -1287,6 +1441,41 @@
                 }
               ]
             }
+          ],
+          "leaveWithGModeSetup": [
+            {
+              "strats": [
+                {
+                  "name": "Get hit by Waver",
+                  "notable": false,
+                  "requires": [
+                    {"or": [
+                      "h_canDestroyBombWalls",
+                      {"canComeInCharged": {
+                        "fromNode": 1,
+                        "framesRemaining": 180,
+                        "shinesparkFrames": 0
+                      }}
+                    ]}
+                  ],
+                  "devNote": "FIXME: It is not currently possible to represent coming in from the opposite door with a shinecharge."
+                },
+                {
+                  "name": "Enter G-Mode, CF, Leave in Direct G-Mode",
+                  "notable": false,
+                  "requires": [
+                    {"comeInWithGMode": {
+                      "fromNodes": [1],
+                      "mode": "any",
+                      "artificialMorph": true
+                    }},
+                    "h_canArtificialMorphCrystalFlash"
+                  ],
+                  "note": "Place the PB to free but not kill the Waver. After using CF, lower back down using the acid or the Waver.",
+                  "devNote": "There is no real point to using artificial morph and bombs, as you need to CF to refill your energy."
+                }
+              ]
+            }
           ]
         },
         {
@@ -1363,6 +1552,41 @@
                     "Quickly move it off camera so it will be `frozen` in place.",
                     "Shortcharge like normal.  If the Yapping Maw is returning to its hole, it will usually not grab Samus."
                   ]
+                }
+              ]
+            }
+          ],
+          "leaveWithGModeSetup": [
+            {
+              "strats": [
+                {
+                  "name": "Get hit by Waver",
+                  "notable": false,
+                  "requires": [
+                    {"or": [
+                      "h_canDestroyBombWalls",
+                      {"canComeInCharged": {
+                        "fromNode": 2,
+                        "framesRemaining": 180,
+                        "shinesparkFrames": 0
+                      }}
+                    ]}
+                  ],
+                  "devNote": "FIXME: It is not currently possible to represent coming in from the opposite door with a shinecharge."
+                },
+                {
+                  "name": "Enter G-Mode, CF, Leave in Direct G-Mode",
+                  "notable": false,
+                  "requires": [
+                    {"comeInWithGMode": {
+                      "fromNodes": [2],
+                      "mode": "any",
+                      "artificialMorph": true
+                    }},
+                    "h_canArtificialMorphCrystalFlash"
+                  ],
+                  "note": "Place the PB to free but not kill the Waver. After using CF, lower back down using the acid or the Waver.",
+                  "devNote": "There is no real point to using artificial morph and bombs, as you need to CF to refill your energy."
                 }
               ]
             }
@@ -1478,7 +1702,7 @@
                       "canTurnaroundAimCancel",
                       {"and": [
                         "canTwoTileSqueeze",
-                        "canXrayTurnaround"
+                        "canXRayTurnaround"
                       ]}
                      ]}
                   ],
@@ -1702,6 +1926,17 @@
               ],
               "usableComingIn": false,
               "openEnd": 1
+            }
+          ],
+          "leaveWithGModeSetup": [
+            {
+              "strats": [
+                {
+                  "name": "Get hit by Zebbo",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
             }
           ]
         },
@@ -1982,6 +2217,69 @@
                   "name": "Base",
                   "notable": false,
                   "requires": [ "h_canBombThings" ]
+                },
+                {
+                  "name": "Speedball",
+                  "notable": false,
+                  "requires": [
+                    "canMockball",
+                    "canCarefulJump",
+                    "canSlowShortCharge",
+                    {"canComeInCharged": {
+                      "framesRemaining": 180,
+                      "fromNode": 2,
+                      "inRoomPath": [2,3],
+                      "shinesparkFrames": 0,
+                      "unusableTiles": 9
+                    }},
+                    {"acidFrames": 60}
+                  ]
+                },
+                {
+                  "name": "Temporary Blue",
+                  "notable": false,
+                  "requires": [
+                    "canTemporaryBlue",
+                    "canLateralMidAirMorph",
+                    {"or": [
+                      {"and": [
+                        {"canComeInCharged": {
+                          "framesRemaining": 180,
+                          "fromNode": 2,
+                          "inRoomPath": [2,3],
+                          "shinesparkFrames": 0,
+                          "unusableTiles": 5
+                        }},
+                        {"acidFrames": 200}
+                      ]},
+                      {"and": [
+                        {"or": [
+                          "canChainTemporaryBlue",
+                          "can3HighMidAirMorph"
+                        ]},
+                        {"canComeInCharged": {
+                          "framesRemaining": 180,
+                          "fromNode": 2,
+                          "inRoomPath": [2,3],
+                          "shinesparkFrames": 0,
+                          "unusableTiles": 6
+                        }}
+                      ]},
+                      {"and": [
+                        "canXRayTurnaround",
+                        "canChainTemporaryBlue",
+                        {"canComeInCharged": {
+                          "framesRemaining": 180,
+                          "fromNode": 2,
+                          "inRoomPath": [2,3],
+                          "shinesparkFrames": 0,
+                          "unusableTiles": 1
+                        }},
+                        {"acidFrames": 27}
+                      ]}
+                    ]}
+                  ],
+                  "note": "A quick jump morph from the top of the slope will bounce into the tunnel and avoid acid damage."
                 }
               ]
             }
@@ -2032,7 +2330,7 @@
                           "canTrickyJump",
                           {"and":[
                             "canCarefulJump",
-                            "canBombHorizontally",
+                            "h_canBombHorizontally",
                             {"acidFrames": 35}
                           ]},
                           {"acidFrames": 100}

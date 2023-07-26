@@ -228,6 +228,26 @@
               "openEnd": 1
             }
           ],
+          "leaveWithGModeSetup": [
+            {
+              "strats": [
+                {
+                  "name": "Get Hit By Rinka",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ],
+          "gModeImmobile": {
+            "requires": [
+              {"enemyDamage": {
+                "enemy": "Rinka",
+                "type": "contact",
+                "hits": 1
+              }}
+            ]
+          },
           "canLeaveCharged": [
             {
               "usedTiles": 31,
@@ -255,7 +275,7 @@
               ],
               "yields": [
                 "f_KilledMetroidRoom1",
-                "f_ZebesAwake" 
+                "f_ZebesAwake"
               ]
             }
           ]
@@ -294,6 +314,45 @@
                   "requires": []
                 }
               ]
+            }
+          ],
+          "leaveWithGModeSetup": [
+            {
+              "strats": [
+                {
+                  "name": "Get Hit By Rinka",
+                  "notable": false,
+                  "requires": [
+                    {"or": [
+                      "canTrickyJump",
+                      "SpaceJump"
+                    ]},
+                    {"or": [
+                      "canMetroidAvoid",
+                      "canUseFrozenEnemies",
+                      "ScrewAttack",
+                      "f_KilledMetroidRoom1"
+                    ]}
+                  ],
+                  "note": [
+                    "Wait for the Rinka to spawn, then jump, so the trajectory is as high as possible. Space jump makes this a bit easier.",
+                    "If the Metroids are alive, lure them off screen to the left."
+                  ]
+                }
+              ]
+            },
+            {
+              "strats": [
+                {
+                  "name": "Get Hit By Metroid",
+                  "notable": false,
+                  "requires": [
+                    { "not": "f_KilledMetroidRoom1" },
+                    "canRiskPermanentLossOfAccess"
+                  ]
+                }
+              ],
+              "knockback": false
             }
           ]
         },
@@ -433,13 +492,17 @@
                       ],
                       "excludedWeapons": [ "Super", "Missile" ]
                     }},
-                    "canMetroidAvoid" 
+                    "canMetroidAvoid"
                   ],
                   "obstacles": [
                     {
                       "id": "A",
                       "requires": []
                     }
+                  ],
+                  "note": [
+                    "Group all of the Metroids by hitting the first Rinka with a power bomb.",
+                    "Once grouped, use two more Power Bombs to finish them off."
                   ]
                 },
                 {
@@ -548,13 +611,17 @@
                       ],
                       "excludedWeapons": [ "Super", "Missile" ]
                     }},
-                    "canMetroidAvoid" 
+                    "canMetroidAvoid"
                   ],
                   "obstacles": [
                     {
                       "id": "A",
                       "requires": []
                     }
+                  ],
+                  "note": [
+                    "Group all of the Metroids by hitting the first Rinka with a power bomb.",
+                    "Once grouped, use two more Power Bombs to finish them off."
                   ]
                 },
                 {
@@ -629,10 +696,18 @@
                   "name": "Fearless Dive",
                   "notable": false,
                   "requires": [
-                    {"acidFrames": 30},
                     {"or":[
-                      "canWalljump",
-                      "Gravity"
+                      {"and":[
+                        {"or":[
+                          "canWalljump",
+                          "HiJump"
+                        ]},
+                        {"acidFrames": 20}
+                      ]},
+                      {"and":[
+                        "Gravity",
+                        {"acidFrames": 10}
+                      ]}
                     ]}
                   ]
                 },
@@ -640,7 +715,15 @@
                   "name": "Acid Run",
                   "notable": false,
                   "requires": [
-                    {"acidFrames": 100}
+                    {"acidFrames": 80}
+                  ]
+                },
+                {
+                  "name": "Bounce Ball",
+                  "notable": false,
+                  "requires": [
+                    {"acidFrames": 60},
+                    "canBounceBall"
                   ]
                 }
               ]
@@ -682,11 +765,20 @@
                   "name": "Fearless Dive",
                   "notable": false,
                   "requires": [
-                    {"acidFrames": 30},
                     {"or":[
-                      "canWalljump",
-                      "Gravity",
-                      "HiJump"
+                      {"and":[
+                        "canPreciseWalljump",
+                        {"acidFrames": 20}
+                      ]},
+                      {"and":[
+                        "HiJump",
+                        "canWalljump",
+                        {"acidFrames": 20}
+                      ]},
+                      {"and":[
+                        "Gravity",
+                        {"acidFrames": 10}
+                      ]}
                     ]}
                   ]
                 },
@@ -694,7 +786,7 @@
                   "name": "Acid Run",
                   "notable": false,
                   "requires": [
-                    {"acidFrames": 100}
+                    {"acidFrames": 70}
                   ]
                 }
               ]
@@ -733,7 +825,27 @@
               "usableComingIn": false,
               "openEnd": 1
             }
-          ]
+          ],
+          "leaveWithGModeSetup": [
+            {
+              "strats": [
+                {
+                  "name": "Get Hit By Rinka",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ],
+          "gModeImmobile": {
+            "requires": [
+              {"enemyDamage": {
+                "enemy": "Rinka",
+                "type": "contact",
+                "hits": 1
+              }}
+            ]
+          }
         },
         {
           "id": 2,
@@ -757,6 +869,56 @@
               "openEnd": 1
             }
           ],
+          "leaveWithGModeSetup": [
+            {
+              "strats": [
+                {
+                  "name": "Get Hit By Rinka",
+                  "notable": false,
+                  "requires": [
+                    {"or": [
+                      "canMetroidAvoid",
+                      "canUseFrozenEnemies",
+                      "ScrewAttack",
+                      "f_KilledMetroidRoom2"
+                    ]}
+                  ],
+                  "note": "If the Metroids are alive, lure them off screen."
+                }
+              ]
+            },
+            {
+              "strats": [
+                {
+                  "name": "Get Hit By Metroid",
+                  "notable": false,
+                  "requires": [
+                    { "not": "f_KilledMetroidRoom2" },
+                    "canRiskPermanentLossOfAccess"
+                  ]
+                }
+              ],
+              "knockback": false
+            }
+          ],
+          "gModeImmobile": {
+            "requires": [
+              {"enemyDamage": {
+                "enemy": "Rinka",
+                "type": "contact",
+                "hits": 1
+              }},
+              {"or": [
+                "f_KilledMetroidRoom2",
+                {"enemyDamage": {
+                  "enemy": "Metroid",
+                  "type": "contact",
+                  "hits": 8
+                }}
+              ]}
+            ],
+            "note": "If alive, the Metroids do 90 damage before the Rinka hits."
+          },
           "locks": [
             {
               "name": "Metroid Room 2 Grey Lock (to Metroid Room 3)",
@@ -990,7 +1152,8 @@
                       "id": "A",
                       "requires": []
                     }
-                  ]
+                  ],
+                  "note": "Kill the two Metroids with Power Bombs while avoiding damage."
                 },
                 {
                   "name": "Easy Evade",
@@ -1055,6 +1218,17 @@
               "openEnd": 1
             }
           ],
+          "leaveWithGModeSetup": [
+            {
+              "strats": [
+                {
+                  "name": "Get Hit By Rinka",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ],
           "canLeaveCharged": [
             {
               "usedTiles": 29,
@@ -1068,7 +1242,16 @@
                 }
               ]
             }
-          ]
+          ],
+          "gModeImmobile": {
+            "requires": [
+              {"enemyDamage": {
+                "enemy": "Rinka",
+                "type": "contact",
+                "hits": 1
+              }}
+            ]
+          }
         },
         {
           "id": 2,
@@ -1106,6 +1289,26 @@
               ]
             }
           ],
+          "leaveWithGModeSetup": [
+            {
+              "strats": [
+                {
+                  "name": "Get Hit By Rinka",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ],
+          "gModeImmobile": {
+            "requires": [
+              {"enemyDamage": {
+                "enemy": "Rinka",
+                "type": "contact",
+                "hits": 1
+              }}
+            ]
+          },
           "locks": [
             {
               "name": "Metroid Room 3 Grey Lock (to Metroid Room 4)",
@@ -1226,6 +1429,10 @@
                       "id": "A",
                       "requires": []
                     }
+                  ],
+                  "note": [
+                    "Group the Metroids by hitting the first Rinka with a Power Bomb.",
+                    "Then Kill all three Metroids with Power Bombs while avoiding damage."
                   ]
                 },
                 {
@@ -1334,6 +1541,10 @@
                       "id": "A",
                       "requires": []
                     }
+                  ],
+                  "note": [
+                    "Group the Metroids by hitting the first Rinka with a Power Bomb.",
+                    "Then Kill all three Metroids with Power Bombs while avoiding damage."
                   ]
                 },
                 {
@@ -1397,7 +1608,27 @@
               ],
               "openEnd": 1
             }
-          ]
+          ],
+          "leaveWithGModeSetup": [
+            {
+              "strats": [
+                {
+                  "name": "Get Hit By Rinka",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ],
+          "gModeImmobile": {
+            "requires": [
+              {"enemyDamage": {
+                "enemy": "Rinka",
+                "type": "contact",
+                "hits": 1
+              }}
+            ]
+          }
         },
         {
           "id": 2,
@@ -1406,6 +1637,24 @@
           "nodeSubType": "grey",
           "nodeAddress": "0x001a9fc",
           "doorEnvironments": [{"physics": "air"}],
+          "gModeImmobile": {
+            "requires": [
+              {"enemyDamage": {
+                "enemy": "Rinka",
+                "type": "contact",
+                "hits": 1
+              }},
+              {"or": [
+                "f_KilledMetroidRoom4",
+                {"enemyDamage": {
+                  "enemy": "Metroid",
+                  "type": "contact",
+                  "hits": 7
+                }}
+              ]}
+            ],
+            "note": "If alive, the Metroids do up to 78 damage before the Rinka hits. Entering through the middle of the door will require less damage."
+          },
           "locks": [
             {
               "name": "Metroid Room 4 Grey Lock (to Blue Hoppers)",
@@ -1545,6 +1794,10 @@
                       "id": "A",
                       "requires": []
                     }
+                  ],
+                  "note": [
+                    "Group the Metroids by descending the room.",
+                    "Then Kill all three Metroids with Power Bombs while avoiding damage."
                   ]
                 },
                 {
@@ -1682,6 +1935,10 @@
                       "id": "A",
                       "requires": []
                     }
+                  ],
+                  "note": [
+                    "Take out the lower two Metroids with Power Bombs while avoiding damage.",
+                    "Then Kill the remaining one with three more Power Bombs."
                   ]
                 },
                 {
@@ -1701,6 +1958,10 @@
                       "id": "A",
                       "requires": []
                     }
+                  ],
+                  "note": [
+                    "Very carefully group the Metroids by climbing the room.",
+                    "Then Kill all three Metroids with Power Bombs while avoiding damage."
                   ]
                 },
                 {
@@ -1756,7 +2017,33 @@
           "nodeType": "door",
           "nodeSubType": "blue",
           "nodeAddress": "0x001aa08",
-          "doorEnvironments": [{"physics": "air"}]
+          "doorEnvironments": [{"physics": "air"}],
+          "jumpways": [
+            {
+              "name": "Door frame",
+              "jumpwayType": "doorFrameBelow",
+              "height": 3,
+              "requires": []
+            },
+            {
+              "name": "Platform",
+              "jumpwayType": "platformBelow",
+              "height": 8.5,
+              "leftPosition": -1.5,
+              "rightPosition": 1.5,
+              "requires": [],
+              "devNote": "Additional platforms could be added, but they don't yet appear to have applications."
+            }
+          ],
+          "gModeImmobile": {
+            "requires": [
+              {"enemyDamage": {
+                "enemy": "Blue Sidehopper",
+                "type": "contact",
+                "hits": 1
+              }}
+            ]
+          }
         },
         {
           "id": 2,
@@ -1778,7 +2065,53 @@
               ],
               "openEnd": 1
             }
-          ]
+          ],
+          "leaveWithGModeSetup": [
+            {
+              "strats": [
+                {
+                  "name": "Tank During Setup",
+                  "notable": false,
+                  "requires": [
+                    {"enemyDamage": {
+                      "enemy": "Blue Sidehopper",
+                      "type": "contact",
+                      "hits": 1
+                    }}
+                  ]
+                },
+                {
+                  "name": "Prepared Dodge",
+                  "notable": false,
+                  "requires": [
+                    "canPrepareForNextRoom",
+                    {"or": [
+                      {"and": [
+                        "ScrewAttack",
+                        "SpaceJump"
+                      ]},
+                      {"and": [
+                        "Morph",
+                        {"or": [
+                          "canTrickyJump",
+                          {"enemyKill": { "enemies": [["Blue Sidehopper"]] }}
+                        ]}
+                      ]}
+                    ]}
+                  ]
+                }
+              ]
+            }
+          ],
+          "gModeImmobile": {
+            "requires": [
+              {"enemyDamage": {
+                "enemy": "Blue Sidehopper",
+                "type": "contact",
+                "hits": 1
+              }}
+            ]
+          }
         }
       ],
       "enemies": [
@@ -1798,21 +2131,42 @@
               "id": 2,
               "strats": [
                 {
-                  "name": "Avoid Damage",
+                  "name": "Blue Hopper Dodge",
+                  "notable": true,
+                  "requires": [
+                    "canTrickyJump"
+                  ],
+                  "note": [
+                    "When coming from the right, run under the right Hopper and jump over the left Hopper to avoid all damage.",
+                    "Wait for the top hopper to move right to start running.",
+                    "Jump when Samus reaches the leftmost lump in the ground to avoid the left hopper for all patterns."
+                  ]
+                },
+                {
+                  "name": "Screw Attack",
                   "notable": false,
-                  "requires": [ "ScrewAttack" ]
+                  "requires": [
+                    "ScrewAttack",
+                    {"or": [
+                      "SpaceJump",
+                      "canCarefulJump"
+                    ]}
+                  ],
+                  "note": "Wait for the top hopper to move right, then jump through the left hopper."
                 },
                 {
                   "name": "Kill the enemies",
                   "notable": false,
                   "requires": [
+                    "canDodgeWhileShooting",
                     {"enemyKill":{
-                      "enemies": [
-                        [
-                          "Blue Sidehopper", "Blue Sidehopper"
-                        ]
-                      ]
+                      "enemies": [["Blue Sidehopper", "Blue Sidehopper"]]
                     }}
+                  ],
+                  "note": [
+                    "Kill the top hopper quickly; the left hopper is more random.",
+                    "To be safe, plan to retreat right while attacking.",
+                    "It also helps to attempt to move the hopper off camera between attacks."
                   ]
                 },
                 {
@@ -1824,6 +2178,10 @@
                       "type": "contact",
                       "hits": 1
                     }}
+                  ],
+                  "note": [
+                    "Wait for the left hopper to move right so it does not follow Samus as IFrames run out.",
+                    "A damage boost using the top hopper also moves through the room fast enough to be safe."
                   ]
                 }
               ]
@@ -1837,6 +2195,55 @@
               "id": 1,
               "strats": [
                 {
+                  "name": "Screw Attack",
+                  "notable": false,
+                  "requires": [
+                    "canPrepareForNextRoom",
+                    "ScrewAttack",
+                    {"or": [
+                      "SpaceJump",
+                      {"and": [
+                        "canCarefulJump",
+                        {"adjacentRunway": {
+                          "usedTiles": 2,
+                          "fromNode": 2
+                        }}
+                      ]}
+                    ]}
+                  ],
+                  "note": "Samus must enter the room in a screw attack spin jump, with enough speed to go deep into the room, to avoid hopper damage."
+                },
+                {
+                  "name": "Blue Hopper Room Roll Under Hoppers",
+                  "notable": true,
+                  "requires": [
+                    "Morph",
+                    "canPrepareForNextRoom",
+                    "canTrickyJump"
+                  ],
+                  "note": [
+                    "Time Samus' movement carefully to roll underneath a Blue Hopper and also race it to the far door.",
+                    "Enter the room in ball mode and let the hoppers jump against the wall a couple of times.",
+                    "After the lower hopper has long enough time between jumps, roll under and run to the door."
+                  ]
+                },
+                {
+                  "name": "Kill Hopper",
+                  "notable": false,
+                  "requires": [
+                    "Morph",
+                    "canPrepareForNextRoom",
+                    {"enemyKill": {
+                      "enemies": [["Blue Sidehopper"]]
+                    }}
+                  ],
+                  "note": [
+                    "Enter the room in ball mode and let the hoppers jump against the wall a couple of times.",
+                    "Between hops, unmorph and shoot the lower hopper.",
+                    "Roll under the top hopper until it goes off camera to the left."
+                  ]
+                },
+                {
                   "name": "Take the Damage",
                   "notable": false,
                   "requires": [
@@ -1848,25 +2255,22 @@
                   ]
                 },
                 {
-                  "name": "Avoid Damage",
-                  "notable": false,
-                  "requires": [
-                    "canPrepareForNextRoom",
-                    "ScrewAttack"
-                  ],
-                  "note": "Samus must enter the room in a screw attack spin jump to avoid the damage."
-                },
-                {
                   "name": "Blue Speed Jump through Hoppers",
                   "notable": false,
                   "requires": [
-                    "canCarefulJump",
+                    "canPrepareForNextRoom",
                     {"canComeInCharged": {
                       "fromNode": 2,
                       "framesRemaining": 180,
                       "shinesparkFrames": 0
-                    }}
-                  ]
+                    }},
+                    {"or": [
+                      "SpaceJump",
+                      "canCarefulJump"
+                    ]}
+                  ],
+                  "note": "Jump far enough to land on the first floor pillar.",
+                  "devNote": "This is not the level of precision that would call for canBlueSpaceJump."
                 }
               ]
             }
@@ -2600,6 +3004,21 @@
               ],
               "openEnd": 1
             }
+          ],
+          "leaveWithGModeSetup": [
+            {
+              "strats": [
+                {
+                  "name": "Get Hit By Rinka",
+                  "notable": false,
+                  "requires": [ "canTrickyJump" ],
+                  "note": [
+                    "Lure a Rinka to the top door without letting it go off screen.",
+                    "The bottom right Rinka can be lured at the correct angle by standing on the central platform then jumping slightly before it moves."
+                  ]
+                }
+              ]
+            }
           ]
         },
         {
@@ -2623,7 +3042,27 @@
               "usableComingIn": false,
               "openEnd": 1
             }
-          ]
+          ],
+          "leaveWithGModeSetup": [
+            {
+              "strats": [
+                {
+                  "name": "Get Hit By Rinka",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ],
+          "gModeImmobile": {
+            "requires": [
+              {"enemyDamage": {
+                "enemy": "Rinka",
+                "type": "contact",
+                "hits": 1
+              }}
+            ]
+          }
         },
         {
           "id": 3,
@@ -2646,6 +3085,26 @@
               "openEnd": 0
             }
           ],
+          "leaveWithGModeSetup": [
+            {
+              "strats": [
+                {
+                  "name": "Get Hit By Rinka",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ],
+          "gModeImmobile": {
+            "requires": [
+              {"enemyDamage": {
+                "enemy": "Rinka",
+                "type": "contact",
+                "hits": 1
+              }}
+            ]
+          },
           "locks": [
             {
               "name": "Rinka Shaft Red Lock (to Mother Brain)",
@@ -2832,6 +3291,26 @@
               "openEnd": 1
             }
           ],
+          "leaveWithGModeSetup": [
+            {
+              "strats": [
+                {
+                  "name": "Get Hit By Rinka",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ],
+          "gModeImmobile": {
+            "requires": [
+              {"enemyDamage": {
+                "enemy": "Rinka",
+                "type": "contact",
+                "hits": 1
+              }}
+            ]
+          },
           "locks": [
             {
               "name": "Mother Brain Room Escape Lock (to Escape Room 1)",
@@ -2866,7 +3345,27 @@
               ],
               "openEnd": 1
             }
-          ]
+          ],
+          "leaveWithGModeSetup": [
+            {
+              "strats": [
+                {
+                  "name": "Get Hit By Rinka or Turret Shot",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ],
+          "gModeImmobile": {
+            "requires": [
+              {"enemyDamage": {
+                "enemy": "Rinka",
+                "type": "contact",
+                "hits": 1
+              }}
+            ]
+          }
         },
         {
           "id": 3,
@@ -3263,7 +3762,7 @@
                   "requires": [ "f_KilledZebetites3" ]
                 }
               ]
-            }            
+            }
           ]
         },
         {
@@ -3422,6 +3921,22 @@
           "nodeSubType": "grey",
           "nodeAddress": "0x001aaf8",
           "doorEnvironments": [{"physics": "air"}],
+          "jumpways": [
+            {
+              "name": "Door frame",
+              "jumpwayType": "doorFrameBelow",
+              "height": 3,
+              "requires": []
+            },
+            {
+              "name": "Platform",
+              "jumpwayType": "platformBelow",
+              "height": 7,
+              "leftPosition": -2.5,
+              "rightPosition": 2.5,
+              "requires": []
+            }
+          ],
           "locks": [
             {
               "name": "Tourian Escape 2 Lock (to Escape Room 1)",
@@ -3456,7 +3971,16 @@
               ],
               "openEnd": 1
             }
-          ]
+          ],
+          "gModeImmobile": {
+            "requires": [
+              {"enemyDamage": {
+                "enemy": "Tourian Space Pirate (all)",
+                "type": "contact",
+                "hits": 1
+              }}
+            ]
+          }
         }
       ],
       "enemies": [
@@ -3621,31 +4145,152 @@
               "id": 2,
               "strats": [
                 {
-                  "name": "Base",
+                  "name": "Pass Through Pirates",
                   "notable": false,
                   "requires": [
-                    "HiJump",
-                    "canWalljump",
-                    "h_canFly"
+                    {"or": [
+                      "HiJump",
+                      "canWalljump",
+                      "h_canFly"
+                    ]},
+                    {"or": [
+                      {"enemyDamage": {
+                        "enemy": "Tourian Space Pirate (all)",
+                        "type": "contact",
+                        "hits": 3
+                      }},
+                      {"and": [
+                        "Plasma",
+                        "canHitbox"
+                      ]},
+                      "ScrewAttack"
+                    ]}
+                  ],
+                  "note": "Walk through the pirates either by taking damage or by using Plasma Beam."
+                },
+                {
+                  "name": "Fight Pirates Safely",
+                  "notable": false,
+                  "requires": [
+                    {"or": [
+                      "HiJump",
+                      "canWalljump",
+                      "h_canFly"
+                    ]},
+                    {"or": [
+                      "canDodgeWhileShooting",
+                      "Morph",
+                      "Wave",
+                      "canTurnaroundAimCancel",
+                      "canXRayTurnaround"
+                    ]}
+                  ],
+                  "note": [
+                    "Run or Roll under the pirate lazers or fight the pirates from below with Wave Beam",
+                    "The Pirates will also not shoot if they come on screen while Samus is crouched."
                   ]
                 },
                 {
-                  "name": "Speed Jump",
+                  "name": "Kill Pirates Fast",
                   "notable": false,
                   "requires": [
-                    "SpeedBooster"
+                    {"or": [
+                      "HiJump",
+                      "canWalljump",
+                      "h_canFly"
+                    ]},
+                    {"or": [
+                      {"and": [
+                        "Plasma",
+                        "canXRayWaitForIFrames"
+                      ]},
+                      {"enemyKill": {
+                         "enemies": [
+                           ["Tourian Space Pirate (all)","Tourian Space Pirate (all)","Tourian Space Pirate (all)"],
+                           ["Tourian Space Pirate (all)","Tourian Space Pirate (all)","Tourian Space Pirate (all)"]
+                         ],
+                         "explicitWeapons": ["Missile", "Super", "Ice+Plasma"]
+                      }}
+                    ]}
                   ]
                 },
                 {
-                  "name": "Shinespark",
+                  "name": "SpeedBooster",
+                  "notable": false,
+                  "requires": ["SpeedBooster"],
+                  "note": [
+                    "Run into the pirates with speedbooster to save health over shinesparking.",
+                    "A speedy jump can reach the top platform."
+                  ]
+                },
+                {
+                  "name": "G-Mode Morph PB Pirate Kill",
                   "notable": false,
                   "requires": [
-                    {"canShineCharge": {
-                      "usedTiles": 33,
-                      "shinesparkFrames": 30,
-                      "openEnd": 2
-                    }}
-                  ]
+                    {"comeInWithGMode": {
+                      "fromNodes": [1],
+                      "mode": "any",
+                      "artificialMorph": true
+                    }},
+                    {"or": [
+                      "h_canArtificialMorphIBJ",
+                      "h_canArtificialMorphSpringBallBombJump"
+                    ]},
+                    {"ammo": { "type": "PowerBomb", "count": 5 }}
+                  ],
+                  "note": "IBJ or spring ball bomb jump to avoid the wall jump. The first pirate takes 2 PBs, the next 3 can be killed with 3 total PBs if they are placed under the middle pirate."
+                },
+                {
+                  "name": "G-Mode Morph PB Pirate Hitbox",
+                  "notable": false,
+                  "requires": [
+                    {"comeInWithGMode": {
+                      "fromNodes": [1],
+                      "mode": "any",
+                      "artificialMorph": true
+                    }},
+                    {"or": [
+                      "h_canArtificialMorphIBJ",
+                      "h_canArtificialMorphSpringBallBombJump"
+                    ]},
+                    {"ammo": { "type": "PowerBomb", "count": 3 }},
+                    "canHitbox"
+                  ],
+                  "note": "IBJ or spring ball bomb jump to avoid the wall jump. Using a total of 3 PBs will allow Samus to roll through the bottom 4 pirates."
+                },
+                {
+                  "name": "G-Mode Morph Pirate Tank",
+                  "notable": false,
+                  "requires": [
+                    {"comeInWithGMode": {
+                      "fromNodes": [1],
+                      "mode": "any",
+                      "artificialMorph": true
+                    }},
+                    {"or": [
+                      "h_canArtificialMorphIBJ",
+                      "h_canArtificialMorphSpringBallBombJump"
+                    ]},
+                    {"enemyDamage": { "enemy": "Tourian Space Pirate (all)", "type": "contact", "hits": 3 }}
+                  ],
+                  "note": "Tank 3 pirate hits then IBJ or spring ball bomb jump to avoid the wall jump."
+                },
+                {
+                  "name": "G-Mode Morph Overload Speed Blocks",
+                  "notable": false,
+                  "requires": [
+                    {"comeInWithGMode": {
+                      "fromNodes": [1],
+                      "mode": "any",
+                      "artificialMorph": true
+                    }},
+                    "h_canArtificialMorphIBJ",
+                    {"or": [
+                      "h_canArtificialMorphCeilingBombJump",
+                      "canBePatient"
+                    ]}
+                  ],
+                  "note": "Take the bottom path and place many bombs near the speed blocks to overload PLMs and go through them."
                 }
               ]
             }
@@ -3658,9 +4303,94 @@
               "id": 1,
               "strats": [
                 {
-                  "name": "Base",
+                  "name": "Pass Through Pirates",
                   "notable": false,
-                  "requires": []
+                  "requires": [
+                    {"or": [
+                      {"enemyDamage": {
+                        "enemy": "Tourian Space Pirate (all)",
+                        "type": "contact",
+                        "hits": 3
+                      }},
+                      {"and": [
+                        "Plasma",
+                        "canHitbox"
+                      ]},
+                      "ScrewAttack"
+                    ]}
+                  ],
+                  "note": "Walk through the pirates either by taking damage or by using Plasma Beam."
+                },
+                {
+                  "name": "Fight Pirates Safely",
+                  "notable": false,
+                  "requires": [
+                    {"or": [
+                      "canDodgeWhileShooting",
+                      "Morph",
+                      "Wave",
+                      "canXRayTurnaround"
+                    ]}
+                  ],
+                  "note": [
+                    "Dodge the pirate lazers, or shoot them from above with Wave Beam",
+                    "Pirates will not attack if Samus is crouched when they come on screen."
+                  ]
+                },
+                {
+                  "name": "Kill Pirates Fast",
+                  "notable": false,
+                  "requires": [
+                    {"or": [
+                      {"and": [
+                        "Plasma",
+                        "canXRayWaitForIFrames"
+                      ]},
+                      {"enemyKill": {
+                         "enemies": [
+                           ["Tourian Space Pirate (all)","Tourian Space Pirate (all)"],
+                           ["Tourian Space Pirate (all)","Tourian Space Pirate (all)"],
+                           ["Tourian Space Pirate (all)"]
+                         ],
+                         "explicitWeapons": ["Missile", "Super", "Ice+Plasma"]
+                      }}
+                    ]}
+                  ]
+                },
+                {
+                  "name": "SpeedBooster",
+                  "notable": false,
+                  "requires": [
+                    {"enemyDamage": {
+                      "enemy": "Tourian Space Pirate (all)",
+                      "type": "contact",
+                      "hits": 1
+                    }},
+                    {"or": [
+                      "canTemporaryBlue",
+                      {"and": [
+                        "canUseSpeedEchoes",
+                        {"canShineCharge": {
+                          "usedTiles": 33,
+                          "openEnd": 2,
+                          "shinesparkFrames": 2,
+                          "excessShinesparkFrames": 2
+                        }}
+                      ]}
+                    ]}
+                  ],
+                  "note": "Fall through the speed blocks from above with Temporary Blue, or kill the pirates from above with speed echoes."
+                },
+                {
+                  "name": "Enter with Speed",
+                  "notable": false,
+                  "requires": [
+                    {"canComeInCharged": {
+                      "framesRemaining": 180,
+                      "fromNode": 2,
+                      "shinesparkFrames": 0
+                    }}
+                  ]
                 }
               ]
             }
@@ -3698,6 +4428,15 @@
               "openEnd": 1
             }
           ],
+          "gModeImmobile": {
+            "requires": [
+              {"enemyDamage": {
+                "enemy": "Tourian Space Pirate (all)",
+                "type": "contact",
+                "hits": 1
+              }}
+            ]
+          },
           "locks": [
             {
               "name": "Tourian Escape 4 Lock (to Escape Room 3)",
@@ -3762,9 +4501,44 @@
                   "name": "Base",
                   "notable": false,
                   "requires": [
-                    "HiJump",
-                    "h_canFly",
-                    "canWalljump"
+                    {"or": [
+                      "HiJump",
+                      "SpaceJump",
+                      "canWalljump",
+                      {"and": [
+                        "h_canIBJ",
+                        "h_canCrouchJumpDownGrab" 
+                      ]}
+                    ]},
+                    {"or": [
+                      "canCarefulJump",
+                      "ScrewAttack",
+                      "Morph",
+                      {"enemyDamage": {
+                        "enemy": "Tourian Space Pirate (all)",
+                        "type": "contact",
+                        "hits": 1
+                      }}
+                    ]}
+                  ],
+                  "devNote": "IBJ can be used to avoid wall jumps before the acid starts rising, but a crouch jump down grab is needed near the right door."
+                },
+                {
+                  "name": "G-Mode Morph PB Pirate Kill",
+                  "notable": false,
+                  "requires": [
+                    {"comeInWithGMode": {
+                      "fromNodes": [1],
+                      "mode": "any",
+                      "artificialMorph": true
+                    }},
+                    "h_canArtificialMorphIBJ",
+                    {"ammo": { "type": "PowerBomb", "count": 10 }},
+                    "h_canCrouchJumpDownGrab"
+                  ],
+                  "note": [
+                    "IBJ and use 10 PBs to kill the pirates and get to the top. Exit gmode and fall to the bottom.",
+                    "Quickly climb the platforms - there is a route that doesn't need wall jumps, but a crouch jump down grab is needed to get to the final platform."
                   ]
                 }
               ],
@@ -3779,15 +4553,85 @@
               "id": 1,
               "strats": [
                 {
-                  "name": "Base",
+                  "name": "Protected Shaft Climb",
                   "notable": false,
                   "requires": [
-                    "SpaceJump",
-                    "canConsecutiveWalljump"
+                    {"or": [
+                      {"and": [
+                        "canConsecutiveWalljump",
+                        {"or": [
+                          "ScrewAttack",
+                          "canWalljumpWithCharge"
+                        ]}
+                      ]},
+                      {"and": [
+                        "SpaceJump",
+                        "HiJump",
+                        {"or": [
+                          "ScrewAttack",
+                          "canPseudoScrew"
+                        ]}
+                      ]}
+                    ]}
+                  ],
+                  "note": [
+                    "Use Screw Attack or a Pseudo Screw to avoid Space Pirate attacks while climbing the central shaft.",
+                    "The Screw Attack effect is not active when Samus is preparing to Walljump."
+                  ]
+                },
+                {
+                  "name": "Reverse Tourian Escape Room 4 Dodge While Climbing",
+                  "notable": true,
+                  "requires": [
+                    {"or": [
+                      "canCarefulJump",
+                      "ScrewAttack",
+                      "Morph",
+                      {"enemyDamage": {
+                        "enemy": "Tourian Space Pirate (all)",
+                        "type": "contact",
+                        "hits": 1
+                      }},
+                      {"canComeInCharged": {
+                        "framesRemaining": 180,
+                        "fromNode": 2,
+                        "shinesparkFrames": 0,
+                        "unusableTiles": 22
+                      }}
+                    ]},
+                    {"or": [
+                      "canCarefulJump",
+                      "ScrewAttack",
+                      "HiJump"
+                    ]},
+                    {"or": [
+                      "canConsecutiveWalljump",
+                      {"and": [
+                        "SpaceJump",
+                        {"or": [
+                          "HiJump",
+                          {"and": [
+                            "canCarefulJump",
+                            {"acidFrames": 20},
+                            {"enemyDamage": {
+                              "enemy": "Tourian Space Pirate (all)",
+                              "type": "contact",
+                              "hits": 1
+                            }}
+                          ]},
+                          {"acidFrames": 100}
+                        ]}
+                      ]}
+                    ]}
+                  ],
+                  "note": [
+                    "Navigate Leodox Room in reverse by killing or distracting the right side pirates and manipulating or dodging the left side pirates during the shaft climb.",
+                    "The acid starts rising when Samus is at the bottom of the long climb.",
+                    "The right-side pirates can be killed while going down to prevent having to dodge their lasers during the climb.",
+                    "Alternatively, jump and force the pirates to shoot just before starting to climb."
                   ]
                 }
-              ],
-              "note": "The acid starts rising when Samus is at the bottom of the long climb"
+              ]
             }
           ]
         }

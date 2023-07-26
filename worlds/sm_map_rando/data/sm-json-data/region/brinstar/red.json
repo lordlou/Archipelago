@@ -179,13 +179,13 @@
       "obstacles": [
         {
           "id": "A",
-          "name": "Top of Tower Rippers",
-          "obstacleType": "enemies"
+          "name": "Power Bomb Blocks",
+          "obstacleType": "inanimate"
         },
         {
           "id": "B",
-          "name": "Power Bomb Blocks",
-          "obstacleType": "inanimate"
+          "name": "Top of Tower Rippers",
+          "obstacleType": "enemies"
         }
       ],
       "enemies": [
@@ -233,6 +233,22 @@
           "homeNodes": [ 9 ]
         }
       ],
+      "reusableRoomwideNotable": [
+        {
+          "name": "Red Tower R-Mode Frozen Beetom X-Ray Climb",
+          "note": [
+            "Gain R-mode while entering the room.",
+            "Use the respawning bugs to refill reserve energy.",
+            "Get grabbed by the Beetom and carry it to the 4-tile high gap one screen above the bottom-left door.",
+            "Position Samus one pixel to the right of being against the wall.",
+            "Jump and aim down, reaching the ceiling at the same time that reserves are triggered.",
+            "This will force Samus to stand up, briefly clipping into the wall above.",
+            "Immediately freeze the Beetom inside the wall, by buffering a shot during the reserve trigger.",
+            "Use a Ripper to get knocked back onto the frozen Beetom.",
+            "This will clip Samus one pixel left into the wall, making it possible to X-ray climb."
+          ]
+        }
+      ],
       "links": [
         {
           "from": 1,
@@ -246,10 +262,40 @@
                   "requires": [],
                   "obstacles": [
                     {
-                      "id": "B",
+                      "id": "A",
                       "requires": [ "h_canUsePowerBombs" ]
                     }
                   ]
+                },
+                {
+                  "name": "R-Mode Frozen Beetom X-Ray Climb",
+                  "notable": true,
+                  "requires": [
+                    {
+                      "comeInWithRMode": {
+                        "fromNodes": [1, 5]
+                      }
+                    },
+                    {"enemyDamage": {
+                      "enemy": "Beetom",
+                      "type": "contact",
+                      "hits": 1
+                    }},
+                    {"enemyDamage": {
+                      "enemy": "Ripper",
+                      "type": "contact",
+                      "hits": 1
+                    }},
+                    "canWallIceClip",
+                    "canXRayClimb"
+                  ],
+                  "reusableRoomwideNotable": "Red Tower R-Mode Frozen Beetom X-Ray Climb",
+                  "note": [
+                    "Gain R-mode while entering the room.",
+                    "Use the respawning bugs to refill reserve energy.",
+                    "Get grabbed by the Beetom and carry it to the 4-tile high gap one screen above the bottom-left door."
+                  ],
+                  "devNote": "Given the ability to freeze enemies, nodes 1 and 5 are freely connected, so lumping these into one strat is sound."
                 }
               ]
             },
@@ -260,17 +306,14 @@
                   "name": "Red Tower Spark",
                   "notable": true,
                   "requires": [
+                    "canHeroShot",
                     {"canComeInCharged": {
                       "fromNode": 1,
                       "framesRemaining": 100,
                       "shinesparkFrames": 77,
                       "excessShinesparkFrames": 3
-                     }},
-                    "Missile",
-                    {"ammo": {
-                      "type": "Missile",
-                      "count": 1
-                    }}
+                    }},
+                    {"ammo": { "type": "Missile", "count": 1 }}
                   ],
                   "note": [
                     "Come in charged from the top left door. With missiles selected, position Samus roughly in the horizontal center of the room.",
@@ -321,7 +364,7 @@
                   "requires": [],
                   "obstacles": [
                     {
-                      "id": "B",
+                      "id": "A",
                       "requires": [ "h_canUsePowerBombs" ]
                     }
                   ]
@@ -449,7 +492,7 @@
                       "HiJump",
                       "canWalljump",
                       "canSpringBallJumpMidAir",
-                      "canIBJ"
+                      "h_canIBJ"
                     ]}
                   ]
                 },
@@ -457,22 +500,35 @@
                   "name": "IBJ",
                   "notable": false,
                   "requires": [
-                    "canIBJ",
-                    {
-                      "enemyKill": {
+                    "h_canIBJ",
+                    {"or": [
+                      {"and": [
+                        "canWalljump",
+                        "ScrewAttack"
+                      ]},
+                      {"and": [
+                        {"or": [
+                          "canWalljump",
+                          "canSpringBallJumpMidAir"
+                        ]},
+                        {"ammo": {"type": "PowerBomb","count": 1}}
+                      ]},
+                      {"enemyKill": {
                         "enemies": [
-                          [ "Ripper", "Ripper", "Ripper", "Ripper" ]
-                        ]
-                      }
-                    }
+                          [ "Ripper", "Ripper", "Ripper"],
+                          [ "Ripper" ]
+                        ],
+                        "explicitWeapons": ["Super", "PowerBomb"]
+                      }}
+                    ]}
                   ]
                 },
                 {
                   "name": "Red Tower IBJ Between the Bottom Rippers",
                   "notable": true,
                   "requires": [
-                    "canDoubleBombJump",
-                    "canStaggeredIBJ"
+                    "h_canDoubleBombJump",
+                    "h_canStaggeredIBJ"
                   ],
                   "note": "Requires switching between single and double IBJs. While Doubles are not techincally necessary, they make the strat more bearable."
                 },
@@ -481,7 +537,13 @@
                   "notable": false,
                   "requires": [
                     "canSpringBallJumpMidAir",
-                    "canWalljump"
+                    {"or": [
+                      "canWalljump",
+                      {"and": [
+                        "HiJump",
+                        "canTrickyJump"
+                      ]}
+                    ]}
                   ]
                 },
                 {
@@ -489,7 +551,7 @@
                   "notable": true,
                   "requires": [
                     "canWallJumpBombBoost",
-                    "canHBJ"
+                    "h_canHBJ"
                   ],
                   "note": [
                     "Starting on the right ledge at the bottom of Red Tower, wall jump just below the middle plant, just above the top ripper.",
@@ -502,7 +564,7 @@
                   "notable": false,
                   "requires": [
                     "canWalljump",
-                    "canDiagonalBombJump"
+                    "h_canDiagonalBombJump"
                   ]
                 }
               ]
@@ -522,6 +584,48 @@
         {
           "from": 8,
           "to": [
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "R-Mode Frozen Beetom X-Ray Climb",
+                  "notable": true,
+                  "requires": [
+                    {"comeInWithRMode": {
+                      "fromNodes": [3, 4]
+                    }},
+                    {"or": [
+                      "canWalljump",
+                      "HiJump",
+                      "h_canFly",
+                      "canSpringBallJumpMidAir"
+                    ]},
+                    {"enemyDamage": {
+                      "enemy": "Beetom",
+                      "type": "contact",
+                      "hits": 1
+                    }},
+                    {"enemyDamage": {
+                      "enemy": "Ripper",
+                      "type": "contact",
+                      "hits": 1
+                    }},
+                    "canWallIceClip",
+                    "canXRayClimb"
+                  ],
+                  "reusableRoomwideNotable": "Red Tower R-Mode Frozen Beetom X-Ray Climb",
+                  "note": [
+                    "Get grabbed by the Beetom and carry it to the 4-tile high gap one screen above the bottom-left door.",
+                    "Position Samus one pixel to the right of being against the wall.",
+                    "Jump and aim down, reaching the ceiling at the same time that reserves are triggered.",
+                    "This will force Samus to stand up, briefly clipping into the wall above.",
+                    "Immediately freeze the Beetom inside the wall, by buffering a shot during the reserve trigger.",
+                    "Use a Ripper to get knocked back onto the frozen Beetom.",
+                    "This will clip Samus one pixel left into the wall, making it possible to X-ray climb."
+                  ]
+                }
+              ]
+            },
             {
               "id": 3,
               "strats": [
@@ -556,14 +660,14 @@
                         "framesRemaining": 30,
                         "shinesparkFrames": 45,
                         "excessShinesparkFrames": 5
-                       }},
+                      }},
                       {"canComeInCharged": {
                         "fromNode": 3,
                         "inRoomPath": [3, 8],
                         "framesRemaining": 40,
                         "shinesparkFrames": 45,
                         "excessShinesparkFrames": 5
-                       }}
+                      }}
                     ]}
                   ]
                 }
@@ -599,6 +703,29 @@
               "id": 5,
               "strats": [
                 {
+                  "name": "Walljump",
+                  "notable": false,
+                  "requires": [
+                    "canConsecutiveWalljump",
+                    {"or": [
+                      "canPreciseWalljump",
+                      "canSpringwall",
+                      "HiJump"
+                    ]}
+                  ],
+                  "obstacles": [
+                    {
+                      "id": "B",
+                      "requires": [
+                        {"enemyKill":{
+                          "enemies": [[ "Ripper", "Ripper", "Ripper", "Ripper" ]]
+                        }}
+                      ]
+                    }
+                  ],
+                  "note": "Kill the rippers then walljump up."
+                },
+                {
                   "name": "Use Frozen Enemies",
                   "notable": false,
                   "requires": ["canUseFrozenEnemies"]
@@ -607,25 +734,28 @@
                   "name": "Red Tower Hero Shot",
                   "notable": true,
                   "requires": [
+                    "canHeroShot",
                     "canPreciseWalljump",
                     "canStaggeredWalljump"
                   ],
-                  "note": "Wall jump up between the Rippers. Either shoot the block, fall, and quickly climb again, or shoot from the bottom and follow Samus's shot up the tower."
+                  "note": "Wall jump between the Rippers. Either shoot the block, fall, and quickly climb again, or shoot from the bottom and follow Samus's shot up the tower."
                 },
                 {
                   "name": "Space Jump",
                   "notable": false,
                   "requires": [
-                    "SpaceJump"
+                    "SpaceJump",
+                    {"or": [
+                      "canCarefulJump",
+                      "HiJump"
+                    ]}
                   ],
                   "obstacles": [
                     {
-                      "id": "A",
+                      "id": "B",
                       "requires": [
                         {"enemyKill":{
-                          "enemies": [
-                            [ "Ripper", "Ripper", "Ripper", "Ripper" ]
-                          ]
+                          "enemies": [[ "Ripper", "Ripper", "Ripper", "Ripper" ]]
                         }}
                       ]
                     }
@@ -638,16 +768,38 @@
                 {
                   "name": "Red Tower IBJ",
                   "notable": false,
-                  "requires": [ "canBombAboveIBJ" ],
+                  "requires": [ 
+                    "h_canIBJ",
+                    {"or": [
+                      "canBombAboveIBJ",
+                      {"ammo": {"type": "PowerBomb", "count": 1}}
+                    ]}
+                  ],
                   "obstacles": [
                     {
-                      "id": "A",
+                      "id": "B",
                       "requires": [
-                        {"enemyKill":{
-                          "enemies": [
-                            [ "Ripper", "Ripper", "Ripper", "Ripper" ]
-                          ]
-                        }}
+                        {"or": [
+                          {"and": [
+                            "canConsecutiveWalljump",
+                            "ScrewAttack"
+                          ]},
+                          {"and": [
+                            {"or": [
+                              "canWalljump",
+                              "canTrickyDashJump",
+                              "canSpringBallJumpMidAir"
+                            ]},
+                            {"ammo": {"type": "PowerBomb","count": 1}}
+                          ]},
+                          {"enemyKill":{
+                            "enemies": [
+                              [ "Ripper", "Ripper", "Ripper"],
+                              [ "Ripper" ]
+                            ],
+                            "explicitWeapons": ["Super", "PowerBomb"]
+                          }}
+                        ]}
                       ]
                     }
                   ],
@@ -729,6 +881,27 @@
                 "Requires opening the door, then going to the middle of the room to use the really small runway.",
                 "ShinesparkFrames are at 0 because the shinespark frames are accounted for in the path to door."
               ]
+            },
+            {
+              "usedTiles": 33,
+              "openEnd": 2,
+              "framesRemaining": 0,
+              "shinesparkFrames": 50,
+              "strats": [
+                {
+                  "name": "XMode",
+                  "notable": false,
+                  "requires": [
+                    "h_canXMode",
+                    "canIframeSpikeJump",
+                    {"spikeHits": 2},
+                    {"or": [
+                      "SpaceJump",
+                      {"spikeHits": 2}
+                    ]}
+                  ]
+                }
+              ]
             }
           ]
         },
@@ -763,11 +936,32 @@
                 {
                   "name": "Base",
                   "notable": false,
-                  "requires": [ 
+                  "requires": [
                     "canShinechargeMovementComplex",
                     "canMidairShinespark"
                   ],
                   "note": "Requires opening the door, then going to pit in the middle of the room to use the really small runway."
+                }
+              ]
+            },
+            {
+              "usedTiles": 33,
+              "openEnd": 2,
+              "framesRemaining": 40,
+              "strats": [
+                {
+                  "name": "XMode",
+                  "notable": false,
+                  "requires": [
+                    "canShinechargeMovement",
+                    "h_canXMode",
+                    {"spikeHits": 2}
+                  ],
+                  "note": [
+                    "Jump from the entry runway to bounce onto spikes for XMode.",
+                    "Store a spark in XMode and use that to shinepark across the room.",
+                    "Bumping a solid tile before activating XMode will remove dash state, preventing shinecharging."
+                  ]
                 }
               ]
             }
@@ -915,22 +1109,67 @@
                   "note": "Use the really small runway in a pit in the middle of the room."
                 },
                 {
-                  "name": "Use Frozen Waver",
+                  "name": "XMode Shinespark",
                   "notable": false,
                   "requires": [
-                    "canUseFrozenEnemies",
+                    "canMidairShinespark",
+                    "h_canXMode",
+                    {"canShineCharge": {
+                      "usedTiles": 33,
+                      "openEnd": 2,
+                      "shinesparkFrames": 146,
+                      "excessShinesparkFrames": 6
+                    }},
+                    {"spikeHits": 1}
+                  ],
+                  "note": [
+                    "Jump from the entry runway to bounce onto spikes for XMode.",
+                    "Store a spark in XMode and use that to shinepark across the room.",
+                    "Bumping a solid tile before activating XMode will remove dash state, preventing shinecharging."
+                  ]
+                },
+                {
+                  "name": "X-Ray Access Ice Bridge",
+                  "notable": true,
+                  "requires": [
+                    "canTrickyUseFrozenEnemies",
+                    "canCarefulJump",
                     {"spikeHits": 3},
                     {"or": [
                       "canIframeSpikeJump",
                       {"spikeHits": 3}
                     ]}
+                  ],
+                  "note": [
+                    "Cross the gaps by freezing multiple enemies or by refreezing a Waver while standing on it.",
+                    "Be careful running on frozen enemies.",
+                    "Freeze the final Waver high and walljump up, or wait for the second Waver to come back."
                   ]
+                },
+                {
+                  "name": "Ice and HiJump",
+                  "notable": false,
+                  "requires": [
+                    "canUseFrozenEnemies",
+                    "HiJump",
+                    "canCarefulJump",
+                    {"or": [
+                      "canTrickyJump",
+                      "canWalljump"
+                    ]},
+                    {"spikeHits": 3},
+                    {"or": [
+                      "canIframeSpikeJump",
+                      {"spikeHits": 3}
+                    ]}
+                  ],
+                  "note": "Use the Fireflea when it moves to the right to cross the first gap."
                 },
                 {
                   "name": "X-Ray Access IBJ",
                   "notable": false,
                   "requires": [
-                    "canJumpIntoIBJ",
+                    "h_canJumpIntoIBJ",
                     {"spikeHits": 5},
                     {"or": [
                       "canIframeSpikeJump",
@@ -968,6 +1207,43 @@
                   ]
                 },
                 {
+                  "name": "X-Ray Access SpikeJumps with HiJump",
+                  "notable": true,
+                  "requires": [
+                    "HiJump",
+                    "canWalljump",
+                    "canIframeSpikeJump",
+                    "canTrickyJump",
+                    {"spikeHits": 3},
+                    {"or": [
+                      {"spikeHits": 1},
+                      {"and": [
+                        {"enemyDamage": {
+                            "enemy": "Fireflea",
+                            "type": "contact",
+                            "hits": 1
+                          }},
+                        "canDamageBoost"
+                      ]}
+                    ]},
+                    {"or": [
+                      "canInsaneWalljump",
+                      {"and": [
+                        {"spikeHits": 1},
+                        "canDamageBoost"
+                      ]}
+                    ]}
+                  ],
+                  "note": [
+                    "Jump to the door leading to X-Ray either by jumping from spikes or with a very precise jump.",
+                    "Cross the room by Jumping atop the spikes.",
+                    "Taking enemy damage can be used to reduce some spike damage.",
+                    "The final jump can either be made by jumping from the bottommost spike stair or from the safe stair.",
+                    "Setup run speed atop the spike stair by holding forward to be pushed backward.",
+                    "The safe stair jump is much harder, but can be made without every pixel of runway."
+                  ]
+                },
+                {
                   "name": "X-Ray Access MidAir Spring Ball",
                   "notable": false,
                   "requires": [
@@ -985,6 +1261,7 @@
                   "notable": true,
                   "requires": [
                     "canContinuousDboost",
+                    "canTrickyJump",
                     {"enemyDamage": {
                       "enemy": "Waver",
                       "type": "contact",
@@ -1031,6 +1308,25 @@
               ],
               "openEnd": 0
             }
+          ],
+          "viewableNodes": [
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "PowerBomb",
+                  "notable": false,
+                  "requires": ["h_canUsePowerBombs"],
+                  "obstacles": [
+                    {
+                      "id": "A",
+                      "requires": []
+                    }
+                  ],
+                  "note": "Raise the shutter before checking the item to not become stuck."
+                }
+              ]
+            }
           ]
         },
         {
@@ -1040,13 +1336,13 @@
           "nodeSubType": "chozo",
           "nodeItem": "XRayScope",
           "nodeAddress": "0x78876"
-        },
+        }
+      ],
+      "obstacles": [
         {
-          "id": 3,
-          "name": "X-Ray Room Junction (Top of Statue with Broken Block)",
-          "nodeType": "junction",
-          "nodeSubType": "junction",
-          "note": "This junction is used to separate the breaking of the bomb block from escaping the room."
+          "id": "A",
+          "name": "Bomb Block Above Chozo",
+          "obstacleType": "inanimate"
         }
       ],
       "enemies": [],
@@ -1061,7 +1357,7 @@
                   "name": "Base",
                   "notable": false,
                   "requires": ["Morph"],
-                  "note": "There are additional requirements to get back out. It's a softlock if they aren't met."
+                  "devNote": "There are additional requirements to get back out. It's a softlock if they aren't met."
                 }
               ]
             }
@@ -1069,22 +1365,6 @@
         },
         {
           "from": 2,
-          "to": [
-            {
-              "id": 3,
-              "strats": [
-                {
-                  "name": "Base",
-                  "notable": false,
-                  "requires": ["h_canDestroyBombWalls"]
-                }
-              ],
-              "note": "2 -> 3 and 3 -> 1 are fully separated, because it takes two PBs to break the block and then get into the tunnel."
-            }
-          ]
-        },
-        {
-          "from": 3,
           "to": [
             {
               "id": 1,
@@ -1097,17 +1377,39 @@
                       "h_canBombThings",
                       "h_canUseSpringBall"
                     ]}
+                  ],
+                  "obstacles": [
+                    {
+                      "id": "A",
+                      "requires": ["h_canDestroyBombWalls"]
+                    }
+                  ],
+                  "devNote": "In the case of power bombs, 1 is used to break the blocks and another is used to escape"
+                },
+                {
+                  "name": "Jump Morph",
+                  "notable": false,
+                  "requires": [ "h_canTwoTileJumpMorph" ],
+                  "obstacles": [
+                    {
+                      "id": "A",
+                      "requires": ["h_canDestroyBombWalls"]
+                    }
                   ]
                 },
                 {
-                  "name": "X-Ray Escape Wall Morph",
+                  "name": "Running Jump Morph",
                   "notable": false,
-                  "requires": [ "h_canTwoTileJumpMorph" ]
-                },
-                {
-                  "name": "X-Ray Escape Running Morph",
-                  "notable": false,
-                  "requires": ["canLateralMidAirMorph"],
+                  "requires": [
+                    "canLateralMidAirMorph",
+                    "canTrickyJump"
+                  ],
+                  "obstacles": [
+                    {
+                      "id": "A",
+                      "requires": ["h_canDestroyBombWalls"]
+                    }
+                  ],
                   "note": "A running lateral mid-air morph can squeeze into the hole with good enough timing."
                 }
               ]
@@ -1377,13 +1679,25 @@
                       "nodes": [2],
                       "mustStayPut": true
                     }},
-                    {"adjacentRunway": {
-                      "fromNode": 2,
-                      "usedTiles": 0.5,
-                      "overrideRunwayRequirements": true,
-                      "physics": ["normal"],
-                      "useFrames": 200
-                    }}
+                    {"or": [
+                      {"adjacentRunway": {
+                        "fromNode": 2,
+                        "usedTiles": 0.5,
+                        "overrideRunwayRequirements": true,
+                        "physics": ["normal"],
+                        "useFrames": 200
+                      }},
+                      {"and": [
+                        "canSubmergedLeftFacingDoorXRayClimb",
+                        {"adjacentRunway": {
+                          "fromNode": 2,
+                          "usedTiles": 0.5,
+                          "overrideRunwayRequirements": true,
+                          "physics": ["water"],
+                          "useFrames": 200
+                        }}
+                      ]}
+                    ]}
                   ]
                 }
               ]
@@ -1400,6 +1714,41 @@
                   "name": "Base",
                   "notable": false,
                   "requires": ["h_canBombThings"]
+                },
+                {
+                  "name": "Jump and Speedball",
+                  "notable": false,
+                  "requires": [
+                    "Spazer",
+                    "canMockball",
+                    "canCarefulJump",
+                    {"canComeInCharged": {
+                      "framesRemaining": 180,
+                      "shinesparkFrames": 0,
+                      "fromNode": 3,
+                      "unusableTiles": 1
+                    }}
+                  ],
+                  "note": "Shoot forward with spazer to break the shot block, then jump into the morph tunnel while staying blue to break a bomb block."
+                },
+                {
+                  "name": "Below Spazer Jump Shot Speedball",
+                  "notable": true,
+                  "requires": [
+                    "canMockball",
+                    "canTrickyJump",
+                    {"canComeInCharged": {
+                      "framesRemaining": 180,
+                      "shinesparkFrames": 0,
+                      "fromNode": 3,
+                      "unusableTiles": 1
+                    }}
+                  ],
+                  "note": [
+                    "Jump from the Spazer Room door with speed to break the bomb blocks.",
+                    "Time a precise shot during the jump to clear the shot block.",
+                    "Note: Spazer can trivially break the shot block by shooting forward before jumping."
+                  ]
                 }
               ]
             }
@@ -1706,7 +2055,7 @@
                     {"obstaclesCleared": ["A"]}
                   ],
                   "note": "Slow rolling or getting a fast mockball work equally well."
-                  
+
                 }
               ]
             }
@@ -2167,6 +2516,13 @@
           "homeNodes": [ 2 ]
         }
       ],
+      "obstacles": [
+        {
+          "id": "A",
+          "name": "Hopping Boyons",
+          "obstacleType": "enemies"
+        }
+      ],
       "links": [
         {
           "from": 1,
@@ -2175,9 +2531,81 @@
               "id": 2,
               "strats": [
                 {
-                  "name": "Base",
+                  "name": "Damageless",
                   "notable": false,
-                  "requires": []
+                  "requires": [
+                    {"or": [
+                      "canTrickyJump",
+                      "Ice",
+                      {"obstaclesCleared": ["A"]},
+                      "h_canUseSpringBall",
+                      "can3HighMidAirMorph",
+                      {"and": [
+                        "SpaceJump",
+                        "canCarefulJump"
+                      ]},
+                      {"and": [
+                        "SpaceJump",
+                        "ScrewAttack"
+                      ]},
+                      {"and": [
+                        "ScrewAttack",
+                        "canCarefulJump"
+                      ]},
+                      {"and": [
+                        "canCarefulJump",
+                        {"canComeInCharged": {
+                          "framesRemaining": 180,
+                          "fromNode": 1,
+                          "shinesparkFrames": 0
+                        }}
+                      ]}
+                    ]}
+                  ]
+                },
+                {
+                  "name": "Kill Boyons",
+                  "notable": false,
+                  "requires": [],
+                  "obstacles": [
+                    {
+                      "id": "A",
+                      "requires": [
+                        {"enemyKill": {
+                          "enemies": [ [ "Boyon", "Boyon", "Boyon", "Boyon" ] ]
+                        }}
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "Take Damage",
+                  "notable": false,
+                  "requires": [
+                    {"or": [
+                      {"enemyDamage": {
+                        "enemy": "Boyon",
+                        "type": "contact",
+                        "hits": 2
+                      }},
+                      {"and": [
+                        "canCarefulJump",
+                        {"enemyDamage": {
+                          "enemy": "Boyon",
+                          "type": "contact",
+                          "hits": 1
+                        }}
+                      ]},
+                      {"and": [
+                        "canDamageBoost",
+                        {"enemyDamage": {
+                          "enemy": "Boyon",
+                          "type": "contact",
+                          "hits": 1
+                        }}
+                      ]}
+                    ]}
+                  ]
                 }
               ]
             }
@@ -2190,9 +2618,73 @@
               "id": 1,
               "strats": [
                 {
-                  "name": "Base",
+                  "name": "Damageless",
                   "notable": false,
-                  "requires": []
+                  "requires": [
+                    {"or": [
+                      "canTrickyJump",
+                      "Ice",
+                      {"obstaclesCleared": ["A"]},
+                      "h_canUseSpringBall",
+                      "can3HighMidAirMorph",
+                      {"and": [
+                        "SpaceJump",
+                        "canCarefulJump"
+                      ]},
+                      {"and": [
+                        "SpaceJump",
+                        "ScrewAttack"
+                      ]},
+                      {"and": [
+                        "ScrewAttack",
+                        "canCarefulJump"
+                      ]}
+                    ]}
+                  ]
+                },
+                {
+                  "name": "Kill Boyons",
+                  "notable": false,
+                  "requires": [],
+                  "obstacles": [
+                    {
+                      "id": "A",
+                      "requires": [
+                        {"enemyKill": {
+                          "enemies": [ [ "Boyon", "Boyon", "Boyon", "Boyon" ] ]
+                        }}
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "Take Damage",
+                  "notable": false,
+                  "requires": [
+                    {"or": [
+                      {"enemyDamage": {
+                        "enemy": "Boyon",
+                        "type": "contact",
+                        "hits": 2
+                      }},
+                      {"and": [
+                        "canCarefulJump",
+                        {"enemyDamage": {
+                          "enemy": "Boyon",
+                          "type": "contact",
+                          "hits": 1
+                        }}
+                      ]},
+                      {"and": [
+                        "canDamageBoost",
+                        {"enemyDamage": {
+                          "enemy": "Boyon",
+                          "type": "contact",
+                          "hits": 1
+                        }}
+                      ]}
+                    ]}
+                  ]
                 }
               ]
             },
@@ -2203,6 +2695,23 @@
                   "name": "Base",
                   "notable": false,
                   "requires": [ "h_canUsePowerBombs" ]
+                },
+                {
+                  "name": "Kill Boyons and PB Blocks",
+                  "notable": false,
+                  "requires": [ {"obstaclesNotCleared": ["A"]} ],
+                  "obstacles": [
+                    {
+                      "id": "A",
+                      "requires": [
+                        {"enemyKill": {
+                          "enemies": [ [ "Boyon", "Boyon", "Boyon", "Boyon" ] ],
+                          "explicitWeapons": [ "PowerBomb" ]
+                        }}
+                      ]
+                    }
+                  ],
+                  "note": "Place the PB on the block next to the leftmost Boyon, in order to double hit all Boyons and break the PB blocks."
                 }
               ]
             }
