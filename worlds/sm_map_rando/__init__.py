@@ -346,10 +346,12 @@ class SMMapRandoWorld(World):
         sorted_item_locs = list(self.locations.values())
         items = [(itemLoc.item.code if isinstance(itemLoc.item, SMMRItem) else self.item_name_to_id['ArchipelagoItem']) - items_start_id for itemLoc in sorted_item_locs if itemLoc.address is not None]
 
-        patched_rom_bytes = patch_rom(get_base_rom_path(), self.map_rando.randomizer, items)
+        print("patch_rom begin");
+        patched_rom_bytes = patch_rom(get_base_rom_path(), self.map_rando.randomizer, items, self.multiworld.state.smmrcs[self.player].randomization_state)
         #patched_rom_bytes = None
         #with open(get_base_rom_path(), "rb") as stream:
         #    patched_rom_bytes = stream.read()
+        print("patch_rom end");
 
         patches = []
         patches.append(IPS_Patch.load("/".join((os.path.dirname(self.__file__),
