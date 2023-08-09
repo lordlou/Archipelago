@@ -91,6 +91,8 @@ class SMMapRandoWorld(World):
                                 enumerate(itertools.chain(
                                     zip(gamedata.get_location_names(), gamedata.get_location_addresses()), 
                                     zip(gamedata.flag_isv, [None] * len(gamedata.flag_isv))))}
+    
+    flag_location_names = {name: i for i, name in enumerate(gamedata.get_flag_location_names())}
 
     web = SMMapRandoWeb()
 
@@ -169,7 +171,9 @@ class SMMapRandoWorld(World):
 
         # create locations
         for loc_name, id in SMMapRandoWorld.location_name_to_id.items():
-            self.locations[loc_name] = SMMRLocation(self.player, loc_name, id - locations_start_id if id < locations_start_id + locations_flag_start else None)
+            is_flag = id < locations_start_id + locations_flag_start
+            if is_flag or loc_name in SMMapRandoWorld.flag_location_names.keys():
+                self.locations[loc_name] = SMMRLocation(self.player, loc_name, id - locations_start_id if is_flag else None)
         
         # create regions
         regions = []
@@ -182,7 +186,7 @@ class SMMapRandoWorld(World):
                                                 [location_name] if location_name != None else None))
 
         self.vertex_cnt = len(regions)    
-        for i, flag_name in enumerate(self.map_rando.randomizer.game_data.flag_isv):
+        for i, flag_name in enumerate(SMMapRandoWorld.flag_location_names.keys()):
             regions.append(self.create_region(  self.multiworld, 
                                                 self.player, 
                                                 flag_name,
@@ -209,12 +213,13 @@ class SMMapRandoWorld(World):
 
         self.events_connections = self.map_rando.randomizer.game_data.get_event_vertex_ids()
 
-        for vertex_id, flag_id in self.events_connections.items():
-            src_region = regions[vertex_id]
-            dest_region = regions[self.vertex_cnt + flag_id]
-            srcDestEntrance = SMMREntrance(self.player, src_region.name + "->" + dest_region.name, src_region, link_map, link_map_debug)
-            src_region.exits.append(srcDestEntrance)
-            srcDestEntrance.connect(dest_region)  
+        for vertex_id, flag_ids in self.events_connections.items():
+            for flag_id in flag_ids:
+                src_region = regions[vertex_id]
+                dest_region = regions[self.vertex_cnt + SMMapRandoWorld.flag_location_names[self.map_rando.randomizer.game_data.flag_isv[flag_id]]]
+                srcDestEntrance = SMMREntrance(self.player, src_region.name + "->" + dest_region.name, src_region)
+                src_region.exits.append(srcDestEntrance)
+                srcDestEntrance.connect(dest_region)  
 
         self.multiworld.regions += [self.create_region(self.multiworld, self.player, 'Menu', -1, None, ['StartAP'])]
 
@@ -242,13 +247,13 @@ class SMMapRandoWorld(World):
         self.multiworld.itempool += pool
 
         gamedata = self.map_rando.randomizer.game_data
-        for i, flag_name in enumerate(gamedata.flag_isv):
-            item = SMMRItem(SMMapRandoWorld.item_id_to_name[items_start_id + len(gamedata.item_isv) + i], 
+        for flag_name, i in SMMapRandoWorld.flag_location_names.items():
+            item = SMMRItem(flag_name, 
                             ItemClassification.progression, 
                             None,
                             player=self.player)
-            self.multiworld.get_location(gamedata.flag_isv[i], self.player).place_locked_item(item)
-            self.multiworld.get_location(gamedata.flag_isv[i], self.player).address = None 
+            self.multiworld.get_location(flag_name, self.player).place_locked_item(item)
+            self.multiworld.get_location(flag_name, self.player).address = None 
         
     def set_rules(self):
         goals = [
@@ -682,12 +687,19 @@ class SMMRRegion(Region):
             state.stale[self.player] = False
             (bi_reachability, f_reachability, r_reachability) = local_world.map_rando.update_reachability(state.smmrcs[self.player].randomization_state)
             for i, region in enumerate(bi_reachability):
+                if f_reachability[i] and local_world.events_connections.get(i, None) != None:
+                    state.reachable_regions[self.player].add(local_world.region_dict[i])
+                    event_src = local_world.events_connections.get(i, None)
+                    if (event_src != None):
+                        for event in event_src:
+                            state.reachable_regions[self.player].add(local_world.region_dict[local_world.vertex_cnt + SMMapRandoWorld.flag_location_names[local_world.map_rando.randomizer.game_data.flag_isv[event]]])
                 if region:
                     state.reachable_regions[self.player].add(local_world.region_dict[i])
                     # check for added events regions that MapRando doesnt know about
                     event_src = local_world.events_connections.get(i, None)
                     if (event_src != None):
-                        state.reachable_regions[self.player].add(local_world.region_dict[local_world.vertex_cnt + event_src])
+                        for event in event_src:
+                            state.reachable_regions[self.player].add(local_world.region_dict[local_world.vertex_cnt + SMMapRandoWorld.flag_location_names[local_world.map_rando.randomizer.game_data.flag_isv[event]]])
                 if (f_reachability[i]):
                     f_regions.add(local_world.region_dict[i])
                 if (r_reachability[i]):
