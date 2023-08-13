@@ -172,9 +172,9 @@ class SMMapRandoWorld(World):
 
         # create locations
         for loc_name, id in SMMapRandoWorld.location_name_to_id.items():
-            is_flag = id < locations_start_id + locations_flag_start
-            if is_flag or loc_name in SMMapRandoWorld.flag_location_names.keys():
-                self.locations[loc_name] = SMMRLocation(self.player, loc_name, id - locations_start_id if is_flag else None)
+            is_not_flag = id < locations_start_id + locations_flag_start
+            if is_not_flag or loc_name in SMMapRandoWorld.flag_location_names.keys():
+                self.locations[loc_name] = SMMRLocation(self.player, loc_name, id if is_not_flag else None)
         
         # create regions
         regions = []
@@ -444,7 +444,7 @@ class SMMapRandoWorld(World):
                                              otherPlayerIndex else 0)
                 [w6, w7] = self.getWordArray(0 if itemLoc.item.advancement else 1)
                 multiWorldLocations.append({"sym": symbols["rando_item_table"],
-                                            "offset": itemLoc.address*8,
+                                            "offset": (itemLoc.address - locations_start_id)*8,
                                             "values": [w0, w1, w2, w3, w4, w5, w6, w7]})
 
         itemSprites = [{"fileName":          "off_world_prog_item.bin",
