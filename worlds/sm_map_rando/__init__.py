@@ -142,6 +142,7 @@ class SMMapRandoWorld(World):
                           0, #quality_of_life_preset
                           )
         self.map_rando = APRandomizer(options, world.seed // 10)
+        self.update_reachability = 0
         
 
     @classmethod
@@ -177,7 +178,7 @@ class SMMapRandoWorld(World):
         
         # create regions
         regions = []
-        self.region_dict = {}
+        #self.region_dict = []
         for i, (vertex_name, location_name) in enumerate(self.map_rando.randomizer.game_data.get_vertex_names()):
             regions.append(self.create_region(  self.multiworld, 
                                                 self.player, 
@@ -193,12 +194,18 @@ class SMMapRandoWorld(World):
                                                 self.vertex_cnt + i,
                                                 [flag_name]))
 
-        for region in regions:
-            self.region_dict[region.index] = region
+        #for region in regions:
+        #    self.region_dict[region.index] = region
+        self.region_dict = regions
 
         self.multiworld.regions += regions
 
+        self.events_connections = self.map_rando.randomizer.game_data.get_event_vertex_ids()
+        (self.region_map, self.region_map_reverse) = self.map_rando.randomizer.game_data.get_regions_map()
+        self.flag_id_to_region_dict = [SMMapRandoWorld.flag_location_names.get(flag, None) for flag in self.map_rando.randomizer.game_data.flag_isv]
+
         #create entrances
+        #"""
         links_infos = self.map_rando.get_links_infos()
         for (link_from, link_to), link_map in links_infos.items():
             src_region = regions[link_from]
@@ -211,16 +218,14 @@ class SMMapRandoWorld(World):
             srcDestEntrance.connect(dest_region)
             # add_entrance_rule(srcDestEntrance, self.player, link_from)
 
-        self.events_connections = self.map_rando.randomizer.game_data.get_event_vertex_ids()
-
         for vertex_id, flag_ids in self.events_connections.items():
             for flag_id in flag_ids:
-                src_region = regions[vertex_id]
+                src_region = regions[self.region_map[vertex_id]]
                 dest_region = regions[self.vertex_cnt + SMMapRandoWorld.flag_location_names[self.map_rando.randomizer.game_data.flag_isv[flag_id]]]
                 srcDestEntrance = SMMREntrance(self.player, src_region.name + "->" + dest_region.name, src_region)
                 src_region.exits.append(srcDestEntrance)
                 srcDestEntrance.connect(dest_region)  
-
+        #"""
         self.multiworld.regions += [self.create_region(self.multiworld, self.player, 'Menu', -1, None, ['StartAP'])]
 
         #victory_entrance = self.multiworld.get_entrance("Ship->Escape Zebes", self.player)
@@ -237,8 +242,8 @@ class SMMapRandoWorld(World):
                 # 3 etanks
                 # 3 missiles
                 # 2 supers
-                # 1 powerbomb
-                is_progression = item_count == 0 if idx > 2 else (item_count < 3 if idx < 2 else item_count < 2)
+                # 2 powerbomb
+                is_progression = item_count == 0 if idx > 3 else (item_count < 3 if idx < 2 else item_count < 2)
                 mr_item = SMMRItem(SMMapRandoWorld.item_id_to_name[items_start_id + idx], 
                             ItemClassification.progression if is_progression else ItemClassification.filler, 
                             items_start_id + idx, 
@@ -684,25 +689,27 @@ class SMMRRegion(Region):
         r_regions = set()
         if state.stale[self.player]:
             local_world = self.multiworld.worlds[self.player]
+            rrp = state.reachable_regions[self.player]
             state.stale[self.player] = False
             (bi_reachability, f_reachability, r_reachability) = local_world.map_rando.update_reachability(state.smmrcs[self.player].randomization_state)
+            local_world.update_reachability += 1
             for i, region in enumerate(bi_reachability):
-                if f_reachability[i] and local_world.events_connections.get(i, None) != None:
-                    state.reachable_regions[self.player].add(local_world.region_dict[i])
-                    event_src = local_world.events_connections.get(i, None)
-                    if (event_src != None):
-                        for event in event_src:
-                            state.reachable_regions[self.player].add(local_world.region_dict[local_world.vertex_cnt + SMMapRandoWorld.flag_location_names[local_world.map_rando.randomizer.game_data.flag_isv[event]]])
+                #if f_reachability[i] and local_world.events_connections.get(local_world.region_map_reverse[i], None) != None:
+                #    state.reachable_regions[self.player].add(local_world.region_dict[i])
+                #    event_src = local_world.events_connections.get(local_world.region_map_reverse[i], None)
+                #    if (event_src != None):
+                #        for event in event_src:
+                #            state.reachable_regions[self.player].add(local_world.region_dict[local_world.vertex_cnt + SMMapRandoWorld.flag_location_names[local_world.map_rando.randomizer.game_data.flag_isv[event]]])
                 if region:
-                    state.reachable_regions[self.player].add(local_world.region_dict[i])
+                    rrp.add(local_world.region_dict[i])
                     # check for added events regions that MapRando doesnt know about
-                    event_src = local_world.events_connections.get(i, None)
+                    event_src = local_world.events_connections.get(local_world.region_map_reverse[i], None)
                     if (event_src != None):
                         for event in event_src:
-                            state.reachable_regions[self.player].add(local_world.region_dict[local_world.vertex_cnt + SMMapRandoWorld.flag_location_names[local_world.map_rando.randomizer.game_data.flag_isv[event]]])
-                if (f_reachability[i]):
-                    f_regions.add(local_world.region_dict[i])
-                if (r_reachability[i]):
-                    r_regions.add(local_world.region_dict[i])
+                            rrp.add(local_world.region_dict[local_world.flag_id_to_region_dict[event] + local_world.vertex_cnt])
+                #if (f_reachability[i]):
+                #    f_regions.add(local_world.region_dict[i])
+                #if (r_reachability[i]):
+                #    r_regions.add(local_world.region_dict[i])
             #state.update_reachable_regions(self.player)
         return self in state.reachable_regions[self.player]
