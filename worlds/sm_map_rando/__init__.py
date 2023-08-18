@@ -134,12 +134,12 @@ class SMMapRandoWorld(World):
                           False, #respin
                           False, #infinite_space_jump
                           False, #disable_walljump
-                          False, #maps_revealed
+                          True, #maps_revealed
                           world.vanilla_map[self.player].value == 1,
                           False, #ultra_low_qol
                           "", #skill_assumptions_preset
                           "", #item_progression_preset
-                          0, #quality_of_life_preset
+                          2, #quality_of_life_preset
                           )
         self.map_rando = APRandomizer(options, world.seed // 10)
         self.update_reachability = 0
@@ -354,7 +354,7 @@ class SMMapRandoWorld(World):
         
     def generate_output(self, output_directory: str):
         sorted_item_locs = list(self.locations.values())
-        items = [(itemLoc.item.code if isinstance(itemLoc.item, SMMRItem) else self.item_name_to_id['ArchipelagoItem']) - items_start_id for itemLoc in sorted_item_locs if itemLoc.address is not None]
+        items = [(itemLoc.item.code if isinstance(itemLoc.item, SMMRItem) else (self.item_name_to_id['ArchipelagoProgItem'] if itemLoc.item.classification == ItemClassification.progression else self.item_name_to_id['ArchipelagoItem'])) - items_start_id for itemLoc in sorted_item_locs if itemLoc.address is not None]
 
         print("patch_rom begin");
         patched_rom_bytes = patch_rom(get_base_rom_path(), self.map_rando.randomizer, items, self.multiworld.state.smmrcs[self.player].randomization_state)
