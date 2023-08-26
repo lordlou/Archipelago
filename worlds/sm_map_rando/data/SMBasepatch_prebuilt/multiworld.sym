@@ -11,7 +11,7 @@
 80:D6F1 :neg_1_7
 80:D703 :neg_1_8
 80:D24C :pos_1_0
-80:D5F0 :pos_1_1
+80:D5F4 :pos_1_1
 84:F62B :pos_1_2
 84:F635 :pos_1_3
 80:D722 :pos_1_4
@@ -150,7 +150,7 @@ CE:FF02 config_sprite
 84:F52E p_visible_item_end
 84:F51B p_visible_item_loop
 84:F527 p_visible_item_trigger
-80:D5F1 patch_load_multiworld
+80:D5F5 patch_load_multiworld
 84:F63E perform_item_pickup
 84:F446 plm_graphics_entry_offworld_item
 84:F43C plm_graphics_entry_offworld_progression_item
@@ -173,7 +173,7 @@ CE:FF02 config_sprite
 80:D334 write_repeated_memory_loop
 
 [source files]
-0000 ca5c7d9e main.asm
+0000 0fcdcfe4 main.asm
 0001 edcd93d6 ../../common/nofanfare.asm
 0002 b05df650 ../../common/multiworld.asm
 0003 f7e9db95 ../../common/itemextras.asm
@@ -181,7 +181,7 @@ CE:FF02 config_sprite
 0005 dbfcb38d ../../common/startitem.asm
 
 [rom checksum]
-ba6632a6
+409217da
 
 [addr-to-line mapping]
 ff:ffff 0000:00000001
@@ -632,22 +632,23 @@ ff:ffff 0000:00000001
 80:d5cf 0002:000002d9
 80:d5d0 0002:000002da
 80:d5d1 0002:000002de
-80:d5d5 0002:000002e0
-80:d5d9 0002:000002e1
-80:d5db 0002:000002e2
-80:d5df 0002:000002e3
-80:d5e2 0002:000002e4
-80:d5e4 0002:000002e5
-80:d5e8 0002:000002e6
-80:d5eb 0002:000002e7
-80:d5ed 0002:000002e8
-80:d5f0 0002:000002ea
-80:d5f1 0002:000002ed
-80:d5f5 0002:000002ef
-80:d5f6 0002:000002f0
-80:d5f7 0002:000002f1
-80:d5f8 0002:000002f2
-80:d5f9 0002:000002f3
+80:d5d5 0002:000002df
+80:d5d9 0002:000002e0
+80:d5dd 0002:000002e1
+80:d5df 0002:000002e2
+80:d5e3 0002:000002e3
+80:d5e6 0002:000002e4
+80:d5e8 0002:000002e5
+80:d5ec 0002:000002e6
+80:d5ef 0002:000002e7
+80:d5f1 0002:000002e8
+80:d5f4 0002:000002ea
+80:d5f5 0002:000002ed
+80:d5f9 0002:000002ef
+80:d5fa 0002:000002f0
+80:d5fb 0002:000002f1
+80:d5fc 0002:000002f2
+80:d5fd 0002:000002f3
 8b:914a 0002:000002f8
 81:80f7 0002:000002fb
 81:8027 0002:000002fe

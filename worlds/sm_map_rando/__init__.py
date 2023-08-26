@@ -36,7 +36,7 @@ class SMMRCollectionState(metaclass=AutoLogicRegister):
         
         # for unit tests where MultiWorld is instantiated before worlds
         if hasattr(parent, "state"):
-            self.smmrcs = {player: copy.deepcopy(parent.state.smmrcs[player]) for player in parent.get_game_players(SMMapRandoWorld.game)}
+            self.smmrcs = {player: parent.state.smmrcs[player].copy() for player in parent.get_game_players(SMMapRandoWorld.game)}
             for player, group in parent.groups.items():
                 if (group["game"] == SMMapRandoWorld.game):
                     self.smmrcs[player] = APCollectionState(None)
@@ -46,7 +46,7 @@ class SMMRCollectionState(metaclass=AutoLogicRegister):
             self.smmrcs = {}
 
     def copy_mixin(self, ret) -> CollectionState:
-        ret.smmrcs = {player: copy.deepcopy(self.smmrcs[player]) for player in self.smmrcs}
+        ret.smmrcs = {player: self.smmrcs[player].copy() for player in self.smmrcs}
         return ret
 
 class SMMapRandoWeb(WebWorld):
@@ -123,9 +123,9 @@ class SMMapRandoWorld(World):
                           False, #escape_refill
                           world.escape_movement_items[self.player].value == 1,
                           world.mark_map_stations[self.player].value == 1,
-                          False, #transition_letters
+                          True, #transition_letters
                           world.item_markers[self.player].value,
-                          False, #item_dots_disappear
+                          True, #item_dots_disappear
                           world.all_items_spawn[self.player].value == 1,
                           False, #acid_chozo
                           world.fast_elevators[self.player].value == 1,
@@ -134,7 +134,7 @@ class SMMapRandoWorld(World):
                           False, #respin
                           False, #infinite_space_jump
                           False, #disable_walljump
-                          True, #maps_revealed
+                          False, #maps_revealed
                           world.vanilla_map[self.player].value == 1,
                           False, #ultra_low_qol
                           "", #skill_assumptions_preset
@@ -151,8 +151,19 @@ class SMMapRandoWorld(World):
         if not os.path.exists(rom_file):
             raise FileNotFoundError(rom_file)
 
+    """  
+    @classmethod
+    def stage_fill_hook(cls, world, progitempool, usefulitempool, filleritempool, fill_locations):
+        if world.get_game_players(cls.game):
+            progitempool.sort(
+                key=lambda item: 1 if (item.name == 'Morph' or item.name == 'Varia' or item.name == 'Gravity') else 0)
+    """
+
     def generate_early(self):
         self.multiworld.state.smmrcs[self.player] = APCollectionState(self.multiworld.worlds[self.player].map_rando)
+        #self.multiworld.local_early_items[self.player]['Morph'] = 1
+        #self.multiworld.local_early_items[self.player]['Varia'] = 1
+        #self.multiworld.local_early_items[self.player]['Gravity'] = 1
 
     def create_region(self, world: MultiWorld, player: int, name: str, index: int, locations=None, exits=None):
         ret = SMMRRegion(name, player, world, index)
@@ -239,11 +250,13 @@ class SMMapRandoWorld(World):
         pool = []
         for idx, type_count in enumerate(self.map_rando.randomizer.initial_items_remaining):
             for item_count in range(type_count):
-                # 3 etanks
-                # 3 missiles
-                # 2 supers
-                # 2 powerbomb
-                is_progression = item_count == 0 if idx > 3 else (item_count < 3 if idx < 2 else item_count < 2)
+                minor_count = [
+                    3, # etanks
+                    3, # missiles
+                    2, # supers
+                    2  # powerbomb
+                ]
+                is_progression = item_count == 0 if idx > 3 else (item_count < minor_count[idx])
                 mr_item = SMMRItem(SMMapRandoWorld.item_id_to_name[items_start_id + idx], 
                             ItemClassification.progression if is_progression else ItemClassification.filler, 
                             items_start_id + idx, 
