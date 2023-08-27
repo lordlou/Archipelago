@@ -173,15 +173,15 @@ CE:FF02 config_sprite
 80:D334 write_repeated_memory_loop
 
 [source files]
-0000 0fcdcfe4 main.asm
+0000 8ed2b8f3 main.asm
 0001 edcd93d6 ../../common/nofanfare.asm
-0002 b05df650 ../../common/multiworld.asm
+0002 08c8be14 ../../common/multiworld.asm
 0003 f7e9db95 ../../common/itemextras.asm
 0004 b0dd378a ../../common/items.asm
 0005 dbfcb38d ../../common/startitem.asm
 
 [rom checksum]
-409217da
+045a2832
 
 [addr-to-line mapping]
 ff:ffff 0000:00000001
