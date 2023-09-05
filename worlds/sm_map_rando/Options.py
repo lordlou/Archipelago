@@ -56,6 +56,15 @@ class EscapeTimerMultiplier(Range):
     range_end = 3
     default = 1
 
+class RandomizedStart(Toggle):
+    """
+    This setting determines where Samus begins the game:
+
+    - Ship: Samus begins in Landing Site at the Ship.
+    - Random: Samus begins in a random room somewhere on Zebes.
+    """
+    display_name = "Randomized start location"  
+
 class PhantoonProficiency(Range):
     """Skill level at the Phantoon fight, between 0 and 100"""
     display_name = "Phantoon proficiency"
@@ -160,6 +169,18 @@ class EscapeEnemiesCleared(Toggle):
     """
     display_name = "Escape enemies cleared"
 
+class EscapeRefill(Toggle):
+    """
+    If this option is enabled, then Samus' energy is refilled at the beginning of the escape sequence. 
+    This is mainly effective in combination with the "Short" Mother Brain option (which is the default),
+    to compensate for not being refilled by the Baby Metroid.
+
+    If this option is disabled, it is possible that the escape may require having collected Reserve Tanks 
+    and/or manipulating Mother Brain to end the fight with more energy (up to 340, by damaging down correctly 
+    and disabling suits).
+    """
+    display_name = "Refill energy for escape"
+
 class EscapeMovementItems(Toggle):
     """
     If enabled, Samus will collect and equip all movement items when acquiring Hyper Beam:
@@ -192,6 +213,17 @@ class MarkMapStations(Toggle):
     """
     display_name = "Mark map stations"
 
+class TransitionLetters(Toggle):
+    """
+    This option affects how transitions between areas are marked on the map:
+
+    - Off: An arrow is used, showing the direction of the transition.
+    - On: A letter is used, the first letter of the name of the neighboring area.
+
+    In both cases, transitions markers (arrows or letters) are colored according to the neighboring area's color.
+    """
+    display_name = "Area transition markers on map"
+
 class ItemMarkers(Choice):
     """
     This option affects the way that items are drawn on the map (pause menu map and HUD minimap). There are four choices:
@@ -207,6 +239,12 @@ class ItemMarkers(Choice):
     option_Majors = 1
     option_Uniques = 2
     option_3Tiered = 3
+
+class ItemDotsDisappear(Toggle):
+    """
+    If enabled, this option makes item dots disappear on the map after item collection:
+    """
+    display_name = "Item dots after collection"
 
 class AllItemsSpawn(Toggle):
     """
@@ -224,6 +262,15 @@ class AllItemsSpawn(Toggle):
     items will spawn from the beginning of the game instead of requiring those conditions.
     """
     display_name = "All items spawn"
+
+class AcidChozo(Toggle):
+    """
+    In the vanilla game, the statue in Acid Chozo Statue Room will not activate (to lower the acid) 
+    unless Space Jump has been collected. This option removes this requirement, allowing the statue
+    to be activated without Space Jump.
+    """
+    display_name = "Acid Chozo usable without Space Jump"
+
 
 class FastElevators(Toggle):
     """
@@ -243,6 +290,61 @@ class FastDoors(Toggle):
     """
     display_name = "Fast doors"
 
+class FastPauseMenu(Toggle):
+    """
+    If enabled, this increases the speed and responsiveness of pause menu navigation:
+
+    - It is no longer needed to hold L, R, or Start for 4 frames for these inputs to have their effect.
+    - The fade-in and fade-out of the pause menu is faster.
+    - Fade-in and fade-out are faster when switching between map and equipment screens with L & R.
+    - Fade-in and fade-out are faster when switching between maps with Select.
+    - Diagonal scrolling is enabled on the map screen.
+    Changes are avoided that could meaningfully affect pause buffering strats or game behavior:
+
+    - Fade-out of gameplay while pausing is unaffected.
+    - Fade-in of gameplay while unpausing is unaffected.
+    """
+    display_name = "Fast pause menu"
+
+class Respin(Toggle):
+    """
+    If enabled, you can press jump to make Samus spin while mid-air. For example, this can be used 
+    after having broken spin, or when falling or jumping without spin.
+
+    Note: The randomizer logic does not take this setting into account. Therefore, even when it is enabled,
+    the game will not require it to be used, and it may create sequence break opportunities.
+    """
+    display_name = "Respin"
+
+class InfiniteSpaceJump(Toggle):
+    """
+    If enabled, Space Jump behaves in air the same as it does underwater, making it easier to use by widening 
+    the window of time to press jump.
+
+    Note: The randomizer logic does not take this setting into account. Therefore, even when it is enabled, 
+    the game will not require it to be used, and it may create sequence break opportunities.
+    """
+    display_name = "Lenient Space Jump"
+
+class DisableWalljump(Toggle):
+    """
+    This removes the ability to wall jump from the game.
+
+    This setting is taken into account in the logic: even if "canWalljump" tech is enabled, the game logic 
+    will be overridden to not assume an ability to wall jump.
+
+    With this setting you can still get a wall-jump check, but pressing jump during the check will 
+    not actually trigger a wall jump.
+    """
+    display_name = "Disable wall jumps"
+
+class MapsRevealed(Toggle):
+    """
+    When enabled, all maps are fully revealed from the beginning of the game, without needing to activate the map stations.
+    """
+    display_name = "Maps revealed from start"
+
+
 class VanillaMap(Toggle):
     """
     If enabled, replace randomization of rooms and use the vanilla map layout instead.
@@ -259,6 +361,7 @@ smmr_options: typing.Dict[str, type(Option)] = {
     "shinespark_tiles": ShinesparkTiles,
     "resource_multiplier": ResourceMultiplier,
     "escape_timer_multiplier": EscapeTimerMultiplier,
+    "randomized_start": RandomizedStart,
     "phantoon_proficiency": PhantoonProficiency,
     "draygon_proficiency": DraygonProficiency,
     "ridley_proficiency": RidleyProficiency,
@@ -270,11 +373,20 @@ smmr_options: typing.Dict[str, type(Option)] = {
     "supers_double": SupersDouble,
     "mother_brain_short": MotherBrainShort,
     "escape_enemies_cleared": EscapeEnemiesCleared,
+    "escape_refill": EscapeRefill,
     "escape_movement_items": EscapeMovementItems,
     "mark_map_stations": MarkMapStations,
+    "transition_letters": TransitionLetters,
     "item_markers": ItemMarkers,
+    "item_dots_disappear": ItemDotsDisappear,
     "all_items_spawn": AllItemsSpawn,
+    "acid_chozo": AcidChozo,
     "fast_elevators": FastElevators,
     "fast_doors": FastDoors,
+    "fast_pause_menu": FastPauseMenu,
+    "respin": Respin,
+    "infinite_space_jump": InfiniteSpaceJump,
+    "disable_walljump": DisableWalljump,
+    "maps_revealed": MapsRevealed,
     "vanilla_map": VanillaMap,
     }

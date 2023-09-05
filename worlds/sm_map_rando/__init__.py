@@ -113,35 +113,35 @@ class SMMapRandoWorld(World):
                           world.ridley_proficiency[self.player].value,
                           world.botwoon_proficiency[self.player].value,
                           world.escape_timer_multiplier[self.player].value,
-                          False, #randomized_start
+                          world.randomized_start[self.player].value == 1,
                           world.save_animals[self.player].value == 1,
                           world.objectives[self.player].value,
                           "", #filler_items
                           world.supers_double[self.player].value == 1,
                           world.mother_brain_short[self.player].value == 1,
                           world.escape_enemies_cleared[self.player].value == 1,
-                          False, #escape_refill
+                          world.escape_refill[self.player].value == 1,
                           world.escape_movement_items[self.player].value == 1,
                           world.mark_map_stations[self.player].value == 1,
-                          True, #transition_letters
+                          world.transition_letters[self.player].value == 1,
                           world.item_markers[self.player].value,
-                          True, #item_dots_disappear
+                          world.item_dots_disappear[self.player].value == 1,
                           world.all_items_spawn[self.player].value == 1,
-                          False, #acid_chozo
+                          world.acid_chozo[self.player].value == 1,
                           world.fast_elevators[self.player].value == 1,
                           world.fast_doors[self.player].value == 1,
-                          False, #fast_pause_menu
-                          False, #respin
-                          False, #infinite_space_jump
-                          False, #disable_walljump
-                          False, #maps_revealed
+                          world.fast_pause_menu[self.player].value == 1,
+                          world.respin[self.player].value == 1,
+                          world.infinite_space_jump[self.player].value == 1,
+                          world.disable_walljump[self.player].value == 1,
+                          world.maps_revealed[self.player].value == 1,
                           world.vanilla_map[self.player].value == 1,
                           False, #ultra_low_qol
                           "", #skill_assumptions_preset
                           "", #item_progression_preset
                           2, #quality_of_life_preset
                           )
-        self.map_rando = APRandomizer(options, world.seed // 10)
+        self.map_rando = APRandomizer(options, world.random.randint(1, sys.maxsize)) # world.seed // 10)
         self.update_reachability = 0
         
 
@@ -216,7 +216,7 @@ class SMMapRandoWorld(World):
         self.flag_id_to_region_dict = [SMMapRandoWorld.flag_location_names.get(flag, None) for flag in self.map_rando.randomizer.game_data.flag_isv]
 
         #create entrances
-        #"""
+        """
         links_infos = self.map_rando.get_links_infos()
         for (link_from, link_to), link_map in links_infos.items():
             src_region = regions[link_from]
@@ -236,7 +236,7 @@ class SMMapRandoWorld(World):
                 srcDestEntrance = SMMREntrance(self.player, src_region.name + "->" + dest_region.name, src_region)
                 src_region.exits.append(srcDestEntrance)
                 srcDestEntrance.connect(dest_region)  
-        #"""
+        """
         self.multiworld.regions += [self.create_region(self.multiworld, self.player, 'Menu', -1, None, ['StartAP'])]
 
         #victory_entrance = self.multiworld.get_entrance("Ship->Escape Zebes", self.player)
@@ -246,7 +246,7 @@ class SMMapRandoWorld(World):
         startAP.connect(self.multiworld.get_region("Ship", self.player))   
 
     def create_items(self):
-        self.startItems = [variaItem for item in self.multiworld.precollected_items[self.player] for variaItem in self.item_name_to_id.keys() if variaItem.Name == item.name]
+        self.startItems = [variaItem for item in self.multiworld.precollected_items[self.player] for variaItem in self.item_name_to_id.keys() if variaItem == item.name]
         pool = []
         for idx, type_count in enumerate(self.map_rando.randomizer.initial_items_remaining):
             for item_count in range(type_count):
@@ -297,7 +297,7 @@ class SMMapRandoWorld(World):
         return super(SMMapRandoWorld, self).remove(state, item)
     
     def create_item(self, name: str) -> Item:
-        pass
+        return SMMRItem(name, ItemClassification.progression, self.item_name_to_id[name], player=self.player)
 
     def get_filler_item_name(self) -> str:
         pass
