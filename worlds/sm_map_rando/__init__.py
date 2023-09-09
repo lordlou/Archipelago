@@ -70,6 +70,15 @@ location_address_to_id = {}
 with openFile("/".join((os.path.dirname(__file__), "data", "loc_address_to_id.json")), "r") as stream:
     location_address_to_id = json.load(stream)
 
+def GetAPWorldPath():
+    filename = sys.modules[__name__].__file__
+    apworldExt = ".apworld"
+    game = "sm_map_rando/"
+    if apworldExt in filename:
+        return filename[:filename.index(apworldExt) + len(apworldExt)]
+    else:
+        return None
+
 class SMMapRandoWorld(World):
     """
     After planet Zebes exploded, Mother Brain put it back together again but arranged it differently this time.
@@ -82,7 +91,7 @@ class SMMapRandoWorld(World):
     data_version = 0
     option_definitions = smmr_options
 
-    gamedata = create_gamedata()
+    gamedata = create_gamedata(GetAPWorldPath())
 
     item_name_to_id = {item_name: items_start_id + idx for idx, item_name in enumerate(itertools.chain(gamedata.item_isv, gamedata.flag_isv))}
     location_name_to_id = {loc_name: locations_start_id + 
@@ -141,7 +150,7 @@ class SMMapRandoWorld(World):
                           "", #item_progression_preset
                           2, #quality_of_life_preset
                           )
-        self.map_rando = APRandomizer(options, world.random.randint(1, sys.maxsize)) # world.seed // 10)
+        self.map_rando = APRandomizer(SMMapRandoWorld.gamedata, options, world.random.randint(1, sys.maxsize)) # world.seed // 10)
         self.update_reachability = 0
         
 
