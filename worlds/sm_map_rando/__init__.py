@@ -24,6 +24,12 @@ from .Rom import get_base_rom_path, get_sm_symbols, openFile, SMMR_ROM_MAX_PLAYE
 from .ips import IPS_Patch
 from .Client import SMMRSNIClient
 
+import Utils
+if not Utils.is_frozen():
+    import subprocess
+    subprocess.check_call([sys.executable, '-m', 'pip', 'install', 
+    'https://github.com/lordlou/MapRandomizer/releases/download/v0.0.2/map_randomizer-0.1.0-cp310-none-win_amd64.whl'])
+
 from map_randomizer import create_gamedata, APRandomizer, APCollectionState, patch_rom, Options
 
 class ByteEdit(TypedDict):
