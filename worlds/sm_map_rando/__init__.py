@@ -3,6 +3,7 @@ from __future__ import annotations
 import logging
 import copy
 import os
+import platform
 import shutil
 import sys
 import tempfile
@@ -27,8 +28,20 @@ from .Client import SMMRSNIClient
 import Utils
 if not Utils.is_frozen():
     import subprocess
+    python_version = f"cp{sys.version_info.major}{sys.version_info.minor}"
+    if sys.platform.startswith('win'):
+        abi_version = "none-win_amd64"
+    elif sys.platform.startswith('linux'):
+        abi_version = f"{python_version}-manylinux_2_17_{platform.machine()}.manylinux2014_{platform.machine()}"
+    elif sys.platform.startswith('darwin'):
+        mac_ver = platform.mac_ver()[0].split('.')
+        if (mac_ver[0] * 10 + mac_ver[1] <= 107):
+            abi_version = f"{python_version}-macosx_10_7_{platform.machine()}"
+        else:
+            abi_version = f"{python_version}-macosx_10_9_x86_64.macosx_11_0_arm64.macosx_10_9_universal2"
+
     subprocess.check_call([sys.executable, '-m', 'pip', 'install', 
-    'https://github.com/lordlou/MapRandomizer/releases/download/v0.0.2/map_randomizer-0.1.0-cp310-none-win_amd64.whl'])
+    f'https://github.com/lordlou/MapRandomizer/releases/download/v0.0.2/map_randomizer-0.1.0-{python_version}-{abi_version}.whl'])
 
 from map_randomizer import create_gamedata, APRandomizer, APCollectionState, patch_rom, Options
 
