@@ -35,7 +35,7 @@ if not Utils.is_frozen():
         abi_version = f"{python_version}-manylinux_2_17_{platform.machine()}.manylinux2014_{platform.machine()}"
     elif sys.platform.startswith('darwin'):
         mac_ver = platform.mac_ver()[0].split('.')
-        if (mac_ver[0] * 10 + mac_ver[1] <= 107):
+        if (int(mac_ver[0]) * 10 + int(mac_ver[1]) <= 107):
             abi_version = f"{python_version}-macosx_10_7_{platform.machine()}"
         else:
             abi_version = f"{python_version}-macosx_10_9_x86_64.macosx_11_0_arm64.macosx_10_9_universal2"
