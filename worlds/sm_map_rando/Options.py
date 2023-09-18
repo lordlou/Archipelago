@@ -25,7 +25,7 @@ class Preset(Choice):
     option_Expert = 4
     option_Insane = 5
     option_Custom = 6
-    default = 0
+    default = 2
 
 class Techs(OptionSet):
     "Custom list of techs used when Preset is set to Custom"
@@ -40,7 +40,7 @@ class ShinesparkTiles(Range):
     display_name = "Shinespark tiles count"
     range_start = 14
     range_end = 32
-    default = 32
+    default = 26
 
 class ResourceMultiplier(Range):
     """Leniency factor on assumed energy & ammo usage."""
@@ -97,19 +97,17 @@ class SaveAnimals(Toggle):
     """Take into account extra time needed in the escape"""
     display_name = "Save the animals"
 
-class QualityOfLife(Choice):
+class QualityOfLife(Toggle):
     """
     These options help provide a smoother, more intuitive, and less tedious game experience.
     Players wanting a full experience of exploration may want to disable some of these options.
     Three presets are provided:
 
-    - No: All quality-of-life options are turned off.
-    - Default: Quality-of-life options are turned to their generally recommended settings (mostly on).
-    - Max: All quality-of-life options are turned on to their highest settings.
+    - Off: All quality-of-life options are turned off.
+    - ON: Quality-of-life options are turned to their generally recommended settings (mostly on).
+    - MAX: All quality-of-life options are turned on to their highest settings.
     """
     display_name = "Quality-of-life options"
-    option_no = 0
-    option_yes = 1
 
 class Objectives(Choice):
     """

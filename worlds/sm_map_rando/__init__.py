@@ -11,39 +11,44 @@ import threading
 import base64
 import itertools
 import json
-from typing import Any, Dict, Iterable, List, Set, TextIO, TypedDict
+from typing import Any, Dict, Iterable, List, Optional, Set, TextIO, TypedDict
 
-from BaseClasses import Region, Entrance, Location, MultiWorld, Item, ItemClassification, CollectionState, Tutorial
+from BaseClasses import LocationProgressType, Region, Entrance, Location, MultiWorld, Item, ItemClassification, CollectionState, Tutorial
 from Fill import fill_restrictive
 from worlds.AutoWorld import World, AutoLogicRegister, WebWorld
 from worlds.generic.Rules import set_rule, add_rule, add_item_rule
 
-logger = logging.getLogger("Super Metroid")
+logger = logging.getLogger("Super Metroid Map Rando")
 
 from .Options import smmr_options
 from .Rom import get_base_rom_path, get_sm_symbols, openFile, SMMR_ROM_MAX_PLAYERID, SMMR_ROM_PLAYERDATA_COUNT, SMMapRandoDeltaPatch 
 from .ips import IPS_Patch
 from .Client import SMMRSNIClient
 
-import Utils
-if not Utils.is_frozen():
-    import subprocess
-    python_version = f"cp{sys.version_info.major}{sys.version_info.minor}"
-    if sys.platform.startswith('win'):
-        abi_version = "none-win_amd64"
-    elif sys.platform.startswith('linux'):
-        abi_version = f"{python_version}-manylinux_2_17_{platform.machine()}.manylinux2014_{platform.machine()}"
-    elif sys.platform.startswith('darwin'):
-        mac_ver = platform.mac_ver()[0].split('.')
-        if (int(mac_ver[0]) * 10 + int(mac_ver[1]) <= 107):
-            abi_version = f"{python_version}-macosx_10_7_{platform.machine()}"
-        else:
-            abi_version = f"{python_version}-macosx_10_9_x86_64.macosx_11_0_arm64.macosx_10_9_universal2"
+try:
+    from map_randomizer import create_gamedata, APRandomizer, APCollectionState, patch_rom, Options
 
-    subprocess.check_call([sys.executable, '-m', 'pip', 'install', 
-    f'https://github.com/lordlou/MapRandomizer/releases/download/v0.0.2/map_randomizer-0.1.0-{python_version}-{abi_version}.whl'])
+# required for APWorld distribution outside official AP releases as stated at https://docs.python.org/3/library/zipimport.html:
+# ZIP import of dynamic modules (.pyd, .so) is disallowed.
+except ImportError:
+    import Utils
+    if not Utils.is_frozen():
+        import subprocess
+        python_version = f"cp{sys.version_info.major}{sys.version_info.minor}"
+        if sys.platform.startswith('win'):
+            abi_version = "none-win_amd64"
+        elif sys.platform.startswith('linux'):
+            abi_version = f"{python_version}-manylinux_2_17_{platform.machine()}.manylinux2014_{platform.machine()}"
+        elif sys.platform.startswith('darwin'):
+            mac_ver = platform.mac_ver()[0].split('.')
+            if (int(mac_ver[0]) * 10 + int(mac_ver[1]) <= 107):
+                abi_version = f"{python_version}-macosx_10_7_{platform.machine()}"
+            else:
+                abi_version = f"{python_version}-macosx_10_9_x86_64.macosx_11_0_arm64.macosx_10_9_universal2"
 
-from map_randomizer import create_gamedata, APRandomizer, APCollectionState, patch_rom, Options
+        subprocess.check_call([sys.executable, '-m', 'pip', 'install', 
+            f'https://github.com/lordlou/MapRandomizer/releases/download/v0.0.2/map_randomizer-0.1.0-{python_version}-{abi_version}.whl'])
+    from map_randomizer import create_gamedata, APRandomizer, APCollectionState, patch_rom, Options
 
 class ByteEdit(TypedDict):
     sym: Dict[str, Any]
@@ -131,48 +136,6 @@ class SMMapRandoWorld(World):
         self.rom_name_available_event = threading.Event()
         self.locations = {}
 
-        options = Options(world.preset[self.player].value,
-                          list(world.techs[self.player].value),
-                          list(world.strats[self.player].value),
-                          world.shinespark_tiles[self.player].value,
-                          world.resource_multiplier[self.player].value,
-                          world.phantoon_proficiency[self.player].value,
-                          world.draygon_proficiency[self.player].value,
-                          world.ridley_proficiency[self.player].value,
-                          world.botwoon_proficiency[self.player].value,
-                          world.escape_timer_multiplier[self.player].value,
-                          world.randomized_start[self.player].value == 1,
-                          world.save_animals[self.player].value == 1,
-                          world.objectives[self.player].value,
-                          "", #filler_items
-                          world.supers_double[self.player].value == 1,
-                          world.mother_brain_short[self.player].value == 1,
-                          world.escape_enemies_cleared[self.player].value == 1,
-                          world.escape_refill[self.player].value == 1,
-                          world.escape_movement_items[self.player].value == 1,
-                          world.mark_map_stations[self.player].value == 1,
-                          world.transition_letters[self.player].value == 1,
-                          world.item_markers[self.player].value,
-                          world.item_dots_disappear[self.player].value == 1,
-                          world.all_items_spawn[self.player].value == 1,
-                          world.acid_chozo[self.player].value == 1,
-                          world.fast_elevators[self.player].value == 1,
-                          world.fast_doors[self.player].value == 1,
-                          world.fast_pause_menu[self.player].value == 1,
-                          world.respin[self.player].value == 1,
-                          world.infinite_space_jump[self.player].value == 1,
-                          world.disable_walljump[self.player].value == 1,
-                          world.maps_revealed[self.player].value == 1,
-                          world.vanilla_map[self.player].value == 1,
-                          False, #ultra_low_qol
-                          "", #skill_assumptions_preset
-                          "", #item_progression_preset
-                          2, #quality_of_life_preset
-                          )
-        self.map_rando = APRandomizer(SMMapRandoWorld.gamedata, options, world.random.randint(1, sys.maxsize)) # world.seed // 10)
-        self.update_reachability = 0
-        
-
     @classmethod
     def stage_assert_generate(cls, multiworld: MultiWorld):
         rom_file = get_base_rom_path()
@@ -188,6 +151,47 @@ class SMMapRandoWorld(World):
     """
 
     def generate_early(self):
+        options = Options(self.multiworld.preset[self.player].value,
+                          list(self.multiworld.techs[self.player].value),
+                          list(self.multiworld.strats[self.player].value),
+                          self.multiworld.shinespark_tiles[self.player].value,
+                          self.multiworld.resource_multiplier[self.player].value,
+                          self.multiworld.phantoon_proficiency[self.player].value,
+                          self.multiworld.draygon_proficiency[self.player].value,
+                          self.multiworld.ridley_proficiency[self.player].value,
+                          self.multiworld.botwoon_proficiency[self.player].value,
+                          self.multiworld.escape_timer_multiplier[self.player].value,
+                          self.multiworld.randomized_start[self.player].value == 1,
+                          self.multiworld.save_animals[self.player].value == 1,
+                          self.multiworld.objectives[self.player].value,
+                          "", #filler_items
+                          self.multiworld.supers_double[self.player].value == 1,
+                          self.multiworld.mother_brain_short[self.player].value == 1,
+                          self.multiworld.escape_enemies_cleared[self.player].value == 1,
+                          self.multiworld.escape_refill[self.player].value == 1,
+                          self.multiworld.escape_movement_items[self.player].value == 1,
+                          self.multiworld.mark_map_stations[self.player].value == 1,
+                          self.multiworld.transition_letters[self.player].value == 1,
+                          self.multiworld.item_markers[self.player].value,
+                          self.multiworld.item_dots_disappear[self.player].value == 1,
+                          self.multiworld.all_items_spawn[self.player].value == 1,
+                          self.multiworld.acid_chozo[self.player].value == 1,
+                          self.multiworld.fast_elevators[self.player].value == 1,
+                          self.multiworld.fast_doors[self.player].value == 1,
+                          self.multiworld.fast_pause_menu[self.player].value == 1,
+                          self.multiworld.respin[self.player].value == 1,
+                          self.multiworld.infinite_space_jump[self.player].value == 1,
+                          self.multiworld.disable_walljump[self.player].value == 1,
+                          self.multiworld.maps_revealed[self.player].value == 1,
+                          self.multiworld.vanilla_map[self.player].value == 1,
+                          False, #ultra_low_qol
+                          "", #skill_assumptions_preset
+                          "", #item_progression_preset
+                          2, #quality_of_life_preset
+                          )
+        self.map_rando = APRandomizer(SMMapRandoWorld.gamedata, options, self.multiworld.random.randint(1, sys.maxsize)) # self.multiworld.seed // 10)
+        self.update_reachability = 0
+
         self.multiworld.state.smmrcs[self.player] = APCollectionState(self.multiworld.worlds[self.player].map_rando)
         #self.multiworld.local_early_items[self.player]['Morph'] = 1
         #self.multiworld.local_early_items[self.player]['Varia'] = 1
@@ -214,7 +218,10 @@ class SMMapRandoWorld(World):
             is_not_flag = id < locations_start_id + locations_flag_start
             if is_not_flag or loc_name in SMMapRandoWorld.flag_location_names.keys():
                 self.locations[loc_name] = SMMRLocation(self.player, loc_name, id if is_not_flag else None)
-        
+
+
+        # self.locations["Missile (green Maridia shinespark)"].progress_type = LocationProgressType.EXCLUDED
+
         # create regions
         regions = []
         #self.region_dict = []
