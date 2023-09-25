@@ -26,7 +26,7 @@ from .ips import IPS_Patch
 from .Client import SMMRSNIClient
 
 try:
-    from map_randomizer import create_gamedata, APRandomizer, APCollectionState, patch_rom, Options
+    from pysmmaprando import create_gamedata, APRandomizer, APCollectionState, patch_rom, Options
 
 # required for APWorld distribution outside official AP releases as stated at https://docs.python.org/3/library/zipimport.html:
 # ZIP import of dynamic modules (.pyd, .so) is disallowed.
@@ -47,8 +47,8 @@ except ImportError:
                 abi_version = f"{python_version}-macosx_10_9_x86_64.macosx_11_0_arm64.macosx_10_9_universal2"
 
         subprocess.check_call([sys.executable, '-m', 'pip', 'install', 
-            f'https://github.com/lordlou/MapRandomizer/releases/download/v0.0.2/map_randomizer-0.1.0-{python_version}-{abi_version}.whl'])
-    from map_randomizer import create_gamedata, APRandomizer, APCollectionState, patch_rom, Options
+            f'https://github.com/lordlou/MapRandomizer/releases/download/v0.1.0/pysmmaprando-0.1.0-{python_version}-{abi_version}.whl'])
+    from pysmmaprando import create_gamedata, APRandomizer, APCollectionState, patch_rom, Options
 
 class ByteEdit(TypedDict):
     sym: Dict[str, Any]
@@ -404,12 +404,10 @@ class SMMapRandoWorld(World):
         sorted_item_locs = list(self.locations.values())
         items = [(itemLoc.item.code if isinstance(itemLoc.item, SMMRItem) else (self.item_name_to_id['ArchipelagoProgItem'] if itemLoc.item.classification == ItemClassification.progression else self.item_name_to_id['ArchipelagoItem'])) - items_start_id for itemLoc in sorted_item_locs if itemLoc.address is not None]
 
-        print("patch_rom begin");
         patched_rom_bytes = patch_rom(get_base_rom_path(), self.map_rando.randomizer, items, self.multiworld.state.smmrcs[self.player].randomization_state)
         #patched_rom_bytes = None
         #with open(get_base_rom_path(), "rb") as stream:
         #    patched_rom_bytes = stream.read()
-        print("patch_rom end");
 
         patches = []
         patches.append(IPS_Patch.load("/".join((os.path.dirname(self.__file__),
