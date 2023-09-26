@@ -31,23 +31,31 @@ try:
 # required for APWorld distribution outside official AP releases as stated at https://docs.python.org/3/library/zipimport.html:
 # ZIP import of dynamic modules (.pyd, .so) is disallowed.
 except ImportError:
+    python_version = f"cp{sys.version_info.major}{sys.version_info.minor}"
+    if sys.platform.startswith('win'):
+        abi_version = "none-win_amd64"
+    elif sys.platform.startswith('linux'):
+        abi_version = f"{python_version}-manylinux_2_17_{platform.machine()}.manylinux2014_{platform.machine()}"
+    elif sys.platform.startswith('darwin'):
+        mac_ver = platform.mac_ver()[0].split('.')
+        if (int(mac_ver[0]) * 10 + int(mac_ver[1]) <= 107):
+            abi_version = f"{python_version}-macosx_10_7_{platform.machine()}"
+        else:
+            abi_version = f"{python_version}-macosx_10_9_x86_64.macosx_11_0_arm64.macosx_10_9_universal2"
+    map_rando_lib_file = f'https://github.com/lordlou/MapRandomizer/releases/download/v0.1.0/pysmmaprando-0.1.0-{python_version}-{abi_version}.whl'
     import Utils
     if not Utils.is_frozen():
         import subprocess
-        python_version = f"cp{sys.version_info.major}{sys.version_info.minor}"
-        if sys.platform.startswith('win'):
-            abi_version = "none-win_amd64"
-        elif sys.platform.startswith('linux'):
-            abi_version = f"{python_version}-manylinux_2_17_{platform.machine()}.manylinux2014_{platform.machine()}"
-        elif sys.platform.startswith('darwin'):
-            mac_ver = platform.mac_ver()[0].split('.')
-            if (int(mac_ver[0]) * 10 + int(mac_ver[1]) <= 107):
-                abi_version = f"{python_version}-macosx_10_7_{platform.machine()}"
-            else:
-                abi_version = f"{python_version}-macosx_10_9_x86_64.macosx_11_0_arm64.macosx_10_9_universal2"
-
-        subprocess.check_call([sys.executable, '-m', 'pip', 'install', 
-            f'https://github.com/lordlou/MapRandomizer/releases/download/v0.1.0/pysmmaprando-0.1.0-{python_version}-{abi_version}.whl'])
+        subprocess.check_call([sys.executable, '-m', 'pip', 'install', map_rando_lib_file])
+    else:
+        import requests
+        import zipfile
+        import io
+        with requests.get(map_rando_lib_file) as r:
+            r.raise_for_status()
+            z = zipfile.ZipFile(io.BytesIO(r.content))
+            z.extractall(f"{os.path.dirname(sys.executable)}/lib")
+            
     from pysmmaprando import create_gamedata, APRandomizer, APCollectionState, patch_rom, Options
 
 class ByteEdit(TypedDict):
