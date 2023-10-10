@@ -141,6 +141,22 @@
           "from": 1,
           "to": [
             {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Choot Farm",
+                  "notable": false,
+                  "requires": [
+                    {"resetRoom": {
+                      "nodes": [1],
+                      "mustStayPut": false
+                    }},
+                    {"refill": ["Energy", "Missile", "Super"]}
+                  ]
+                }
+              ]
+            },
+            {
               "id": 3,
               "strats": [
                 {
@@ -191,9 +207,11 @@
                     "canSuitlessMaridia",
                     {"canComeInCharged": {
                       "fromNode": 2,
-                      "framesRemaining": 5,
-                      "shinesparkFrames": 40,
-                      "excessShinesparkFrames": 18
+                      "framesRemaining": 5
+                    }},
+                    {"shinespark": {
+                      "frames": 40,
+                      "excessFrames": 18
                     }}
                   ],
                   "note": "Spark diagonally from the right side of the doorway.",
@@ -325,9 +343,11 @@
                     "canShinechargeMovement",
                     {"canComeInCharged": {
                       "fromNode": 2,
-                      "framesRemaining": 50,
-                      "shinesparkFrames": 14,
-                      "excessShinesparkFrames": 4
+                      "framesRemaining": 50
+                    }},
+                    {"shinespark": {
+                      "frames": 14,
+                      "excessFrames": 4
                     }}
                   ],
                   "note": "Spark vertically by the first plant on the right to hit the floating island.",
@@ -742,7 +762,6 @@
             {
               "usedTiles": 22,
               "framesRemaining": 0,
-              "shinesparkFrames": 15,
               "openEnd": 2,
               "strats": [
                 {
@@ -750,7 +769,8 @@
                   "notable": false,
                   "requires": [
                     "canShinechargeMovementComplex",
-                    "HiJump"
+                    "HiJump",
+                    {"shinespark": {"frames": 15}}
                   ],
                   "note": "Charge a spark below towards the right then run back and jump up and spark out of the left door."
                 },
@@ -759,7 +779,8 @@
                   "notable": true,
                   "requires": [
                     "canShinechargeMovementComplex",
-                    "canTrickyDashJump"
+                    "canTrickyDashJump",
+                    {"shinespark": {"frames": 15}}
                   ],
                   "note": "Charge a spark below towards the right then run back and jump up and spark out of the left door."
                 }
@@ -768,7 +789,6 @@
             {
               "usedTiles": 20,
               "framesRemaining": 30,
-              "shinesparkFrames": 0,
               "openEnd": 2,
               "strats": [
                 {
@@ -791,10 +811,10 @@
                   "name": "Get Hit By Menu",
                   "notable": false,
                   "requires": [
-                    "canBePatient",
+                    "canBeVeryPatient",
                     "canManipulateMellas"
                   ],
-                  "devNote": "FIXME Add details on how this works and check if it actually requires canBePatient."
+                  "devNote": "FIXME Add details on how this works and check if it actually requires canBeVeryPatient."
                 }
               ]
             }
@@ -825,7 +845,6 @@
             {
               "usedTiles": 22,
               "framesRemaining": 0,
-              "shinesparkFrames": 30,
               "openEnd": 2,
               "initiateRemotely": {
                 "initiateAt": 3,
@@ -843,7 +862,8 @@
                   "notable": true,
                   "requires": [
                     "canShinechargeMovementComplex",
-                    "canCarefulJump"
+                    "canCarefulJump",
+                    {"shinespark": {"frames": 30}}
                   ],
                   "note": [
                     "Charge below node 1 then carry the spark through the morph tunnel and out the right door.",
@@ -856,7 +876,8 @@
                   "requires": [
                     "Gravity",
                     "canShinechargeMovementComplex",
-                    "canCarefulJump"
+                    "canCarefulJump",
+                    {"shinespark": {"frames": 30}}
                   ],
                   "note": [
                     "Charge below node 1 then carry the spark through the morph tunnel and out the right door.",
@@ -1017,42 +1038,42 @@
               "id": 2,
               "strats": [
                 {
-                  "name": "Kill or Tank the Menus",
+                  "name": "Kill the Menus",
                   "notable": false,
-                  "requires": [],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [
-                        {"or":[
-                          {"enemyDamage": { "enemy": "Menu", "type": "contact", "hits": 1 }},
-                          {"and":[
-                            "canDodgeWhileShooting",
-                            {"enemyKill":{ "enemies": [ [ "Menu", "Menu" ] ] }}
-                          ]},
-                          {"enemyKill":{
-                            "enemies": [ [ "Menu", "Menu" ] ],
-                            "explicitWeapons": [
-                              "PowerBomb",
-                              "ScrewAttack",
-                              "Wave",
-                              "Spazer",
-                              "Plasma",
-                              "Missile",
-                              "Super"
-                            ]
-                          }},
-                          {"and":[
-                            "canPrepareForNextRoom",
-                            {"enemyKill":{
-                              "enemies": [ [ "Menu", "Menu" ] ],
-                              "explicitWeapons": [ "PseudoScrew" ]
-                            }}
-                          ]}
-                        ]}
-                      ]
-                    }
-                  ]
+                  "requires": [
+                    {"or":[
+                      {"and":[
+                        "canDodgeWhileShooting",
+                        {"enemyKill":{ "enemies": [ [ "Menu", "Menu" ] ] }}
+                      ]},
+                      {"enemyKill":{
+                        "enemies": [ [ "Menu", "Menu" ] ],
+                        "explicitWeapons": [
+                          "PowerBomb",
+                          "ScrewAttack",
+                          "Wave",
+                          "Spazer",
+                          "Plasma",
+                          "Missile",
+                          "Super"
+                        ]
+                      }},
+                      {"and":[
+                        "canPrepareForNextRoom",
+                        {"enemyKill":{
+                          "enemies": [ [ "Menu", "Menu" ] ],
+                          "explicitWeapons": [ "PseudoScrew" ]
+                        }}
+                      ]}
+                    ]}
+                  ],
+                  "clearsObstacles": ["A"]
+                },
+                {
+                  "name": "Tank the Menus",
+                  "notable": false,
+                  "requires": [ {"enemyDamage": { "enemy": "Menu", "type": "contact", "hits": 1 }} ],
+                  "clearsObstacles": ["A"]
                 }
               ]
             },
@@ -1100,7 +1121,7 @@
                     "Morph",
                     "h_canNavigateUnderwater",
                     "canTrickyUseFrozenEnemies",
-                    "canDamageBoost",
+                    "canNeutralDamageBoost",
                     {"enemyDamage": {
                       "enemy": "Menu",
                       "type": "contact",
@@ -1312,6 +1333,18 @@
           "from": 1,
           "to": [
             {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Zeb Farm",
+                  "notable": false,
+                  "requires": [
+                    {"refill": ["Energy", "Missile", "Super"]}
+                  ]
+                }
+              ]
+            },
+            {
               "id": 4,
               "strats": [
                 {
@@ -1382,9 +1415,7 @@
                   "notable": false,
                   "requires": [
                     "canSuitlessMaridia",
-                    "canSpringBallJumpMidAir",
-                    "canCrouchJump",
-                    "canTrickyJump"
+                    "h_canMaxHeightSpringBallJump"
                   ],
                   "note": "This is a max height springball jump.",
                   "devNote": "FIXME add a slightly easier variant that damage boosts off of the Choot."
@@ -1669,9 +1700,11 @@
                     "canMidairShinespark",
                     {"canComeInCharged": {
                       "fromNode": 1,
-                      "framesRemaining": 120,
-                      "shinesparkFrames": 37,
-                      "excessShinesparkFrames": 10
+                      "framesRemaining": 120
+                    }},
+                    {"shinespark": {
+                      "frames": 37,
+                      "excessFrames": 10
                     }},
                     {"or": [
                       {"enemyDamage": { "enemy": "Choot", "type": "contact", "hits": 1 }},
@@ -1761,18 +1794,24 @@
                     "canWaterShineCharge",
                     "canShinechargeMovementComplex",
                     {"or": [
-                      {"canShineCharge": {
-                        "usedTiles": 33,
-                        "shinesparkFrames": 90,
-                        "excessShinesparkFrames": 50,
-                        "openEnd": 2
-                      }},
                       {"and": [
                         {"canShineCharge": {
                           "usedTiles": 33,
-                          "shinesparkFrames": 90,
-                          "excessShinesparkFrames": 57,
                           "openEnd": 2
+                        }},
+                        {"shinespark": {
+                          "frames": 90,
+                          "excessFrames": 50                          
+                        }}
+                      ]},
+                      {"and": [
+                        {"canShineCharge": {
+                          "usedTiles": 33,
+                          "openEnd": 2
+                        }},
+                        {"shinespark": {
+                          "frames": 90,
+                          "excessFrames": 57
                         }},
                         {"or": [
                           "canWalljump",
@@ -1836,8 +1875,11 @@
                     "canSuitlessMaridia",
                     "canTrickyUseFrozenEnemies",
                     {"or":[
-                      "h_canCrouchJumpDownGrab",
-                      {"or":[
+                      {"and":[
+                        "canTrickyJump",
+                        "h_canCrouchJumpDownGrab"
+                      ]},
+                      {"and":[
                         "canStationarySpinJump",
                         "canSunkenTileWideWallClimb"
                       ]}
@@ -1869,9 +1911,11 @@
                   "requires": [
                     {"canComeInCharged": {
                       "fromNode": 2,
-                      "shinesparkFrames": 1,
-                      "excessShinesparkFrames": 1,
                       "framesRemaining": 1
+                    }},
+                    {"shinespark": {
+                      "frames": 1,
+                      "excessFrames": 1
                     }},
                     "canShinesparkDeepStuck",
                     "canXRayClimb"
@@ -1926,9 +1970,11 @@
                     "canShinechargeMovementComplex",
                     {"canShineCharge": {
                       "usedTiles": 33,
-                      "shinesparkFrames": 90,
-                      "excessShinesparkFrames": 11,
                       "openEnd": 2
+                    }},
+                    {"shinespark": {
+                      "frames": 90,
+                      "excessFrames": 11
                     }},
                     {"adjacentRunway": {
                       "fromNode": 2,
@@ -1961,6 +2007,23 @@
                   "name": "Base",
                   "notable": false,
                   "requires": []
+                }
+              ]
+            },
+            {
+              "id": 3,
+              "strats": [
+                {
+                  "name": "Choot Farm",
+                  "notable": false,
+                  "requires": [
+                    "canBePatient",
+                    {"resetRoom": {
+                      "nodes": [3],
+                      "mustStayPut": false
+                    }},
+                    {"refill": ["Energy", "Missile", "Super"]}
+                  ]
                 }
               ]
             },
@@ -2002,17 +2065,23 @@
                         "canMidairShinespark",
                         {"canComeInCharged": {
                           "fromNode": 3,
-                          "framesRemaining": 120,
-                          "shinesparkFrames": 30,
-                          "excessShinesparkFrames": 3
+                          "framesRemaining": 120
+                        }},
+                        {"shinespark": {
+                          "frames": 30,
+                          "excessFrames": 3
                         }}
                       ]},
-                      {"canComeInCharged": {
-                        "fromNode": 3,
-                        "framesRemaining": 120,
-                        "shinesparkFrames": 43,
-                        "excessShinesparkFrames": 3
-                      }}
+                      {"and": [
+                        {"canComeInCharged": {
+                          "fromNode": 3,
+                          "framesRemaining": 120
+                        }},
+                        {"shinespark": {
+                          "frames": 43,
+                          "excessFrames": 3
+                        }}  
+                      ]}
                     ]}
                   ],
                   "note": [
@@ -2126,7 +2195,7 @@
                         ]
                       }},
                       {"and": [
-                        "canBePatient",
+                        "canBeVeryPatient",
                         {"enemyKill":{"enemies": [ [ "Choot" ] ]}}
                       ]}
                     ]}
@@ -2142,9 +2211,9 @@
                     "canCarefulJump",
                     {"canComeInCharged": {
                       "fromNode": 3,
-                      "framesRemaining": 145,
-                      "shinesparkFrames": 49
-                    }}
+                      "framesRemaining": 145
+                    }},
+                    {"shinespark": {"frames": 49}}
                   ],
                   "note": [
                     "Shinespark from the tile to the right of the Choot.",
@@ -2191,9 +2260,9 @@
                     "canMidairShinespark",
                     {"canComeInCharged": {
                       "fromNode": 4,
-                      "framesRemaining": 45,
-                      "shinesparkFrames": 13
-                    }}
+                      "framesRemaining": 45
+                    }},
+                    {"shinespark": {"frames": 13}}
                   ],
                   "note": [
                     "A diagonal spark may take damage from the Choot",
@@ -2589,7 +2658,8 @@
                       "canWalljump",
                       "h_canCrouchJumpDownGrab"
                     ]},
-                    "canDamageBoost",
+                    {"doorUnlockedAtNode": 1},
+                    "canHorizontalDamageBoost",
                     {"enemyDamage": {
                       "enemy": "Zoa",
                       "type": "contact",
@@ -2617,6 +2687,10 @@
                       {"and": [
                         "canSuitlessMaridia",
                         "canCarefulJump",
+                        {"or": [
+                          {"doorUnlockedAtNode": 1},
+                          "canSpaceJumpWaterBounce"
+                        ]},
                         {"or": [
                           "canWalljump",
                           "h_canCrouchJumpDownGrab"
@@ -2668,9 +2742,9 @@
                     "canMidairShinespark",
                     {"canComeInCharged": {
                       "framesRemaining": 10,
-                      "fromNode": 1,
-                      "shinesparkFrames": 20
+                      "fromNode": 1
                     }},
+                    {"shinespark": {"frames": 20}},
                     {"or": [
                       "canPrepareForNextRoom",
                       {"and": [
@@ -2779,7 +2853,8 @@
                       "canWalljump",
                       "h_canCrouchJumpDownGrab"
                     ]},
-                    "canDamageBoost",
+                    {"doorUnlockedAtNode": 3},
+                    "canHorizontalDamageBoost",
                     {"enemyDamage": {
                       "enemy": "Zoa",
                       "type": "contact",
@@ -2807,6 +2882,10 @@
                       {"and": [
                         "canSuitlessMaridia",
                         "canCarefulJump",
+                        {"or": [
+                          {"doorUnlockedAtNode": 3},
+                          "canSpaceJumpWaterBounce"
+                        ]},
                         {"or": [
                           "canWalljump",
                           "h_canCrouchJumpDownGrab"
@@ -2858,9 +2937,9 @@
                     "canMidairShinespark",
                     {"canComeInCharged": {
                       "framesRemaining": 10,
-                      "fromNode": 3,
-                      "shinesparkFrames": 20
+                      "fromNode": 3
                     }},
+                    {"shinespark": {"frames": 20}},
                     {"or": [
                       "canPrepareForNextRoom",
                       {"and": [
@@ -3172,6 +3251,18 @@
           "from": 1,
           "to": [
             {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Zoa Farm",
+                  "notable": false,
+                  "requires": [
+                    {"refill": ["Energy", "Missile", "Super"]}
+                  ]
+                }
+              ]
+            },
+            {
               "id": 2,
               "strats": [
                 {
@@ -3213,6 +3304,10 @@
                   "requires": [
                     "canSuitlessMaridia",
                     "canCarefulJump",
+                    {"or": [
+                      {"doorUnlockedAtNode": 1},
+                      "canTrickyJump"
+                    ]},
                     "canPlayInSand"
                   ],
                   "reusableRoomwideNotable": "Butterfly Room Careful Jump",
@@ -3242,9 +3337,11 @@
                     "h_canNavigateUnderwater",
                     {"canComeInCharged": {
                       "fromNode": 1,
-                      "framesRemaining": 0,
-                      "shinesparkFrames": 22,
-                      "excessShinesparkFrames": 12
+                      "framesRemaining": 0
+                    }},
+                    {"shinespark": {
+                      "frames": 22,
+                      "excessFrames": 12
                     }}
                   ]
                 },
@@ -3314,6 +3411,10 @@
                   "requires": [
                     "canSuitlessMaridia",
                     "canCarefulJump",
+                    {"or": [
+                      {"doorUnlockedAtNode": 2},
+                      "canTrickyJump"
+                    ]},
                     "canPlayInSand"
                   ],
                   "reusableRoomwideNotable": "Butterfly Room Careful Jump",
@@ -3344,9 +3445,11 @@
                     {"canComeInCharged": {
                       "fromNode": 2,
                       "inRoomPath": [2, 1],
-                      "framesRemaining": 0,
-                      "shinesparkFrames": 22,
-                      "excessShinesparkFrames": 12
+                      "framesRemaining": 0
+                    }},
+                    {"shinespark": {
+                      "frames": 22,
+                      "excessFrames": 12
                     }}
                   ]
                 },
@@ -3366,6 +3469,18 @@
                   "note": [
                     "Only requires a runway of approximately 0.5 tiles in the adjacent room.",
                     "Bomb boost through the doorway and hold right."
+                  ]
+                }
+              ]
+            },
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Zoa Farm",
+                  "notable": false,
+                  "requires": [
+                    {"refill": ["Energy", "Missile", "Super"]}
                   ]
                 }
               ]
@@ -3522,12 +3637,126 @@
           "from": 1,
           "to": [
             {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Basic Choot and Puyo Farm",
+                  "notable": false,
+                  "requires": [
+                    {"or": [
+                      "h_hasBeamUpgrade",
+                      "canDodgeWhileShooting",
+                      "Grapple",
+                      "ScrewAttack"
+                    ]},
+                    {"resetRoom": {
+                      "nodes": [2],
+                      "mustStayPut": false
+                    }},
+                    {"refill": ["Energy", "Missile"]}
+                  ]
+                },
+                {
+                  "name": "Choot and Puyo Farm",
+                  "notable": false,
+                  "requires": [
+                    {"or": [
+                      "Wave",
+                      "Spazer",
+                      "Plasma",
+                      "Grapple",
+                      "ScrewAttack"
+                    ]},
+                    {"resetRoom": {
+                      "nodes": [2],
+                      "mustStayPut": false
+                    }},
+                    {"refill": ["Energy", "Missile", "Super", "PowerBomb"]}
+                  ]
+                },
+                {
+                  "name": "Patient Choot and Puyo Farm",
+                  "notable": false,
+                  "requires": [
+                    "canBePatient",
+                    {"or": [
+                      "canDodgeWhileShooting",
+                      "Charge",
+                      "Ice"
+                    ]},
+                    {"resetRoom": {
+                      "nodes": [2],
+                      "mustStayPut": false
+                    }},
+                    {"refill": ["Super", "PowerBomb"]}
+                  ]
+                }
+              ]
+            },
+            {
               "id": 2,
               "strats": [
                 {
-                  "name": "Base",
+                  "name": "Kill the Enemies",
                   "notable": false,
-                  "requires": []
+                  "requires": [
+                    {"or": [
+                      "h_hasBeamUpgrade",
+                      "canDodgeWhileShooting",
+                      "Grapple",
+                      "ScrewAttack",
+                      "canBePatient",
+                      {"resourceCapacity": [
+                        {"type": "Missile", "count": 1}
+                      ]},
+                      "h_canUsePowerBombs"
+                    ]}
+                  ]
+                },
+                {
+                  "name": "Morph Dodge",
+                  "notable": false,
+                  "requires": [
+                    "h_canNavigateUnderwater",
+                    "Morph",
+                    {"enemyDamage": {
+                      "enemy": "Puyo",
+                      "type": "contact",
+                      "hits": 1
+                    }},
+                    {"or":[
+                      "canCarefulJump",
+                      {"enemyDamage": {
+                        "enemy": "Puyo",
+                        "type": "contact",
+                        "hits": 1
+                      }}
+                    ]}
+                  ],
+                  "note": [
+                    "Safely kill the first Choot, then roll through the bottom of the room after passing the two Puyos.",
+                    "Expects one to two Puyo hits while crossing the room."
+                  ]
+                },
+                {
+                  "name": "Lenient Dodge",
+                  "notable": false,
+                  "requires": [
+                    {"enemyDamage": {
+                      "enemy": "Puyo",
+                      "type": "contact",
+                      "hits": 2
+                    }},
+                    {"or":[
+                      "canCarefulJump",
+                      {"enemyDamage": {
+                        "enemy": "Puyo",
+                        "type": "contact",
+                        "hits": 1
+                      }}
+                    ]}
+                  ],
+                  "note": "Dodge the Puyos and kill the Choots. Expects two to three Puyo hits."
                 }
               ]
             }
@@ -3537,12 +3766,126 @@
           "from": 2,
           "to": [
             {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Basic Choot and Puyo Farm",
+                  "notable": false,
+                  "requires": [
+                    {"or": [
+                      "h_hasBeamUpgrade",
+                      "canDodgeWhileShooting",
+                      "Grapple",
+                      "ScrewAttack"
+                    ]},
+                    {"resetRoom": {
+                      "nodes": [2],
+                      "mustStayPut": false
+                    }},
+                    {"refill": ["Energy", "Missile"]}
+                  ]
+                },
+                {
+                  "name": "Choot and Puyo Farm",
+                  "notable": false,
+                  "requires": [
+                    {"or": [
+                      "Wave",
+                      "Spazer",
+                      "Plasma",
+                      "Grapple",
+                      "ScrewAttack"
+                    ]},
+                    {"resetRoom": {
+                      "nodes": [2],
+                      "mustStayPut": false
+                    }},
+                    {"refill": ["Energy", "Missile", "Super", "PowerBomb"]}
+                  ]
+                },
+                {
+                  "name": "Patient Choot and Puyo Farm",
+                  "notable": false,
+                  "requires": [
+                    "canBePatient",
+                    {"or": [
+                      "canDodgeWhileShooting",
+                      "Charge",
+                      "Ice"
+                    ]},
+                    {"resetRoom": {
+                      "nodes": [2],
+                      "mustStayPut": false
+                    }},
+                    {"refill": ["Super", "PowerBomb"]}
+                  ]
+                }
+              ]
+            },
+            {
               "id": 1,
               "strats": [
                 {
-                  "name": "Base",
+                  "name": "Kill the Enemies",
                   "notable": false,
-                  "requires": []
+                  "requires": [
+                    {"or": [
+                      "h_hasBeamUpgrade",
+                      "canDodgeWhileShooting",
+                      "Grapple",
+                      "ScrewAttack",
+                      "canBePatient",
+                      {"resourceCapacity": [
+                        {"type": "Missile", "count": 1}
+                      ]},
+                      "h_canUsePowerBombs"
+                    ]}
+                  ]
+                },
+                {
+                  "name": "Morph Dodge",
+                  "notable": false,
+                  "requires": [
+                    "h_canNavigateUnderwater",
+                    "Morph",
+                    {"enemyDamage": {
+                      "enemy": "Puyo",
+                      "type": "contact",
+                      "hits": 1
+                    }},
+                    {"or":[
+                      "canCarefulJump",
+                      {"enemyDamage": {
+                        "enemy": "Puyo",
+                        "type": "contact",
+                        "hits": 1
+                      }}
+                    ]}
+                  ],
+                  "note": [
+                    "Safely kill the first Choot, then roll through the bottom of the room after passing the two Puyos.",
+                    "Expects one to two Puyo hits while crossing the room."
+                  ]
+                },
+                {
+                  "name": "Lenient Dodge",
+                  "notable": false,
+                  "requires": [
+                    {"enemyDamage": {
+                      "enemy": "Puyo",
+                      "type": "contact",
+                      "hits": 2
+                    }},
+                    {"or":[
+                      "canCarefulJump",
+                      {"enemyDamage": {
+                        "enemy": "Puyo",
+                        "type": "contact",
+                        "hits": 1
+                      }}
+                    ]}
+                  ],
+                  "note": "Dodge the Puyos and kill the Choots. Expects two to three Puyo hits."
                 }
               ]
             }
@@ -3811,10 +4154,12 @@
                   "requires": [
                     {"canComeInCharged": {
                       "fromNode": 1,
-                      "framesRemaining": 5,
-                      "shinesparkFrames": 21,
-                      "excessShinesparkFrames": 10
+                      "framesRemaining": 5
                     }},
+                    {"shinespark": {
+                      "frames": 21,
+                      "excessFrames": 10
+                    }},             
                     {"enemyDamage": {
                       "enemy": "Ripper",
                       "type": "contact",
@@ -3861,9 +4206,11 @@
                     ]},
                     {"canComeInCharged": {
                       "fromNode": 1,
-                      "framesRemaining": 60,
-                      "shinesparkFrames": 45,
-                      "excessShinesparkFrames": 11
+                      "framesRemaining": 60
+                    }},
+                    {"shinespark": {
+                      "frames": 45,
+                      "excessFrames": 11
                     }}
                   ],
                   "note": "Use Hijump or one walljump on the left before a diagonal spark."
@@ -4013,9 +4360,11 @@
                   "requires": [
                     {"canComeInCharged": {
                       "fromNode": 2,
-                      "framesRemaining": 20,
-                      "shinesparkFrames": 36,
-                      "excessShinesparkFrames": 10
+                      "framesRemaining": 20
+                    }},
+                    {"shinespark": {
+                      "frames": 36,
+                      "excessFrames": 10
                     }}
                   ]
                 },
@@ -4235,6 +4584,22 @@
           "from": 1,
           "to": [
             {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Puyo Farm",
+                  "notable": false,
+                  "requires": [
+                    {"resetRoom": {
+                      "nodes": [1],
+                      "mustStayPut": false
+                    }},
+                    {"refill": ["Energy", "Missile", "PowerBomb"]}
+                  ]
+                }
+              ]
+            },
+            {
               "id": 2,
               "strats": [
                 {
@@ -4253,7 +4618,7 @@
                       ]},
                       {"and": [
                         "canSpringBallJumpMidAir",
-                        "canTrickyJump",
+                        "canCarefulJump",
                         "canCrouchJump"
                       ]}
                     ]}
@@ -4265,9 +4630,11 @@
                   "requires": [
                     {"canComeInCharged": {
                       "fromNode": 2,
-                      "framesRemaining": 20,
-                      "shinesparkFrames": 58,
-                      "excessShinesparkFrames": 6
+                      "framesRemaining": 20
+                    }},
+                    {"shinespark": {
+                      "frames": 58,
+                      "excessFrames": 6
                     }}
                   ]
                 },
@@ -4286,7 +4653,7 @@
                       {"ammo": {"type": "PowerBomb","count": 2}},
                       {"and": [
                         "h_canArtificialMorphStaggeredIBJ",
-                        "canBePatient"
+                        "canBeVeryPatient"
                       ]}
                     ]}
                   ],
@@ -4367,23 +4734,22 @@
                 {
                   "name": "Get Hit By Puyo",
                   "notable": false,
-                  "requires": [],
-                  "note": "It takes between 1-2 minutes for the Puyos to wake up and get to the doorway.",
-                  "devNote": "FIXME Add a lower tier patience tech to this."
+                  "requires": [ "canBePatient" ],
+                  "note": "It takes between 1-2 minutes for the Puyos to wake up and get to the doorway."
                 }
               ]
             }
           ],
           "gModeImmobile": {
             "requires": [
+              "canBePatient",
               {"enemyDamage": {
                 "enemy": "Puyo",
                 "type": "contact",
                 "hits": 1
               }}
             ],
-            "note": "It takes between 1-2 minutes for the Puyos to wake up and get to the doorway.",
-            "devNote": "FIXME Add a lower tier patience tech to this."
+            "note": "It takes between 1-2 minutes for the Puyos to wake up and get to the doorway."
           }
         },
         {
@@ -4426,7 +4792,7 @@
                 {
                   "name": "Get Hit By Puyo",
                   "notable": false,
-                  "requires": [ "canBePatient" ],
+                  "requires": [ "canBeVeryPatient" ],
                   "note": "It takes approximately 3 minutes for the Puyos to wake up and get to the doorway."
                 }
               ]
@@ -4434,7 +4800,7 @@
           ],
           "gModeImmobile": {
             "requires": [
-              "canBePatient",
+              "canBeVeryPatient",
               {"enemyDamage": {
                 "enemy": "Puyo",
                 "type": "contact",
@@ -4458,6 +4824,22 @@
         {
           "from": 1,
           "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Puyo Farm",
+                  "notable": false,
+                  "requires": [
+                    {"resetRoom": {
+                      "nodes": [1],
+                      "mustStayPut": false
+                    }},
+                    {"refill": ["Energy", "Missile", "PowerBomb"]}
+                  ]
+                }
+              ]
+            },
             {
               "id": 2,
               "strats": [
@@ -4527,7 +4909,7 @@
                 {
                   "name": "Base",
                   "notable": false,
-                  "requires": [{"obstaclesCleared": ["A"]}],
+                  "requires": [ {"obstaclesCleared": ["A"]} ],
                   "note": "To avoid redundant requirements, obstacle must be destroyed by going to 2->3->1."
                 }
               ],
@@ -4587,6 +4969,24 @@
           "from": 1,
           "to": [
             {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Space Pirate Farm",
+                  "notable": false,
+                  "requires": [
+                    "SpaceJump",
+                    "ScrewAttack",
+                    {"resetRoom": {
+                      "nodes": [1],
+                      "mustStayPut": false
+                    }},
+                    {"refill": ["Energy", "Missile"]}
+                  ]
+                }
+              ]
+            },
+            {
               "id": 2,
               "strats": [
                 {
@@ -4607,7 +5007,7 @@
                 {
                   "name": "Base",
                   "notable": false,
-                  "requires": ["SpaceJump"]
+                  "requires": [ "SpaceJump" ]
                 },
                 {
                   "name": "Insane Walljump",
@@ -4639,7 +5039,8 @@
                   "note": [
                     "Watch the right-side standing pirate walk towards the wall as far as possible from below.",
                     "The available running space is just enough to jump up and walljump the ledge by the door."
-                  ]
+                  ],
+                  "devNote": "This is also possible without going below and manipulating the camera, by standing on the slope and carefully jumping up and back."
                 },
                 {
                   "name": "HiJump Speedjump with Damage",
@@ -4662,26 +5063,30 @@
                       {"and": [
                         "canShinechargeMovement",
                         "canUseSpeedEchoes",
-                        { "canShineCharge": {
+                        {"canShineCharge": {
                           "usedTiles": 19,
-                          "shinesparkFrames": 1,
-                          "excessShinesparkFrames": 1,
                           "openEnd": 0
+                        }},
+                        {"shinespark": {
+                          "frames": 1,
+                          "excessFrames": 1
                         }}
                       ]},
                       {"and": [
                         "canShinechargeMovement",
                         "canUseSpeedEchoes",
-                        { "enemyDamage": { "enemy": "Pink Space Pirate (standing)", "type": "contact", "hits": 1 } },
-                        { "canShineCharge": {
+                        {"enemyDamage": { "enemy": "Pink Space Pirate (standing)", "type": "contact", "hits": 1 } },
+                        {"canShineCharge": {
                           "usedTiles": 21,
-                          "shinesparkFrames": 2,
-                          "excessShinesparkFrames": 2,
                           "openEnd": 0
+                        }},
+                        {"shinespark": {
+                          "frames": 2,
+                          "excessFrames": 2
                         }}
                       ]},
                       {"and": [
-                        "Charge",
+                        "canPseudoScrew",
                         { "enemyDamage": { "enemy": "Pink Space Pirate (standing)", "type": "contact", "hits": 1 } }
                       ]}
                     ]}
@@ -4696,9 +5101,7 @@
                   "failures": [
                     {
                       "name": "Fail Bomb Jump",
-                      "cost": [
-                        { "enemyDamage": { "enemy": "Pink Space Pirate (standing)", "hits": 1, "type": "laser" } }
-                      ]
+                      "cost": [ { "enemyDamage": { "enemy": "Pink Space Pirate (standing)", "hits": 1, "type": "laser" } } ]
                     }
                   ],
                   "note": "Let the wall pirate jump to the otherside of the room.  Shooting the standing pirate (with anything) will prevent it from attacking."
@@ -4707,40 +5110,47 @@
                   "name": "Kill Pirates With Shinesparks And Escape",
                   "notable": false,
                   "requires": [
-                    "canCarefulJump",
+                    {"or": [
+                      "Morph",
+                      "canCarefulJump",
+                      "canCameraManip"
+                    ]},
                     "canShinechargeMovementComplex",
-                      {"canShineCharge": {
-                        "usedTiles": 21,
-                        "shinesparkFrames": 30,
-                        "excessShinesparkFrames": 7,
-                        "openEnd": 0
-                      }}
+                    {"canShineCharge": {
+                      "usedTiles": 21,
+                      "openEnd": 0
+                    }},
+                    {"shinespark": {
+                      "frames": 30,
+                      "excessFrames": 7
+                    }},
+                    "canUseSpeedEchoes",
+                    {"or": [
+                      "canCameraManip",
+                      {"and": [
+                        {"canShineCharge": {
+                          "usedTiles": 19,
+                          "openEnd": 0
+                        }},
+                        {"shinespark": {
+                          "frames": 2,
+                          "excessFrames": 2
+                        }}
+                      ]},
+                      {"and": [
+                        {"canShineCharge": {
+                          "usedTiles": 21,
+                          "openEnd": 0
+                        }},
+                        {"shinespark": {
+                          "frames": 3,
+                          "excessFrames": 3
+                        }},
+                        {"enemyDamage": {"enemy": "Pink Space Pirate (standing)", "type": "laser", "hits": 1}}
+                      ]}
+                    ]}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [
-                        "canUseSpeedEchoes",
-                        {"or": [
-                          { "canShineCharge": {
-                            "usedTiles": 19,
-                            "shinesparkFrames": 2,
-                            "excessShinesparkFrames": 2,
-                            "openEnd": 0
-                          }},
-                          {"and": [
-                            { "canShineCharge": {
-                              "usedTiles": 21,
-                              "shinesparkFrames": 3,
-                              "excessShinesparkFrames": 3,
-                              "openEnd": 0
-                            }},
-                            { "enemyDamage": { "enemy": "Pink Space Pirate (standing)", "type": "laser", "hits": 1 } }
-                          ]}
-                         ]}
-                      ]
-                    }
-                  ],
+                  "clearsObstacles": ["A"],
                   "failures": [
                     {
                       "name": "Miss Shortcharge",
@@ -4750,7 +5160,8 @@
                   "note": [
                     "Using the bottom of the room, shortcharge to use the echoes created by shinesparking to kill all of the Standing Pirates.",
                     "Either lead the pirate to the left wall or take a hit to gain iframes to use the full runway to charge a spark",
-                    "To lead a pirate, have it shoot in the direction you want it to go.  Then jump overhead and crouch on the other side.",
+                    "To lead a pirate, have it shoot in the direction you want it to go. Then jump overhead and crouch on the other side.",
+                    "Or, jump and aim down while on the sloped tiles just above to lower the camera and wait for the pirate to move to the correct spot.",
                     "Turn around and diagonal spark the ceiling to kill the lowest pirate, and later the middle pirates.",
                     "Building a spark towards the left allows for enough run speed to jump to the middle level.",
                     "Then vertical shinespark out which kills the top pirate."
@@ -4790,37 +5201,27 @@
                 {
                   "name": "Simple Weapons",
                   "notable": false,
-                  "requires": [],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [
-                        {"or":[
-                          "Plasma",
-                          "ScrewAttack"
-                        ]}
-                      ]
-                    }
-                  ]
+                  "requires": [
+                    {"or":[
+                      "Plasma",
+                      "ScrewAttack"
+                    ]}
+                  ],
+                  "clearsObstacles": ["A"]
                 },
                 {
                   "name": "Plasma Room Pseudo Screw",
                   "notable": false,
-                  "requires": [],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [
-                        "Charge",
-                        {"enemyDamage": {
-                          "enemy": "Pink Space Pirate (standing)",
-                          "type": "contact",
-                          "hits": 4
-                        }}
-                      ]
-                    }
+                  "requires": [
+                    "canPseudoScrew",
+                    {"enemyDamage": {
+                      "enemy": "Pink Space Pirate (standing)",
+                      "type": "contact",
+                      "hits": 4
+                    }}
                   ],
-                  "note": "The 4 standing pirates take 2 Pseudo Screws to kill each, so Samus must take 4 hits.  No damage is taken when the enemy dies."
+                  "clearsObstacles": ["A"],
+                  "note": "The 4 standing pirates take 2 Pseudo Screws to kill each, so Samus must take 4 hits. No damage is taken when the enemy dies."
                 }
               ]
             }
@@ -4854,21 +5255,25 @@
                     {"or": [
                       {"and": [
                         "HiJump",
-                        { "canShineCharge": {
+                        {"canShineCharge": {
                           "usedTiles": 21,
-                          "shinesparkFrames": 21,
-                          "excessShinesparkFrames": 7,
                           "openEnd": 0
+                        }},
+                        {"shinespark": {
+                          "frames": 21,
+                          "excessFrames": 7
                         }}
                       ]},
                       {"and": [
                          "canShinechargeMovementComplex",
                          "canCarefulJump",
-                        { "canShineCharge": {
+                        {"canShineCharge": {
                           "usedTiles": 21,
-                          "shinesparkFrames": 30,
-                          "excessShinesparkFrames": 7,
                           "openEnd": 0
+                        }},
+                        {"shinespark": {
+                          "frames": 30,
+                          "excessFrames": 7
                         }}
                       ]}
                     ]}
@@ -4878,12 +5283,16 @@
                   "name": "Frozen Wall Pirate Plasma Escape",
                   "notable": false,
                   "requires": [
-                    "canUseFrozenEnemies",
-                    "canPreciseWalljump"
+                    "canTrickyUseFrozenEnemies",
+                    "canPreciseWalljump",
+                    "canCameraManip"
                   ],
                   "note": [
                     "It's possible to climb up with just ice by freezing the wall space pirates (who can be frozen and killed without Plasma).",
-                    "Clearing the grey door lock would require killing the frozen pirate after using it to climb."
+                    "Clearing the grey door lock would require killing the frozen pirate after using it to climb.",
+                    "To do this most easily, freeze the Pirate as high as possible on the left wall.",
+                    "Bait the pirate to jump across the room early so that it stays high on the wall, or bring it on camera by jumping below the platform if the wall pirate gets too low.",
+                    "After reaching the top, it can help to reset the camera by moving to the right on the center platform and then back left."
                   ]
                 },
                 {

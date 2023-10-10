@@ -129,7 +129,7 @@
                   "notable": false,
                   "requires": [
                     "h_canNavigateUnderwater",
-                    "canRightFacingDoorXRayClimb",
+                    "h_canLeftDoorXRayClimb",
                     {"resetRoom":{
                       "nodes": [1],
                       "mustStayPut": true
@@ -140,7 +140,8 @@
                       "overrideRunwayRequirements": true,
                       "useFrames": 200
                     }}
-                  ]
+                  ],
+                  "note": "This is a short climb, only a few tiles."
                 }
               ],
               "note": "This link is only for the X-Ray climb, which skips the junction altogether."
@@ -167,7 +168,7 @@
                   "name": "Oasis Right-Side X-Ray Climb",
                   "notable": false,
                   "requires": [
-                    "canLeftFacingDoorXRayClimb",
+                    "h_canRightDoorXRayClimb",
                     {"resetRoom":{
                       "nodes": [2],
                       "mustStayPut": true
@@ -181,7 +182,7 @@
                         "useFrames": 200
                       }},
                       {"and": [
-                        "canSubmergedLeftFacingDoorXRayClimb",
+                        "h_canRightDoorXRayClimbFromWater",
                         {"adjacentRunway": {
                           "fromNode": 2,
                           "usedTiles": 0.5,
@@ -191,7 +192,8 @@
                         }}
                       ]}
                     ]}
-                  ]
+                  ],
+                  "note": "This is a short climb, only a few tiles."
                 }
               ],
               "note": "This link is only for the X-Ray climb, which skips the junction altogether."
@@ -343,18 +345,18 @@
                       {"canComeInCharged": {
                         "fromNode": 1,
                         "inRoomPath": [1, 5],
-                        "framesRemaining": 30,
-                        "shinesparkFrames": 23,
-                        "excessShinesparkFrames": 10
+                        "framesRemaining": 30
                       }},
                       {"canComeInCharged": {
                         "fromNode": 2,
                         "inRoomPath": [2, 5],
-                        "framesRemaining": 30,
-                        "shinesparkFrames": 23,
-                        "excessShinesparkFrames": 10
+                        "framesRemaining": 30
                       }}
-                    ]}
+                    ]},
+                    {"shinespark": {
+                      "frames": 23,
+                      "excessFrames": 10
+                    }}  
                   ],
                   "note": "The spark takes Samus directly to the top platform.",
                   "devNote": "This does not require canWaterShineCharge, as you can store the shinecharge before entering the room."
@@ -384,9 +386,11 @@
                     ]},
                     {"canShineCharge": {
                       "usedTiles": 33,
-                      "shinesparkFrames": 23,
-                      "excessShinesparkFrames": 10,
                       "openEnd": 2
+                    }},
+                    {"shinespark": {
+                      "frames": 23,
+                      "excessFrames": 10
                     }}
                   ],
                   "note": "Spark diagonally through the bomb blocks."
@@ -451,16 +455,15 @@
                       {"canComeInCharged": {
                         "fromNode": 1,
                         "inRoomPath": [1, 5],
-                        "framesRemaining": 30,
-                        "shinesparkFrames": 3
+                        "framesRemaining": 30
                       }},
                       {"canComeInCharged": {
                         "fromNode": 2,
                         "inRoomPath": [2, 5],
-                        "framesRemaining": 30,
-                        "shinesparkFrames": 3
+                        "framesRemaining": 30
                       }}
-                    ]}
+                    ]},
+                    {"shinespark": {"frames": 3}}
                   ],
                   "note": "Spark into the bomb blocks. The trick can fail with 50% probability due to collision oscillation.",
                   "devNote": "This does not require canWaterShineCharge, as you can store the shinecharge before entering the room."
@@ -490,9 +493,9 @@
                     ]},
                     {"canShineCharge": {
                       "usedTiles": 33,
-                      "shinesparkFrames": 3,
                       "openEnd": 2
-                    }}
+                    }},
+                    {"shinespark": {"frames": 3}}
                   ],
                   "note": "Spark into the bomb blocks. The trick can fail with 50% probability due to collision oscillation."
                 },
@@ -599,11 +602,7 @@
                           "canConsecutiveWalljump"
                         ]}
                       ]},
-                      {"and": [
-                        "canSpringBallJumpMidAir",
-                        "canCrouchJump",
-                        "canTrickyJump"
-                      ]}
+                      "h_canMaxHeightSpringBallJump"
                     ]}
                   ]
                 }
@@ -773,11 +772,11 @@
                   "requires": [
                     {"canComeInCharged": {
                       "fromNode": 1,
-                      "framesRemaining": 0,
-                      "shinesparkFrames": 98
-                    }}
+                      "framesRemaining": 0
+                    }},
+                    {"shinespark": {"frames": 98}}
                   ],
-                  "note": "Frame cost assumes no Gravity"
+                  "devNote": "Frame cost assumes no Gravity"
                 },
                 {
                   "name": "G-Mode",
@@ -795,11 +794,19 @@
                       "HiJump",
                       "Gravity",
                       "canSpringBallJumpMidAir"
+                    ]},
+                    {"or": [
+                      "canCarefulJump",
+                      {"enemyDamage": {
+                        "enemy": "Evir",
+                        "type": "particle",
+                        "hits": 1
+                      }}
                     ]}
                   ]
                 }
               ],
-              "note": "This link is only for sparking. All other strats should go 1 -> 5 -> 4 -> 2."
+              "devNote": "This link is only for sparking and G-Mode. All other strats should go 1 -> 5 -> 4 -> 2."
             },
             {
               "id": 5,
@@ -810,12 +817,12 @@
                   "requires": [ "Gravity" ]
                 },
                 {
-                  "name": "Suitless",
+                  "name": "Suitless SpringBall Jump",
                   "notable": false,
                   "requires": [
                     "canSuitlessMaridia",
                     "HiJump",
-                    "canSpringBallJumpMidAir",
+                    "canTrickySpringBallJump",
                     "canPlayInSand"
                   ]
                 },
@@ -825,19 +832,20 @@
                   "requires": [
                     "canSuitlessMaridia",
                     "canTrickyJump",
-                    "canBombJumpOnSand",
                     "canSandfallBounce",
-                    {"or":[
+                    "h_canUseMorphBombs",
+                    {"or": [
                       "canSandIBJ",
                       {"and": [
                         "HiJump",
-                        "canMidAirMorph"
+                        "can3HighMidAirMorph"
                       ]}
                     ]}
                   ],
                   "note": [
                     "Time a bomb to hit Samus when she is morphed, 1 pixel into the sand, inside a sandfall, and moving horizontally.",
-                    "There is a setup using a sand IBJ to get the right timing, and another setup using a very fast jump morph with HiJump."
+                    "There is a setup using a Sand IBJ to rise up the sandfall from the floor and Sandfall Bounce with the correct timing.",
+                    "An alternate setup places the bomb before entering the sand and jumps into it with a very fast jump morph, using HiJump."
                   ]
                 },
                 {
@@ -959,11 +967,11 @@
                   "requires": [
                     {"canComeInCharged": {
                       "fromNode": 2,
-                      "framesRemaining": 0,
-                      "shinesparkFrames": 98
-                    }}
+                      "framesRemaining": 0
+                    }},
+                    {"shinespark": {"frames": 98}}
                   ],
-                  "note": "Frame cost assumes no Gravity"
+                  "devNote": "Frame cost assumes no Gravity"
                 },
                 {
                   "name": "G-Mode",
@@ -974,11 +982,12 @@
                       "mode": "any",
                       "artificialMorph": false
                     }},
-                    "h_canNavigateUnderwater"
+                    "h_canNavigateUnderwater",
+                    "canCarefulJump"
                   ]
                 }
               ],
-              "note": "This link is only for sparking. All other strats should go 2 -> 4 -> 5 -> 1."
+              "devNote": "This link is only for sparking and G-Mode. All other strats should go 2 -> 4 -> 5 -> 1."
             },
             {
               "id": 4,
@@ -986,19 +995,46 @@
                 {
                   "name": "Base",
                   "notable": false,
-                  "requires": ["Gravity"]
+                  "requires": [
+                    "Gravity",
+                    "SpaceJump"
+                  ]
                 },
                 {
-                  "name": "Suitless HiJump",
+                  "name": "Gravity Platforming (Right to Center)",
+                  "notable": false,
+                  "requires": [
+                    "Gravity",
+                    {"or": [
+                      "ScrewAttack",
+                      "canCarefulJump",
+                      {"enemyDamage": {
+                        "enemy": "Evir",
+                        "type": "particle",
+                        "hits": 1
+                      }}
+                    ]}
+                  ]
+                },
+                {
+                  "name": "Suitless HiJump (Right to Center)",
                   "notable": false,
                   "requires": [
                     "canSuitlessMaridia",
                     "HiJump",
-                    "canPlayInSand"
+                    "canPlayInSand",
+                    {"or": [
+                      "canCarefulJump",
+                      {"enemyDamage": {
+                        "enemy": "Evir",
+                        "type": "particle",
+                        "hits": 1
+                      }}
+                    ]}
                   ]
                 },
                 {
-                  "name": "Suitless",
+                  "name": "Suitless Itemless (Right to Center)",
                   "notable": false,
                   "requires": [
                     "canSuitlessMaridia",
@@ -1021,16 +1057,27 @@
                   "name": "Base",
                   "notable": false,
                   "requires": [
+                    {"enemyDamage": {
+                      "enemy": "Evir",
+                      "type": "particle",
+                      "hits": 1
+                    }}
+                  ]
+                },
+                {
+                  "name": "Evir Dodge",
+                  "notable": false,
+                  "requires": [
+                    "canPrepareForNextRoom",
+                    "canPlayInSand",
+                    "canTrickyJump",
                     {"or": [
-                      "canPrepareForNextRoom",
-                      {"enemyDamage": {
-                        "enemy": "Evir",
-                        "type": "particle",
-                        "hits": 1
-                      }}
+                      "Gravity",
+                      "HiJump",
+                      "canSandfallBounce"
                     ]}
                   ],
-                  "note": "Evirs will shoot Samus upon entering the room.  It can be avoided by starting on the right side of the entrance and moving left."
+                  "note": "Enter on the right side of the transition and move left to avoid damage."
                 }
               ]
             }
@@ -1058,6 +1105,14 @@
                       "HiJump",
                       "Gravity",
                       "canSpringBallJumpMidAir"
+                    ]},
+                    {"or": [
+                      "canCarefulJump",
+                      {"enemyDamage": {
+                        "enemy": "Evir",
+                        "type": "particle",
+                        "hits": 1
+                      }}
                     ]}
                   ]
                 }
@@ -1071,22 +1126,44 @@
                   "notable": false,
                   "requires": [
                     "Gravity",
-                    {"or": [
-                      "SpaceJump",
-                      "canPlayInSand",
-                      "canUseFrozenEnemies",
-                      "canTrickyJump"
-                    ]}
-                  ],
-                  "devNote": "Tricky for avoiding damage while platforming."
+                    "SpaceJump"
+                  ]
                 },
                 {
-                  "name": "Suitless",
+                  "name": "Gravity Platforming (Center to Right)",
+                  "notable": false,
+                  "requires": [
+                    "Gravity",
+                    {"or": [
+                      "canPlayInSand",
+                      "canUseFrozenEnemies",
+                      "canCarefulJump"
+                    ]},
+                    {"or": [
+                      "canCarefulJump",
+                      {"enemyDamage": {
+                        "enemy": "Evir",
+                        "type": "particle",
+                        "hits": 1
+                      }}
+                    ]}
+                  ]
+                },
+                {
+                  "name": "Suitless Platforming (Center to Right)",
                   "notable": false,
                   "requires": [
                     "canSuitlessMaridia",
                     "canPlayInSand",
-                    "HiJump"
+                    "HiJump",
+                    {"or": [
+                      "canCarefulJump",
+                      {"enemyDamage": {
+                        "enemy": "Evir",
+                        "type": "particle",
+                        "hits": 1
+                      }}
+                    ]}
                   ]
                 },
                 {
@@ -1097,8 +1174,24 @@
                     "canPlayInSand",
                     "canTrickyJump",
                     "canCrouchJump",
-                    "canSpringBallJumpMidAir",
-                    "canStationaryLateralMidAirMorph"
+                    "canTrickySpringBallJump",
+                    "canStationaryLateralMidAirMorph",
+                    {"or": [
+                      {"enemyKill": {
+                        "enemies": [["Evir"]],
+                        "explicitWeapons": [
+                          "Super",
+                          "Missile",
+                          "PowerBombPeriphery",
+                          "Plasma"
+                        ]
+                      }},
+                      {"enemyDamage": {
+                        "enemy": "Evir",
+                        "type": "particle",
+                        "hits": 1
+                      }}
+                    ]}
                   ],
                   "reusableRoomwideNotable": "West Sand Hall Suitless Bootless Spring Ball",
                   "note": [
@@ -1119,7 +1212,7 @@
                   "note": [
                     "From the sand fall, quickly get onto the left platform to prevent the right side Evir from lowering too far.",
                     "Freeze the right Evir, then jump on the sand to the right while shooting ice over the first Evir to also freeze the second.",
-                    "After crossing with both Evirs frozen and high, let them lower just enough to use them as platforms to jump through to the right door.",
+                    "Freezing the first Evir very high up would also work.",
                     "As a backup, it may be possible to make them rise again by hitting them with a PB - place the PB in the air to avoid double hitting and killing them."
                   ]
                 },
@@ -1149,7 +1242,7 @@
                   ]
                 },
                 {
-                  "name": "Gravity platforming",
+                  "name": "Gravity Platforming (Center to Left)",
                   "notable": false,
                   "requires": [
                     "Gravity",
@@ -1160,13 +1253,11 @@
                       "canCarefulJump"
                     ]},
                     {"or": [
-                      "canCarefulJump",
-                      "ScrewAttack",
-                      "Ice",
-                      {"enemyKill": {
-                        "enemies": [["Evir"]],
-                        "explicitWeapons": [ "Plasma", "Super", "PowerBombPeriphery" ]
-                      }},
+                      {"and": [
+                        "ScrewAttack",
+                        "canCarefulJump"
+                      ]},
+                      "canTrickyJump",
                       {"enemyDamage": {
                         "enemy": "Evir",
                         "type": "particle",
@@ -1176,12 +1267,20 @@
                   ]
                 },
                 {
-                  "name": "Suitless",
+                  "name": "Suitless Platforming (Center to Left)",
                   "notable": false,
                   "requires": [
                     "canSuitlessMaridia",
                     "HiJump",
-                    "canPlayInSand"
+                    "canPlayInSand",
+                    {"or": [
+                      "canTrickyJump",
+                      {"enemyDamage": {
+                        "enemy": "Evir",
+                        "type": "particle",
+                        "hits": 1
+                      }}
+                    ]}
                   ]
                 },
                 {
@@ -1192,8 +1291,24 @@
                     "canPlayInSand",
                     "canTrickyJump",
                     "canCrouchJump",
-                    "canSpringBallJumpMidAir",
-                    "canStationaryLateralMidAirMorph"
+                    "canTrickySpringBallJump",
+                    "canStationaryLateralMidAirMorph",
+                    {"or": [
+                      {"enemyKill": {
+                        "enemies": [["Evir"]],
+                        "explicitWeapons": [
+                          "Super",
+                          "Missile",
+                          "PowerBombPeriphery",
+                          "Plasma"
+                        ]
+                      }},
+                      {"enemyDamage": {
+                        "enemy": "Evir",
+                        "type": "particle",
+                        "hits": 1
+                      }}
+                    ]}
                   ],
                   "reusableRoomwideNotable": "West Sand Hall Suitless Bootless Spring Ball",
                   "note": [
@@ -1213,7 +1328,30 @@
                   ],
                   "note": [
                     "Freeze the Evir quickly before it descends and use it to get to the platforms.",
-                    "Getting a good jump while on the right side of the floating block can get Samus to the rightmost block.",
+                    "Getting a good jump while on the right side of the floating block can get Samus to the leftmost block.",
+                    "With a clean jump off of the sand, Samus can then get onto the final vertical pillar."
+                  ]
+                },
+                {
+                  "name": "West Sand Hall Suitless Damage Boost (Center to Left)",
+                  "notable": true,
+                  "requires": [
+                    "canSuitlessMaridia",
+                    "canPlayInSand",
+                    "canTrickyJump",
+                    "canCrouchJump",
+                    "canNeutralDamageBoost",
+                    {"enemyDamage": {
+                      "enemy": "Evir",
+                      "type": "particle",
+                      "hits": 1
+                    }}
+                  ],
+                  "note": [
+                    "Use the projectile from a fully submerged Evir to boost Samus into the sandfall, providing just enough height to make the first and hardest jump.",
+                    "Time the projectile to hit Samus when at the maximum height from a jump.",
+                    "The hit must be on the right side of Samus and with no inputs held, but also hold forward during the damage knockback to move through the sandfall.",
+                    "Getting a good jump while on the right side of the next floating block can get Samus to the leftmost block.",
                     "With a clean jump off of the sand, Samus can then get onto the final vertical pillar."
                   ]
                 }
@@ -1265,16 +1403,31 @@
                   "notable": false,
                   "requires": [
                     "Gravity",
+                    "SpaceJump"
+                  ]
+                },
+                {
+                  "name": "Gravity Platforming (Left to Center)",
+                  "notable": false,
+                  "requires": [
+                    "Gravity",
                     {"or": [
-                      "SpaceJump",
                       "HiJump",
                       "canPreciseWalljump",
                       "canPlayInSand"
+                    ]},
+                    {"or": [
+                      "canTrickyJump",
+                      {"enemyDamage": {
+                        "enemy": "Evir",
+                        "type": "particle",
+                        "hits": 1
+                      }}
                     ]}
                   ]
                 },
                 {
-                  "name": "Suitless",
+                  "name": "Suitless Platforming (Left to Center)",
                   "notable": false,
                   "requires": [
                     "canSuitlessMaridia",
@@ -1285,12 +1438,7 @@
                       "canSpringBallJumpMidAir"
                     ]},
                     {"or": [
-                      "canCarefulJump",
-                      "Ice",
-                      {"enemyKill": {
-                        "enemies": [["Evir"]],
-                        "explicitWeapons": [ "Plasma", "Super", "PowerBombPeriphery" ]
-                      }},
+                      "canTrickyJump",
                       {"enemyDamage": {
                         "enemy": "Evir",
                         "type": "particle",
@@ -1307,7 +1455,7 @@
                     "canPlayInSand",
                     "canTrickyJump",
                     "canCrouchJump",
-                    "canSpringBallJumpMidAir",
+                    "canTrickySpringBallJump",
                     "canStationaryLateralMidAirMorph"
                   ],
                   "reusableRoomwideNotable": "West Sand Hall Suitless Bootless Spring Ball",
@@ -1603,9 +1751,11 @@
                     "canMidairShinespark",
                     {"canComeInCharged": {
                       "framesRemaining": 15,
-                      "fromNode": 1,
-                      "shinesparkFrames": 58,
-                      "excessShinesparkFrames": 4
+                      "fromNode": 1
+                    }},
+                    {"shinespark": {
+                      "frames": 58,
+                      "excessFrames": 4
                     }}
                   ],
                   "devNote": "Needs to activate the spark in-room because Samus will bonk if sparking through too low."
@@ -1617,10 +1767,12 @@
                     "canMidairShinespark",
                     {"canComeInCharged": {
                       "fromNode": 1,
-                      "framesRemaining": 60,
-                      "shinesparkFrames": 71,
-                      "excessShinesparkFrames": 4
-                     }}
+                      "framesRemaining": 60
+                    }},
+                    {"shinespark": {
+                      "frames": 71,
+                      "excessFrames": 4
+                    }}
                   ],
                   "devNote": "Needs to activate the spark in-room because Samus will bonk if sparking through too low."
                 },
@@ -1648,7 +1800,7 @@
                   ]
                 }
               ],
-              "devNote": "This link is only for sparking. All other strats should go 1 -> 4 -> 2."
+              "devNote": "This link is only for sparking and G-Mode. All other strats should go 1 -> 4 -> 2."
             },
             {
               "id": 4,
@@ -1768,7 +1920,7 @@
                     {"or": [
                       "canTrickyUseFrozenEnemies",
                       {"and": [
-                        "canDamageBoost",
+                        "canNeutralDamageBoost",
                         {"enemyDamage": { "enemy": "Evir", "type": "contact", "hits": 1 }}
                       ]}
                     ]},
@@ -1852,9 +2004,11 @@
                     "canMidairShinespark",
                     {"canComeInCharged": {
                       "framesRemaining": 15,
-                      "fromNode": 2,
-                      "shinesparkFrames": 61,
-                      "excessShinesparkFrames": 4
+                      "fromNode": 2
+                    }},
+                    {"shinespark": {
+                      "frames": 61,
+                      "excessFrames": 4
                     }}
                   ],
                   "devNote": "Needs to activate the spark in-room because Samus will bonk if sparking through too low."
@@ -1866,9 +2020,11 @@
                     "canMidairShinespark",
                     {"canComeInCharged": {
                       "fromNode": 2,
-                      "framesRemaining": 60,
-                      "shinesparkFrames": 71,
-                      "excessShinesparkFrames": 4
+                      "framesRemaining": 60
+                    }},
+                    {"shinespark": {
+                      "frames": 71,
+                      "excessFrames": 4
                     }}
                   ],
                   "devNote": "Needs to activate the spark in-room because Samus will bonk if sparking through too low."
@@ -1893,7 +2049,7 @@
                   "devNote": "Only the last jump needs any items."
                 }
               ],
-              "devNote": "This link is only for sparking. All other strats should go 2 -> 4 -> 1."
+              "devNote": "This link is only for sparking and G-Mode. All other strats should go 2 -> 4 -> 1."
             },
             {
               "id": 4,
@@ -1965,16 +2121,27 @@
                   "name": "Base",
                   "notable": false,
                   "requires": [
+                    {"enemyDamage": {
+                      "enemy": "Evir",
+                      "type": "particle",
+                      "hits": 1
+                    }}
+                  ]
+                },
+                {
+                  "name": "Evir Dodge",
+                  "notable": false,
+                  "requires": [
+                    "canPrepareForNextRoom",
+                    "canPlayInSand",
+                    "canTrickyJump",
                     {"or": [
-                      "canPrepareForNextRoom",
-                      {"enemyDamage": {
-                        "enemy": "Evir",
-                        "type": "particle",
-                        "hits": 1
-                      }}
+                      "Gravity",
+                      "HiJump",
+                      "canSandfallBounce"
                     ]}
                   ],
-                  "note": "Enter on the right side of the transition to avoid damage."
+                  "note": "Enter on the right side of the transition to prevent the Evirs from firing."
                 }
               ]
             }
@@ -2005,7 +2172,7 @@
                       "h_canUseSpringBall"
                      ]},
                     {"or": [
-                      "canCarefulJump",
+                      "canTrickyJump",
                       {"enemyDamage": {
                         "enemy": "Evir",
                         "type": "particle",
@@ -2029,7 +2196,7 @@
                     "HiJump",
                     "canPlayInSand",
                     {"or": [
-                      "canCarefulJump",
+                      "canTrickyJump",
                       {"enemyDamage": {
                         "enemy": "Evir",
                         "type": "particle",
@@ -2057,7 +2224,8 @@
                     {"enemyDamage": { "enemy": "Evir", "type": "particle", "hits": 1 }}
                   ],
                   "note": [
-                    "From the left pillar, jump and place a PB to make the Evirs rise again, while being careful not to kill the close Evir. Freeze the first Evir such that its bottom is only slightly lower than the top of the pillar.",
+                    "From the left pillar, jump and place a PB to make the Evirs rise again, while being careful not to kill the close Evir.",
+                    "Freeze the first Evir such that its bottom is only slightly lower than the top of the pillar.",
                     "Crouch jump onto the Evir, then freeze the second about 1.5 to 2.5 tiles lower. Jump off of the sand to get to the left door."
                   ]
                 },
@@ -2131,7 +2299,7 @@
                   "requires": [
                     "Gravity",
                     "canTrickyJump",
-                    "canDamageBoost",
+                    "canHorizontalDamageBoost",
                     {"enemyDamage": {
                       "enemy": "Evir",
                       "type": "particle",
@@ -2355,7 +2523,7 @@
                   "notable": false,
                   "requires": [
                     "h_canNavigateUnderwater",
-                    "canRightFacingDoorXRayClimb",
+                    "h_canLeftDoorXRayClimb",
                     {"resetRoom":{
                       "nodes": [1],
                       "mustStayPut": true
@@ -2365,9 +2533,13 @@
                       "usedTiles": 0.5,
                       "overrideRunwayRequirements": true,
                       "useFrames": 200
-                    }}
+                    }},
+                    "canBePatient"
                   ],
-                  "note": "This climb is left side of the left room - the room with the breakable grapple block."
+                  "note": [
+                    "This climb is from the left side of the left room, the room with the breakable grapple block.",
+                    "Climb up 3 screens."
+                  ]
                 }
               ],
               "note": "This link is only for the X-Ray climb, which skips the junction altogether."
@@ -2416,7 +2588,7 @@
                   "name": "Pants Room Right-Side X-Ray Climb",
                   "notable": false,
                   "requires": [
-                    "canLeftFacingDoorXRayClimb",
+                    "h_canRightDoorXRayClimb",
                     {"resetRoom":{
                       "nodes": [3],
                       "mustStayPut": true
@@ -2430,7 +2602,7 @@
                         "useFrames": 200
                       }},
                       {"and": [
-                        "canSubmergedLeftFacingDoorXRayClimb",
+                        "h_canRightDoorXRayClimbFromWater",
                         {"adjacentRunway": {
                           "fromNode": 3,
                           "usedTiles": 0.5,
@@ -2439,9 +2611,13 @@
                           "useFrames": 200
                         }}
                       ]}
-                    ]}
+                    ]},
+                    "canBePatient"
                   ],
-                  "note": "This climb is right side of the left room - the room with the breakable grapple block."
+                  "note": [
+                    "This climb is right side of the left room - the room with the breakable grapple block.",
+                    "Climb up 3 screens."
+                  ]
                 }
               ],
               "note": "This link is only for the X-Ray climb, which skips the junction altogether."
@@ -2503,16 +2679,15 @@
                       {"canComeInCharged": {
                         "fromNode": 1,
                         "inRoomPath": [1, 4],
-                        "framesRemaining": 150,
-                        "shinesparkFrames": 65
+                        "framesRemaining": 150
                       }},
                       {"canComeInCharged": {
                         "fromNode": 3,
                         "inRoomPath": [3, 4],
-                        "framesRemaining": 150,
-                        "shinesparkFrames": 65
+                        "framesRemaining": 150
                       }}
                     ]},
+                    {"shinespark": {"frames": 65}},
                     {"enemyDamage": {
                       "enemy": "Menu",
                       "type": "contact",
@@ -2638,9 +2813,7 @@
                   "requires": [
                     "Gravity",
                     "Grapple",
-                    "canPlayInSand",
-                    "h_canJumpIntoIBJ",
-                    "canTrickyJump"
+                    "canSandIBJ"
                   ],
                   "note": "Wait for a good jump out of the sand to begin the IBJ with.  A stationary spinjump can help."
                 },
@@ -2651,7 +2824,7 @@
                     "Gravity",
                     "Grapple",
                     "SpringBall",
-                    "h_canIBJ"
+                    "h_canJumpIntoIBJ"
                   ],
                   "note": "Springball can keep Samus out of the sand.  Place the first bomb right after Samus begins falling back towards the sand."
                 },
@@ -2766,26 +2939,41 @@
               "id": 2,
               "strats": [
                 {
-                  "name": "Base",
+                  "name": "Space Jump",
                   "notable": false,
                   "requires": [
                     "Gravity",
+                    "SpaceJump",
                     {"or": [
-                      "canConsecutiveWalljump",
-                      "SpaceJump"
-                    ]},
-                    {"or": [
+                      "ScrewAttack",
+                      "canPseudoScrew",
                       {"enemyDamage": {
                         "enemy": "Menu",
                         "type": "contact",
                         "hits": 1
-                      }},
-                      "ScrewAttack",
-                      "canStaggeredWalljump",
-                      "Charge"
+                      }}
                     ]}
                   ],
-                  "note": "The swarm of Menus will attack Samus at the top of the room.",
+                  "note": "The swarm of Menus will attack Samus at the top of the room. Tank them or kill them with Screw or Pseudo Screw."
+                },
+                {
+                  "name": "Wall Jump",
+                  "notable": false,
+                  "requires": [
+                    "Gravity",
+                    "canConsecutiveWalljump",
+                    {"or": [
+                      "ScrewAttack",
+                      "canStaggeredWalljump",
+                      "canWalljumpWithCharge",
+                      {"enemyDamage": {
+                        "enemy": "Menu",
+                        "type": "contact",
+                        "hits": 1
+                      }}
+                    ]}
+                  ],
+                  "note": "The swarm of Menus will attack Samus at the top of the room. Tank them, carefully dodge them, or kill them with Screw or Pseudo Screw.",
                   "devNote": "The Menus prevent a reliable IBJ."
                 },
                 {
@@ -2809,7 +2997,7 @@
                       }},
                       "ScrewAttack",
                       "canStaggeredWalljump",
-                      "Charge"
+                      "canPseudoScrew"
                     ]}
                   ],
                   "note": [
@@ -2900,8 +3088,7 @@
                   "notable": false,
                   "requires": [
                     {"resetRoom": {
-                      "nodes": [1],
-                      "nodesToAvoid": [4]
+                      "nodes": [1]
                     }}
                   ]
                 }
@@ -3038,6 +3225,24 @@
         {
           "from": 2,
           "to": [
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Puyo Farm",
+                  "notable": false,
+                  "requires": [
+                    "canDodgeWhileShooting",
+                    {"resetRoom": {
+                      "nodes": [2],
+                      "mustStayPut": false
+                    }},
+                    {"refill": ["Energy", "Missile", "PowerBomb"]}
+                  ],
+                  "note": "Stand (don't crouch) next to the door and shoot diagonally down into the sand until the puyos are killed."
+                }
+              ]
+            },
             {
               "id": 4,
               "strats": [
@@ -3617,8 +3822,22 @@
                   "notable": false,
                   "requires": [
                     "Morph",
-                    "Gravity"
-                  ]
+                    "Gravity",
+                    {"or": [
+                      "canWalljump",
+                      "HiJump",
+                      "canIBJ",
+                      "canGravityJump",
+                      "h_canSpringBallBombJump",
+                      "canSpringBallJumpMidAir",
+                      "SpaceJump",
+                      {"and": [
+                         "canUnmorphBombBoost",
+                         "canTrickyJump"
+                      ]}
+                    ]}
+                  ],
+                  "note": "It may be necessary to turn off Gravity Suit in order have more time to jump and morph underwater."
                 },
                 {
                   "name": "Suitless Springball Jump",
@@ -3637,9 +3856,24 @@
                     "Morph",
                     "canSuitlessMaridia",
                     "HiJump",
-                    "canSpaceJumpWaterBounce"
+                    "canSpaceJumpWaterBounce",
+                    "can3HighMidAirMorph"
                   ],
                   "note": "Space jump while partially submerged for more time to mid-air morph."
+                },
+                {
+                  "name": "Suitless, Bootless, Bomb into Springball Jump",
+                  "notable": false,
+                  "requires": [
+                    "canSuitlessMaridia",
+                    "canSunkenTileWideWallClimb",
+                    "canUnderwaterBombIntoSpringBallJump",
+                    "canWallJumpInstantMorph"
+                  ],
+                  "note": [
+                    "Wall jump until Samus is just below the water line and then morph and place a Bomb",
+                    "Use the brief moment during the Bomb explosion that knocks Samus upwards to setup a Springball jump to jump out of the water."
+                  ]
                 },
                 {
                   "name": "Spring Ball Room Escape - Suitless, Bootless, Space Jump",

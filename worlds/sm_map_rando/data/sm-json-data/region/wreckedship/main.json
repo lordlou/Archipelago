@@ -137,6 +137,31 @@
               "requires": []
             }
           ],
+          "leaveWithGModeSetup": [
+            {
+              "strats": [
+                {
+                  "name": "Frozen Atomic",
+                  "notable": false,
+                  "requires": [
+                    "canUpwardGModeSetup",
+                    "canTwoTileSqueeze",
+                    "canTrickyUseFrozenEnemies",
+                    "f_DefeatedPhantoon",
+                    {"enemyDamage": {
+                      "enemy": "Atomic",
+                      "type": "contact",
+                      "hits": 1
+                    }}
+                  ],
+                  "note": [
+                    "Bring two atomics to the top of the room.",
+                    "Stand on one frozen Atomic to bring a second Atomic to the correct height to use as a crouch platform."
+                  ]
+                }
+              ]
+            }
+          ],
           "gModeImmobile": {
             "requires": [
               {"enemyDamage": {
@@ -221,16 +246,11 @@
                 {
                   "name": "Base",
                   "notable": false,
-                  "requires": [
-                    {"resetRoom": {
-                      "nodes": [1, 2, 3, 4, 5, 6],
-                      "obstaclesToAvoid": ["B"]
-                    }}
-                  ]
+                  "requires": [ {"obstaclesNotCleared": ["B"]} ]
                 }
               ],
               "openEnd": 0,
-              "devNote": "It's technically possible to reset at 7 and keep the top layer of obstacle B intact by clipping through the blocks, but do we really need to represent that?"
+              "devNote": "It is technically possible to reset at 7 and keep the top layer of obstacle B intact by clipping through the blocks"
             }
           ],
           "locks": [
@@ -606,43 +626,37 @@
                 {
                   "name": "Base",
                   "notable": false,
-                  "requires": ["Morph"],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": ["h_canBombThings"]
-                    }
-                  ]
+                  "requires": [
+                    "Morph",
+                    {"or": [
+                      "h_canBombThings",
+                      {"obstaclesCleared": ["A"]}
+                    ]}
+                  ],
+                  "clearsObstacles": ["A"]
                 },
                 {
                   "name": "Speedball",
                   "notable": false,
                   "requires": [
-                    "canMockball",
+                    "canSpeedball",
                     {"or": [
                       {"and": [
                         "canSlowShortCharge",
                         {"canComeInCharged": {
-                            "framesRemaining": 180,
-                            "shinesparkFrames": 0,
-                            "fromNode": 6,
-                            "unusableTiles": 5
-                          }}
+                          "framesRemaining": 180,
+                          "fromNode": 6,
+                          "unusableTiles": 5
+                        }}
                       ]},
                       {"canComeInCharged": {
                         "framesRemaining": 180,
-                        "shinesparkFrames": 0,
                         "fromNode": 6,
                         "unusableTiles": 14
                       }}
                     ]}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": []
-                    }
-                  ]
+                  "clearsObstacles": ["A"]
                 },
                 {
                   "name": "Temporary Blue Bounce",
@@ -652,17 +666,11 @@
                     "canSpringBallBounce",
                     {"canComeInCharged": {
                       "framesRemaining": 180,
-                      "shinesparkFrames": 0,
                       "fromNode": 6,
                       "unusableTiles": 1
                     }}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": []
-                    }
-                  ]
+                  "clearsObstacles": ["A"]
                 }
               ]
             }
@@ -672,74 +680,84 @@
           "from": 7,
           "to": [
             {
+              "id": 7,
+              "strats": [
+                {
+                  "name": "Coverns and Atomics Farm (Power Off)",
+                  "notable": false,
+                  "requires": [
+                    "canRiskPermanentLossOfAccess",
+                    {"or": [
+                      "Ice",
+                      "Wave",
+                      "Spazer",
+                      "Plasma",
+                      "h_canUseMorphBombs"
+                    ]},
+                    {"refill": ["Energy", "Missile", "Super"]}
+                  ],
+                  "note": [
+                    "To shoot the Atomics with Ice or Plasma, crouch near the edge of the glass and shoot forward;",
+                    "angled shots downwards also work but from a tile further back."
+                  ]
+                }
+              ]
+            },
+            {
               "id": 9,
               "strats": [
                 {
-                  "name": "Morph Bombs",
+                  "name": "Blocks Already Broken",
                   "notable": false,
-                  "requires": ["Morph"],
-                  "obstacles": [
-                    {
-                      "id": "B",
-                      "requires": ["h_canUseMorphBombs"]
-                    }
-                  ]
+                  "requires": [
+                    "Morph",
+                    {"obstaclesCleared": ["B"]}
+                  ],
+                  "note": "Crouch Jump then Morph from the stairs or run and jump then Morph with no movement assists."
+                },
+                {
+                  "name": "Bombs",
+                  "notable": false,
+                  "requires": [ "h_canUseMorphBombs" ],
+                  "clearsObstacles": ["B"]
                 },
                 {
                   "name": "Shoot the Blocks",
                   "notable": false,
-                  "requires": [ "Morph" ],
-                  "note": "Crouch+jump morph from the stairs or run and jump with no movement assists.",
-                  "obstacles": [
-                    {
-                      "id": "B",
-                      "requires": [
-                        {
-                          "or": [
-                            "Wave",
-                            "Spazer"
-                          ]
-                        }
-                      ]
-                    }
+                  "requires": [
+                    "Morph",
+                    {"or": [
+                      "Wave",
+                      "Spazer"
+                    ]}
+                  ],
+                  "clearsObstacles": ["B"],
+                  "note": "Crouch Jump then Morph from the stairs or run and jump then Morph with no movement assists."
+                },
+                {
+                  "name": "Power Bomb",
+                  "notable": false,
+                  "requires": [ "h_canUsePowerBombs" ],
+                  "clearsObstacles": ["A","B"],
+                  "note": [
+                    "Use a Power Bomb to bounce into the morph tunnel.",
+                    "This will break the shot blocks and the Bomb Blocks going to the door to the right."
                   ]
                 },
                 {
                   "name": "Partial Covern Ice Clip",
                   "notable": true,
-                  "requires": [ "Morph" ],
-                  "note": "Crouch+jump morph from the stairs or run and jump with no movement assists.",
-                  "obstacles": [
-                    {
-                      "id": "B",
-                      "requires": [
-                        {
-                          "and": [
-                            "canUseFrozenEnemies",
-                            "canCeilingClip",
-                            { "not": "f_DefeatedPhantoon" },
-                            "canRiskPermanentLossOfAccess"
-                          ]
-                        }
-                      ],
-                      "note": "Use the Covern to partial ceiling clip so your beam can reach the obstacle shot block."
-                    }
-                  ]
-                },
-                {
-                  "name": "Power Bombs",
-                  "notable": false,
-                  "requires": ["Morph"],
-                  "obstacles": [
-                    {
-                      "id": "B",
-                      "requires": ["h_canUsePowerBombs"],
-                      "additionalObstacles": ["A"]
-                    }
+                  "requires": [
+                    "Morph",
+                    "canUseFrozenEnemies",
+                    "canCeilingClip",
+                    { "not": "f_DefeatedPhantoon" },
+                    "canRiskPermanentLossOfAccess"
                   ],
+                  "clearsObstacles": ["B"],
                   "note": [
-                    "It's possible to mid-air morph into the morph tunnel.",
-                    "This is why no PBs are needed if the obstacle is already broken."
+                    "Use the Covern to partial ceiling clip so your beam can reach the shot block of the ceiling at the end of the Morph tunnel to the left.",
+                    "It is possible to mid-air morph to get into the morph tunnel with nothing, from the Covern, the ground, or the stairs below."
                   ]
                 }
               ]
@@ -753,40 +771,37 @@
               "id": 9,
               "strats": [
                 {
+                  "name": "Blocks Already Broken",
+                  "notable": false,
+                  "requires": [
+                    "Morph",
+                    {"obstaclesCleared": ["C"]}
+                  ]
+                },
+                {
                   "name": "Base",
                   "notable": false,
-                  "requires": [ "Morph" ],
-                  "obstacles": [
-                    {
-                      "id": "C",
-                      "requires": [ "h_canBombThings" ]
-                    }
-                  ]
+                  "requires": [ "h_canBombThings" ],
+                  "clearsObstacles": ["C"]
                 },
                 {
                   "name": "Temporary Blue Bounce (Phantoon Dead)",
                   "notable": false,
-                  "requires": ["Morph"],
-                  "obstacles": [
-                    {
-                      "id": "C",
-                      "requires": [
-                        "f_DefeatedPhantoon",
-                        "canXRayTurnaround",
-                        "canSpringBallBounce",
-                        {"or": [
-                          "HiJump",
-                          "canChainTemporaryBlue"
-                        ]},
-                        {"canShineCharge": {
-                          "usedTiles": 20,
-                          "openEnd": 1,
-                          "shinesparkFrames": 0,
-                          "steepDownTiles": 4
-                        }}
-                      ]
-                    }
+                  "requires": [
+                    "f_DefeatedPhantoon",
+                    "canXRayTurnaround",
+                    "canSpringBallBounce",
+                    {"or": [
+                      "HiJump",
+                      "canChainTemporaryBlue"
+                    ]},
+                    {"canShineCharge": {
+                      "usedTiles": 20,
+                      "openEnd": 1,
+                      "steepDownTiles": 4
+                    }}
                   ],
+                  "clearsObstacles": ["C"],
                   "note": [
                     "Run towards the conveyor to more easily build the ShineCharge, and for an easier bounce into the morph tunnel.",
                     "Neutral bounce into the Morph tunnel, and SpringBall bounce to continue all the way through."
@@ -796,23 +811,18 @@
                 {
                   "name": "Chain Temporary Blue Bounce (Phantoon Alive)",
                   "notable": false,
-                  "requires": ["Morph"],
-                  "obstacles": [
-                    {
-                      "id": "C",
-                      "requires": [
-                        "canChainTemporaryBlue",
-                        "canXRayTurnaround",
-                        "canSpringBallBounce",
-                        {"canShineCharge": {
-                          "usedTiles": 16,
-                          "openEnd": 1,
-                          "shinesparkFrames": 0,
-                          "steepDownTiles": 4
-                        }}
-                      ]
-                    }
+                  "requires": [
+                    "Morph",
+                    "canChainTemporaryBlue",
+                    "canXRayTurnaround",
+                    "canSpringBallBounce",
+                    {"canShineCharge": {
+                      "usedTiles": 16,
+                      "openEnd": 1,
+                      "steepDownTiles": 4
+                    }}
                   ],
+                  "clearsObstacles": ["C"],
                   "note": "Neutral bounce into the Morph tunnel, and SpringBall bounce to continue all the way through.",
                   "devNote": "Defeating Phantoon makes this strat easier."
                 },
@@ -828,10 +838,10 @@
                     {"canShineCharge": {
                       "usedTiles": 16,
                       "openEnd": 0,
-                      "shinesparkFrames": 0,
                       "steepUpTiles": 4
                     }}
-                  ]
+                  ],
+                  "clearsObstacles": ["C"]
                 },
                 {
                   "name": "SpeedBall Out (Phantoon Alive)",
@@ -839,14 +849,14 @@
                   "requires": [
                     {"not": "f_DefeatedPhantoon"},
                     "canRiskPermanentLossOfAccess",
-                    "canMockball",
+                    "canSpeedball",
                     {"canShineCharge": {
                       "usedTiles": 14,
                       "openEnd": 0,
-                      "shinesparkFrames": 0,
                       "steepUpTiles": 3
                     }}
-                  ]
+                  ],
+                  "clearsObstacles": ["C"]
                 }
               ]
             }
@@ -909,47 +919,50 @@
               "id": 6,
               "strats": [
                 {
-                  "name": "Morph Bombs",
+                  "name": "Blocks Already Broken",
                   "notable": false,
-                  "requires": ["Morph"],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": ["h_canUseMorphBombs"]
-                    }
+                  "requires": [
+                    "Morph",
+                    {"obstaclesCleared": ["A"]}
                   ]
+                },
+                {
+                  "name": "Bombs",
+                  "notable": false,
+                  "requires": [ "h_canUseMorphBombs" ],
+                  "clearsObstacles": ["A"]
                 },
                 {
                   "name": "Power Bombs",
                   "notable": false,
-                  "requires": ["Morph"],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": ["h_canUsePowerBombs"],
-                      "additionalObstacles": ["B"]
-                    }
-                  ]
+                  "requires": [ "h_canUsePowerBombs" ],
+                  "clearsObstacles": ["A","B"]
                 },
                 {
                   "name": "Speedball",
                   "notable": false,
                   "requires": [
-                    "canMockball",
-                    {"canComeInCharged": {
-                      "framesRemaining": 180,
-                      "shinesparkFrames": 0,
-                      "fromNode": 3,
-                      "inRoomPath": [3,9],
-                      "unusableTiles": 10
-                    }}
+                    "canSpeedball",
+                    {"or": [
+                      {"and": [
+                        "canSlowShortCharge",
+                        {"canComeInCharged": {
+                          "framesRemaining": 180,
+                          "fromNode": 3,
+                          "inRoomPath": [3,9],
+                          "unusableTiles": 5
+                        }}
+                      ]},
+                      {"canComeInCharged": {
+                        "framesRemaining": 180,
+                        "fromNode": 3,
+                        "inRoomPath": [3,9],
+                        "unusableTiles": 14
+                      }}
+                    ]}
+                    
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": []
-                    }
-                  ]
+                  "clearsObstacles": ["A"]
                 },
                 {
                   "name": "Temporary Blue Bounce",
@@ -959,18 +972,12 @@
                     "canSpringBallBounce",
                     {"canComeInCharged": {
                       "framesRemaining": 180,
-                      "shinesparkFrames": 0,
                       "fromNode": 3,
                       "inRoomPath": [3,9],
                       "unusableTiles": 1
                     }}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": []
-                    }
-                  ]
+                  "clearsObstacles": ["A"]
                 },
                 {
                   "name": "G-mode Moprh Overload PLMs",
@@ -993,12 +1000,7 @@
                   "name": "Base",
                   "notable": false,
                   "requires": ["Morph"],
-                  "obstacles": [
-                    {
-                      "id": "B",
-                      "requires": []
-                    }
-                  ],
+                  "clearsObstacles": ["B"],
                   "note": "From this direction, the shot blocks are fully breakable with Power Beam"
                 }
               ]
@@ -1007,52 +1009,43 @@
               "id": 8,
               "strats": [
                 {
-                  "name": "Morph Bombs",
+                  "name": "Blocks Already Broken",
                   "notable": false,
-                  "requires": [ "Morph" ],
-                  "obstacles": [
-                    {
-                      "id": "C",
-                      "requires": [ "h_canUseMorphBombs" ]
-                    }
+                  "requires": [
+                    "Morph",
+                    {"obstaclesCleared": ["C"]}
                   ]
+                },
+                {
+                  "name": "Bombs",
+                  "notable": false,
+                  "requires": [ "h_canUseMorphBombs" ],
+                  "clearsObstacles": ["C"]
                 },
                 {
                   "name": "Power Bombs",
                   "notable": false,
-                  "requires": [ "Morph" ],
-                  "obstacles": [
-                    {
-                      "id": "C",
-                      "requires": [ "h_canUsePowerBombs" ],
-                      "additionalObstacles": ["A", "B"]
-                    }
-                  ],
+                  "requires": [ "h_canUsePowerBombs" ],
+                  "clearsObstacles": ["A","B","C"],
                   "note": [
-                    "It is possible to use a single power bomb to break the bomb blocks going left to the item, right to the door, and shot blocks going down.",
+                    "It is possible to use a single Power Bomb to break the bomb blocks going left to the item, right to the door, and shot blocks going down.",
                     "Place the power bomb against the right wall at the top of the stairs between the three obstacles."
                   ]
                 },
                 {
                   "name": "Temporary Blue",
                   "notable": false,
-                  "requires": ["Morph"],
-                  "obstacles": [
-                    {
-                      "id": "C",
-                      "requires": [
-                        "canTemporaryBlue",
-                        "canLateralMidAirMorph",
-                        {"canComeInCharged": {
-                          "fromNode": 5,
-                          "inRoomPath": [5,9],
-                          "framesRemaining": 180,
-                          "shinesparkFrames": 0,
-                          "unusableTiles": 1
-                        }}
-                      ]
-                    }
-                  ]
+                  "requires": [
+                    "canTemporaryBlue",
+                    "canLateralMidAirMorph",
+                    {"canComeInCharged": {
+                      "fromNode": 5,
+                      "inRoomPath": [5,9],
+                      "framesRemaining": 180,
+                      "unusableTiles": 1
+                    }}
+                  ],
+                  "clearsObstacles": ["C"]
                 },
                 {
                   "name": "G-mode Overload PLMs",
@@ -1097,6 +1090,29 @@
                   "note": [
                     "Use the camera scroll blocks just right of the bomb blocks, in order to overload PLMs and go through them.",
                     "Exit g-mode and travel to the item and back while off screen."
+                  ]
+                }
+              ]
+            },
+            {
+              "id": 9,
+              "strats": [
+                {
+                  "name": "Atomic Farm",
+                  "notable": false,
+                  "requires": [
+                    "f_DefeatedPhantoon",
+                    {"or": [
+                      "ScrewAttack",
+                      "Wave",
+                      "Spazer",
+                      "Plasma"
+                    ]},
+                    {"resetRoom": {
+                      "nodes": [1, 2, 3, 4, 5],
+                      "mustStayPut": false
+                    }},
+                    {"refill": ["Energy", "Missile"]}
                   ]
                 }
               ]
@@ -1206,6 +1222,23 @@
                   "name": "Base",
                   "notable": false,
                   "requires": []
+                }
+              ]
+            }
+          ],
+          "leaveWithGModeSetup": [
+            {
+              "strats": [
+                {
+                  "name": "Frozen Atomic",
+                  "notable": false,
+                  "requires": [
+                    "canUpwardGModeSetup",
+                    "canTwoTileSqueeze",
+                    "canTrickyUseFrozenEnemies",
+                    "f_DefeatedPhantoon"
+                  ],
+                  "note": "Stand on one frozen Atomic to bring a second Atomic to the correct height to use as a crouch platform."
                 }
               ]
             }
@@ -1339,6 +1372,29 @@
               ]
             },
             {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Atomic Farm",
+                  "notable": false,
+                  "requires": [
+                    "f_DefeatedPhantoon",
+                    {"or": [
+                      "ScrewAttack",
+                      "Wave",
+                      "Spazer",
+                      "Plasma"
+                    ]},
+                    {"resetRoom": {
+                      "nodes": [1, 2],
+                      "mustStayPut": false
+                    }},
+                    {"refill": ["Energy", "Missile"]}
+                  ]
+                }
+              ]
+            },
+            {
               "id": 3,
               "strats": [
                 {
@@ -1350,11 +1406,10 @@
                   "name": "Basement Speedball (Phantoon Dead)",
                   "notable": false,
                   "requires": [
-                    "canMockball",
+                    "canSpeedball",
                     "f_DefeatedPhantoon",
                     {"canShineCharge": {
                       "usedTiles": 33,
-                      "shinesparkFrames": 0,
                       "openEnd": 2
                     }}
                   ],
@@ -1367,10 +1422,9 @@
                   "name": "Basement Speedball (Phantoon Alive)",
                   "notable": false,
                   "requires": [
-                    "canMockball",
+                    "canSpeedball",
                     {"canShineCharge": {
-                      "usedTiles": 25,
-                      "shinesparkFrames": 0,
+                      "usedTiles": 22,
                       "openEnd": 0
                     }}
                   ],
@@ -1408,29 +1462,16 @@
                   "name": "Speedball",
                   "notable": false,
                   "requires": [
-                    "canMockball",
+                    "canSpeedball",
                     "canCarefulJump",
-                    {"or": [
-                      {"and": [
-                        "canSlowShortCharge",
-                        {"canComeInCharged": {
-                          "framesRemaining": 180,
-                          "shinesparkFrames": 0,
-                          "fromNode": 3,
-                          "unusableTiles": 2
-                        }}
-                      ]},
-                      {"and": [
-                        "canTrickyJump",
-                        {"canComeInCharged": {
-                          "framesRemaining": 180,
-                          "shinesparkFrames": 0,
-                          "fromNode": 3,
-                          "unusableTiles": 12
-                        }}
-                      ]}
-                    ]}
-                  ]
+                    "canSlowShortCharge",
+                    {"canComeInCharged": {
+                      "framesRemaining": 180,
+                      "fromNode": 3,
+                      "unusableTiles": 2
+                    }}
+                  ],
+                  "devNote": "A more controlled angle is needed entering the room for this strat."
                 },
                 {
                   "name": "G-mode",
@@ -1788,7 +1829,12 @@
                 {
                   "name": "Base",
                   "notable": false,
-                  "requires": [ "f_DefeatedPhantoon" ],
+                  "requires": [
+                    {"or": [
+                      "f_DefeatedPhantoon",
+                      "h_AllItemsSpawned"
+                    ]}
+                  ],
                   "note": "The item doesn't spawn until Phantoon is defeated."
                 }
               ]
@@ -1865,13 +1911,40 @@
             {
               "usedTiles": 33,
               "framesRemaining": 0,
-              "shinesparkFrames": 80,
               "openEnd": 2,
               "strats": [
                 {
                   "name": "Base",
                   "notable": false,
-                  "requires": []
+                  "requires": [
+                    "canShinechargeMovement",
+                    "canMidairShinespark",
+                    {"shinespark": {"frames": 80}}
+                  ]
+                }
+              ]
+            },
+            {
+              "usedTiles": 14,
+              "framesRemaining": 110,
+              "openEnd": 0,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": ["canShinechargeMovement"]
+                }
+              ]
+            },
+            {
+              "usedTiles": 20,
+              "framesRemaining": 45,
+              "openEnd": 1,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": ["canShinechargeMovement"]
                 }
               ]
             }
@@ -1936,6 +2009,30 @@
               "usedTiles": 33,
               "framesRemaining": 60,
               "openEnd": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            },
+            {
+              "usedTiles": 24,
+              "framesRemaining": 125,
+              "openEnd": 1,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            },
+            {
+              "usedTiles": 18,
+              "framesRemaining": 155,
+              "openEnd": 1,
               "strats": [
                 {
                   "name": "Base",
@@ -2016,7 +2113,7 @@
                 {
                   "name": "Base",
                   "notable": false,
-                  "requires": []
+                  "requires": ["canShinechargeMovement"]
                 }
               ]
             }
@@ -2110,6 +2207,56 @@
         {
           "from": 1,
           "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Kihunters and Atomics Farm (Power On)",
+                  "notable": false,
+                  "requires": [
+                    "f_DefeatedPhantoon",
+                    {"or": [
+                      "ScrewAttack",
+                      "Plasma",
+                      "Wave"
+                    ]},
+                    {"resetRoom": {
+                      "nodes": [1, 2, 3],
+                      "mustStayPut": false
+                    }},
+                    {"refill": ["Energy", "Missile", "Super"]}
+                  ]
+                },
+                {
+                  "name": "Atomics and Coverns Farm (Power Off)",
+                  "notable": false,
+                  "requires": [
+                    {"not": "f_DefeatedPhantoon"},
+                    {"or": [
+                      "Plasma",
+                      "Wave",
+                      {"and": [
+                        "canRiskPermanentLossOfAccess",
+                        {"or": [
+                          "Spazer",
+                          "Ice",
+                          "h_canUseMorphBombs",
+                          "canUseSpeedEchoes"
+                        ]}
+                      ]}
+                    ]},
+                    {"resetRoom": {
+                      "nodes": [1, 2, 3],
+                      "mustStayPut": false
+                    }},
+                    {"refill": ["Energy", "Missile"]}
+                  ],
+                  "devNote": [
+                    "There is no canRiskPermanentLossOfAccess, because a comparable farm is also available with power on."
+                  ]
+                }
+              ]
+            },
             {
               "id": 2,
               "strats": [
@@ -2305,16 +2452,19 @@
                   "notable": false,
                   "requires": [
                     {"or": [
+                      {"and": [
+                        {"canComeInCharged": {
+                          "fromNode": 1,
+                          "framesRemaining": 0
+                        }},
+                        {"shinespark": {
+                          "frames": 57,
+                          "excessFrames": 13
+                        }}
+                      ]},
                       {"canComeInCharged": {
                         "fromNode": 1,
-                        "framesRemaining": 0,
-                        "shinesparkFrames": 57,
-                        "excessShinesparkFrames": 13
-                      }},
-                      {"canComeInCharged": {
-                        "fromNode": 1,
-                        "framesRemaining": 180,
-                        "shinesparkFrames": 0
+                        "framesRemaining": 180
                       }}
                     ]}
                   ]
@@ -2418,7 +2568,12 @@
                 {
                   "name": "Base",
                   "notable": false,
-                  "requires": [ "f_DefeatedPhantoon" ],
+                  "requires": [
+                    {"or": [
+                      "f_DefeatedPhantoon",
+                      "h_AllItemsSpawned"
+                    ]}
+                  ],
                   "note": "The item doesn't spawn until Phantoon is defeated."
                 }
               ]
@@ -2440,7 +2595,12 @@
                 {
                   "name": "Base",
                   "notable": false,
-                  "requires": [ "f_DefeatedPhantoon" ],
+                  "requires": [
+                    {"or": [
+                      "f_DefeatedPhantoon",
+                      "h_AllItemsSpawned"
+                    ]}
+                  ],
                   "note": "The item doesn't spawn until Phantoon is defeated."
                 }
               ]
@@ -2540,9 +2700,9 @@
                   "requires": [
                     {"canComeInCharged": {
                       "fromNode": 2,
-                      "framesRemaining": 0,
-                      "shinesparkFrames": 90
-                    }}
+                      "framesRemaining": 0
+                    }},
+                    {"shinespark": {"frames": 90}}
                   ],
                   "devNote": [
                     "Should we have this one if you're not assumed to know the layout? You can't go out of the room to set it up once you see what room it is.",
@@ -2561,7 +2721,10 @@
                 {
                   "name": "Bowling Alley Ceiling Bomb Jump",
                   "notable": true,
-                  "requires": [ "h_canCeilingBombJump" ],
+                  "requires": [
+                    "h_canCeilingBombJump",
+                    "canBeVeryPatient"
+                  ],
                   "reusableRoomwideNotable": "Bowling Alley Ceiling Bomb Jump",
                   "note": "This is a very long ceiling bomb jump."
                 },
@@ -2570,6 +2733,7 @@
                   "notable": true,
                   "requires": [
                     "h_canArtificialMorphCeilingBombJump",
+                    "canBeVeryPatient",
                     {"comeInWithGMode": {
                       "fromNodes": [1],
                       "mode": "any",
@@ -2597,7 +2761,7 @@
                   "name": "X-Ray Climb",
                   "notable": false,
                   "requires": [
-                    "canRightFacingDoorXRayClimb",
+                    "h_canLeftDoorXRayClimb",
                     {"adjacentRunway": {
                       "fromNode": 3,
                       "usedTiles": 0.5,
@@ -2650,7 +2814,8 @@
                   "notable": true,
                   "requires": [
                     "ScrewAttack",
-                    "Morph"
+                    "Morph",
+                    "canCameraManip"
                   ],
                   "note": [
                     "Break the shot blocks with Power Beam by first rolling into the morph tunnel to unlock camera scroll for this room.",
@@ -2687,16 +2852,14 @@
                         "f_DefeatedPhantoon",
                         {"canShineCharge": {
                           "usedTiles": 16,
-                          "openEnd": 0,
-                          "shinesparkFrames": 0
+                          "openEnd": 0
                         }}
                       ]},
                       {"and": [
                         {"obstaclesCleared": ["A"]},
                         {"canShineCharge": {
                           "usedTiles": 33,
-                          "openEnd": 2,
-                          "shinesparkFrames": 0
+                          "openEnd": 2
                         }},
                         {"or": [
                           "f_DefeatedPhantoon",
@@ -2718,21 +2881,29 @@
               "id": 5,
               "strats": [
                 {
-                  "name": "Base",
+                  "name": "Chozo Statue Already Broken",
                   "notable": false,
                   "requires": [
                     {"canShineCharge": {
                       "usedTiles": 33,
-                      "shinesparkFrames": 40,
                       "openEnd": 2
-                    }}
-                  ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [ "h_canUsePowerBombs" ]
-                    }
+                    }},
+                    {"shinespark": {"frames": 40}},
+                    {"obstaclesCleared": ["A"]}
                   ]
+                },
+                {
+                  "name": "Power Bomb the Chozo Statue",
+                  "notable": false,
+                  "requires": [
+                    {"canShineCharge": {
+                      "usedTiles": 33,
+                      "openEnd": 2
+                    }},
+                    {"shinespark": {"frames": 40}},
+                    "h_canUsePowerBombs"
+                  ],
+                  "clearsObstacles": ["A"]
                 }
               ]
             }
@@ -2761,13 +2932,13 @@
                 {
                   "name": "Base",
                   "notable": false,
-                  "requires": [],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [ "h_canUsePowerBombs" ]
-                    }
-                  ]
+                  "requires": [ {"obstaclesCleared": ["A"]} ]
+                },
+                {
+                  "name": "Power Bomb the Chozo Statue",
+                  "notable": false,
+                  "requires": [ "h_canUsePowerBombs" ],
+                  "clearsObstacles": ["A"]
                 }
               ]
             }
@@ -2861,7 +3032,12 @@
                 {
                   "name": "Base",
                   "notable": false,
-                  "requires": [ "f_DefeatedPhantoon" ],
+                  "requires": [
+                    {"or": [
+                      "f_DefeatedPhantoon",
+                      "h_AllItemsSpawned"
+                    ]}
+                  ],
                   "note": "The item doesn't spawn until Phantoon is defeated."
                 }
               ]
@@ -3025,7 +3201,12 @@
                 {
                   "name": "Base",
                   "notable": false,
-                  "requires": [ "f_DefeatedPhantoon" ],
+                  "requires": [
+                    {"or": [
+                      "f_DefeatedPhantoon",
+                      "h_AllItemsSpawned"
+                    ]}
+                  ],
                   "note": "The item doesn't spawn until Phantoon is defeated."
                 }
               ]
@@ -3104,8 +3285,7 @@
                     ]},
                     {"canShineCharge": {
                       "usedTiles": 18,
-                      "openEnd": 1,
-                      "shinesparkFrames": 0
+                      "openEnd": 1
                     }}
                   ],
                   "note": [
@@ -3126,8 +3306,8 @@
                   ],
                   "note": [
                     "Kago through the Workrobot by jumping, pressing down, then morphing and moving right just before hitting the robot.",
-                    "The bomb blocks can be broken with a power bomb, morph bomb, or using screw attack.",
-                    "If using morph bombs, be careful when breaking the bottom bomb block - if morphed, you will be pushed into it and stuck.",
+                    "The bomb blocks can be broken with a bomb, Power Bomb, or using Screw Attack.",
+                    "If using bombs, be careful when breaking the bottom bomb block - if morphed, you will be pushed into it and stuck.",
                     "To do this, place a bomb at the bottom, then a bomb at the peak boost height and unmorph before landing. Alternatively use a short jump morph.",
                     "If the morph tunnel is open, kagoing through the robot will force Samus into it."
                   ],
@@ -3145,8 +3325,7 @@
                     "canKago",
                     {"canShineCharge": {
                       "usedTiles": 14,
-                      "openEnd": 0,
-                      "shinesparkFrames": 0
+                      "openEnd": 0
                     }}
                   ],
                   "note": [
@@ -3334,6 +3513,29 @@
           "from": 1,
           "to": [
             {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Bull Farm",
+                  "notable": false,
+                  "requires": [
+                    "f_DefeatedPhantoon",
+                    {"or": [
+                      "ScrewAttack",
+                      "canPseudoScrew",
+                      "Plasma",
+                      "Grapple"
+                    ]},
+                    {"resetRoom": {
+                      "nodes": [1],
+                      "mustStayPut": false
+                    }},
+                    {"refill": ["PowerBomb"]}
+                  ]
+                }
+              ]
+            },
+            {
               "id": 2,
               "strats": [
                 {
@@ -3366,9 +3568,10 @@
                   "name": "Sponge Bath Bull Boost",
                   "notable": true,
                   "requires": [
+                    "canSuitlessMaridia",
                     "HiJump",
                     "canUseEnemies",
-                    "canDamageBoost",
+                    "canNeutralDamageBoost",
                     "canCrouchJump",
                     "Morph",
                     {
@@ -3389,7 +3592,10 @@
                 {
                   "name": "Midair SpringBall",
                   "notable": false,
-                  "requires": ["canSpringBallJumpMidAir"]
+                  "requires": [
+                    "canSuitlessMaridia",
+                    "canSpringBallJumpMidAir"
+                  ]
                 },
                 {
                   "name": "Shinespark",
@@ -3400,9 +3606,11 @@
                         "canMidairShinespark",
                         {"canComeInCharged": {
                           "fromNode": 1,
-                          "framesRemaining": 30,
-                          "shinesparkFrames": 39,
-                          "excessShinesparkFrames": 10
+                          "framesRemaining": 30
+                        }},
+                        {"shinespark": {
+                          "frames": 39,
+                          "excessFrames": 10
                         }}
                       ]},
                       {"and": [
@@ -3412,9 +3620,11 @@
                         ]},
                         {"canComeInCharged": {
                           "fromNode": 1,
-                          "framesRemaining": 180,
-                          "shinesparkFrames": 7,
-                          "excessShinesparkFrames": 2
+                          "framesRemaining": 180
+                        }},
+                        {"shinespark": {
+                          "frames": 7,
+                          "excessFrames": 2
                         }}
                       ]}
                     ]}
@@ -3424,6 +3634,7 @@
                   "name": "Exterior Speedjump",
                   "notable": false,
                   "requires": [
+                    "canSuitlessMaridia",
                     {"adjacentRunway": {
                       "fromNode": 1,
                       "usedTiles": 3,
@@ -3442,6 +3653,7 @@
                   "name": "Sponge Bath In-Room Speedjump",
                   "notable": false,
                   "requires": [
+                    "canSuitlessMaridia",
                     "canTrickyDashJump",
                     "canWalljump"
                   ],
@@ -3474,9 +3686,11 @@
                     "canStutterWaterShineCharge",
                     {"canShineCharge": {
                       "usedTiles": 33,
-                      "shinesparkFrames": 7,
-                      "excessShinesparkFrames": 2,
                       "openEnd": 2
+                    }},
+                    {"shinespark": {
+                      "frames": 7,
+                      "excessFrames": 2
                     }}
                   ],
                   "note": "Start at least 2 tiles from the water line, and stutter just before entering the water in order to charge a spark in room."
@@ -3495,6 +3709,29 @@
                   "name": "Base",
                   "notable": false,
                   "requires": []
+                }
+              ]
+            },
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Bull Farm",
+                  "notable": false,
+                  "requires": [
+                    "f_DefeatedPhantoon",
+                    {"or": [
+                      "ScrewAttack",
+                      "canPseudoScrew",
+                      "Plasma",
+                      "Grapple"
+                    ]},
+                    {"resetRoom": {
+                      "nodes": [2],
+                      "mustStayPut": false
+                    }},
+                    {"refill": ["PowerBomb"]}
+                  ]
                 }
               ]
             }
@@ -3617,12 +3854,18 @@
                 {
                   "name": "Base",
                   "notable": false,
-                  "requires": [ {"spikeHits": 2} ]
+                  "requires": [
+                    "canSuitlessMaridia",
+                    {"spikeHits": 2}
+                  ]
                 },
                 {
                   "name": "Naked Spiky Death Room (Left to Right)",
                   "notable": false,
-                  "requires": [ "canCarefulJump" ]
+                  "requires": [
+                    "canSuitlessMaridia",
+                    "canCarefulJump"
+                  ]
                 },
                 {
                   "name": "Passage With Assist",
@@ -3631,7 +3874,7 @@
                     {"or": [
                       "Morph",
                       "Gravity",
-                      "SpaceJump"
+                      "canSpaceJumpWaterBounce"
                     ]}
                   ],
                   "devNote": "The room is considerably more forgiving with Morph, Gravity, or Space Jump so this is there as an alternate strat."
@@ -3657,12 +3900,18 @@
                 {
                   "name": "Base",
                   "notable": false,
-                  "requires": [ {"spikeHits": 2} ]
+                  "requires": [
+                    "canSuitlessMaridia",
+                    {"spikeHits": 2}
+                  ]
                 },
                 {
                   "name": "Naked Spiky Death Room (Right to Left)",
                   "notable": false,
-                  "requires": [ "canCarefulJump" ]
+                  "requires": [
+                    "canSuitlessMaridia",
+                    "canCarefulJump"
+                  ]
                 },
                 {
                   "name": "Passage With Assist",
@@ -3671,7 +3920,7 @@
                     {"or": [
                       "Morph",
                       "Gravity",
-                      "SpaceJump"
+                      "canSpaceJumpWaterBounce"
                     ]}
                   ],
                   "devNote": "The room is considerably more forgiving with Morph, Gravity, or Space Jump so this is there as an alternate strat."
@@ -3812,13 +4061,12 @@
                   "name": "Base",
                   "notable": false,
                   "requires": [
-                    {
-                      "or": [
-                        "Gravity",
-                        "HiJump",
-                        "SpaceJump"
-                      ]
-                    }
+                    "h_canNavigateUnderwater",
+                    {"or": [
+                      "Gravity",
+                      "HiJump",
+                      "SpaceJump"
+                    ]}
                   ]
                 },
                 {
@@ -3832,7 +4080,10 @@
                 {
                   "name": "Down Grab",
                   "notable": false,
-                  "requires": [ "canDownGrab" ]
+                  "requires": [
+                    "canSuitlessMaridia",
+                    "canDownGrab"
+                  ]
                 }
               ]
             }
@@ -3903,7 +4154,6 @@
           "canLeaveCharged": [
             {
               "framesRemaining": 0,
-              "shinesparkFrames": 21,
               "usedTiles": 33,
               "openEnd": 2,
               "strats": [
@@ -3917,7 +4167,8 @@
                     "SpaceJump",
                     "HiJump",
                     "canShinechargeMovementComplex",
-                    {"thornHits": 3}
+                    {"thornHits": 3},
+                    {"shinespark": {"frames": 21}}
                   ]
                 },
                 {
@@ -3930,7 +4181,8 @@
                     "SpaceJump",
                     "HiJump",
                     "canShinechargeMovementComplex",
-                    {"thornHits": 3}
+                    {"thornHits": 3},
+                    {"shinespark": {"frames": 21}}
                   ]
                 }
               ]
@@ -3952,7 +4204,12 @@
                 {
                   "name": "Base",
                   "notable": false,
-                  "requires": [ "f_DefeatedPhantoon" ],
+                  "requires": [
+                    {"or": [
+                      "f_DefeatedPhantoon",
+                      "h_AllItemsSpawned"
+                    ]}
+                  ],
                   "note": "The item doesn't spawn until Phantoon is defeated."
                 }
               ]
@@ -4044,9 +4301,9 @@
                   "requires": [
                     {"canComeInCharged": {
                       "fromNode": 1,
-                      "framesRemaining": 0,
-                      "shinesparkFrames": 58
-                    }}
+                      "framesRemaining": 0
+                    }},
+                    {"shinespark": {"frames": 58}}
                   ]
                 },
                 {
@@ -4107,12 +4364,7 @@
                       "artificialMorph": true
                     }}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": []
-                    }
-                  ]
+                  "clearsObstacles": ["A"]
                 }
               ]
             }
@@ -4131,7 +4383,6 @@
                     {"or":[
                       "f_DefeatedPhantoon",
                       "SpaceJump",
-                      {"thornHits": 2},
                       {"and":[
                         {"thornHits": 1},
                         {"or":[
@@ -4139,7 +4390,8 @@
                           "canWalljump",
                           "canIframeSpikeJump",
                           "Grapple",
-                          "canDamageBoost"
+                          "canHorizontalDamageBoost",
+                          {"thornHits": 1}
                         ]}
                       ]}
                     ]}
@@ -4248,7 +4500,12 @@
                 {
                   "name": "Base",
                   "notable": false,
-                  "requires": [ "f_DefeatedPhantoon" ],
+                  "requires": [
+                    {"or": [
+                      "f_DefeatedPhantoon",
+                      "h_AllItemsSpawned"
+                    ]}
+                  ],
                   "note": "The item doesn't spawn until Phantoon is defeated."
                 }
               ]

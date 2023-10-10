@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "id": "https://raw.githubusercontent.com/miketrethewey/sm-json-data/master/schema/m3-region.schema.json",
+  "id": "https://raw.githubusercontent.com/vg-json-data/sm-json-data/master/schema/m3-region.schema.json",
 
   "definitions": {
     "strat": {
@@ -67,62 +67,6 @@
             "pattern": "^(.*)$"
           }
         },
-        "obstacles": {
-          "$id": "#/definitions/strat/properties/obstacles",
-          "type": "array",
-          "title": "Strat obstacles",
-          "description": "DEPRECATED: An array of obstacles that must be destroyed (during the strat or previously) for the strat to be successfully executed. Going forward, 'obstaclesCleared' requirements and 'clearsObstacles' strat property should be used in favor of this 'obstacles' property.",
-          "items": {
-            "$id": "#/definitions/strat/properties/obstacles/items",
-            "type": "object",
-            "required": [
-              "id",
-              "requires"
-            ],
-            "additionalProperties": false,
-            "properties": {
-              "id": {
-                "$id": "#/definitions/strat/properties/obstacles/items/properties/id",
-                "type": "string",
-                "title": "Obstacle ID",
-                "description": "The ID of the obstacle that must be destroyed.",
-                "default": "",
-                "examples": ["A", "B"],
-                "pattern": "^(.*)$"
-              },
-              "requires": {
-                "$ref" : "m3-requirements.schema.json#/definitions/logicalRequirements",
-                "$id": "#/definitions/strat/properties/obstacles/items/properties/requires",
-                "title": "Obstacle Requirements",
-                "description": "Equipment, tech, and flag requirements to destroy this obstacle, on top of requirements defined on the obstacle itself (does not apply if obstacle already destroyed since entering the room)."
-              },
-              "bypass": {
-                "$ref" : "m3-requirements.schema.json#/definitions/logicalRequirements",
-                "$id": "#/definitions/strat/properties/obstacles/items/properties/bypass",
-                "title": "Obstacle Bypass Requirements",
-                "description": "Equipment, tech, and flag requirements to bypass this obstacle instead of destroying it."
-              },
-              "additionalObstacles": {
-                "$id": "#/definitions/strat/properties/obstacles/items/properties/additionalObstacles",
-                "type": "array",
-                "title": "Additional obstacles",
-                "description": "The IDs of obstacles that are simultaneously destroyed if the containing obstacle is destroyed via this strat.",
-                "items": {
-                  "type": "string",
-                  "pattern": "^(.*)$"
-                }
-              },
-              "note": {
-                "$ref" : "m3-note.schema.json#/definitions/note",
-                "$id": "#/definitions/strat/properties/obstacles/items/properties/note"
-              },
-              "devNote": {
-                "$ref" : "m3-note.schema.json#/definitions/devNote",
-                "$id": "#/definitions/strat/properties/obstacles/items/properties/devNote"
-              }
-            }
-          }
-        },
         "failures": {
           "$id": "#/definitions/strat/properties/failures",
           "type": "array",
@@ -163,12 +107,6 @@
                 "title": "Softlock",
                 "description": "Indicates whether this failure causes a softlock. If missing, this should be viewed as false."
               },
-              "clearsPreviousNode": {
-                "$id": "#/definitions/strat/properties/failures/items/properties/clearsPreviousNode",
-                "type": "boolean",
-                "title": "Clears Previous Node",
-                "description": "Indicates whether this failure causes the previous node to be overwritten (and set to current node). If the failure leads to a node, Samus lands at that node and that node is also set to the previous node If missing, this should be viewed as false."
-              },
               "note": {
                 "$ref" : "m3-note.schema.json#/definitions/note",
                 "$id": "#/definitions/strat/properties/failures/items/properties/note"
@@ -178,19 +116,6 @@
                 "$id": "#/definitions/strat/properties/failures/items/properties/devNote"
               }
             }
-          }
-        },
-        "stratProperties": {
-          "$id": "#/definitions/strat/properties/stratProperties",
-          "type": "array",
-          "title": "Strat Properties",
-          "description": "A list of strat properties this strat has, which may impact what is doable once the strat's destination is reached.",
-          "examples": ["spinjump"],
-          "items": {
-            "$id": "#/definitions/strat/properties/stratProperties/items",
-            "type": "string",
-            "title": "Strat Property",
-            "description": "An individual property of the strat."
           }
         },
         "note": {
@@ -824,12 +749,6 @@
                         "title": "Frames Remaining",
                         "description": "The number of frames remaining in the shinespark charge when leaving the room. If this is 0, Samus leaves the room shinesparking."
                       },
-                      "shinesparkFrames": {
-                        "$id": "#/properties/rooms/items/properties/nodes/items/properties/canLeaveCharged/properties/shinesparkFrames",
-                        "type": "integer",
-                        "title": "Shinespark Frames",
-                        "description": "If this requires shinespark out of the room, indicates how many frames that shinespark on the way out will last"
-                      },
                       "initiateRemotely": {
                         "$id": "#/properties/rooms/items/properties/nodes/items/properties/canLeaveCharged/properties/initiateRemotely",
                         "type": "object",
@@ -1379,12 +1298,6 @@
                 "devNote": {
                   "$ref" : "m3-note.schema.json#/definitions/devNote",
                   "$id": "#/properties/rooms/items/properties/obstacles/items/properties/devNote"
-                },
-                "requires": {
-                  "$ref" : "m3-requirements.schema.json#/definitions/logicalRequirements",
-                  "$id": "#/properties/rooms/items/properties/obstacles/items/properties/requires",
-                  "title": "Absolute Obstacle Requirements",
-                  "description": "Equipment, tech, and flag requirements that are always needed to break this obstacle. Those are applied on top of any requirements specified on an `obstacle` logical element that references this obstacle."
                 }
               }
             }

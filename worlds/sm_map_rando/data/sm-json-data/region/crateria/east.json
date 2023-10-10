@@ -76,7 +76,24 @@
                 {
                   "name": "Base",
                   "notable": false,
-                  "requires": []
+                  "requires": ["canDisableEquipment"],
+                  "note": "This jump is much easier without HiJump or Speedbooster equipped."
+                },
+                {
+                  "name": "Movement Assist",
+                  "notable": false,
+                  "requires": [
+                    {"or": [
+                      "Grapple",
+                      "SpaceJump",
+                      "Gravity",
+                      {"adjacentRunway": {
+                        "fromNode": 1,
+                        "usedTiles": 3,
+                        "physics": ["normal"]
+                      }}
+                    ]}
+                  ]
                 }
               ]
             }
@@ -85,6 +102,16 @@
         {
           "from": 2,
           "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Pass Below",
+                  "notable": false,
+                  "requires": ["h_canBombThings"]
+                }
+              ]
+            },
             {
               "id": 3,
               "strats": [
@@ -99,28 +126,57 @@
                   "requires": ["SpaceJump"]
                 },
                 {
-                  "name": "Pass Below",
-                  "notable": false,
-                  "requires": ["h_canBombThings"],
-                  "note": "In reality, bombs lead to 1 and not 3, but 1->3 and 3->1 are free so it doesn't matter."
-                },
-                {
                   "name": "Gravity",
                   "notable": false,
                   "requires": [
                     "Gravity",
-                    "canWalljump"
+                    {"or": [
+                      "canWalljump",
+                      "canGravityJump",
+                      {"and": [
+                        "canSpringBallJumpMidAir",
+                        "HiJump"
+                      ]}
+                    ]}
                   ]
                 },
                 {
                   "name": "Moat Reverse Jump",
                   "notable": false,
-                  "requires": [ "canCarefulJump" ],
+                  "requires": [
+                    "canDisableEquipment",
+                    "canCarefulJump",
+                    {"or": [
+                      {"doorUnlockedAtNode": 2},
+                      "canTrickyJump",
+                      "canLateralMidAirMorph",
+                      "SpeedBooster",
+                      {"adjacentRunway": {
+                        "fromNode": 2,
+                        "usedTiles": 2
+                      }}
+                    ]}
+                  ],
                   "note": [
                     "Execution of this strat is non-trivial, and failing will lead to falling into the pit.",
                     "Depending on item loadout, that could be a softlock."
                   ],
                   "devNote": "Could use a failure definition?"
+                },
+                {
+                  "name": "Shinespark",
+                  "notable": false,
+                  "requires": [
+                    {"canComeInCharged": {
+                      "framesRemaining": 0,
+                      "fromNode": 2
+                    }},
+                    {"shinespark": {
+                      "frames": 42,
+                      "excessFrames": 15
+                    }}
+                  ],
+                  "devNote": "FIXME: This will grab the item and continue the spark to the left door. If this is an E-Tank, Samus will not maintain full Energy after the strat."
                 }
               ]
             }
@@ -158,11 +214,19 @@
                   "requires": [
                     "Gravity",
                     {"or": [
+                      "canTrickySpringBallJump",
                       {"and": [
                         "HiJump",
                         "canWalljump"
                       ]},
-                      "canSpringBallJumpMidAir"
+                      {"and": [
+                        "HiJump",
+                        "canSpringBallJumpMidAir"
+                      ]},
+                      {"and": [
+                        "HiJump",
+                        "SpeedBooster"
+                      ]}
                     ]}
                   ]
                 },
@@ -177,7 +241,10 @@
                 {
                   "name": "Gravity Jump",
                   "notable": false,
-                  "requires": ["canGravityJump"]
+                  "requires": [
+                    "canGravityJump",
+                    "canSuitlessMaridia"
+                  ]
                 },
                 {
                   "name": "Shinespark",
@@ -186,16 +253,27 @@
                     {"canComeInCharged": {
                       "fromNode": 1,
                       "inRoomPath": [1, 3],
-                      "framesRemaining": 0,
-                      "shinesparkFrames": 44,
-                      "excessShinesparkFrames": 6
-                     }}
+                      "framesRemaining": 0
+                    }},
+                    {"shinespark": {
+                      "frames": 44,
+                      "excessFrames": 6
+                    }}
                   ]
                 },
                 {
                   "name": "Moat SpringBall Bounce",
                   "notable": true,
-                  "requires": [ "canSpringBallBounce" ],
+                  "requires": [ 
+                    "canSpringBallBounce",
+                    {"or": [
+                      {"doorUnlockedAtNode": 1},
+                      {"adjacentRunway": {
+                        "fromNode": 1,
+                        "usedTiles": 1
+                      }}
+                    ]}
+                  ],
                   "note": "Open the door and step as close to the transition as possible. Run, jump, lateral midair morph on the way down, then bounce off the pedestal to get to the other side."
                 },
                 {
@@ -204,9 +282,14 @@
                   "requires": [
                     "canCWJ",
                     {"or": [
-                      "canMoonwalk",
-                      "Morph",
-                      "canXRayTurnaround",
+                       {"and": [
+                        {"doorUnlockedAtNode": 1},
+                        {"or": [
+                          "canMoonwalk",
+                          "Morph",
+                          "canXRayTurnaround"
+                        ]}
+                      ]},
                       {"adjacentRunway": {
                         "fromNode": 1,
                         "usedTiles": 1.5,
@@ -214,7 +297,7 @@
                         "physics": ["normal"],
                         "useFrames": 100
                       }}
-                     ]}
+                    ]}
                   ],
                   "note": [
                     "Stand on the farthest pixel into the door possible using moonwalk, X-Ray, or morphball turn around.",
@@ -232,6 +315,7 @@
                   "name": "Double Spring Ball Jump",
                   "notable": false,
                   "requires": [
+                    "canSuitlessMaridia",
                     "canDoubleSpringBallJumpMidAir",
                     "HiJump"
                   ]
@@ -254,8 +338,7 @@
                     "h_canArtificialMorphIBJ"
                   ]
                 }
-              ],
-              "note": "Because Moving from 1 to 3 is free, all strats are represented here even if they start at 1."
+              ]
             }
           ]
         }
@@ -410,13 +493,13 @@
                   "name": "Get Hit by Thawing Sciser",
                   "notable": false,
                   "requires": [
-                    "canTrickyUseFrozenEnemies",
+                    "canWallIceClip",
                     "canDownwardGModeSetup",
                     {"ammo": {"type": "Super", "count": 1}}
                   ],
                   "note": [
                     "Run from the ledge into the open doorway while hitting the frozen Crab as it thaws and the door transition simultaneously.",
-                    "Note that this requires a pixel perfect freeze, a small pixel starting window, and a tight timing. It then has a 50% success rate due to collision oscillation."
+                    "Note that this requires a pixel perfect freeze, a small pixel starting window, and has tight timing. It then has a 50% success rate due to collision oscillation."
                   ]
                 }
               ]
@@ -470,12 +553,42 @@
               ]
             },
             {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Kihunter and Sciser Farm",
+                  "notable": false,
+                  "requires": [
+                    {"resetRoom": {
+                      "nodes": [1, 2, 3],
+                      "mustStayPut": false
+                    }},
+                    {"refill": ["Energy", "Missile", "PowerBomb"]}
+                  ]
+                }
+              ]
+            },
+            {
               "id": 3,
               "strats": [
                 {
                   "name": "Base",
                   "notable": false,
-                  "requires": []
+                  "requires": [
+                    {"or": [
+                      "canCameraManip",
+                      "h_canUsePowerBombs",
+                      {"enemyDamage": {
+                        "enemy": "Sciser",
+                        "type": "contact",
+                        "hits": 1
+                      }}
+                    ]}
+                  ],
+                  "note": [
+                    "Jump and aim down to lower the camera to see where the crabs are.",
+                    "Alternatively use a Power Bomb to kill them or risk tanking a hit."
+                  ]
                 }
               ]
             }
@@ -642,14 +755,14 @@
               "framesRemaining": 0,
               "usedTiles": 33,
               "openEnd": 2,
-              "shinesparkFrames": 38,
               "strats": [
                 {
                   "name": "Ocean Floor Shinecharge Left",
                   "notable": false,
                   "requires": [
                     "Gravity",
-                    "canShinechargeMovementComplex"
+                    "canShinechargeMovementComplex",
+                    {"shinespark": {"frames": 38}}
                   ],
                   "note": "Jump to the Runway connected to the Left side door before sparking."
                 }
@@ -864,7 +977,6 @@
               "framesRemaining": 0,
               "openEnd": 2,
               "usedTiles": 33,
-              "shinesparkFrames": 15,
               "strats": [
                 {
                   "name": "Ocean Floor Precise Walljump Shinecharge Right",
@@ -872,7 +984,8 @@
                   "requires": [
                     "Gravity",
                     "canShinechargeMovementComplex",
-                    "canPreciseWalljump"
+                    "canPreciseWalljump",
+                    {"shinespark": {"frames": 15}}
                   ]
                 }
               ]
@@ -883,12 +996,13 @@
               "usedTiles": 23,
               "steepUpTiles": 6,
               "steepDownTiles": 1,
-              "shinesparkFrames": 131,
               "strats": [
                 {
                   "name": "Over Ocean Spark",
                   "notable": false,
-                  "requires": []
+                  "requires": [
+                    {"shinespark": {"frames": 131}}
+                  ]
                 }
               ]
             },
@@ -898,14 +1012,14 @@
               "usedTiles": 23,
               "steepUpTiles": 6,
               "steepDownTiles": 1,
-              "shinesparkFrames": 106,
               "strats": [
                 {
                   "name": "Over Ocean Midair Spark",
                   "notable": false,
                   "requires": [
                     "canShinechargeMovement",
-                    "canMidairShinespark"
+                    "canMidairShinespark",
+                    {"shinespark": {"frames": 106}}
                   ]
                 }
               ]
@@ -952,14 +1066,14 @@
               "framesRemaining": 0,
               "usedTiles": 33,
               "openEnd": 2,
-              "shinesparkFrames": 25,
               "strats": [
                 {
                   "name": "West Ocean Morph Tunnel Rush",
                   "notable": true,
                   "requires": [
                     "canShinechargeMovementComplex",
-                    "h_canUseSpringBall"
+                    "h_canUseSpringBall",
+                    {"shinespark": {"frames": 25}}
                   ],
                   "note": [
                     "Preopen the door and shotblock, then go back and charge a shinespark.",
@@ -1202,7 +1316,8 @@
                       "canWalljump"
                     ]},
                     "canXRayClimb"
-                  ]
+                  ],
+                  "note": "Climb up 2 screens."
                 },
                 {
                   "name": "Shinespark Deep Stuck X-Ray Climb",
@@ -1210,13 +1325,16 @@
                   "requires": [
                     {"canComeInCharged": {
                       "fromNode": 4,
-                      "shinesparkFrames": 1,
-                      "excessShinesparkFrames": 1,
                       "framesRemaining": 1
+                    }},
+                    {"shinespark": {
+                      "frames": 1,
+                      "excessFrames": 1
                     }},
                     "canShinesparkDeepStuck",
                     "canXRayClimb"
-                  ]
+                  ],
+                  "note": "Climb up 2 screens."
                 }
               ],
               "devNote": [
@@ -1310,8 +1428,10 @@
                       "mode": "direct",
                       "artificialMorph": false
                     }},
-                    "canXRayClimb"
-                  ]
+                    "canXRayClimb",
+                    "canBePatient"
+                  ],
+                  "note": "Climb up 3 screens."
                 },
                 {
                   "name": "Shinespark Deep Stuck X-Ray Climb",
@@ -1319,13 +1439,17 @@
                   "requires": [
                     {"canComeInCharged": {
                       "fromNode": 5,
-                      "shinesparkFrames": 1,
-                      "excessShinesparkFrames": 1,
                       "framesRemaining": 1
                     }},
+                    {"shinespark": {
+                      "frames": 1,
+                      "excessFrames": 1
+                    }},
                     "canShinesparkDeepStuck",
-                    "canXRayClimb"
-                  ]
+                    "canXRayClimb",
+                    "canBePatient"
+                  ],
+                  "note": "Climb up 3 screens."
                 }
               ]
             },
@@ -1365,9 +1489,11 @@
                     "Gravity",
                     {"canShineCharge": {
                       "usedTiles": 33,
-                      "shinesparkFrames": 50,
-                      "excessShinesparkFrames": 10,
                       "openEnd": 2
+                    }},
+                    {"shinespark": {
+                      "frames": 50,
+                      "excessFrames": 10
                     }}
                   ]
                 },
@@ -1380,9 +1506,11 @@
                     "canMidairShinespark",
                     {"canShineCharge": {
                       "usedTiles": 33,
-                      "shinesparkFrames": 35,
-                      "excessShinesparkFrames": 10,
                       "openEnd": 2
+                    }},
+                    {"shinespark": {
+                      "frames": 35,
+                      "excessFrames": 10
                     }}
                   ],
                   "note": "Jump to the submerged platform, then jump again."
@@ -1488,6 +1616,18 @@
           "from": 6,
           "to": [
             {
+              "id": 6,
+              "strats": [
+                {
+                  "name": "Zeb Farm",
+                  "notable": false,
+                  "requires": [
+                    {"refill": ["Energy", "Missile", "Super"]}
+                  ]
+                }
+              ]
+            },
+            {
               "id": 12,
               "strats": [
                 {
@@ -1517,8 +1657,9 @@
                   "notable": true,
                   "requires": [
                     "Morph",
-                    "canDamageBoost",
+                    "canNeutralDamageBoost",
                     "canTrickyUseFrozenEnemies",
+                    "canCameraManip",
                     {"enemyDamage": {
                       "enemy": "Zeb",
                       "hits": 1,
@@ -1538,7 +1679,7 @@
                   "name": "West Ocean Bug Boost with Wave or Spazer",
                   "notable": true,
                   "requires": [
-                    "canDamageBoost",
+                    "canNeutralDamageBoost",
                     "canMockball",
                     {"enemyDamage": {
                       "enemy": "Zeb",
@@ -1550,7 +1691,7 @@
                     "Get a Zeb to move left into the morph passage, and reach the end of the tunnel before it.",
                     "Shoot the block with Wave or while crouching with Spazer before luring the bug.",
                     "Quickly lure the bug then use a mockball on the 4 tile floor before the tunnel.",
-                    "Be careful not to despawn the enemy by moving it off camera. This strat is a one-shot try and failure is a softlock."
+                    "This strat is a one-shot try and failure is a softlock."
                   ],
                   "devNote": "Could use a failure definition?"
                 },
@@ -1558,7 +1699,7 @@
                   "name": "West Ocean Bug Boost",
                   "notable": true,
                   "requires": [
-                    "canDamageBoost",
+                    "canNeutralDamageBoost",
                     "canMockball",
                     {"enemyDamage": {
                       "enemy": "Zeb",
@@ -1569,7 +1710,7 @@
                   "note": [
                     "Get a Zeb to move left into the morph passage, and reach the end of the tunnel before it.",
                     "Must be quick enough to shoot the shot block first. Requires a mockball on the 4 tile floor before the tunnel.",
-                    "Be careful not to despawn the enemy by moving it off camera. This strat is a one-shot try and failure is a softlock."
+                    "This strat is a one-shot try and failure is a softlock."
                   ],
                   "devNote": "Could use a failure definition?"
                 },
@@ -1620,7 +1761,7 @@
                             {"ammo": { "type": "PowerBomb", "count": 1 }}
                           ]},
                           {"and": [
-                            "canDamageBoost",
+                            "canNeutralDamageBoost",
                             {"enemyDamage": {
                               "enemy": "Zeb",
                               "hits": 3,
@@ -1643,7 +1784,8 @@
                       "artificialMorph": false
                     }},
                     "canXRayClimb"
-                  ]
+                  ],
+                  "note": "Climb up 1 screen."
                 },
                 {
                   "name": "Shinespark Deep Stuck X-Ray Climb",
@@ -1651,13 +1793,16 @@
                   "requires": [
                     {"canComeInCharged": {
                       "fromNode": 6,
-                      "shinesparkFrames": 1,
-                      "excessShinesparkFrames": 1,
                       "framesRemaining": 1
+                    }},
+                    {"shinespark": {
+                      "frames": 1,
+                      "excessFrames": 1
                     }},
                     "canShinesparkDeepStuck",
                     "canXRayClimb"
-                  ]
+                  ],
+                  "note": "Climb up 1 screen."
                 }
               ]
             }
@@ -1719,8 +1864,19 @@
                 {
                   "name": "Base",
                   "notable": false,
-                  "requires": [ "Morph" ],
-                  "note": "The shot blocks can be hit from afar without bombs, and there is enough time to get past them without Gravity before they respawn"
+                  "requires": [ "h_canBombThings" ]
+                },
+                {
+                  "name": "Camera Maniuplation",
+                  "notable": false,
+                  "requires": [
+                    "Morph",
+                    "canCameraManip"
+                  ],
+                  "note": [
+                    "Crouch and shoot the shot blocks from afar. There is enough time to get past them without Gravity before they respawn.",
+                    "If the shot blocks do not break, roll all the way to the left to reset the camera, then go back."
+                  ]
                 }
               ]
             }
@@ -1803,9 +1959,9 @@
                   "requires": [
                     {"canShineCharge": {
                       "usedTiles": 33,
-                      "shinesparkFrames": 36,
                       "openEnd": 2
-                    }}
+                    }},
+                    {"shinespark": {"frames": 36}}
                   ]
                 },
                 {
@@ -1813,7 +1969,7 @@
                   "notable": false,
                   "requires": [
                     "canUseEnemies",
-                    "canBePatient"
+                    "canBeVeryPatient"
                   ]
                 }
               ]
@@ -1824,15 +1980,8 @@
                 {
                   "name": "Base",
                   "notable": false,
-                  "requires": [
-                    {"ammo": { "type": "Super", "count": 1 }}
-                  ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": []
-                    }
-                  ],
+                  "requires": [ {"ammo": { "type": "Super", "count": 1 }} ],
+                  "clearsObstacles": ["A"],
                   "note": "The super block respawns.",
                   "devNote": [
                     "This obstacle is to represent shooting the super block and is only used in quickly returning after grabbing the item.",
@@ -1898,26 +2047,36 @@
                   "notable": false,
                   "requires": [
                     {"or":[
-                      {"canComeInCharged": {
-                        "fromNode": 1,
-                        "framesRemaining": 0,
-                        "shinesparkFrames": 146,
-                        "excessShinesparkFrames": 35
-                       }},
-                      {"canComeInCharged": {
-                        "fromNode": 1,
-                        "framesRemaining": 180,
-                        "shinesparkFrames": 131,
-                        "excessShinesparkFrames": 35
-                      }},
+                      {"and": [
+                        {"canComeInCharged": {
+                          "fromNode": 1,
+                          "framesRemaining": 0
+                        }},
+                        {"shinespark": {
+                          "frames": 146,
+                          "excessFrames": 35
+                        }}
+                      ]},
+                      {"and": [
+                        {"canComeInCharged": {
+                          "fromNode": 1,
+                          "framesRemaining": 180
+                        }},
+                        {"shinespark": {
+                          "frames": 131,
+                          "excessFrames": 35
+                        }}
+                      ]},
                       {"and": [
                         "canShinechargeMovement",
                         "canMidairShinespark",
                         {"canComeInCharged": {
                           "fromNode": 1,
-                          "framesRemaining": 180,
-                          "shinesparkFrames": 106,
-                          "excessShinesparkFrames": 35
+                          "framesRemaining": 180
+                        }},
+                        {"shinespark": {
+                          "frames": 106,
+                          "excessFrames": 35
                         }}
                       ]}
                     ]}
@@ -1930,9 +2089,11 @@
                     "Gravity",
                     {"canShineCharge": {
                       "usedTiles": 33,
-                      "shinesparkFrames": 17,
-                      "excessShinesparkFrames": 5,
                       "openEnd": 2
+                    }},
+                    {"shinespark": {
+                      "frames": 17,
+                      "excessFrames": 5
                     }}
                   ]
                 }
@@ -1969,9 +2130,7 @@
                 {
                   "name": "Base",
                   "notable": false,
-                  "requires": [
-                    {"ammo": { "type": "Super", "count": 1 }}
-                  ],
+                  "requires": [ {"ammo": { "type": "Super", "count": 1 }} ],
                   "note": "The super block respawns."
                 },
                 {
@@ -2019,7 +2178,7 @@
                     "SpaceJump",
                     {"or": [
                       "h_canCeilingBombJump",
-                      "canBePatient"
+                      "canBeVeryPatient"
                     ]}
                   ],
                   "note": "The crumble block is the leftmost flat ceiling tile."
@@ -2087,12 +2246,7 @@
                       ]}
                     ]}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "B",
-                      "requires": []
-                    }
-                  ],
+                  "clearsObstacles": ["B"],
                   "note": [
                     "To overload the PLMs, place a PB precisely to the right of the bottom of the second overhang above the door to the Moat.",
                     "This is at the max jump height without HiJump. Placing the PB higher or lower will not overload the PLMs without many PBs."
@@ -2278,6 +2432,22 @@
           "from": 1,
           "to": [
             {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Waver and Choot Farm",
+                  "notable": false,
+                  "requires": [
+                    {"resetRoom": {
+                      "nodes": [1, 2],
+                      "mustStayPut": false
+                    }},
+                    {"refill": ["Energy", "Missile", "Super"]}
+                  ]
+                }
+              ]
+            },
+            {
               "id": 2,
               "strats": [
                 {
@@ -2345,7 +2515,6 @@
               "startingDownTiles": 1,
               "steepDownTiles": 4,
               "steepUpTiles": 2,
-              "shinesparkFrames": 23,
               "strats": [
                 {
                   "name": "East Ocean Floor Shinecharge Left",
@@ -2353,7 +2522,8 @@
                   "requires": [
                     "canShinechargeMovementComplex",
                     "canMidairShinespark",
-                    "Gravity"
+                    "Gravity",
+                    {"shinespark": {"frames": 23}}
                   ],
                   "note": "Quickly climb the submerged structures.  Not dashing may make platforming easier."
                 }
@@ -2413,8 +2583,6 @@
               "startingDownTiles": 1,
               "steepDownTiles": 3,
               "steepUpTiles": 3,
-              "shinesparkFrames": 10,
-              
               "strats": [
                 {
                   "name": "East Ocean Floor Walljump Shinecharge Right",
@@ -2422,7 +2590,8 @@
                   "requires": [
                     "canShinechargeMovementComplex",
                     "Gravity",
-                    "canWalljump"
+                    "canWalljump",
+                    {"shinespark": {"frames": 10}}
                   ]
                 }
               ]
@@ -2479,6 +2648,17 @@
           "homeNodes": [ 4 ]
         }
       ],
+      "reusableRoomwideNotable": [
+        {
+          "name": "East Ocean Shinespark Water Escape With Lower Choot Alive",
+          "note": [
+            "Enter the room while building a shinespark and use it on the lowest part of the ramp to diagonally spark up and out of the water.",
+            "The timing and positioning for the Shinespark are very precise, and there are no extra frames on the Shinespark timer to work with.",
+            "Carry the shinespark to the bottom of the ramp either with a bounce ball which takes damage from the Choot, with a late mockball that does not have time to decellerate, or with very precise spacejumps.",
+            "Then shinespark up and use SpaceJump to reach the door."
+          ]
+        }
+      ],
       "links": [
         {
           "from": 1,
@@ -2486,6 +2666,231 @@
             {
               "id": 2,
               "strats": [
+                {
+                  "name": "Speedy Springball Jump and SpaceJump",
+                  "notable": false,
+                  "requires": [
+                    "canTrickyJump",
+                    "SpeedBooster",
+                    "canSpringBallBounce",
+                    "canMockball",
+                    "SpaceJump"
+                  ],
+                  "note": [
+                    "Run for 7 tiles for enough speed to springball from the submerged platform up to the platform enemy, above the water.",
+                    "Turning on SpeedBooster midjump, after running 7+ tiles, will automatically hit the run speed requirement.",
+                    "It is not necessary to enter the water to clear the rightmost Choot."
+                  ]
+                },
+                {
+                  "name": "East Ocean Springball Bounce to the Door with SpaceJump",
+                  "notable": true,
+                  "requires": [
+                    "canTrickyJump",
+                    "canSpaceJumpWaterBounce",
+                    "canSpringBallBounce",
+                    "canMockball",
+                    {"or": [
+                      "canDownGrab",
+                      "canWalljump"
+                    ]}
+                  ],
+                  "note": [
+                    "Build up run speed and then use controlled springball bounces to cross the ocean to the far right ledge, and then use SpaceJump to reach the door.",
+                    "Mockball down the submerged ramp and begin SpringBall bouncing under water using the platforms.",
+                    "Disable SpringBall after the final jump once Samus starts falling again as a way to gain extra speed."
+                  ]
+                },
+                {
+                  "name": "East Ocean Speedy Springball Bounce to the Door",
+                  "notable": true,
+                  "requires": [
+                    "canTrickyJump",
+                    "SpeedBooster",
+                    "canSpringBallBounce",
+                    "canDoubleSpringBallJumpMidAir",
+                    "canMockball"
+                  ],
+                  "note": [
+                    "Using an exact runway size of 7 tiles; use extremely precise, controlled springball bounces to cross the ocean.",
+                    "7 tiles of runspeed can freely be achieved by requipping SpeedBooster after reaching the max normal run speed.",
+                    "Mockball down the submerged ramp and begin SpringBall bouncing either above the water, or under water using the platforms.",
+                    "The final SpringBall bounce must be on the left edge of the rightmost underwater platform.",
+                    "While the bounce is occuring, setup a mid-air SpringBall Jump to escape the water and reach the door."
+                  ]
+                },
+                {
+                  "name": "Full Room Shinespark Plus SpaceJump",
+                  "notable": false,
+                  "requires": [
+                    "canShinechargeMovementComplex",
+                    "canCarefulJump",
+                    {"or": [
+                      {"and": [
+                        "canMidairShinespark",
+                        "canDodgeWhileShooting"
+                      ]},
+                      {"and": [
+                        {"enemyDamage": {
+                          "enemy": "Choot",
+                          "type": "contact",
+                          "hits": 1
+                        }},
+                        "canNeutralDamageBoost",
+                        "canBounceBall"
+                      ]},
+                      {"and": [
+                        "canMockball",
+                        {"or": [
+                          "canPseudoScrew",
+                          "ScrewAttack",
+                          "Plasma",
+                          "Wave",
+                          {"ammo": {"type": "Missile", "count": 1}},
+                          {"ammo": {"type": "Super", "count": 1}}
+                        ]}
+                      ]}
+                    ]},
+                    {"canComeInCharged": {
+                      "framesRemaining": 180,
+                      "fromNode": 1,
+                      "unusableTiles": 1
+                    }},
+                    {"shinespark": {
+                      "frames": 123,
+                      "excessFrames": 5
+                    }},
+                    "canSpaceJumpWaterBounce",
+                    {"or": [
+                      {"and": [
+                        "HiJump",
+                        "canSpaceJumpWaterEscape"
+                      ]},
+                      {"and": [
+                        "canTrickyJump",
+                        "canDownGrab"
+                      ]},
+                      "canWalljump"
+                    ]}
+                  ],
+                  "note": [
+                    "Enter the room while building a shinespark and use it on the lowest part of the ramp to cross the room and reach a raised ledge on the right side wall.",
+                    "From there, use SpaceJump to escape the water.",
+                    "Carry the shinespark to the bottom of the ramp by delaying the first Choot with two Power Beam shots, killing it, or bounceballing through it.",
+                    "The Choot can be shot diagonally from the middle platform, and again by running off that platform and aiming down to float above it."
+                  ]
+                },
+                {
+                  "name": "East Ocean Shinespark Water Escape",
+                  "notable": true,
+                  "requires": [
+                    {"or": [
+                      "ScrewAttack",
+                      "canPseudoScrew",
+                      "Plasma",
+                      {"ammo": {"type": "Missile", "count": 1}},
+                      {"ammo": {"type": "Super", "count": 1}}
+                     ]},
+                    {"or": [
+                      "ScrewAttack",
+                      "Plasma",
+                      {"ammo": {"type": "Missile", "count": 1}},
+                      {"ammo": {"type": "Super", "count": 1}}
+                    ]},
+                    {"canComeInCharged": {
+                      "framesRemaining": 180,
+                      "fromNode": 1,
+                      "unusableTiles": 1
+                    }},
+                    {"shinespark": {
+                      "frames": 14,
+                      "excessFrames": 5
+                    }},
+                    "canShinechargeMovementComplex",
+                    "SpaceJump",
+                    "canTrickyJump",
+                    "canMidairShinespark"
+                  ],
+                  "note": [
+                    "Enter the room while building a shinespark and use it on the lowest part of the ramp to diagonally spark up and out of the water.",
+                    "Use very low jump height space jumps to carry momentum to the far side of the submerged ramp.",
+                    "Both Choots must be killed.",
+                    "Using Screw Attack: stay a little bit high in the water so that it remains active for the second Choot.",
+                    "Using Plasma or ammo: kill the first Choot while running down the middle platform, and the second while gliding above it after spacejumping through the water.",
+                    "Then shinespark up and use SpaceJump to reach the door."
+                  ]
+                },
+                {
+                  "name": "East Ocean Shinespark Water Escape With Lower Choot Alive (Morph)",
+                  "notable": true,
+                  "requires": [
+                    {"or": [
+                      {"and": [
+                        {"enemyDamage": {
+                          "enemy": "Choot",
+                          "type": "contact",
+                          "hits": 1
+                        }},
+                        "canNeutralDamageBoost",
+                        "canBounceBall"
+                      ]},
+                      {"and": [
+                        "canDodgeWhileShooting",
+                        "canMockball"
+                      ]}
+                    ]},
+                    {"canComeInCharged": {
+                      "framesRemaining": 180,
+                      "fromNode": 1,
+                      "unusableTiles": 1
+                    }},
+                    {"shinespark": {
+                      "frames": 14,
+                      "excessFrames": 5
+                    }},
+                    "canShinechargeMovementComplex",
+                    "SpaceJump",
+                    "canTrickyJump"
+                  ],
+                  "reusableRoomwideNotable": "East Ocean Shinespark Water Escape With Lower Choot Alive",
+                  "note": [
+                    "Enter the room while building a shinespark and use it on the lowest part of the ramp to diagonally spark up and out of the water.",
+                    "Unmorphing with the correct timing and positioning for the Shinespark are very precise, and there are no extra frames on the Shinespark timer to work with.",
+                    "Carry the shinespark to the bottom of the ramp either with a bounce ball which takes damage from the Choot, or delay the first Choot with two shots and then use a late mockball.",
+                    "Then shinespark up and use SpaceJump to reach the door."
+                  ]
+                },
+                {
+                  "name": "East Ocean Shinespark Water Escape With Lower Choot Alive (Ice Wave Spazer)",
+                  "notable": true,
+                  "requires": [
+                    "Ice",
+                    "Wave",
+                    "Spazer",
+                    "canDodgeWhileShooting",
+                    {"canComeInCharged": {
+                      "framesRemaining": 180,
+                      "fromNode": 1,
+                      "unusableTiles": 1
+                    }},
+                    {"shinespark": {
+                      "frames": 14,
+                      "excessFrames": 5
+                    }},
+                    "canShinechargeMovementComplex",
+                    "canMidairShinespark",
+                    "SpaceJump",
+                    "canTrickyJump"
+                  ],
+                  "reusableRoomwideNotable": "East Ocean Shinespark Water Escape With Lower Choot Alive",
+                  "note": [
+                    "Enter the room while building a shinespark and use it on the lowest part of the ramp to diagonally spark up and out of the water.",
+                    "Use very low jump height space jumps to carry momentum to the far side of the submerged ramp.",
+                    "Freeze the first Choot from the middle platform.",
+                    "Either SpaceJump just right so as to pass above the second Choot, or freeze it as it touches Samus to pass through without losing speed.",
+                    "Then shinespark up and use SpaceJump to reach the door."
+                  ]
+                },
                 {
                   "name": "G-mode Morph IBJ",
                   "notable": false,
@@ -2499,8 +2904,7 @@
                     "h_canArtificialMorphIBJ"
                   ]
                 }
-              ],
-              "devNote": "This link is only for g-mode strats, all others should go 1->3->4->2."
+              ]
             },
             {
               "id": 3,
@@ -2510,8 +2914,7 @@
                   "notable": false,
                   "requires": []
                 }
-              ],
-              "devNote": "The way out has requirements, in both directions. Following this can be a softlock."
+              ]
             }
           ]
         },
@@ -2527,22 +2930,19 @@
                   "requires": [ "SpaceJump" ]
                 },
                 {
-                  "name": "Shine Spark",
+                  "name": "Shinespark",
                   "notable": false,
                   "requires": [
                     {"canComeInCharged": {
                       "fromNode": 2,
-                      "framesRemaining": 10,
-                      "shinesparkFrames": 35
-                    }}
+                      "framesRemaining": 10
+                    }},
+                    {"shinespark": {"frames": 35}}
                   ],
                   "note": "Horizontally shinespark from the grassy patch on the ledge near the door, then jump across the platforms."
                 }
               ],
-              "devNote": [
-                "All other strats go 2 -> 4 -> 3.",
-                "The way out has requirements, in both directions. Following this can be a softlock."
-              ]
+              "devNote": "All other strats go 2 -> 4 -> 3."
             },
             {
               "id": 4,
@@ -2552,8 +2952,7 @@
                   "notable": false,
                   "requires": []
                 }
-              ],
-              "note": "The way out has requirements, in both directions. Following this can be a softlock."
+              ]
             }
           ]
         },
@@ -2584,7 +2983,14 @@
                     "canSpaceJumpWaterBounce",
                     {"or": [
                       "canWalljump",
-                      "canSpaceJumpWaterEscape"
+                      {"and": [
+                        "canSpaceJumpWaterEscape",
+                        "HiJump"
+                      ]},
+                      {"and": [
+                        "canTrickyJump",
+                        "canDownGrab"
+                      ]}
                     ]}
                   ]
                 },
@@ -2609,7 +3015,7 @@
                   "notable": true,
                   "requires": [
                     "canSuitlessMaridia",
-                    "canDamageBoost",
+                    "canHorizontalDamageBoost",
                     "canCrouchJump",
                     {"enemyDamage": {
                       "enemy": "Choot",
@@ -2632,6 +3038,28 @@
             {
               "id": 2,
               "strats": [
+                {
+                  "name": "East Ocean Space Jump Water Escape with Ice and XRay Standup",
+                  "notable": true,
+                  "requires": [
+                    {"enemyDamage": { "enemy": "Choot", "type": "contact", "hits": 1}},
+                    "canTrickyUseFrozenEnemies",
+                    "Morph",
+                    "canXRayStandUp",
+                    "canSpaceJumpWaterBounce",
+                    "canFlatleyJump",
+                    "canHitbox"
+                  ],
+                  "note": [
+                    "Freeze the right-most ramp Choot in a way where Samus can climb on top of it and use Space Jump to escape the water.",
+                    "Use a turn around to avoid knockback when making contact with the Choot to better time the use of Ice.",
+                    "Freeze the Choot as far to the right (on its lowest swoop), but this method is less precise than the alternatives.",
+                    "If Samus is inside the Choot when it is frozen, she can continuing moving freely.",
+                    "Jump on top either in spinjump or in Morph Ball",
+                    "Use XRay to standup, clipping partially into the above slope.",
+                    "Use a flately jump to fall out of the wall while still keeping enough height to spacejump on top of the water and escape."
+                  ]
+                },
                 {
                   "name": "East Ocean Space Jump Water Escape with Ice (Left to Right)",
                   "notable": true,
@@ -2736,9 +3164,11 @@
                       "usedTiles": 22,
                       "steepUpTiles": 3,
                       "steepDownTiles": 3,
-                      "shinesparkFrames": 25,
-                      "excessShinesparkFrames": 5,
                       "openEnd": 0
+                    }},
+                    {"shinespark": {
+                      "frames": 25,
+                      "excessFrames": 5
                     }}
                   ]
                 },
@@ -2803,7 +3233,7 @@
                   "notable": true,
                   "requires": [
                     "canSuitlessMaridia",
-                    "canDamageBoost",
+                    "canNeutralDamageBoost",
                     "h_canCrouchJumpDownGrab",
                     {"enemyDamage": {
                       "enemy": "Skultera",
@@ -2811,7 +3241,7 @@
                       "type": "contact"
                     }}
                   ],
-                  "note": "Crouch jump down grab to get over the first two pillars. Crouch jump damage boost on the Skultera to get over the third."
+                  "note": "Crouch jump down grab to get over the first two pillars. Crouch jump damage boost on the Skultera then down grab to get over the third."
                 }
               ]
             }
@@ -2875,6 +3305,22 @@
           "from": 1,
           "to": [
             {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Kago Farm",
+                  "notable": false,
+                  "requires": [
+                    {"resetRoom": {
+                      "nodes": [1, 2],
+                      "mustStayPut": false
+                    }},
+                    {"refill": ["Energy", "Missile", "Super", "PowerBomb"]}
+                  ]
+                }
+              ]
+            },
+            {
               "id": 2,
               "strats": [
                 {
@@ -2935,6 +3381,30 @@
               "requires": []
             }
           ],
+          "leaveWithGModeSetup": [
+            {
+              "strats": [
+                {
+                  "name": "Frozen Sciser",
+                  "notable": false,
+                  "requires": [ 
+                    "canUpwardGModeSetup",
+                    "canTrickyUseFrozenEnemies",
+                    "h_canUseSpringBall",
+                    "canBePatient"
+                  ],
+                  "note": [
+                    "The nearby Global crab can be used to exit on the left side of the door.",
+                    "Exiting on the right will require travelling the Morph maze to find a local crab or two."
+                  ],
+                  "devNote": [
+                    "There is a Morphless way to jump on the crab with aim down but it feels too precise to include.",
+                    "Global Crab (left side) takes 40 seconds, local crab (Right side) is 180.  Finding two left side crabs to use together is faster."
+                  ]
+                }
+              ]
+            }
+          ],
           "gModeImmobile": {
             "requires": [
               {"enemyDamage": {
@@ -2943,11 +3413,7 @@
                 "hits": 1
               }}
             ]
-          },
-          "devNote": [
-            "FIXME Add leaveWithGModeSetup.",
-            "FIXME Requires Samus to be completely against the left or right side of the doorframe. Currently all setups can do this."
-          ]
+          }
         },
         {
           "id": 2,
@@ -3035,6 +3501,22 @@
           "from": 1,
           "to": [
             {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Sciser Farm",
+                  "notable": false,
+                  "requires": [
+                    {"resetRoom": {
+                      "nodes": [1],
+                      "mustStayPut": false
+                    }},
+                    {"refill": ["Energy", "PowerBomb"]}
+                  ]
+                }
+              ]
+            },
+            {
               "id": 3,
               "strats": [
                 {
@@ -3102,6 +3584,22 @@
                   "note": [
                     "Place bombs at the far right, next to the low underwater ceiling.",
                     "To safely bomb the fast crab, wait just left of the crack on the floor where it falls."
+                  ]
+                }
+              ]
+            },
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Sciser Farm",
+                  "notable": false,
+                  "requires": [
+                    {"resetRoom": {
+                      "nodes": [2],
+                      "mustStayPut": false
+                    }},
+                    {"refill": ["Energy", "PowerBomb"]}
                   ]
                 }
               ]

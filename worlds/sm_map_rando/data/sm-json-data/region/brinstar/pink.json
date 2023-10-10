@@ -30,7 +30,27 @@
               ],
               "openEnd": 1
             }
-          ]
+          ],
+          "leaveWithGModeSetup": [
+            {
+              "strats": [
+                {
+                  "name": "Get Hit By Zeela",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ],
+          "gModeImmobile": {
+            "requires": [
+              {"enemyDamage": {
+                "enemy": "Zeela",
+                "type": "contact",
+                "hits": 1
+              }}
+            ]
+          }
         },
         {
           "id": 2,
@@ -51,6 +71,47 @@
                 }
               ],
               "openEnd": 1
+            }
+          ],
+          "leaveWithGModeSetup": [
+            {
+              "strats": [
+                {
+                  "name": "Dachora Room G-Mode Setup: Lure the Zeela Down Below",
+                  "notable": true,
+                  "requires": [
+                    "canBePatient",
+                    {"or": [
+                      {"and": [
+                        {"canShineCharge": {
+                          "usedTiles": 33,
+                          "openEnd": 2
+                        }},
+                        {"shinespark": {
+                          "frames": 110,
+                          "excessFrames": 3
+                        }}
+                      ]},
+                      {"and": [
+                        "SpeedBooster",
+                        {"obstaclesCleared": ["A"]}
+                      ]}
+                    ]}
+                  ],
+                  "note": [
+                    "Using Speed Booster, run through and break the bomb wall. to free the global Zeela.",
+                    "Break the speed blocks just before the Zeela gets to them in order for it to go down to the bottom half of the room.",
+                    "The speed blocks respawn very quickly, so this requires very precise timing.",
+                    "Normally, it takes the Zeela a minimum of 2 minues to setup, but a super can make it fall down the shaft, saving 30 seconds.",
+                    "It may be easiest to knock the Zeela from the ceiling directly into the hole, saving another 30 seconds:",
+                    "Shoot a well-timed Super diagonally at the ground just before breaking the speed blocks."
+                  ],
+                  "devNote": [
+                    "Having Speed and the bomb blocks above destroyed is an indicator that Samus was at the top half of the room.",
+                    "Could save shinespark frames, especially with wall jumps enabled, but with a reserve tank this is probably usually fine."
+                  ]
+                }
+              ]
             }
           ]
         },
@@ -91,6 +152,23 @@
               "usableComingIn": false,
               "openEnd": 1
             }
+          ],
+          "leaveWithGModeSetup": [
+            {
+              "strats": [
+                {
+                  "name": "Get Hit By Zeela or Reo",
+                  "notable": false,
+                  "requires": [
+                    {"or": [
+                      "SpeedBooster",
+                      "h_canDestroyBombWalls",
+                      {"obstaclesCleared": ["A"]}
+                    ]}
+                  ]
+                }
+              ]
+            }
           ]
         }
       ],
@@ -117,10 +195,53 @@
           "homeNodes": [ 3 ]
         }
       ],
+      "obstacles": [
+        {
+          "id": "A",
+          "name": "Bomb Blockade",
+          "obstacleType": "inanimate"
+        }
+      ],
       "links": [
         {
           "from": 1,
           "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Zeela and Reo Farm",
+                  "notable": false,
+                  "requires": [
+                    {"resetRoom": {
+                      "nodes": [1],
+                      "mustStayPut": false
+                    }},
+                    {"refill": ["Energy", "Missile", "Super"]}
+                  ]
+                }
+              ],
+              "devNote": "FIXME: Node 3 could be used to reset the room, with additional requirements."
+            },
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "G-Mode Screw and Overload PLMs",
+                  "notable": false,
+                  "requires": [
+                    {"comeInWithGMode": {
+                      "fromNodes": [1],
+                      "mode": "any",
+                      "artificialMorph": false
+                    }},
+                    "ScrewAttack"
+                  ],
+                  "clearsObstacles": ["A"],
+                  "note": "Screw Attack through the bomb block wall, to instantly overload PLMs on the other side, and fall through the Speed Blocks."
+                }
+              ]
+            },
             {
               "id": 3,
               "strats": [
@@ -130,9 +251,35 @@
                   "requires": [
                     {"or": [
                       "SpeedBooster",
-                      "h_canDestroyBombWalls"
+                      "h_canDestroyBombWalls",
+                      {"obstaclesCleared": ["A"]}
                     ]}
-                  ]
+                  ],
+                  "clearsObstacles": ["A"]
+                },
+                {
+                  "name": "G-Mode Morph Power Bomb",
+                  "notable": false,
+                  "requires": [
+                    {"comeInWithGMode": {
+                      "fromNodes": [1],
+                      "mode": "any",
+                      "artificialMorph": true
+                    }},
+                    {"ammo": { "type": "PowerBomb", "count": 1 }},
+                    {"or": [
+                      "Bombs",
+                      "SpringBall",
+                      {"ammo": { "type": "PowerBomb", "count": 1 }},
+                      {"enemyDamage": {
+                        "enemy": "Zeela",
+                        "hits": 1,
+                        "type": "contact"
+                      }}
+                    ]}
+                  ],
+                  "clearsObstacles": ["A"],
+                  "note": "Use a Power Bomb to destroy the bomb block wall."
                 }
               ]
             }
@@ -148,7 +295,7 @@
                   "name": "X-Ray Climb",
                   "notable": false,
                   "requires": [
-                    "canRightFacingDoorXRayClimb",
+                    "h_canLeftDoorXRayClimb",
                     {"resetRoom": {
                       "nodes": [2],
                       "mustStayPut": true
@@ -158,9 +305,43 @@
                       "usedTiles": 0.5,
                       "overrideRunwayRequirements": true,
                       "useFrames": 200
-                    }}
+                    }},
+                    "canBeVeryPatient"
                   ],
                   "note": "6 screen X-Ray climb, and global Zeelas are still active even off camera."
+                },
+                {
+                  "name": "G-Mode Overload PLMs",
+                  "notable": false,
+                  "requires": [
+                    {"comeInWithGMode": {
+                      "fromNodes": [2],
+                      "mode": "any",
+                      "artificialMorph": false
+                    }},
+                    {"or": [
+                      "canConsecutiveWalljump",
+                      "SpaceJump"
+                    ]}
+                  ],
+                  "note": "There are camera scroll blocks just below the speed blocks, so it is easy to overload PLMs by wall jumping or space jumping into them."
+                },
+                {
+                  "name": "G-Mode Morph Overload PLMs",
+                  "notable": false,
+                  "requires": [
+                    {"comeInWithGMode": {
+                      "fromNodes": [2],
+                      "mode": "any",
+                      "artificialMorph": true
+                    }},
+                    "h_canArtificialMorphIBJ",
+                    "canBePatient"
+                  ],
+                  "note": [
+                    "There are camera scroll blocks just below the speed blocks, so it is easy to overload PLMs by bouncing into them.",
+                    "A single IBJ is slow enough at the top to overload them before Samus can hit the blocks."
+                  ]
                 }
               ]
             },
@@ -173,9 +354,11 @@
                   "requires": [
                     {"canShineCharge": {
                       "usedTiles": 33,
-                      "shinesparkFrames": 110,
-                      "excessShinesparkFrames": 3,
                       "openEnd": 2
+                    }},
+                    {"shinespark": {
+                      "frames": 110,
+                      "excessFrames": 3
                     }}
                   ],
                   "note": "Diagonal spark left to save health."
@@ -189,9 +372,11 @@
                     "canMidairShinespark",
                     {"canShineCharge": {
                       "usedTiles": 33,
-                      "shinesparkFrames": 85,
-                      "excessShinesparkFrames": 3,
                       "openEnd": 2
+                    }},
+                    {"shinespark": {
+                      "frames": 85,
+                      "excessFrames": 3                      
                     }}
                   ],
                   "note": "Diagonal spark left to save health."
@@ -206,9 +391,11 @@
                     "canMidairShinespark",
                     {"canShineCharge": {
                       "usedTiles": 33,
-                      "shinesparkFrames": 67,
-                      "excessShinesparkFrames": 3,
                       "openEnd": 2
+                    }},
+                    {"shinespark": {
+                      "frames": 67,
+                      "excessFrames": 3                      
                     }}
                   ]
                 },
@@ -221,13 +408,48 @@
                     "canMidairShinespark",
                     {"canShineCharge": {
                       "usedTiles": 33,
-                      "shinesparkFrames": 73,
-                      "excessShinesparkFrames": 3,
                       "openEnd": 2
+                    }},
+                    {"shinespark": {
+                      "frames": 73,
+                      "excessFrames": 3                      
                     }}
                   ],
                   "note": "Quickly wall jump up the right wall and shinespark up to barely get above the speed blocks without any tanks.",
                   "devNote": "At no etanks, the spark will always be cut short barely above the speed blocks."
+                },
+                {
+                  "name": "G-Mode Overload PLMs",
+                  "notable": false,
+                  "requires": [
+                    {"comeInWithGMode": {
+                      "fromNodes": [2],
+                      "mode": "any",
+                      "artificialMorph": false
+                    }},
+                    {"or": [
+                      "canConsecutiveWalljump",
+                      "SpaceJump"
+                    ]}
+                  ],
+                  "note": "There are camera scroll blocks just below the speed blocks, so it is easy to overload PLMs by wall jumping or space jumping into them."
+                },
+                {
+                  "name": "G-Mode Morph Overload PLMs",
+                  "notable": false,
+                  "requires": [
+                    {"comeInWithGMode": {
+                      "fromNodes": [2],
+                      "mode": "any",
+                      "artificialMorph": true
+                    }},
+                    "h_canArtificialMorphIBJ",
+                    "canBePatient"
+                  ],
+                  "note": [
+                    "There are camera scroll blocks just below the speed blocks, so it is easy to overload PLMs by bouncing into them.",
+                    "A single IBJ is slow enough at the top to overload them before Samus can hit the blocks."
+                  ]
                 }
               ]
             }
@@ -245,9 +467,23 @@
                   "requires": [
                     {"or": [
                       "SpeedBooster",
-                      "h_canDestroyBombWalls"
+                      "h_canDestroyBombWalls",
+                      {"obstaclesCleared": ["A"]}
                     ]}
-                  ]
+                  ],
+                  "clearsObstacles": ["A"]
+                },
+                {
+                  "name": "G-Mode Overload PLMs",
+                  "notable": false,
+                  "requires": [
+                    {"comeInWithGMode": {
+                      "fromNodes": [3],
+                      "mode": "any",
+                      "artificialMorph": false
+                    }}
+                  ],
+                  "note": "Use The camera scroll blocks above the speed blocks and by the bomb wall to overload PLMs."
                 }
               ]
             },
@@ -258,6 +494,35 @@
                   "name": "Base",
                   "notable": false,
                   "requires": [ "SpeedBooster" ]
+                },
+                {
+                  "name": "Dachora Room Reo Zeela Stuck Moonfall",
+                  "notable": true,
+                  "requires": [
+                    "canTrickyUseFrozenEnemies",
+                    "canEnemyStuckMoonfall",
+                    "canBePatient",
+                    "canCameraManip",
+                    {"obstaclesCleared": ["A"]}
+                  ],
+                  "note": [
+                    "Use a Reo (Bee) and a Zeela to perform an 'Enemy Stuck Moonfall', clipping Samus through the Speed blocks.",
+                    "Break the Bomb blocks to bring enemies over to the Speed blocks.",
+                    "Have a Reo wait off camera while the Zeela walks onto the Speed blocks, then freeze the Bee just above Samus' head.",
+                    "Try to freeze both enemies near the same time and start the moonfall as quickly as possible."
+                  ]
+                },
+                {
+                  "name": "G-Mode Overload PLMs",
+                  "notable": false,
+                  "requires": [
+                    {"comeInWithGMode": {
+                      "fromNodes": [3],
+                      "mode": "any",
+                      "artificialMorph": false
+                    }}
+                  ],
+                  "note": "Use The camera scroll blocks above the speed blocks and by the bomb wall to overload PLMs."
                 }
               ]
             }
@@ -301,7 +566,6 @@
               "framesRemaining": 0,
               "usedTiles": 17,
               "openEnd": 1,
-              "shinesparkFrames": 10,
               "strats": [
                 {
                   "name": "Big Pink Fast Mockball into Save Room",
@@ -309,9 +573,27 @@
                   "requires": [
                     "canMockball",
                     "canShinechargeMovementComplex",
-                    {"obstaclesCleared": ["A"]}
+                    {"obstaclesCleared": ["A"]},
+                    {"shinespark": {"frames": 10}}
                   ],
                   "note": "Shinecharge towards the top right door.  Then turn around for a fast mockball after jumping the bug pipe."
+                }
+              ]
+            }
+          ],
+          "leaveWithGModeSetup": [
+            {
+              "strats": [
+                {
+                  "name": "Get Hit By Zeb",
+                  "notable": false,
+                  "requires": [
+                    {"or": [
+                      "h_canBombThings",
+                      {"obstaclesCleared": ["A"]}
+                    ]}
+                  ],
+                  "note": "Carefully lure a Zeb from the pipe."
                 }
               ]
             }
@@ -343,7 +625,6 @@
               "framesRemaining": 0,
               "usedTiles": 25,
               "openEnd": 1,
-              "shinesparkFrames": 28,
               "strats": [
                 {
                   "name": "Shinecharge Below and Jump Up",
@@ -351,10 +632,23 @@
                   "requires": [
                     "canShinechargeMovementComplex",
                     {"or": [
-                       "HiJump",
-                       "canWalljump"
-                     ]}
+                      "HiJump",
+                      "canWalljump"
+                    ]},
+                    {"shinespark": {"frames": 28}}
                   ]
+                }
+              ]
+            }
+          ],
+          "leaveWithGModeSetup": [
+            {
+              "strats": [
+                {
+                  "name": "Get Hit By Zeb",
+                  "notable": false,
+                  "requires": [],
+                  "note": "Lure a Zeb from the pipe."
                 }
               ]
             }
@@ -392,6 +686,21 @@
                 }
               ],
               "openEnd": 1
+            }
+          ],
+          "leaveWithGModeSetup": [
+            {
+              "strats": [
+                {
+                  "name": "Get Hit By Zeb",
+                  "notable": false,
+                  "requires": [ "canTrickyUseFrozenEnemies" ],
+                  "note": [
+                    "Carefully lure a Zeb from the pipe below while freezing it.",
+                    "Samus must start to the left of the pipe in order for the Zeb to move left at the end."
+                  ]
+                }
+              ]
             }
           ]
         },
@@ -437,6 +746,37 @@
                     {"obstaclesCleared": ["C"]}
                   ],
                   "note": "Use the morph tunnel that used to have crumble blocks as a faster path to the Mission Impossible transition."
+                }
+              ]
+            }
+          ],
+          "leaveWithGModeSetup": [
+            {
+              "strats": [
+                {
+                  "name": "Get Hit By Zeb",
+                  "notable": false,
+                  "requires": [
+                    "canTrickyUseFrozenEnemies",
+                    {"or": [
+                      "h_canUsePowerBombs",
+                      {"obstaclesCleared": ["B"]},
+                      {"and": [
+                        "Morph",
+                        {"obstaclesCleared": ["C"]}
+                      ]}
+                    ]},
+                    {"or": [
+                      "canWalljump",
+                      "HiJump",
+                      "SpaceJump",
+                      "canSpringBallJumpMidAir"
+                    ]}
+                  ],
+                  "note": [
+                    "Carefully lure a Zeb from the pipe below while freezing it.",
+                    "Samus must start to the left of the pipe in order for the Zeb to move left at the end."
+                  ]
                 }
               ]
             }
@@ -497,6 +837,18 @@
                   "name": "Base",
                   "notable": false,
                   "requires": []
+                }
+              ]
+            }
+          ],
+          "leaveWithGModeSetup": [
+            {
+              "strats": [
+                {
+                  "name": "Get Hit By Zeb",
+                  "notable": false,
+                  "requires": [],
+                  "note": "Carefully lure a Zeb from the pipe below."
                 }
               ]
             }
@@ -761,7 +1113,7 @@
       ],
       "reusableRoomwideNotable": [
         {
-          "name": "Big Pink SpeedBall into Raised Bomb Blocks",
+          "name": "Big Pink Speedball into Raised Bomb Blocks",
           "note": [
             "Break the \"Spore Spawn Skip\" bomb blocks (from the left) using only speed.",
             "Either by jump morphing into them, or by falling and bouncing through them with Temporary Blue."
@@ -778,34 +1130,33 @@
                 {
                   "name": "Base",
                   "notable": false,
-                  "requires": ["Morph"],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [ "h_canBombThings" ]
-                    }
-                  ]
+                  "requires": [
+                    "Morph",
+                    {"or": [
+                      "h_canBombThings",
+                      {"obstaclesCleared": ["A"]}
+                    ]}
+                  ],
+                  "clearsObstacles": ["A"]
                 },
                 {
-                  "name": "SpeedBall",
+                  "name": "Speedball",
                   "notable": false,
                   "requires": [
-                    "canMockball",
+                    "canSpeedball",
                     {"or": [
                       {"and": [
                         "canSlowShortCharge",
                         {"canComeInCharged": {
                           "framesRemaining": 180,
                           "fromNode": 1,
-                          "shinesparkFrames": 0,
                           "unusableTiles": 5
                         }}
                       ]},
                       {"canComeInCharged": {
                         "framesRemaining": 180,
                         "fromNode": 1,
-                        "shinesparkFrames": 0,
-                        "unusableTiles": 10
+                        "unusableTiles": 14
                       }}
                     ]}
                   ]
@@ -819,7 +1170,6 @@
                     {"canComeInCharged": {
                       "framesRemaining": 180,
                       "fromNode": 1,
-                      "shinesparkFrames": 0,
                       "unusableTiles": 1
                     }}
                   ]
@@ -867,13 +1217,13 @@
                 {
                   "name": "Base",
                   "notable": false,
-                  "requires": [],
-                  "obstacles": [
-                    {
-                      "id": "B",
-                      "requires": [ "h_canUsePowerBombs" ]
-                    }
-                  ]
+                  "requires": [
+                    {"or": [
+                      "h_canUsePowerBombs",
+                      {"obstaclesCleared": ["B"]}
+                    ]}
+                  ],
+                  "clearsObstacles": ["B"]
                 }
               ]
             },
@@ -883,13 +1233,8 @@
                 {
                   "name": "Base",
                   "notable": false,
-                  "requires": ["Morph"],
-                  "obstacles": [
-                    {
-                      "id": "C",
-                      "requires": []
-                    }
-                  ]
+                  "requires": [ "Morph" ],
+                  "clearsObstacles": ["C"]
                 }
               ]
             }
@@ -905,10 +1250,9 @@
                   "name": "Big Pink Left-Side X-Ray Climb",
                   "notable": false,
                   "requires": [
-                    "canRightFacingDoorXRayClimb",
+                    "h_canLeftDoorXRayClimb",
                     { "resetRoom": {
-                      "nodes": [5],
-                      "nodesToAvoid": [13]
+                      "nodes": [5]
                     }},
                     {"adjacentRunway": {
                       "fromNode": 5,
@@ -918,6 +1262,7 @@
                       "useFrames": 200
                     }}
                   ],
+                  "note": "Climb up 1 screen.",
                   "devNote": [
                     "Normally, an XRayClimb's resetRoom has mustStayPut true, but because node 5 is configured to spawn at 14, Samus will be expected to visit 14 before 5 when setting up.",
                     "This is a technicality based on the spawnAt at 14, since in reality Samus just gets doorstuck at 5 immediately in this scenario.",
@@ -962,37 +1307,33 @@
                 {
                   "name": "Base",
                   "notable": false,
-                  "requires": ["Morph"],
-                  "obstacles": [
-                    {
-                      "id": "F",
-                      "requires": [
-                        {"ammo":{"type": "Super","count": 1}},
-                        "h_canBombThings"
-                      ]
-                    }
-                  ]
+                  "requires": [
+                    "Morph",
+                    {"or": [
+                      {"and": [
+                        "h_canBombThings",
+                        {"ammo":{"type": "Super","count": 1}}
+                      ]},
+                      {"obstaclesCleared": ["F"]}
+                    ]}
+                  ],
+                  "clearsObstacles": ["F"]
                 },
                 {
                   "name": "Speedball",
                   "notable": false,
                   "requires": [
-                    "canMockball",
+                    "canSpeedball",
                     "canTrickyJump",
                     "canSlowShortCharge",
                     {"canComeInCharged": {
                       "framesRemaining": 180,
                       "fromNode": 7,
-                      "shinesparkFrames": 0,
                       "unusableTiles": 2
-                    }}
+                    }},
+                    {"ammo":{"type": "Super","count": 1}}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "F",
-                      "requires": [{"ammo":{"type": "Super","count": 1}}]
-                    }
-                  ],
+                  "clearsObstacles": ["F"],
                   "note": "Quickly jump and precisely shoot the super block and in the same motion take out the bomb blocks with a speedball."
                 },
                 {
@@ -1003,16 +1344,11 @@
                     "canSpringBallBounce",
                     {"canComeInCharged": {
                       "framesRemaining": 180,
-                      "fromNode": 7,
-                      "shinesparkFrames": 0
-                    }}
+                      "fromNode": 7
+                    }},
+                    {"ammo":{"type": "Super","count": 1}}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "F",
-                      "requires": [{"ammo":{"type": "Super","count": 1}}]
-                    }
-                  ],
+                  "clearsObstacles": ["F"],
                   "note": [
                     "Position Samus next to the Super block, while keeping the speed effect with a Temporary Blue Chain, and break it.",
                     "Then bounce into the morph tunnel, while keeping speed, and continuing all the way through with SpringBall",
@@ -1048,7 +1384,7 @@
                   "name": "Big Pink Right-Side X-Ray Climb",
                   "notable": false,
                   "requires": [
-                    "canLeftFacingDoorXRayClimb",
+                    "h_canRightDoorXRayClimb",
                     { "resetRoom": {
                       "nodes": [8],
                       "mustStayPut": true
@@ -1062,7 +1398,7 @@
                         "useFrames": 200
                       }},
                       {"and": [
-                        "canSubmergedLeftFacingDoorXRayClimb",
+                        "h_canRightDoorXRayClimbFromWater",
                         {"adjacentRunway": {
                           "fromNode": 8,
                           "usedTiles": 0.5,
@@ -1072,7 +1408,8 @@
                         }}
                       ]}
                     ]}
-                  ]
+                  ],
+                  "note": "Climb up 1 screen."
                 }
               ]
             }
@@ -1087,13 +1424,14 @@
                 {
                   "name": "Base",
                   "notable": false,
-                  "requires": ["Morph"],
-                  "obstacles": [
-                    {
-                      "id": "E",
-                      "requires": ["h_canUsePowerBombs"]
-                    }
-                  ]
+                  "requires": [
+                    "Morph",
+                    {"or": [
+                      "h_canUsePowerBombs",
+                      {"obstaclesCleared": ["E"]}
+                    ]}
+                  ],
+                  "clearsObstacles": ["E"]
                 }
               ]
             }
@@ -1108,13 +1446,13 @@
                 {
                   "name": "Base",
                   "notable": false,
-                  "requires": [],
-                  "obstacles": [
-                    {
-                      "id": "B",
-                      "requires": ["h_canUsePowerBombs"]
-                    }
-                  ]
+                  "requires": [
+                    {"or": [
+                      "h_canUsePowerBombs",
+                      {"obstaclesCleared": ["B"]}
+                    ]}
+                  ],
+                  "clearsObstacles": ["B"]
                 }
               ]
             },
@@ -1149,13 +1487,14 @@
                 {
                   "name": "Base",
                   "notable": false,
-                  "requires": ["Morph"],
-                  "obstacles": [
-                    {
-                      "id": "D",
-                      "requires": [ "h_canBombThings" ]
-                    }
-                  ]
+                  "requires": [
+                    "Morph",
+                    {"or": [
+                      "h_canBombThings",
+                      {"obstaclesCleared": ["D"]}
+                    ]}
+                  ],
+                  "clearsObstacles": ["D"]
                 },
                 {
                   "name": "Temporary Blue Chain",
@@ -1163,18 +1502,12 @@
                   "requires": [
                     {"canShineCharge": {
                       "usedTiles": 24,
-                      "openEnd": 1,
-                      "shinesparkFrames": 0
+                      "openEnd": 1
                     }},
                     "canChainTemporaryBlue",
                     "canXRayTurnaround"
                   ],
-                  "obstacles": [
-                    {
-                      "id": "D",
-                      "requires": []
-                    }
-                  ]
+                  "clearsObstacles": ["D"]
                 }
               ]
             },
@@ -1199,13 +1532,14 @@
                 {
                   "name": "Base",
                   "notable": false,
-                  "requires": ["Morph"],
-                  "obstacles": [
-                    {
-                      "id": "E",
-                      "requires": ["h_canUsePowerBombs"]
-                    }
-                  ]
+                  "requires": [
+                    "Morph",
+                    {"or": [
+                      "h_canUsePowerBombs",
+                      {"obstaclesCleared": ["E"]}
+                    ]}
+                  ],
+                  "clearsObstacles": ["E"]
                 }
               ]
             },
@@ -1215,13 +1549,14 @@
                 {
                   "name": "Base",
                   "notable": false,
-                  "requires": ["Morph"],
-                  "obstacles": [
-                    {
-                      "id": "D",
-                      "requires": [ "h_canDestroyBombWalls" ]
-                    }
-                  ]
+                  "requires": [
+                    "Morph",
+                    {"or": [
+                      "h_canDestroyBombWalls",
+                      {"obstaclesCleared": ["D"]}
+                    ]}
+                  ],
+                  "clearsObstacles": ["D"]
                 },
                 {
                   "name": "Charge Escape Clip",
@@ -1252,40 +1587,34 @@
                 {
                   "name": "Base",
                   "notable": false,
-                  "requires": ["Morph"],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [ "h_canBombThings" ]
-                    }
-                  ]
+                  "requires": [
+                    "Morph",
+                    {"or": [
+                      "h_canBombThings",
+                      {"obstaclesCleared": ["A"]}
+                    ]}
+                  ],
+                  "clearsObstacles": ["A"]
                 },
                 {
                   "name": "Speedball",
                   "notable": false,
-                  "requires": ["Morph"],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [
-                        "canMockball",
-                        {"or": [
-                          {"canComeInCharged": {
-                            "fromNode": 2,
-                            "inRoomPath": [2,13],
-                            "framesRemaining": 180,
-                            "shinesparkFrames": 0, 
-                            "unusableTiles": 1
-                          }},
-                          {"canShineCharge": {
-                            "usedTiles": 17,
-                            "openEnd": 0,
-                            "shinesparkFrames": 0
-                          }}
-                        ]}
-                      ]
-                    }
+                  "requires": [
+                    "canSpeedball",
+                    {"or": [
+                      {"canComeInCharged": {
+                        "fromNode": 2,
+                        "inRoomPath": [2,13],
+                        "framesRemaining": 180,
+                        "unusableTiles": 1
+                      }},
+                      {"canShineCharge": {
+                        "usedTiles": 17,
+                        "openEnd": 0
+                      }}
+                    ]}
                   ],
+                  "clearsObstacles": ["A"],
                   "note": [
                     "Jump over the bug pipe while blue and roll into the morph tunnel to break the bomb block.",
                     "Shortcharge too much and the jump will not be able to reach the morph tunnel."
@@ -1295,32 +1624,23 @@
                   "name": "Temporary Blue with SpringBall Bounce",
                   "notable": false,
                   "requires": [
-                    "Morph"
+                    "canChainTemporaryBlue",
+                    "canSpringBallBounce",
+                    {"or": [
+                      {"and": [
+                        "canXRayTurnaround",
+                        {"canShineCharge": {
+                          "usedTiles": 25,
+                          "openEnd": 0
+                        }}
+                      ]},
+                      {"canShineCharge": {
+                        "usedTiles": 21,
+                        "openEnd": 0
+                      }}
+                    ]}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [
-                        "canChainTemporaryBlue",
-                        "canSpringBallBounce",
-                        {"or": [
-                          {"and": [
-                            "canXRayTurnaround",
-                            {"canShineCharge": {
-                              "usedTiles": 25,
-                              "openEnd": 0,
-                              "shinesparkFrames": 0
-                            }}
-                          ]},
-                          {"canShineCharge": {
-                            "usedTiles": 21,
-                            "openEnd": 0,
-                            "shinesparkFrames": 0
-                          }}
-                        ]}
-                      ]
-                    }
-                  ],
+                  "clearsObstacles": ["A"],
                   "note": [
                     "Build a ShineCharge on the below platform and bring it up to the morph tunnel by chaining Temporary Blue.",
                     "Aim to bounce into the tunnel opening and use springball to bounce the rest of the way while blue."
@@ -1359,6 +1679,73 @@
                     {"obstaclesCleared": ["C"]}
                   ],
                   "note": "The Crumble Block next to the Power Bomb Blocks does not respawn, so it's possible to enter from this door, grab the items, and return without breaking the Power Bomb blocks."
+                },
+                {
+                  "name": "Big Pink Wall Ice Clip the Mission Impossible Crumble Blocks",
+                  "notable": true,
+                  "requires": [
+                    "Morph",
+                    "canWallIceClip",
+                    "Wave",
+                    {"or": [
+                      "SpringBall",
+                      "Bombs"
+                    ]}
+                  ],
+                  "clearsObstacles": ["C"],
+                  "note": [
+                    "Freeze a Zeb inside of the crumble blocks below the entrance to the Power Bomb room and use it to get stuck inside the crumble blocks, breaking them.",
+                    "Repeatedly freeze a left facing Zeb from the enemy spawner lower in the room.",
+                    "Freeze it close to the right side of the crumble block so that Samus will attach to the enemy when rolling into it.",
+                    "Finally, jump with Bombs or SpringBall to break the crumble block."
+                  ]
+                }
+              ]
+            },
+            {
+              "id": 5,
+              "strats": [
+                {
+                  "name": "Big Pink Reo Ice Clip",
+                  "notable": true,
+                  "requires": [
+                    "canTrickyUseFrozenEnemies",
+                    "canStaggeredWalljump",
+                    "h_canNonTrivialCeilingClip"
+                  ],
+                  "note": [
+                    "Lure the Reo (Bee) to the left to use it as a platform for ice clipping up through the crumbles to the Power Bomb room exit door.",
+                    "Watch the Reo bounce against the left wall until it does a slow hover towards Samus.",
+                    "There is a very small timing of when its right claw is above the small pale spore next to the big red spore, when Samus should jump to be above the Reo.",
+                    "Positioning Samus' front toe beneath this spore (facing left) will cause the bee to fly with the correct timing after Samus takes knockback damage, with a 3 pixel window.",
+                    "This will cause it to fly left and into the two tile gap below the crumble blocks.",
+                    "Freeze it once to get above it, and then again for the ice clip.",
+                    "Once it is up there, the bee will become stuck and the room will need to be reset.",
+                    "But if the Reo does not fit in the hole, it is possible to just wait near the ledge for another slow hover to try again."
+                  ]
+                },
+                {
+                  "name": "Big Pink Zeb Ice Clip",
+                  "notable": true,
+                  "requires": [
+                    "canTrickyUseFrozenEnemies",
+                    "canStaggeredWalljump",
+                    "canCameraManip",
+                    {"or": [
+                      "Wave",
+                      "Spazer"
+                    ]},
+                    "canPreciseCeilingClip"
+                  ],
+                  "note": [
+                    "Raise a Zeb to be just below the crumble blocks and blindly freeze it to set up an ice clip to reach the Power Bomb room exit door.",
+                    "Get a bug from the pipe to spawn facing left and freeze it while moving to the ledge below the Hopper room door.",
+                    "While crouched, a spazer or wave beam shot will shoot through the floor in front of Samus.",
+                    "The bug must be frozen at a height between where Samus is crouched and where she is standing.",
+                    "Once frozen, somehow track how long until the freeze effect expires, and when the bug will reach the crumble blocks.",
+                    "If the bug is off camera when not frozen, it will despawn.",
+                    "Refreeze the Zeb below the crumble blocks and ice clip up to reach the door."
+                  ]
                 }
               ]
             },
@@ -1387,16 +1774,12 @@
                 {
                   "name": "Big Pink Off Screen Super Block",
                   "notable": true,
-                  "requires": ["Morph"],
-                  "obstacles": [
-                    {
-                      "id": "F",
-                      "requires": [
-                        "canOffScreenSuperShot",
-                        "h_canBombThings"
-                      ]
-                    }
+                  "requires": [
+                    "canOffScreenSuperShot",
+                    "h_canBombThings",
+                    "canCameraManip"
                   ],
+                  "clearsObstacles": ["F"],
                   "note": [
                     "Break the bomb blocks then shoot a super into the morph tunnel to break the super block off screen.",
                     "Requires pixel precision, although there are several pixels that work. The camera must be fully scrolled to the right, which may require going far left and back."
@@ -1405,43 +1788,31 @@
                 {
                   "name": "Big Pink Crystal Flash Standup - Super Block",
                   "notable": true,
-                  "requires": ["Morph"],
-                  "obstacles": [
-                    {
-                      "id": "F",
-                      "requires": [
-                        "h_canBombThings",
-                        "h_canCrystalFlash",
-                        {"ammo": {
-                          "type": "Super",
-                          "count": 1
-                        }}
-                      ]
-                    }
+                  "requires": [
+                    "h_canBombThings",
+                    "h_canCrystalFlash",
+                    {"ammo": { "type": "Super", "count": 1 }}
                   ],
-                  "note": "CF in the morph tunnel to force a standup, making it possible to shoot the super block from the left while it's on-screen."
+                  "clearsObstacles": ["F"],
+                  "note": "Crystal Flash in the morph tunnel to force a standup, making it possible to shoot the super block from the left while it's on-screen."
                 },
                 {
-                  "name": "Big Pink SpeedBall Jump into Raised Bomb Blocks",
+                  "name": "Big Pink Speedball Jump into Raised Bomb Blocks",
                   "notable": true,
                   "requires": [
+                    "canSpeedball",
                     "canLateralMidAirMorph",
                     "canSlowShortCharge",
                     "canTrickyJump",
                     {"canShineCharge": {
                       "usedTiles": 20,
-                      "openEnd": 2,
-                      "shinesparkFrames": 0
-                    }}
+                      "openEnd": 2
+                    }},
+                    "canOffScreenSuperShot"
                   ],
-                  "obstacles": [
-                    {
-                      "id": "F",
-                      "requires": ["canOffScreenSuperShot"]
-                    }
-                  ],
-                  "reusableRoomwideNotable": "Big Pink SpeedBall into Raised Bomb Blocks",
-                  "note": "Break the bomb blocks by jumping into them with speed.  These is more easily done at low run speed."
+                  "clearsObstacles": ["F"],
+                  "reusableRoomwideNotable": "Big Pink Speedball into Raised Bomb Blocks",
+                  "note": "Break the bomb blocks by jumping into them with speed. These is more easily done at low run speed."
                 },
                 {
                   "name": "Big Pink Temporary Blue Bounce into Raised Bomb Blocks",
@@ -1452,17 +1823,12 @@
                     "canLateralMidAirMorph",
                     {"canShineCharge": {
                       "usedTiles": 22,
-                      "openEnd": 2,
-                      "shinesparkFrames": 0
-                    }}
+                      "openEnd": 2
+                    }},
+                    "canOffScreenSuperShot"
                   ],
-                  "obstacles": [
-                    {
-                      "id": "F",
-                      "requires": ["canOffScreenSuperShot"]
-                    }
-                  ],
-                  "reusableRoomwideNotable": "Big Pink SpeedBall into Raised Bomb Blocks",
+                  "clearsObstacles": ["F"],
+                  "reusableRoomwideNotable": "Big Pink Speedball into Raised Bomb Blocks",
                   "note": "Stop with Temporary Blue in front of the bomb blocks then jump and bounce into the morph tunnel to clear them."
                 }
               ]
@@ -1490,24 +1856,36 @@
                   "notable": false,
                   "requires": [
                     {"or": [
-                      {"canShineCharge": {
-                        "usedTiles": 16,
-                        "openEnd": 1,
-                        "shinesparkFrames": 24,
-                        "excessShinesparkFrames": 4
-                      }},
-                      {"canComeInCharged": {
-                        "fromNode": 3,
-                        "framesRemaining": 180,
-                        "shinesparkFrames": 38,
-                        "excessShinesparkFrames": 7
-                      }},
-                      {"canShineCharge": {
-                        "usedTiles": 24,
-                        "openEnd": 1,
-                        "shinesparkFrames": 38,
-                        "excessShinesparkFrames": 7
-                      }}
+                      {"and": [
+                        {"canShineCharge": {
+                          "usedTiles": 16,
+                          "openEnd": 1
+                        }},
+                        {"shinespark": {
+                          "frames": 24,
+                          "excessFrames": 4
+                        }}
+                      ]},
+                      {"and": [
+                        {"canComeInCharged": {
+                          "fromNode": 3,
+                          "framesRemaining": 180
+                        }},
+                        {"shinespark": {
+                          "frames": 38,
+                          "excessFrames": 7
+                        }}
+                      ]},
+                      {"and": [
+                        {"canShineCharge": {
+                          "usedTiles": 24,
+                          "openEnd": 1
+                        }},
+                        {"shinespark": {
+                          "frames": 38,
+                          "excessFrames": 7
+                        }}
+                      ]}
                     ]}
                   ]
                 },
@@ -1519,14 +1897,15 @@
                       "canTrickyUseFrozenEnemies",
                       {"and": [
                         "canTrickyJump",
-                        "canDamageBoost",
+                        "canHorizontalDamageBoost",
                         {"enemyDamage": {
                           "enemy": "Zeb",
                           "type": "contact",
                           "hits": 1
                         }}
                       ]}
-                    ]}
+                    ]},
+                    "canCameraManip"
                   ],
                   "note": [
                     "Lead an enemy through parts of the room as a way to reach the Mission Impossible missile location.",
@@ -1547,6 +1926,19 @@
                   "requires": []
                 }
               ]
+            },
+            {
+              "id": 13,
+              "strats": [
+                {
+                  "name": "Zeb Farm",
+                  "notable": false,
+                  "requires": [
+                    {"refill": ["Energy", "Missile", "Super"]}
+                  ],
+                  "devNote": "FIXME: Other nodes could be used to reset the room, with additional requirements."
+                }
+              ]              
             }
           ]
         },
@@ -1623,8 +2015,7 @@
                     {"resetRoom": {
                       "nodes": [1],
                       "mustStayPut": false,
-                      "nodesToAvoid": [3],
-                      "obstaclesToAvoid": []
+                      "nodesToAvoid": [3]
                     }}
                   ],
                   "note": "The super block must stay intact.",
@@ -1650,6 +2041,27 @@
               ]
             }
           ],
+          "leaveWithGModeSetup": [
+            {
+              "strats": [
+                {
+                  "name": "Get Hit By Sidehopper",
+                  "notable": false,
+                  "requires": [],
+                  "note": "It's fastest to kill the first hopper safely from inside the doorway, then lure the second one over."
+                }
+              ]
+            }
+          ],
+          "gModeImmobile": {
+            "requires": [
+              {"enemyDamage": {
+                "enemy": "Sidehopper",
+                "type": "contact",
+                "hits": 1
+              }}
+            ]
+          },
           "locks": [
             {
               "name": "Mission Impossible Grey Lock (to Big Pink Upper)",
@@ -1709,6 +2121,11 @@
           "id": "A",
           "name": "Sidehoppers",
           "obstacleType": "enemies"
+        },
+        {
+          "id": "B",
+          "name": "Mission Impossible: Return through the Crumble Block",
+          "obstacleType": "abstract"
         }
       ],
       "enemies": [
@@ -1728,7 +2145,7 @@
               "id": 4,
               "strats": [
                 {
-                  "name": "Tank the Damage",
+                  "name": "Tank the Damage while Running Through",
                   "notable": false,
                   "requires": [
                     {"enemyDamage": {
@@ -1742,146 +2159,175 @@
                         "type": "contact",
                         "hits": 1
                       }},
-                      {"spikeHits": 1}
+                      {"spikeHits": 1},
+                      {"and":[
+                        {"doorUnlockedAtNode": 1},
+                        "canDodgeWhileShooting"
+                      ]}
                     ]}
                   ],
                   "note": [
                     "2 hits are expected to be taken.",
-                    "First hit can be either from a Sidehopper or from a spike.",
-                    "Second hit will be from a Sidehopper."
+                    "The first can be either from a Sidehopper or from a spike.",
+                    "Second hit will be from a Sidehopper.",
+                    "It is possible to avoid the first hit by opening the door and standing in the doorway while killing the first hopper."
                   ]
                 },
                 {
                   "name": "Power Beam Sidehopper Kill",
                   "notable": false,
-                  "requires": [],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [
-                        {"enemyDamage": {
-                          "enemy": "Sidehopper",
-                          "type": "contact",
-                          "hits": 6
-                        }}
-                      ]
-                    }
-                  ]
+                  "requires": [
+                    {"enemyDamage": {
+                      "enemy": "Sidehopper",
+                      "type": "contact",
+                      "hits": 6
+                    }}
+                  ],
+                  "clearsObstacles": ["A"]
                 },
                 {
                   "name": "Morph Power Beam Sidehopper Kill",
                   "notable": false,
-                  "requires": [],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [
-                        {"enemyDamage": {
-                          "enemy": "Sidehopper",
-                          "type": "contact",
-                          "hits": 3
-                        }},
-                        "Morph"
-                      ],
-                      "note": "Morph reduces damage because the ceiling Sidehopper can't reach a morphed Samus."
-                    }
-                  ]
+                  "requires": [
+                    {"enemyDamage": {
+                      "enemy": "Sidehopper",
+                      "type": "contact",
+                      "hits": 3
+                    }},
+                    "Morph",
+                    "canDodgeWhileShooting"
+                  ],
+                  "clearsObstacles": ["A"],
+                  "note": "Morph reduces damage because the ceiling Sidehopper can't reach a Morphed Samus."
                 },
                 {
                   "name": "Intermediate Weapon Sidehopper Kill",
                   "notable": false,
-                  "requires": [],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [
-                        {"enemyDamage": {
-                          "enemy": "Sidehopper",
-                          "type": "contact",
-                          "hits": 2
-                        }},
-                        {"or":[
-                          "Spazer",
-                          "Charge",
-                          "Wave"
-                        ]}
-                      ]
-                    }
+                  "requires": [
+                    {"enemyDamage": {
+                      "enemy": "Sidehopper",
+                      "type": "contact",
+                      "hits": 2
+                    }},
+                    {"or":[
+                      "Spazer",
+                      "canPseudoScrew",
+                      "Wave"
+                    ]}
                   ],
-                  "note": "Charge here is for Pseudo Screw kills."
+                  "clearsObstacles": ["A"],
+                  "note": "Pseudo Screw can help with the Sidehopper kills."
                 },
                 {
                   "name": "Morph Intermediate Weapon Sidehopper Kill",
                   "notable": false,
-                  "requires": [],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [
-                        {"enemyDamage": {
-                          "enemy": "Sidehopper",
-                          "type": "contact",
-                          "hits": 1
-                        }},
-                        "Morph",
-                        {"or":[
-                          "Spazer",
-                          "Wave"
-                        ]}
-                      ]
-                    }
+                  "requires": [
+                    {"enemyDamage": {
+                      "enemy": "Sidehopper",
+                      "type": "contact",
+                      "hits": 1
+                    }},
+                    "Morph",
+                    "canDodgeWhileShooting",
+                    {"or":[
+                      "Spazer",
+                      "Wave"
+                    ]}
                   ],
+                  "clearsObstacles": ["A"],
                   "note": "Morph reduces damage because the ceiling Sidehopper can't reach a morphed Samus."
                 },
                 {
                   "name": "Good Weapon Sidehopper Kill",
                   "notable": false,
-                  "requires": [],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [
-                        {"enemyDamage": {
-                          "enemy": "Sidehopper",
-                          "type": "contact",
-                          "hits": 1
-                        }},
-                        {"enemyKill":{
-                          "enemies": [
-                            ["Sidehopper"],
-                            ["Sidehopper"]
-                          ],
-                          "explicitWeapons": ["Missile"]
-                        }}
-                      ]
-                    }
-                  ]
+                  "requires": [
+                    {"enemyDamage": {
+                      "enemy": "Sidehopper",
+                      "type": "contact",
+                      "hits": 1
+                    }},
+                    {"enemyKill":{
+                      "enemies": [ ["Sidehopper"], ["Sidehopper"] ],
+                      "explicitWeapons": ["Missile"]
+                    }}
+                  ],
+                  "clearsObstacles": ["A"]
                 },
                 {
                   "name": "Safe Weapon Sidehopper Kill",
                   "notable": false,
-                  "requires": [],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [
-                        {"enemyKill":{
-                          "enemies": [
-                            ["Sidehopper"],
-                            ["Sidehopper"]
-                          ],
-                          "explicitWeapons": [
-                            "Super",
-                            "PowerBomb",
-                            "ScrewAttack",
-                            "Plasma",
-                            "Wave+Spazer"
-                          ]
-                        }}
+                  "requires": [
+                    {"enemyKill":{
+                      "enemies": [ ["Sidehopper"], ["Sidehopper"] ],
+                      "explicitWeapons": [
+                        "Super",
+                        "PowerBomb",
+                        "ScrewAttack",
+                        "Plasma",
+                        "Wave+Spazer"
                       ]
-                    }
+                    }}
                   ],
+                  "clearsObstacles": ["A"],
                   "note": "All beam weapons that can take out a Sidehopper in 5 hits or less can reliably take out the Sidehoppers damage-free."
+                },
+                {
+                  "name": "Doorway Sidehopper Kill",
+                  "notable": false,
+                  "requires": [
+                    {"doorUnlockedAtNode": 1},
+                    "canDodgeWhileShooting",
+                    {"or":[
+                      "Morph",
+                      "Spazer",
+                      "Wave",
+                      "Plasma",
+                      {"enemyKill":{
+                        "enemies": [ ["Sidehopper"] ],
+                        "explicitWeapons": [ "Missile" ]
+                      }},
+                      {"enemyDamage": {
+                        "enemy": "Sidehopper",
+                        "type": "contact",
+                        "hits": 2
+                      }},
+                      "canTrickyJump"
+                    ]}
+                  ],
+                  "clearsObstacles": ["A"],
+                  "note": [
+                    "Open the door and kill the first hopper from inside the doorway. It won't be able to hit Samus for many jumps.",
+                    "It is possible to quickly get back to the right and crouch against the the ledge while aiming upward to safely kill the Sidehopper.",
+                    "Alternatively, morph can help with the second hopper, as it won't be able to hit Samus."
+                  ]
+                },
+                {
+                  "name": "G-Mode Morph Power Bomb Kill",
+                  "notable": false,
+                  "requires": [
+                    {"comeInWithGMode": {
+                      "fromNodes": [1],
+                      "mode": "any",
+                      "artificialMorph": true
+                    }},
+                    {"ammo": { "type": "PowerBomb", "count": 1 }},
+                    {"or": [
+                      {"and": [
+                        {"ammo": { "type": "PowerBomb", "count": 1 }},
+                        {"or": [
+                          "h_canArtificialMorphBombHorizontally",
+                          "SpringBall"
+                        ]}
+                      ]},
+                      {"enemyDamage": {
+                        "enemy": "Sidehopper",
+                        "hits": 1,
+                        "type": "contact"
+                      }}
+                    ]}
+                  ],
+                  "clearsObstacles": ["A"],
+                  "note": "Use 1-3 Power Bombs to kill the Sidehoppers."
                 }
               ]
             }
@@ -1897,7 +2343,7 @@
                   "name": "Pink Brinstar Power Bombs X-Ray Climb",
                   "notable": false,
                   "requires": [
-                    "canLeftFacingDoorXRayClimb",
+                    "h_canRightDoorXRayClimb",
                     { "resetRoom": {
                       "nodes": [2],
                       "mustStayPut": true
@@ -1911,7 +2357,7 @@
                         "useFrames": 200
                       }},
                       {"and": [
-                        "canSubmergedLeftFacingDoorXRayClimb",
+                        "h_canRightDoorXRayClimbFromWater",
                         {"adjacentRunway": {
                           "fromNode": 2,
                           "usedTiles": 0.5,
@@ -1921,7 +2367,8 @@
                         }}
                       ]}
                     ]}
-                  ]
+                  ],
+                  "note": "Climb up 1 screen."
                 }
               ]
             },
@@ -1938,6 +2385,48 @@
                   "note": [
                     "Perform the crystal flash all the way to the left, against the crumble blocks to prevent the elevator on the right from blocking you in.",
                     "Simply jump after performing the crystal flash to jump through the floor."
+                  ]
+                },
+                {
+                  "name": "G-Mode Morph Overload PLMs with Bombs",
+                  "notable": false,
+                  "requires": [
+                    {"comeInWithGMode": {
+                      "fromNodes": [2],
+                      "mode": "any",
+                      "artificialMorph": true
+                    }},
+                    "Bombs"
+                  ],
+                  "note": "Place Power Bombs against the side of the crumble block until PLMs are overloaded, then go through."
+                },
+                {
+                  "name": "G-Mode Morph Overload PLMs with Power Bombs",
+                  "notable": false,
+                  "requires": [
+                    {"comeInWithGMode": {
+                      "fromNodes": [2],
+                      "mode": "any",
+                      "artificialMorph": true
+                    }},
+                    {"itemNotCollectedAtNode": 3},
+                    {"ammo": { "type": "PowerBomb", "count": 2 }},
+                    {"or": [
+                      "SpringBall",
+                      {"ammo": { "type": "PowerBomb", "count": 4 }},
+                      {"and": [
+                        "Morph",
+                        {"or": [
+                          "can3HighMidAirMorph",
+                          {"ammo": { "type": "PowerBomb", "count": 2 }}
+                        ]}
+                      ]}
+                    ]}
+                  ],
+                  "note": "Place two Power Bombs, precisely on the third tile in the morph tunnel to overload PLMs (watch the right side of the screen).",
+                  "devNote": [
+                    "Because of the gates, it costs 2 Power Bombs to get into the tunnel and 2 to get out the other side.",
+                    "There is no canRiskPermanentLossOfAccess, because there is no reason to go here except to get the item and leave."
                   ]
                 }
               ]
@@ -1966,13 +2455,11 @@
                   "requires": [
                     "canQuickCrumbleEscape",
                     "HiJump",
-                    {"obstaclesCleared": ["A"]},
-                    {"previousNode": 4}
+                    {"obstaclesCleared": ["A","B"]}
                   ],
                   "failures": [
                     {
                       "name": "Crumble Failure",
-                      "clearsPreviousNode": true,
                       "note": "Failure leaves you at 3 with a solid crumble block above."
                     }
                   ],
@@ -2005,13 +2492,8 @@
                 {
                   "name": "Base",
                   "notable": false,
-                  "requires": [
-                    "Super",
-                    {"ammo": {
-                      "type": "Super",
-                      "count": 1
-                    }}
-                  ]
+                  "requires": [ {"ammo": { "type": "Super", "count": 1 }} ],
+                  "clearsObstacles": ["B"]
                 }
               ]
             }
@@ -2049,6 +2531,30 @@
               "openEnd": 1
             }
           ],
+          "leaveWithGModeSetup": [
+            {
+              "strats": [
+                {
+                  "name": "Get Hit By Hopper",
+                  "notable": false,
+                  "requires": [],
+                  "note": [
+                    "This is possible to do without taking a second hit:",
+                    "Enter the room in a jump, then shoot down to open the door and land in the doorsill."
+                  ]
+                }
+              ]
+            }
+          ],
+          "gModeImmobile": {
+            "requires": [
+              {"enemyDamage": {
+                "enemy": "Sidehopper",
+                "type": "contact",
+                "hits": 1
+              }}
+            ]
+          },
           "locks": [
             {
               "name": "Pink Brinstar Hoppers Left Grey Lock (to Big Pink)",
@@ -2120,14 +2626,14 @@
           "groupName": "Pink Wave Gate Small Sidehoppers",
           "enemyName": "Sm. Sidehopper",
           "quantity": 2,
-          "homeNodes": [ 1, 3 ]
+          "homeNodes": [ 1 ]
         },
         {
           "id": "e2",
           "groupName": "Pink Wave Gate Sidehopper",
           "enemyName": "Sidehopper",
           "quantity": 1,
-          "homeNodes": [ 1, 3 ]
+          "homeNodes": [ 1 ]
         }
       ],
       "links": [
@@ -2140,24 +2646,19 @@
                 {
                   "name": "Power Beam Kill",
                   "notable": false,
-                  "requires": [],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [
-                        {"enemyDamage": {
-                          "enemy": "Sm. Sidehopper",
-                          "type": "contact",
-                          "hits": 1
-                        }},
-                        {"enemyDamage": {
-                          "enemy": "Sidehopper",
-                          "type": "contact",
-                          "hits": 3
-                        }}
-                      ]
-                    }
+                  "requires": [
+                    {"enemyDamage": {
+                      "enemy": "Sm. Sidehopper",
+                      "type": "contact",
+                      "hits": 1
+                    }},
+                    {"enemyDamage": {
+                      "enemy": "Sidehopper",
+                      "type": "contact",
+                      "hits": 3
+                    }}
                   ],
+                  "clearsObstacles": ["A"],
                   "note": [
                     "This assumes you don't know you're entering this room, and take a Small Sidehopper hit quickly.",
                     "The Small Sidehoppers may deliver more of the hits, but this is an assumed worst case scenario"
@@ -2166,96 +2667,81 @@
                 {
                   "name": "Intermediate Weapon Kill",
                   "notable": false,
-                  "requires": [],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [
-                        {"enemyDamage": {
-                          "enemy": "Sm. Sidehopper",
-                          "type": "contact",
-                          "hits": 1
-                        }},
-                        {"enemyDamage": {
-                          "enemy": "Sidehopper",
-                          "type": "contact",
-                          "hits": 1
-                        }},
-                        {"or":[
-                          "Spazer",
-                          "Wave"
-                        ]}
-                      ]
-                    }
+                  "requires": [
+                    {"enemyDamage": {
+                      "enemy": "Sm. Sidehopper",
+                      "type": "contact",
+                      "hits": 1
+                    }},
+                    {"enemyDamage": {
+                      "enemy": "Sidehopper",
+                      "type": "contact",
+                      "hits": 1
+                    }},
+                    {"or":[
+                      "Spazer",
+                      "Wave"
+                    ]}
                   ],
+                  "clearsObstacles": ["A"],
                   "note": "This assumes you don't know you're entering this room, and take a Small Sidehopper hit quickly."
                 },
                 {
                   "name": "Fast Weapon Kill",
                   "notable": false,
-                  "requires": [],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [
-                        {"enemyDamage": {
-                          "enemy": "Sm. Sidehopper",
-                          "type": "contact",
-                          "hits": 1
-                        }},
-                        {"enemyKill":{
-                          "enemies": [
-                            [ "Sidehopper", "Sm. Sidehopper", "Sm. Sidehopper"]
-                          ],
-                          "explicitWeapons": [
-                            "Missile",
-                            "Super",
-                            "PowerBomb",
-                            "ScrewAttack",
-                            "Plasma"
-                          ]
-                        }}
+                  "requires": [
+                    {"enemyDamage": {
+                      "enemy": "Sm. Sidehopper",
+                      "type": "contact",
+                      "hits": 1
+                    }},
+                    {"enemyKill":{
+                      "enemies": [
+                        [ "Sidehopper", "Sm. Sidehopper", "Sm. Sidehopper"]
+                      ],
+                      "explicitWeapons": [
+                        "Missile",
+                        "Super",
+                        "PowerBomb",
+                        "ScrewAttack",
+                        "Plasma"
                       ]
-                    }
+                    }}
                   ],
+                  "clearsObstacles": ["A"],
                   "note": "This assumes you don't know you're entering this room, and take a Small Sidehopper hit quickly."
                 },
                 {
                   "name": "Kill on Entry",
                   "notable": false,
-                  "requires": [ "canPrepareForNextRoom" ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [
-                        {"or":[
-                          "ScrewAttack",
-                          {"canComeInCharged": {
-                            "fromNode": 1,
-                            "framesRemaining": 0,
-                            "shinesparkFrames": 24
-                          }},
-                          {"canComeInCharged": {
-                            "fromNode": 1,
-                            "framesRemaining": 180,
-                            "shinesparkFrames": 0
-                          }}
-                        ]}
-                      ]
-                    }
+                  "requires": [
+                    "canPrepareForNextRoom",
+                    {"or":[
+                      "ScrewAttack",
+                      {"and": [
+                        {"canComeInCharged": {
+                          "fromNode": 1,
+                          "framesRemaining": 0
+                        }},
+                        {"shinespark": {"frames": 24}}
+                      ]},
+                      {"canComeInCharged": {
+                        "fromNode": 1,
+                        "framesRemaining": 180
+                      }}
+                    ]}
                   ],
+                  "clearsObstacles": ["A"],
                   "note": "Although there are other ways to kill them on entry, these are done reliably."
                 },
                 {
                   "name": "Pink Hopper Reverse Gate Glitch",
                   "notable": true,
-                  "requires": [ {"obstaclesCleared": ["A"]} ],
-                  "obstacles": [
-                    {
-                      "id": "B",
-                      "requires": ["canOffScreenSuperShot"]
-                    }
+                  "requires": [
+                    {"obstaclesCleared": ["A"]},
+                    "canOffScreenSuperShot"
                   ],
+                  "clearsObstacles": ["B"],
                   "note": [
                     "This strat involves shooting a Super diagonally from the correct height while flush against the left wall.",
                     "Its acceleration will cause it to clip into the blue gate off-screen."
@@ -2275,32 +2761,30 @@
                       "SpaceJump",
                       "canWalljump",
                       "Grapple"
+                    ]},
+                    {"or": [
+                      "Wave",
+                      {"obstaclesCleared": ["B"]}
                     ]}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "B",
-                      "requires": ["Wave"]
-                    }
-                  ],
-                  "note": "The reverse GGG may be executed earlier from node 1 -> 1."
+                  "clearsObstacles": ["B"],
+                  "note": "The reverse gate glitch may be executed earlier from node 1 -> 1."
                 },
                 {
                   "name": "IBJ",
                   "notable": false,
                   "requires": [
                     "h_canIBJ",
-                    {"obstaclesCleared": ["A"]}
+                    {"obstaclesCleared": ["A"]},
+                    {"or": [
+                      "Wave",
+                      {"obstaclesCleared": ["B"]}
+                    ]}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "B",
-                      "requires": ["Wave"]
-                    }
-                  ],
+                  "clearsObstacles": ["B"],
                   "note": [
                     "IBJ requires the enemies to be killed",
-                    "The reverse GGG may be executed earlier from node 1 -> 1."
+                    "The reverse gate glitch may be executed earlier from node 1 -> 1."
                   ]
                 }
               ]
@@ -2322,12 +2806,7 @@
                       "h_canFly"
                     ]}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "B",
-                      "requires": []
-                    }
-                  ]
+                  "clearsObstacles": ["B"]
                 },
                 {
                   "name": "Ride the Elevator",
@@ -2338,29 +2817,40 @@
                       "Wave"
                     ]}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "B",
-                      "requires": []
-                    }
-                  ]
+                  "clearsObstacles": ["B"]
                 },
                 {
                   "name": "Elevator with Power Bombs",
                   "notable": false,
+                  "requires": [ "h_canUsePowerBombs" ],
+                  "clearsObstacles": ["A","B"],
+                  "note": "Using a power bomb against the left wall will kill the enemies and trigger the elevator."
+                },
+                {
+                  "name": "G-Mode Morph IBJ",
+                  "notable": false,
                   "requires": [
-                    "h_canUsePowerBombs"
+                    {"comeInWithGMode": {
+                      "fromNodes": [2],
+                      "mode": "any",
+                      "artificialMorph": true
+                    }},
+                    "h_canArtificialMorphIBJ"
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": []
-                    },
-                    {
-                      "id": "B",
-                      "requires": []
-                    }
+                  "clearsObstacles": ["B"]
+                },
+                {
+                  "name": "G-Mode Morph Elevator with Power Bomb",
+                  "notable": false,
+                  "requires": [
+                    {"comeInWithGMode": {
+                      "fromNodes": [2],
+                      "mode": "any",
+                      "artificialMorph": true
+                    }},
+                    {"ammo": { "type": "PowerBomb", "count": 1 }}
                   ],
+                  "clearsObstacles": ["A","B"],
                   "note": "Using a power bomb against the left wall will kill the enemies and trigger the elevator."
                 }
               ]
@@ -2371,24 +2861,17 @@
                 {
                   "name": "Safe Kill",
                   "notable": false,
-                  "requires": [],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [
-                        {"enemyKill":{
-                          "enemies": [
-                            [ "Sidehopper", "Sm. Sidehopper", "Sm. Sidehopper"]
-                          ],
-                          "explicitWeapons": [
-                            "PowerBomb",
-                            "ScrewAttack",
-                            "Wave"
-                          ]
-                        }}
+                  "requires": [
+                    {"enemyKill":{
+                      "enemies": [ [ "Sidehopper", "Sm. Sidehopper", "Sm. Sidehopper"] ],
+                      "explicitWeapons": [
+                        "PowerBomb",
+                        "ScrewAttack",
+                        "Wave"
                       ]
-                    }
+                    }}
                   ],
+                  "clearsObstacles": ["A"],
                   "note": "With access to the right side of the room, it's possible to kill the enemies safely with Wave or a PB or screw attack once on the other side."
                 }
               ]
@@ -2502,6 +2985,17 @@
               ],
               "openEnd": 0
             }
+          ],
+          "leaveWithGModeSetup": [
+            {
+              "strats": [
+                {
+                  "name": "Get Hit By Zeb",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
           ]
         },
         {
@@ -2556,6 +3050,18 @@
           "from": 1,
           "to": [
             {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Zeb Farm",
+                  "notable": false,
+                  "requires": [
+                    {"refill": ["Energy", "Missile", "Super"]}
+                  ]
+                }
+              ]
+            },
+            {
               "id": 3,
               "strats": [
                 {
@@ -2577,15 +3083,36 @@
                   "name": "X-Ray Climb",
                   "notable": false,
                   "requires": [
-                    "canRightFacingDoorXRayClimb",
+                    "h_canLeftDoorXRayClimb",
                     {"adjacentRunway": {
                       "fromNode": 2,
                       "usedTiles": 0.5,
                       "overrideRunwayRequirements": true,
                       "useFrames": 200
-                    }}
+                    }},
+                    "canBeVeryPatient"
                   ],
                   "note": "Climb up 8 screens."
+                },
+                {
+                  "name": "G-Mode Overload PLMS with Camera Scroll Blocks",
+                  "notable": false,
+                  "requires": [
+                    {"comeInWithGMode": {
+                      "fromNodes": [2],
+                      "mode": "any",
+                      "artificialMorph": false
+                    }},
+                    {"or": [
+                      "canConsecutiveWalljump",
+                      "SpaceJump"
+                    ]}
+                  ],
+                  "note": "Climb the shaft and overload PLMs with the camera scroll blocks which are against the crumble blocks.",
+                  "devNote": [
+                    "This is mostly an alternative to the canBeVeryPatient X-Ray climb.",
+                    "This is possible with an IBJ, but it's still about 3 minutes, and you can't remotely acquire the item because it's in a Chozo Ball."
+                  ]
                 }
               ]
             },
@@ -2654,13 +3181,26 @@
               "usedTiles": 21,
               "steepUpTiles": 2,
               "framesRemaining": 0,
-              "shinesparkFrames": 20,
               "openEnd": 0,
               "strats": [
                 {
                   "name": "Base",
                   "notable": false,
-                  "requires": [ "canShinechargeMovement" ]
+                  "requires": [ 
+                    "canShinechargeMovement",
+                    {"shinespark": {"frames": 20}}
+                  ]
+                }
+              ]
+            }
+          ],
+          "leaveWithGModeSetup": [
+            {
+              "strats": [
+                {
+                  "name": "Get Hit By Zeb",
+                  "notable": false,
+                  "requires": []
                 }
               ]
             }
@@ -2699,6 +3239,17 @@
                 }
               ],
               "openEnd": 0
+            }
+          ],
+          "leaveWithGModeSetup": [
+            {
+              "strats": [
+                {
+                  "name": "Get Hit By Zeb",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
             }
           ]
         }
@@ -2745,6 +3296,18 @@
         {
           "from": 1,
           "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Zeb Farm",
+                  "notable": false,
+                  "requires": [
+                    {"refill": ["Energy", "Missile", "Super"]}
+                  ]
+                }
+              ]
+            },
             {
               "id": 2,
               "strats": [
@@ -2814,7 +3377,7 @@
                 {
                   "name": "Gravity",
                   "notable": false,
-                  "requires": [ 
+                  "requires": [
                     "Gravity",
                     "canShinechargeMovement"
                   ]
@@ -2824,13 +3387,15 @@
             {
               "usedTiles": 32,
               "framesRemaining": 0,
-              "shinesparkFrames": 75,
               "openEnd": 1,
               "strats": [
                 {
                   "name": "Midair Shinespark",
                   "notable": false,
-                  "requires": [ "canMidairShinespark" ]
+                  "requires": [
+                    "canMidairShinespark",
+                    {"shinespark": {"frames": 75}}
+                  ]
                 }
               ],
               "note": "Charge a shinespark on the dry platform and spark back out."
@@ -2838,20 +3403,32 @@
             {
               "usedTiles": 32,
               "framesRemaining": 0,
-              "shinesparkFrames": 62,
               "openEnd": 1,
               "strats": [
                 {
                   "name": "Big Jump Midair Shinespark",
                   "notable": false,
-                  "requires": [ 
+                  "requires": [
                     "canMidairShinespark",
                     "canShinechargeMovement",
-                    "canCarefulJump"
+                    "canCarefulJump",
+                    {"shinespark": {"frames": 62}}
                   ]
                 }
               ],
               "note": "Charge a spark going left, then build speed and jump far to the right before sparking."
+            }
+          ],
+          "leaveWithGModeSetup": [
+            {
+              "strats": [
+                {
+                  "name": "Get Hit By Zero",
+                  "notable": false,
+                  "requires": [],
+                  "note": "The timing to get hit by these guys is a bit tighter, since they are so slow. Buffering their movement with x-ray can help."
+                }
+              ]
             }
           ]
         },
@@ -2892,6 +3469,23 @@
           "from": 1,
           "to": [
             {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Zero Farm",
+                  "notable": false,
+                  "requires": [
+                    "h_heatProof",
+                    {"refill": ["PowerBomb"]}
+                  ],
+                  "devNote": [
+                    "FIXME: The h_heatProof requirement is because Zeros only drop small energy, not enough to guarantee progress if the neighboring room is heated",
+                    "Later we should remove this in favor of some way to require that the neighboring room is not heated."
+                  ]
+                }
+              ]              
+            },
+            {
               "id": 2,
               "strats": [
                 {
@@ -2903,11 +3497,29 @@
                   ]
                 },
                 {
+                  "name": "Suitless Spark with Space Jump",
+                  "notable": false,
+                  "requires": [
+                    "SpaceJump",
+                    "canShinechargeMovement",
+                    {"canShineCharge": {
+                      "usedTiles": 32,
+                      "openEnd": 1
+                    }},
+                    {"shinespark": {
+                      "frames": 72,
+                      "excessFrames": 10
+                    }}
+                  ],
+                  "note": "Doable without a short charge, since there are 32 tiles (plus one open end) to charge it."
+                },
+                {
                   "name": "Suitless Spark",
                   "notable": false,
                   "requires": [
+                    "canSuitlessMaridia",
+                    "canShinechargeMovement",
                     {"or": [
-                      "SpaceJump",
                       "canWalljump",
                       "canBombJumpWaterEscape",
                       {"and": [
@@ -2925,9 +3537,11 @@
                     ]},
                     {"canShineCharge": {
                       "usedTiles": 32,
-                      "shinesparkFrames": 72,
-                      "excessShinesparkFrames": 10,
                       "openEnd": 1
+                    }},
+                    {"shinespark": {
+                      "frames": 72,
+                      "excessFrames": 10
                     }}
                   ],
                   "note": "Doable without a short charge, since there are 32 tiles (plus one open end) to charge it."
@@ -2936,13 +3550,17 @@
                   "name": "Frozen Caterpillar",
                   "notable": false,
                   "requires": [
+                    "canSuitlessMaridia",
+                    "canShinechargeMovement",
                     "canTrickyUseFrozenEnemies",
                     {"ammo": {"type": "Super","count": 1}},
                     {"canShineCharge": {
                       "usedTiles": 32,
-                      "shinesparkFrames": 72,
-                      "excessShinesparkFrames": 10,
                       "openEnd": 1
+                    }},
+                    {"shinespark": {
+                      "frames": 72,
+                      "excessFrames": 10
                     }}
                   ],
                   "note": [
@@ -2956,9 +3574,11 @@
                   "requires": [
                     {"canComeInCharged": {
                       "fromNode": 1,
-                      "framesRemaining": 40,
-                      "shinesparkFrames": 155,
-                      "excessShinesparkFrames": 10
+                      "framesRemaining": 40
+                    }},
+                    {"shinespark": {
+                      "frames": 155,
+                      "excessFrames": 10
                     }}
                   ],
                   "note": "Doable without a wall jump if Samus comes in charged."
@@ -2967,17 +3587,16 @@
                   "name": "Speedball",
                   "notable": false,
                   "requires": [
-                    "canMockball",
+                    "canSpeedball",
                     {"canComeInCharged": {
                       "framesRemaining": 180,
-                      "shinesparkFrames": 0,
                       "fromNode": 1,
                       "unusableTiles": 1
                     }}
                   ],
                   "note": [
                     "Roll through the whole room breaking the speedblocks.",
-                    "The fish enemies will die but some puyos will remain, to be killed with power beam shots."
+                    "The fish enemies will die but some puyos will remain."
                   ]
                 }
               ]
@@ -3068,6 +3687,18 @@
                   "name": "Base",
                   "notable": false,
                   "requires": []
+                }
+              ]
+            },
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Refill",
+                  "notable": false,
+                  "requires": [
+                    "h_useEnergyRefillStation"
+                  ]
                 }
               ]
             }

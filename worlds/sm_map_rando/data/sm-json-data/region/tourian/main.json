@@ -429,12 +429,7 @@
                   "name": "Already Cleared",
                   "notable": false,
                   "requires": ["f_KilledMetroidRoom1"],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": []
-                    }
-                  ]
+                  "clearsObstacles": ["A"]
                 },
                 {
                   "name": "Ammo Kill",
@@ -442,45 +437,23 @@
                   "requires": [
                     "Ice",
                     {"enemyKill":{
-                      "enemies": [
-                        [
-                          "Metroid", "Metroid", "Metroid", "Metroid"
-                        ]
-                      ],
+                      "enemies": [ [ "Metroid", "Metroid", "Metroid", "Metroid" ] ],
                       "explicitWeapons": [ "Super", "Missile" ]
                     }}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": []
-                    }
-                  ]
+                  "clearsObstacles": ["A"]
                 },
                 {
                   "name": "Tank and PB Kill",
                   "notable": false,
                   "requires": [
                     {"enemyKill":{
-                      "enemies": [
-                        [
-                          "Metroid", "Metroid", "Metroid", "Metroid"
-                        ]
-                      ],
+                      "enemies": [ [ "Metroid", "Metroid", "Metroid", "Metroid" ] ],
                       "excludedWeapons": [ "Super", "Missile" ]
                     }},
-                    {"enemyDamage": {
-                      "enemy": "Metroid",
-                      "type": "contact",
-                      "hits": 19
-                    }}
+                    {"metroidFrames": 304}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": []
-                    }
-                  ]
+                  "clearsObstacles": ["A"]
                 },
                 {
                   "name": "Metroid Room 1 PB Dodge Kill (Left to Right)",
@@ -494,26 +467,35 @@
                     }},
                     "canMetroidAvoid"
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": []
-                    }
-                  ],
+                  "clearsObstacles": ["A"],
                   "note": [
-                    "Group all of the Metroids by hitting the first Rinka with a power bomb.",
+                    "Group all of the Metroids by hitting the first Rinka with a Power Bomb.",
                     "Once grouped, use two more Power Bombs to finish them off."
                   ]
                 },
                 {
-                  "name": "Easy Evade",
+                  "name": "Ice Evade",
+                  "notable": false,
+                  "requires": ["Ice"]
+                },
+                {
+                  "name": "Screw Evade",
                   "notable": false,
                   "requires": [
                     {"or": [
                       "ScrewAttack",
-                      "Ice"
+                      "canPseudoScrew"
+                    ]},
+                    {"or": [
+                      "canDodgeWhileShooting",
+                      "SpaceJump"
                     ]}
-                  ]
+                  ],
+                  "note": [
+                    "Use ScrewAttack or a PseudoScrew to prevent Metroids from attaching to Samus.",
+                    "These abilities may also be used to temporarily prevent damage from Metroids if they do attach."
+                  ],
+                  "devNote": "FIXME: Screw effects cannot be used during some of the strats used in crossing the acid pit."
                 },
                 {
                   "name": "Harder Evade",
@@ -521,20 +503,30 @@
                   "requires": ["canMetroidAvoid"]
                 },
                 {
-                  "name": "Tank the Damage",
+                  "name": "Blue SpaceJump",
                   "notable": false,
                   "requires": [
-                    {"enemyDamage": {
-                      "enemy": "Rinka",
-                      "type": "contact",
-                      "hits": 1
-                    }},
-                    {"enemyDamage": {
-                      "enemy": "Metroid",
-                      "type": "contact",
-                      "hits": 18
-                    }}
-                  ],
+                    "canBlueSpaceJump",
+                    {"or": [
+                      {"canShineCharge": {
+                        "usedTiles": 31,
+                        "openEnd": 1
+                      }},
+                      {"and": [
+                        "canCarefulJump",
+                        {"canComeInCharged": {
+                          "fromNode": 1,
+                          "framesRemaining": 180,
+                          "unusableTiles": 1
+                        }}
+                      ]}
+                    ]}
+                  ]
+                },
+                {
+                  "name": "Tank the Damage",
+                  "notable": false,
+                  "requires": [{"metroidFrames": 421}],
                   "note": "Taking a rinka hit stops the Metroid damage for a while and is less damage."
                 }
               ],
@@ -552,12 +544,7 @@
                   "name": "Already Cleared",
                   "notable": false,
                   "requires": ["f_KilledMetroidRoom1"],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": []
-                    }
-                  ]
+                  "clearsObstacles": ["A"]
                 },
                 {
                   "name": "Ammo Kill",
@@ -565,74 +552,63 @@
                   "requires": [
                     "Ice",
                     {"enemyKill":{
-                      "enemies": [
-                        [ "Metroid", "Metroid", "Metroid", "Metroid" ]
-                      ],
+                      "enemies": [ [ "Metroid", "Metroid", "Metroid", "Metroid" ] ],
                       "explicitWeapons": [ "Super", "Missile" ]
                     }}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": []
-                    }
-                  ]
+                  "clearsObstacles": ["A"]
                 },
                 {
                   "name": "Tank and PB Kill",
                   "notable": false,
                   "requires": [
                     {"enemyKill":{
-                      "enemies": [
-                        [ "Metroid", "Metroid", "Metroid", "Metroid" ]
-                      ],
+                      "enemies": [ [ "Metroid", "Metroid", "Metroid", "Metroid" ] ],
                       "excludedWeapons": [ "Super", "Missile" ]
                     }},
-                    {"enemyDamage": {
-                      "enemy": "Metroid",
-                      "type": "contact",
-                      "hits": 19
-                    }}
+                    {"metroidFrames": 304}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": []
-                    }
-                  ]
+                  "clearsObstacles": ["A"]
                 },
                 {
                   "name": "Metroid Room 1 PB Dodge Kill (Right to Left)",
                   "notable": true,
                   "requires": [
                     {"enemyKill":{
-                      "enemies": [
-                        [ "Metroid", "Metroid", "Metroid", "Metroid" ]
-                      ],
+                      "enemies": [ [ "Metroid", "Metroid", "Metroid", "Metroid" ] ],
                       "excludedWeapons": [ "Super", "Missile" ]
                     }},
                     "canMetroidAvoid"
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": []
-                    }
-                  ],
+                  "clearsObstacles": ["A"],
                   "note": [
-                    "Group all of the Metroids by hitting the first Rinka with a power bomb.",
+                    "Group all of the Metroids by hitting the first Rinka with a Power Bomb.",
                     "Once grouped, use two more Power Bombs to finish them off."
                   ]
                 },
                 {
-                  "name": "Easy Evade",
+                  "name": "Ice Evade",
+                  "notable": false,
+                  "requires": ["Ice"]
+                },
+                {
+                  "name": "Screw Evade",
                   "notable": false,
                   "requires": [
                     {"or": [
                       "ScrewAttack",
-                      "Ice"
+                      "canPseudoScrew"
+                    ]},
+                    {"or": [
+                      "canDodgeWhileShooting",
+                      "SpaceJump"
                     ]}
-                  ]
+                  ],
+                  "note": [
+                    "Use ScrewAttack or a PseudoScrew to prevent Metroids from attaching to Samus.",
+                    "These abilities may also be used to temporarily prevent damage from Metroids if they do attach."
+                  ],
+                  "devNote": "FIXME: Screw effects cannot be used during some of the strats used in crossing the acid pit."
                 },
                 {
                   "name": "Harder Evade",
@@ -640,20 +616,33 @@
                   "requires": ["canMetroidAvoid"]
                 },
                 {
-                  "name": "Tank the Damage",
+                  "name": "Blue SpaceJump",
                   "notable": false,
                   "requires": [
-                    {"enemyDamage": {
-                      "enemy": "Rinka",
-                      "type": "contact",
-                      "hits": 1
-                    }},
-                    {"enemyDamage": {
-                      "enemy": "Metroid",
-                      "type": "contact",
-                      "hits": 18
-                    }}
-                  ],
+                    "canBlueSpaceJump",
+                    {"or": [
+                      {"and": [
+                        {"canShineCharge": {
+                          "usedTiles": 22,
+                          "openEnd": 1
+                        }},
+                        {"metroidFrames": 4}
+                      ]},
+                      {"and": [
+                        "canCarefulJump",
+                        {"canComeInCharged": {
+                          "fromNode": 2,
+                          "framesRemaining": 180,
+                          "unusableTiles": 1
+                        }}
+                      ]}
+                    ]}
+                  ]
+                },
+                {
+                  "name": "Tank the Damage",
+                  "notable": false,
+                  "requires": [{"metroidFrames": 421}],
                   "note": "Taking a rinka hit stops the Metroid damage for a while and is less damage."
                 }
               ],
@@ -910,11 +899,7 @@
               }},
               {"or": [
                 "f_KilledMetroidRoom2",
-                {"enemyDamage": {
-                  "enemy": "Metroid",
-                  "type": "contact",
-                  "hits": 8
-                }}
+                {"metroidFrames": 120}
               ]}
             ],
             "note": "If alive, the Metroids do 90 damage before the Rinka hits."
@@ -973,12 +958,7 @@
                   "name": "Already Cleared",
                   "notable": false,
                   "requires": ["f_KilledMetroidRoom2"],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": []
-                    }
-                  ]
+                  "clearsObstacles": ["A"]
                 },
                 {
                   "name": "Ammo Kill",
@@ -986,75 +966,56 @@
                   "requires": [
                     "Ice",
                     {"enemyKill":{
-                      "enemies": [
-                        [
-                          "Metroid", "Metroid"
-                        ]
-                      ],
+                      "enemies": [ [ "Metroid", "Metroid" ] ],
                       "explicitWeapons": [ "Super", "Missile" ]
                     }}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": []
-                    }
-                  ]
+                  "clearsObstacles": ["A"]
                 },
                 {
                   "name": "Tank and PB Kill",
                   "notable": false,
                   "requires": [
                     {"enemyKill":{
-                      "enemies": [
-                        [
-                          "Metroid", "Metroid"
-                        ]
-                      ],
+                      "enemies": [ [ "Metroid", "Metroid" ] ],
                       "excludedWeapons": [ "Super", "Missile" ]
                     }},
-                    {"enemyDamage": {
-                      "enemy": "Metroid",
-                      "type": "contact",
-                      "hits": 6
-                    }}
+                    {"metroidFrames": 96}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": []
-                    }
-                  ]
+                  "clearsObstacles": ["A"]
                 },
                 {
                   "name": "Metroid Room 2 PB Dodge Kill",
                   "notable": false,
                   "requires": [
                     {"enemyKill":{
-                      "enemies": [
-                        [ "Metroid", "Metroid" ]
-                      ],
+                      "enemies": [ [ "Metroid", "Metroid" ] ],
                       "excludedWeapons": [ "Super", "Missile" ]
                     }},
-                    "canMetroidAvoid"
+                    {"or": [
+                      "canMetroidAvoid",
+                      "canCameraManip"
+                    ]}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": []
-                    }
-                  ],
+                  "clearsObstacles": ["A"],
                   "note": "An easy way is once Samus is on the top platform, jump and aim down to lower the camera, then place 3 PBs."
                 },
                 {
-                  "name": "Easy Evade",
+                  "name": "Ice Evade",
+                  "notable": false,
+                  "requires": ["Ice"]
+                },
+                {
+                  "name": "Screw Evade",
                   "notable": false,
                   "requires": [
+                    "canDodgeWhileShooting",
                     {"or": [
                       "ScrewAttack",
-                      "Ice"
+                      "canPseudoScrew"
                     ]}
-                  ]
+                  ],
+                  "note": ["Use ScrewAttack or a PseudoScrew to prevent Metroids from attaching to Samus."]
                 },
                 {
                   "name": "Harder Evade",
@@ -1064,13 +1025,7 @@
                 {
                   "name": "Tank the Damage",
                   "notable": false,
-                  "requires": [
-                    {"enemyDamage": {
-                      "enemy": "Metroid",
-                      "type": "contact",
-                      "hits": 5
-                    }}
-                  ]
+                  "requires": [ {"metroidFrames": 80} ]
                 }
               ]
             }
@@ -1086,12 +1041,7 @@
                   "name": "Already Cleared",
                   "notable": false,
                   "requires": ["f_KilledMetroidRoom2"],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": []
-                    }
-                  ]
+                  "clearsObstacles": ["A"]
                 },
                 {
                   "name": "Ammo Kill",
@@ -1099,87 +1049,73 @@
                   "requires": [
                     "Ice",
                     {"enemyKill":{
-                      "enemies": [
-                        [ "Metroid", "Metroid" ]
-                      ],
+                      "enemies": [ [ "Metroid", "Metroid" ] ],
                       "explicitWeapons": [ "Super", "Missile" ]
                     }}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": []
-                    }
-                  ]
+                  "clearsObstacles": ["A"]
                 },
                 {
                   "name": "Tank and PB Kill",
                   "notable": false,
                   "requires": [
                     {"enemyKill":{
-                      "enemies": [
-                        [ "Metroid", "Metroid" ]
-                      ],
+                      "enemies": [ [ "Metroid", "Metroid" ] ],
                       "excludedWeapons": [ "Super", "Missile" ]
                     }},
-                    {"enemyDamage": {
-                      "enemy": "Metroid",
-                      "type": "contact",
-                      "hits": 6
-                    }}
+                    {"metroidFrames": 96}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": []
-                    }
-                  ]
+                  "clearsObstacles": ["A"]
                 },
                 {
                   "name": "Metroid Room 2 PB Dodge Kill (Bottom to Top)",
                   "notable": true,
                   "requires": [
                     {"enemyKill":{
-                      "enemies": [
-                        [ "Metroid", "Metroid" ]
-                      ],
+                      "enemies": [ [ "Metroid", "Metroid" ] ],
                       "excludedWeapons": [ "Super", "Missile" ]
                     }},
                     "canMetroidAvoid"
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": []
-                    }
-                  ],
+                  "clearsObstacles": ["A"],
                   "note": "Kill the two Metroids with Power Bombs while avoiding damage."
                 },
                 {
-                  "name": "Easy Evade",
+                  "name": "Ice Evade",
+                  "notable": false,
+                  "requires": ["Ice"]
+                },
+                {
+                  "name": "Screw Evade",
                   "notable": false,
                   "requires": [
                     {"or": [
-                      "ScrewAttack",
-                      "Ice"
+                      {"and": [
+                        "ScrewAttack",
+                        "canDodgeWhileShooting"
+                      ]},
+                      {"and": [
+                        "canPseudoScrew",
+                        "canPrepareForNextRoom",
+                        "canDodgeWhileShooting"
+                      ]}
                     ]}
-                  ]
+                  ],
+                  "note": "Use ScrewAttack or a PseudoScrew to prevent Metroids from attaching to Samus."
                 },
                 {
-                  "name": "Harder Evade",
-                  "notable": false,
-                  "requires": ["canMetroidAvoid"]
+                  "name": "Metroid Room 2 Bottom Door Metroid Avoid",
+                  "notable": true,
+                  "requires": ["canMetroidAvoid"],
+                  "note": [
+                    "Buffer a spinjump towards the door to jump over the top metroid and land on the middle platform.",
+                    "Metroids can knocked with Beam shots to clear a path."
+                  ]
                 },
                 {
                   "name": "Tank the Damage",
                   "notable": false,
-                  "requires": [
-                    {"enemyDamage": {
-                      "enemy": "Metroid",
-                      "type": "contact",
-                      "hits": 5
-                    }}
-                  ]
+                  "requires": [ {"metroidFrames": 80} ]
                 }
               ]
             }
@@ -1278,13 +1214,14 @@
             {
               "usedTiles": 29,
               "framesRemaining": 0,
-              "shinesparkFrames": 75,
               "openEnd": 2,
               "strats": [
                 {
                   "name": "Base",
                   "notable": false,
-                  "requires": []
+                  "requires": [
+                    {"shinespark": {"frames": 75}}
+                  ]
                 }
               ]
             }
@@ -1363,12 +1300,7 @@
                   "name": "Already Cleared",
                   "notable": false,
                   "requires": ["f_KilledMetroidRoom3"],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": []
-                    }
-                  ]
+                  "clearsObstacles": ["A"]
                 },
                 {
                   "name": "Ammo Kill",
@@ -1376,73 +1308,64 @@
                   "requires": [
                     "Ice",
                     {"enemyKill":{
-                      "enemies": [
-                        [ "Metroid", "Metroid", "Metroid" ]
-                      ],
+                      "enemies": [ [ "Metroid", "Metroid", "Metroid" ] ],
                       "explicitWeapons": [ "Super", "Missile" ]
                     }}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": []
-                    }
-                  ]
+                  "clearsObstacles": ["A"]
                 },
                 {
                   "name": "Tank and PB Kill",
                   "notable": false,
                   "requires": [
                     {"enemyKill":{
-                      "enemies": [
-                        [ "Metroid", "Metroid", "Metroid" ]
-                      ],
+                      "enemies": [ [ "Metroid", "Metroid", "Metroid" ] ],
                       "excludedWeapons": [ "Super", "Missile" ]
                     }},
-                    {"enemyDamage": {
-                      "enemy": "Metroid",
-                      "type": "contact",
-                      "hits": 17
-                    }}
+                    {"metroidFrames": 272}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": []
-                    }
-                  ]
+                  "clearsObstacles": ["A"]
                 },
                 {
                   "name": "Metroid Room 3 PB Dodge Kill (Left to Right)",
                   "notable": true,
                   "requires": [
                     {"enemyKill":{
-                      "enemies": [
-                        [ "Metroid", "Metroid", "Metroid" ]
-                      ],
+                      "enemies": [ [ "Metroid", "Metroid", "Metroid" ] ],
                       "excludedWeapons": [ "Super", "Missile" ]
                     }},
                     "canMetroidAvoid"
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": []
-                    }
-                  ],
+                  "clearsObstacles": ["A"],
                   "note": [
                     "Group the Metroids by hitting the first Rinka with a Power Bomb.",
                     "Then Kill all three Metroids with Power Bombs while avoiding damage."
                   ]
                 },
                 {
-                  "name": "Easy Evade",
+                  "name": "Ice Evade",
+                  "notable": false,
+                  "requires": ["Ice"]
+                },
+                {
+                  "name": "Screw Evade",
                   "notable": false,
                   "requires": [
                     {"or": [
                       "ScrewAttack",
-                      "Ice"
+                      "canPseudoScrew"
+                    ]},
+                    {"or": [
+                      "canDodgeWhileShooting",
+                      {"and": [
+                        "canCarefulJump",
+                        "SpaceJump"
+                      ]}
                     ]}
+                  ],
+                  "note": [
+                    "Use ScrewAttack or a PseudoScrew to prevent Metroids from attaching to Samus.",
+                    "These abilities may also be used to temporarily prevent damage from Metroids if they do attach."
                   ]
                 },
                 {
@@ -1451,15 +1374,22 @@
                   "requires": ["canMetroidAvoid"]
                 },
                 {
-                  "name": "Tank the Damage",
+                  "name": "Blue SpaceJump",
                   "notable": false,
                   "requires": [
-                    {"enemyDamage": {
-                      "enemy": "Metroid",
-                      "type": "contact",
-                      "hits": 11
+                    "canBlueSpaceJump",
+                    "canCarefulJump",
+                    {"canComeInCharged": {
+                      "fromNode": 1,
+                      "framesRemaining": 180,
+                      "unusableTiles": 1
                     }}
                   ]
+                },
+                {
+                  "name": "Tank the Damage",
+                  "notable": false,
+                  "requires": [ {"metroidFrames": 176} ]
                 }
               ]
             }
@@ -1475,12 +1405,7 @@
                   "name": "Already Cleared",
                   "notable": false,
                   "requires": ["f_KilledMetroidRoom3"],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": []
-                    }
-                  ]
+                  "clearsObstacles": ["A"]
                 },
                 {
                   "name": "Ammo Kill",
@@ -1488,73 +1413,64 @@
                   "requires": [
                     "Ice",
                     {"enemyKill":{
-                      "enemies": [
-                        [ "Metroid", "Metroid", "Metroid" ]
-                      ],
+                      "enemies": [ [ "Metroid", "Metroid", "Metroid" ] ],
                       "explicitWeapons": [ "Super", "Missile" ]
                     }}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": []
-                    }
-                  ]
+                  "clearsObstacles": ["A"]
                 },
                 {
                   "name": "Tank and PB Kill",
                   "notable": false,
                   "requires": [
                     {"enemyKill":{
-                      "enemies": [
-                        [ "Metroid", "Metroid", "Metroid" ]
-                      ],
+                      "enemies": [ [ "Metroid", "Metroid", "Metroid" ] ],
                       "excludedWeapons": [ "Super", "Missile" ]
                     }},
-                    {"enemyDamage": {
-                      "enemy": "Metroid",
-                      "type": "contact",
-                      "hits": 17
-                    }}
+                    {"metroidFrames": 272}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": []
-                    }
-                  ]
+                  "clearsObstacles": ["A"]
                 },
                 {
                   "name": "Metroid Room 3 PB Dodge Kill (Right to Left)",
                   "notable": true,
                   "requires": [
                     {"enemyKill":{
-                      "enemies": [
-                        [ "Metroid", "Metroid", "Metroid" ]
-                      ],
+                      "enemies": [ [ "Metroid", "Metroid", "Metroid" ] ],
                       "excludedWeapons": [ "Super", "Missile" ]
                     }},
                     "canMetroidAvoid"
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": []
-                    }
-                  ],
+                  "clearsObstacles": ["A"],
                   "note": [
                     "Group the Metroids by hitting the first Rinka with a Power Bomb.",
                     "Then Kill all three Metroids with Power Bombs while avoiding damage."
                   ]
                 },
                 {
-                  "name": "Easy Evade",
+                  "name": "Ice Evade",
+                  "notable": false,
+                  "requires": ["Ice"]
+                },
+                {
+                  "name": "Screw Evade",
                   "notable": false,
                   "requires": [
                     {"or": [
                       "ScrewAttack",
-                      "Ice"
+                      "canPseudoScrew"
+                    ]},
+                    {"or": [
+                      "canDodgeWhileShooting",
+                      {"and": [
+                        "canCarefulJump",
+                        "SpaceJump"
+                      ]}
                     ]}
+                  ],
+                  "note": [
+                    "Use ScrewAttack or a PseudoScrew to prevent Metroids from attaching to Samus.",
+                    "These abilities may also be used to temporarily prevent damage from Metroids if they do attach."
                   ]
                 },
                 {
@@ -1563,15 +1479,22 @@
                   "requires": ["canMetroidAvoid"]
                 },
                 {
-                  "name": "Tank the Damage",
+                  "name": "Blue SpaceJump",
                   "notable": false,
                   "requires": [
-                    {"enemyDamage": {
-                      "enemy": "Metroid",
-                      "type": "contact",
-                      "hits": 11
+                    "canBlueSpaceJump",
+                    "canCarefulJump",
+                    {"canComeInCharged": {
+                      "fromNode": 2,
+                      "framesRemaining": 180,
+                      "unusableTiles": 1
                     }}
                   ]
+                },
+                {
+                  "name": "Tank the Damage",
+                  "notable": false,
+                  "requires": [ {"metroidFrames": 176} ]
                 }
               ]
             }
@@ -1646,11 +1569,7 @@
               }},
               {"or": [
                 "f_KilledMetroidRoom4",
-                {"enemyDamage": {
-                  "enemy": "Metroid",
-                  "type": "contact",
-                  "hits": 7
-                }}
+                {"metroidFrames": 104}
               ]}
             ],
             "note": "If alive, the Metroids do up to 78 damage before the Rinka hits. Entering through the middle of the door will require less damage."
@@ -1709,12 +1628,7 @@
                   "name": "Already Cleared",
                   "notable": false,
                   "requires": ["f_KilledMetroidRoom4"],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": []
-                    }
-                  ]
+                  "clearsObstacles": ["A"]
                 },
                 {
                   "name": "Ammo Kill",
@@ -1722,79 +1636,47 @@
                   "requires": [
                     "Ice",
                     {"enemyKill":{
-                      "enemies": [
-                        [ "Metroid", "Metroid", "Metroid" ]
-                      ],
+                      "enemies": [ [ "Metroid", "Metroid", "Metroid" ] ],
                       "explicitWeapons": [ "Super", "Missile" ]
                     }}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": []
-                    }
-                  ]
+                  "clearsObstacles": ["A"]
                 },
                 {
                   "name": "Tank and PB Kill",
                   "notable": false,
                   "requires": [
                     {"enemyKill":{
-                      "enemies": [
-                        [ "Metroid", "Metroid", "Metroid" ]
-                      ],
+                      "enemies": [ [ "Metroid", "Metroid", "Metroid" ] ],
                       "excludedWeapons": [ "Super", "Missile" ]
                     }},
-                    {"enemyDamage": {
-                      "enemy": "Metroid",
-                      "type": "contact",
-                      "hits": 17
-                    }}
+                    {"metroidFrames": 272}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": []
-                    }
-                  ]
+                  "clearsObstacles": ["A"]
                 },
                 {
                   "name": "Metroid Room 4 Safe Six PB Kill",
                   "notable": false,
                   "requires": [
                     {"enemyKill":{
-                      "enemies": [
-                        [ "Metroid", "Metroid" ], [ "Metroid" ]
-                      ],
+                      "enemies": [ [ "Metroid", "Metroid" ], [ "Metroid" ] ],
                       "excludedWeapons": [ "Super", "Missile" ]
                     }},
                     "canMetroidAvoid"
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": []
-                    }
-                  ]
+                  "clearsObstacles": ["A"]
                 },
                 {
                   "name": "Metroid Room 4 Three PB Kill (Top to Bottom)",
                   "notable": true,
                   "requires": [
                     {"enemyKill":{
-                      "enemies": [
-                        [ "Metroid", "Metroid", "Metroid" ]
-                      ],
+                      "enemies": [ [ "Metroid", "Metroid", "Metroid" ] ],
                       "excludedWeapons": [ "Super", "Missile" ]
                     }},
                     "canMetroidAvoid"
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": []
-                    }
-                  ],
+                  "clearsObstacles": ["A"],
                   "note": [
                     "Group the Metroids by descending the room.",
                     "Then Kill all three Metroids with Power Bombs while avoiding damage."
@@ -1805,31 +1687,39 @@
                   "notable": false,
                   "requires": [
                     {"or": [
-                      "ScrewAttack",
-                      "Ice"
+                      "Ice",
+                      {"and": [
+                        "ScrewAttack",
+                        "canDodgeWhileShooting"
+                      ]}
                     ]}
                   ]
                 },
                 {
                   "name": "Harder Evade",
                   "notable": false,
-                  "requires": ["canMetroidAvoid"]
+                  "requires": [
+                    "canMetroidAvoid",
+                    "Morph"
+                  ],
+                  "note": "Run under the top Metroid then roll beneath the second and third."
+                },
+                {
+                  "name": "Metroid Room 4 Top Metroid Avoid",
+                  "notable": true,
+                  "requires": [
+                    "canMetroidAvoid",
+                    "canCarefulJump"
+                  ],
+                  "note": [
+                    "Avoid all of the Rinkas and Metroids with no equipment and taking no damage.",
+                    "One way to do this is to bait the top Rinkas to fire upwards, and then carefully spinjump around each corner as the Metroid below passes by."
+                  ]
                 },
                 {
                   "name": "Tank the Damage",
                   "notable": false,
-                  "requires": [
-                    {"enemyDamage": {
-                      "enemy": "Rinka",
-                      "type": "contact",
-                      "hits": 1
-                    }},
-                    {"enemyDamage": {
-                      "enemy": "Metroid",
-                      "type": "contact",
-                      "hits": 16
-                    }}
-                  ],
+                  "requires": [{"metroidFrames": 256}],
                   "note": "Taking a rinka hit stops the Metroid damage for a while and is less damage."
                 }
               ]
@@ -1846,12 +1736,7 @@
                   "name": "Already Cleared",
                   "notable": false,
                   "requires": ["f_KilledMetroidRoom4"],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": []
-                    }
-                  ]
+                  "clearsObstacles": ["A"]
                 },
                 {
                   "name": "Ammo Kill",
@@ -1859,83 +1744,47 @@
                   "requires": [
                     "Ice",
                     {"enemyKill":{
-                      "enemies": [
-                        [ "Metroid", "Metroid", "Metroid" ]
-                      ],
+                      "enemies": [ [ "Metroid", "Metroid", "Metroid" ] ],
                       "explicitWeapons": [ "Super", "Missile" ]
                     }}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": []
-                    }
-                  ]
+                  "clearsObstacles": ["A"]
                 },
                 {
                   "name": "Tank and Three PB Kill",
                   "notable": false,
                   "requires": [
                     {"enemyKill":{
-                      "enemies": [
-                        [ "Metroid", "Metroid", "Metroid" ]
-                      ],
+                      "enemies": [ [ "Metroid", "Metroid", "Metroid" ] ],
                       "excludedWeapons": [ "Super", "Missile" ]
                     }},
-                    {"enemyDamage": {
-                      "enemy": "Metroid",
-                      "type": "contact",
-                      "hits": 17
-                    }}
+                    {"metroidFrames": 272}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": []
-                    }
-                  ]
+                  "clearsObstacles": ["A"]
                 },
                 {
                   "name": "Tank and Six PB Kill",
                   "notable": false,
                   "requires": [
                     {"enemyKill":{
-                      "enemies": [
-                        [ "Metroid", "Metroid" ], [ "Metroid" ]
-                      ],
+                      "enemies": [ [ "Metroid", "Metroid" ], [ "Metroid" ] ],
                       "excludedWeapons": [ "Super", "Missile" ]
                     }},
-                    {"enemyDamage": {
-                      "enemy": "Metroid",
-                      "type": "contact",
-                      "hits": 8
-                    }}
+                    {"metroidFrames": 128}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": []
-                    }
-                  ]
+                  "clearsObstacles": ["A"]
                 },
                 {
                   "name": "Metroid Room 4 Six PB Dodge Kill (Bottom to Top)",
                   "notable": true,
                   "requires": [
                     {"enemyKill":{
-                      "enemies": [
-                        [ "Metroid", "Metroid" ], [ "Metroid" ]
-                      ],
+                      "enemies": [ [ "Metroid", "Metroid" ], [ "Metroid" ] ],
                       "excludedWeapons": [ "Super", "Missile" ]
                     }},
                     "canMetroidAvoid"
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": []
-                    }
-                  ],
+                  "clearsObstacles": ["A"],
                   "note": [
                     "Take out the lower two Metroids with Power Bombs while avoiding damage.",
                     "Then Kill the remaining one with three more Power Bombs."
@@ -1946,19 +1795,12 @@
                   "notable": true,
                   "requires": [
                     {"enemyKill":{
-                      "enemies": [
-                        [ "Metroid", "Metroid", "Metroid" ]
-                      ],
+                      "enemies": [ [ "Metroid", "Metroid", "Metroid" ] ],
                       "excludedWeapons": [ "Super", "Missile" ]
                     }},
                     "canMetroidAvoid"
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": []
-                    }
-                  ],
+                  "clearsObstacles": ["A"],
                   "note": [
                     "Very carefully group the Metroids by climbing the room.",
                     "Then Kill all three Metroids with Power Bombs while avoiding damage."
@@ -1969,15 +1811,28 @@
                   "notable": false,
                   "requires": [
                     {"or": [
-                      "ScrewAttack",
-                      "Ice"
+                      "Ice",
+                      {"and": [
+                        "ScrewAttack",
+                        "canDodgeWhileShooting"
+                      ]}
                     ]}
                   ]
                 },
                 {
-                  "name": "Harder Evade",
-                  "notable": false,
-                  "requires": ["canMetroidAvoid"]
+                  "name": "Metroid Room 4 Bottom Metroid Avoid",
+                  "notable": true,
+                  "requires": [
+                    "canMetroidAvoid",
+                    "canDodgeWhileShooting",
+                    "canCarefulJump"
+                  ],
+                  "note": [
+                    "Avoid all of the Rinkas and Metroids with no equipment and taking no damage.",
+                    "Begin by shooting the bottom Metroid hold it in place, and wait right below the first ledge.",
+                    "Once the middle Metroid passes by, jump up and shoot any Rinkas that are in the way.",
+                    "Repeat for the next ledge, clear any Rinkas, and then run to the door."
+                  ]
                 },
                 {
                   "name": "Tank the Damage",
@@ -1988,13 +1843,10 @@
                       "type": "contact",
                       "hits": 1
                     }},
-                    {"enemyDamage": {
-                      "enemy": "Metroid",
-                      "type": "contact",
-                      "hits": 16
-                    }}
+                    {"metroidFrames": 256}
                   ],
-                  "note": "Taking a rinka hit stops the Metroid damage for a while and is less damage."
+                  "note": "Taking a rinka hit stops the Metroid damage for a while and is less damage.",
+                  "devNote": "Avoiding Rinkas is more difficult than getting hit, so it is not important to know to want to get hit."
                 }
               ]
             }
@@ -2159,6 +2011,10 @@
                   "notable": false,
                   "requires": [
                     "canDodgeWhileShooting",
+                    {"or": [
+                      "canTrickyJump",
+                      "canCameraManip"
+                    ]},
                     {"enemyKill":{
                       "enemies": [["Blue Sidehopper", "Blue Sidehopper"]]
                     }}
@@ -2233,9 +2089,8 @@
                   "requires": [
                     "Morph",
                     "canPrepareForNextRoom",
-                    {"enemyKill": {
-                      "enemies": [["Blue Sidehopper"]]
-                    }}
+                    {"enemyKill": { "enemies": [["Blue Sidehopper"]] }},
+                    "canCameraManip"
                   ],
                   "note": [
                     "Enter the room in ball mode and let the hoppers jump against the wall a couple of times.",
@@ -2261,8 +2116,7 @@
                     "canPrepareForNextRoom",
                     {"canComeInCharged": {
                       "fromNode": 2,
-                      "framesRemaining": 180,
-                      "shinesparkFrames": 0
+                      "framesRemaining": 180
                     }},
                     {"or": [
                       "SpaceJump",
@@ -2519,29 +2373,50 @@
                   "requires": [{"energyAtMost": 1}]
                 },
                 {
-                  "name": "Waveless Baby Skip",
-                  "notable": true,
-                  "requires": [
-                    "Morph",
-                    "HiJump",
-                    "canBabyMetroidAvoid"
-                  ],
-                  "note": "Baby skip with only Morph and HiJump."
-                },
-                {
                   "name": "Classic Baby Skip",
                   "notable": false,
                   "requires": [
                     "Wave",
-                    "Morph",
+                    {"or": [
+                      "Spazer",
+                      "Plasma"
+                    ]},
+                    "canMidAirMorph",
+                    "HiJump",
+                    "SpeedBooster",
+                    "canBabyMetroidAvoid"
+                  ],
+                  "note": [
+                    "Jump over the Baby Metroid to avoid getting grabbed.",
+                    "Use Wave plus a Wide Beam to clear much of the seaweed with each shot.",
+                    "The classic counter clockwise skip ends with a mid air morph into the transition."
+                  ],
+                  "devNote": "A wide beam is used to avoid picking off stray seaweeds since that is a skill used in waveless skip."
+                },
+                {
+                  "name": "Baby Skip Without Wave or Speed",
+                  "notable": true,
+                  "requires": [
+                    "canMidAirMorph",
                     "HiJump",
                     "canBabyMetroidAvoid"
                   ],
-                  "devNote": "Having Speed Booster or not changes the first jumps of this strat. Is it worth having an extra strat with Speed Booster as well?"
+                  "note": "Avoid the Baby Metroid by jumping over it many times in order to clear a path through the seaweed."
+                },
+                {
+                  "name": "Baby Skip With Nothing",
+                  "notable": true,
+                  "requires": ["canBabyMetroidAvoid"],
+                  "note": [
+                    "Avoid the Baby Metroid with no items at all.",
+                    "Jump over it many times in order to clear a path through the seaweed.",
+                    "With a counter clockwise setup, stand as close to the transition as possible while allowing the Baby to circle Samus.",
+                    "Then jump towards the transition and touch it with a walljump check.",
+                    "A clockwise setup is more difficult to clear the seaweed, but can jump directly into the transition."
+                  ]
                 }
               ],
-              "note": "The baby event happens every time you enter from the right",
-                "devNote": "Not sure if the SpaceJump/SpringBall skip is RTA viable. It probably has all the requirements of classic baby skip and then some, so it will be left out."
+              "note": "The baby event happens every time you enter from the right"
             }
           ]
         }
@@ -2846,6 +2721,18 @@
               ]
             },
             {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Refill",
+                  "notable": false,
+                  "requires": [
+                    "h_useMissileRefillStation"
+                  ]
+                }
+              ]
+            },
+            {
               "id": 3,
               "strats": [
                 {
@@ -2867,6 +2754,18 @@
                   "name": "Base",
                   "notable": false,
                   "requires": []
+                }
+              ]
+            },
+            {
+              "id": 3,
+              "strats": [
+                {
+                  "name": "Refill",
+                  "notable": false,
+                  "requires": [
+                    "h_useEnergyRefillStation"
+                  ]
                 }
               ]
             }
@@ -3389,28 +3288,15 @@
                   "name": "Base",
                   "notable": false,
                   "requires": [
-                    {"enemyKill":{
-                      "enemies": [
-                        ["Mother Brain 2"]
-                      ]
-                    }},
+                    {"enemyKill":{ "enemies": [ ["Mother Brain 2"] ] }},
                     {"enemyDamage": {
                       "enemy": "Mother Brain 2",
                       "type": "rainbow",
                       "hits": 1
                     }},
-                    {"ammoDrain": {
-                      "type": "Missile",
-                      "count": 75
-                    }},
-                    {"ammoDrain": {
-                      "type": "Super",
-                      "count": 75
-                    }},
-                    {"ammoDrain": {
-                      "type": "PowerBomb",
-                      "count": 300
-                    }}
+                    {"ammoDrain": { "type": "Missile", "count": 75 }},
+                    {"ammoDrain": { "type": "Super", "count": 75 }},
+                    {"ammoDrain": { "type": "PowerBomb", "count": 300 }}
                   ],
                   "note": "The fight also brings Samus down below 100 energy, but then it fills her up"
                 }
@@ -3597,39 +3483,19 @@
                 {
                   "name": "Missiles",
                   "notable": false,
-                  "requires": [
-                    "Missile",
-                    {"ammo": {
-                      "type": "Missile",
-                      "count": 40
-                    }}
-                  ]
+                  "requires": [ {"ammo": { "type": "Missile", "count": 40 }} ]
                 },
                 {
                   "name": "Supers",
                   "notable": false,
-                  "requires": [
-                    "Super",
-                    {"ammo": {
-                      "type": "Super",
-                      "count": 20
-                    }}
-                  ]
+                  "requires": [ {"ammo": { "type": "Super", "count": 20 }} ]
                 },
                 {
                   "name": "Combined Ammo",
                   "notable": false,
                   "requires": [
-                    "Super",
-                    "Missile",
-                    {"ammo": {
-                      "type": "Super",
-                      "count": 10
-                    }},
-                    {"ammo": {
-                      "type": "Missile",
-                      "count": 10
-                    }}
+                    {"ammo": { "type": "Super", "count": 10 }},
+                    {"ammo": { "type": "Missile", "count": 10 }}
                   ]
                 }
               ],
@@ -3795,9 +3661,9 @@
                     {"canComeInCharged": {
                       "fromNode": 2,
                       "inRoomPath": [2, 8],
-                      "framesRemaining": 100,
-                      "shinesparkFrames": 15
-                    }}
+                      "framesRemaining": 100
+                    }},
+                    {"shinespark": {"frames": 15}}
                   ],
                   "devNote": "Would be a notable strat, but it already has its own tech."
                 }
@@ -3830,9 +3696,58 @@
         {
           "id": 1,
           "name": "Tourian Escape Room 1 Right Doorway (to Mother Brain)",
-          "nodeType": "entrance",
+          "nodeType": "door",
           "nodeSubType": "closedWall",
           "nodeAddress": "0x001aae0",
+          "doorEnvironments": [{"physics": "air"}],
+          "runways": [
+            {
+              "name": "Base Runway - Tourian Escape Room 1 Right Door (to Mother Brain)",
+              "length": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": []
+                }
+              ],
+              "openEnd": 0
+            },
+            {
+              "name": "Diagonal Shot Runway - Tourian Escape Room 1 Right Door (to Mother Brain)",
+              "length": 7,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [
+                    "canPrepareForNextRoom",
+                    {"or": [
+                      "Wave",
+                      "Spazer"
+                    ]}
+                  ],
+                  "note": "Upon entry, immediately shoot diagonal Wave or Spazer shot at the bottom gate. Charge beam can help buffer the shot.",
+                  "devNote": "FIXME: Run speed may also make this runway always work."
+                }
+              ],
+              "openEnd": 0
+            },
+            {
+              "name": "Runway with Broken Gates - Tourian Escape Room 1 Right Door (to Mother Brain)",
+              "length": 20,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [],
+                  "note": "This longer runway requires the gates to be shot open."
+                }
+              ],
+              "usableComingIn": false,
+              "openEnd": 1
+            }
+          ],
           "locks": [
             {
               "name": "Tourian Escape 1 Lock (to Mother Brain)",
@@ -3841,7 +3756,7 @@
                 {
                   "name": "Base",
                   "notable": false,
-                  "requires": [ "never" ]
+                  "requires": [ "h_AccessTourianEscape1RightDoor" ]
                 }
               ]
             }
@@ -4162,14 +4077,13 @@
                       {"and": [
                         "Plasma",
                         "canHitbox"
-                      ]},
-                      "ScrewAttack"
+                      ]}
                     ]}
                   ],
                   "note": "Walk through the pirates either by taking damage or by using Plasma Beam."
                 },
                 {
-                  "name": "Fight Pirates Safely",
+                  "name": "Fight Pirates Slowly",
                   "notable": false,
                   "requires": [
                     {"or": [
@@ -4178,15 +4092,37 @@
                       "h_canFly"
                     ]},
                     {"or": [
-                      "canDodgeWhileShooting",
-                      "Morph",
-                      "Wave",
-                      "canTurnaroundAimCancel",
-                      "canXRayTurnaround"
+                      {"and": [
+                        "canDodgeWhileShooting",
+                        "canCameraManip",
+                        {"or": [
+                          "Plasma",
+                          {"and": [
+                            "h_hasBeamUpgrade",
+                            "canBePatient"
+                          ]},
+                          "canBeVeryPatient"
+                        ]}
+                      ]},
+                      {"and": [
+                        {"or": [
+                          "canBePatient",
+                          {"enemyDamage": {
+                            "enemy": "Tourian Space Pirate (all)",
+                            "type": "contact",
+                            "hits": 1
+                          }}
+                        ]},
+                        {"or": [
+                          "Morph",
+                          "canTurnaroundAimCancel",
+                          "canXRayTurnaround"
+                        ]}
+                      ]}
                     ]}
                   ],
                   "note": [
-                    "Run or Roll under the pirate lazers or fight the pirates from below with Wave Beam",
+                    "Run from or Roll under the pirate lazers.",
                     "The Pirates will also not shoot if they come on screen while Samus is crouched."
                   ]
                 },
@@ -4200,6 +4136,8 @@
                       "h_canFly"
                     ]},
                     {"or": [
+                      "Wave",
+                      "ScrewAttack",
                       {"and": [
                         "Plasma",
                         "canXRayWaitForIFrames"
@@ -4212,7 +4150,8 @@
                          "explicitWeapons": ["Missile", "Super", "Ice+Plasma"]
                       }}
                     ]}
-                  ]
+                  ],
+                  "note": "Kill the Pirates fast enough that they won't attack, or shoot them from below with Wave."
                 },
                 {
                   "name": "SpeedBooster",
@@ -4287,7 +4226,7 @@
                     "h_canArtificialMorphIBJ",
                     {"or": [
                       "h_canArtificialMorphCeilingBombJump",
-                      "canBePatient"
+                      "canBeVeryPatient"
                     ]}
                   ],
                   "note": "Take the bottom path and place many bombs near the speed blocks to overload PLMs and go through them."
@@ -4315,26 +4254,48 @@
                       {"and": [
                         "Plasma",
                         "canHitbox"
-                      ]},
-                      "ScrewAttack"
+                      ]}
                     ]}
                   ],
                   "note": "Walk through the pirates either by taking damage or by using Plasma Beam."
                 },
                 {
-                  "name": "Fight Pirates Safely",
+                  "name": "Fight Pirates Slowly",
                   "notable": false,
                   "requires": [
                     {"or": [
-                      "canDodgeWhileShooting",
-                      "Morph",
-                      "Wave",
-                      "canXRayTurnaround"
+                      {"and": [
+                        "canDodgeWhileShooting",
+                        "canCameraManip",
+                        {"or": [
+                          "Plasma",
+                          {"and": [
+                            "h_hasBeamUpgrade",
+                            "canBePatient"
+                          ]},
+                          "canBeVeryPatient"
+                        ]}
+                      ]},
+                      {"and": [
+                        {"or": [
+                          "canBePatient",
+                          {"enemyDamage": {
+                            "enemy": "Tourian Space Pirate (all)",
+                            "type": "contact",
+                            "hits": 1
+                          }}
+                        ]},
+                        {"or": [
+                          "Morph",
+                          "canTurnaroundAimCancel",
+                          "canXRayTurnaround"
+                        ]}
+                      ]}
                     ]}
                   ],
                   "note": [
-                    "Dodge the pirate lazers, or shoot them from above with Wave Beam",
-                    "Pirates will not attack if Samus is crouched when they come on screen."
+                    "Run from or Roll under the pirate lazers.",
+                    "The Pirates will also not shoot if they come on screen while Samus is crouched."
                   ]
                 },
                 {
@@ -4342,6 +4303,8 @@
                   "notable": false,
                   "requires": [
                     {"or": [
+                      "Wave",
+                      "ScrewAttack",
                       {"and": [
                         "Plasma",
                         "canXRayWaitForIFrames"
@@ -4355,7 +4318,8 @@
                          "explicitWeapons": ["Missile", "Super", "Ice+Plasma"]
                       }}
                     ]}
-                  ]
+                  ],
+                  "note": "Kill the Pirates fast enough that they won't attack, or shoot them from above with Wave."
                 },
                 {
                   "name": "SpeedBooster",
@@ -4372,9 +4336,11 @@
                         "canUseSpeedEchoes",
                         {"canShineCharge": {
                           "usedTiles": 33,
-                          "openEnd": 2,
-                          "shinesparkFrames": 2,
-                          "excessShinesparkFrames": 2
+                          "openEnd": 2
+                        }},
+                        {"shinespark": {
+                          "frames": 2,
+                          "excessFrames": 2
                         }}
                       ]}
                     ]}
@@ -4387,8 +4353,7 @@
                   "requires": [
                     {"canComeInCharged": {
                       "framesRemaining": 180,
-                      "fromNode": 2,
-                      "shinesparkFrames": 0
+                      "fromNode": 2
                     }}
                   ]
                 }
@@ -4595,7 +4560,6 @@
                       {"canComeInCharged": {
                         "framesRemaining": 180,
                         "fromNode": 2,
-                        "shinesparkFrames": 0,
                         "unusableTiles": 22
                       }}
                     ]},

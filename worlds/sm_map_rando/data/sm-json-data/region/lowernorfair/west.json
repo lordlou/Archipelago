@@ -169,10 +169,10 @@
                     "h_canNavigateHeatRooms",
                     {"canComeInCharged": {
                       "framesRemaining": 0,
-                      "fromNode": 1,
-                      "shinesparkFrames": 36
+                      "fromNode": 1
                     }},
-                    {"heatFrames": 125}
+                    {"heatFrames": 125},
+                    {"shinespark": {"frames": 36}}
                   ]
                 },
                 {
@@ -297,7 +297,7 @@
                     {"or": [
                       "canTrickyJump",
                       {"and": [
-                        "canDamageBoost",
+                        "canHorizontalDamageBoost",
                         "canCarefulJump",
                         {"enemyDamage": {
                           "enemy": "Magdollite",
@@ -343,11 +343,13 @@
                     "h_canNavigateHeatRooms",
                     {"canComeInCharged": {
                       "framesRemaining": 0,
-                      "fromNode": 2,
-                      "shinesparkFrames": 41,
-                      "excessShinesparkFrames": 6
+                      "fromNode": 2
                     }},
-                    {"heatFrames": 125}
+                    {"heatFrames": 125},
+                    {"shinespark": {
+                      "frames": 41,
+                      "excessFrames": 6
+                    }}
                   ]
                 }
               ]
@@ -440,7 +442,7 @@
               "id": 5,
               "strats": [
                 {
-                  "name": "Morph Bombs",
+                  "name": "Bombs",
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
@@ -486,7 +488,7 @@
                     {"or": [
                       "canTrickyJump",
                       {"and": [
-                        "canDamageBoost",
+                        "canHorizontalDamageBoost",
                         "canCarefulJump",
                         {"enemyDamage": {
                           "enemy": "Magdollite",
@@ -538,7 +540,7 @@
               "id": 4,
               "strats": [
                 {
-                  "name": "Morph Bombs",
+                  "name": "Bombs",
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
@@ -586,7 +588,7 @@
                     "Grapple"
                   ],
                   "note": "Menu to Grappling Beam before the crystal flash ends and mash shoot while holding down.",
-                  "devNote": "The extra power bomb or morph bombs is to get through the bomb blocks."
+                  "devNote": "The extra Power Bomb or bombs is to get through the bomb blocks."
                 }
               ]
             }
@@ -750,7 +752,7 @@
                   "requires": [
                     "h_heatProof",
                     "Charge",
-                    "canBePatient"
+                    "canBeVeryPatient"
                   ],
                   "reusableRoomwideNotable": "Golden Torizo Safe Spot",
                   "note": "Stand in the safe spot and fire Charge shots into GT."
@@ -904,7 +906,7 @@
                       "type": "contact",
                       "hits": 2
                     }},
-                    "canBePatient"
+                    "canBeVeryPatient"
                   ],
                   "note": [
                     "Killing Golden Torizo only with missiles using enemy state manipulation to get missiles to connect.",
@@ -1135,11 +1137,13 @@
                     "h_canNavigateHeatRooms",
                     {"canComeInCharged": {
                       "fromNode": 1,
-                      "framesRemaining": 0,
-                      "shinesparkFrames": 17,
-                      "excessShinesparkFrames": 3
-                     }},
-                    {"heatFrames": 150}
+                      "framesRemaining": 0
+                    }},
+                    {"heatFrames": 150},
+                    {"shinespark": {
+                      "frames": 17,
+                      "excessFrames": 3
+                    }}
                   ]
                 }
               ]
@@ -1172,12 +1176,7 @@
                     "h_canNavigateHeatRooms",
                     {"heatFrames": 50}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": []
-                    }
-                  ]
+                  "clearsObstacles": ["A"]
                 }
               ]
             }
@@ -1259,12 +1258,7 @@
                     "h_canNavigateHeatRooms",
                     {"heatFrames": 100}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": []
-                    }
-                  ]
+                  "clearsObstacles": ["A"]
                 }
               ]
             },
@@ -1369,10 +1363,10 @@
                     "canConsecutiveWalljump",
                     {"canShineCharge": {
                       "usedTiles": 28,
-                      "shinesparkFrames": 11,
                       "openEnd": 0
                     }},
-                    {"heatFrames": 900}
+                    {"heatFrames": 900},
+                    {"shinespark": {"frames": 11}}
                   ],
                   "reusableRoomwideNotable": "Golden Torizo Supers Double Shinespark",
                   "note": [
@@ -1391,10 +1385,10 @@
                     "HiJump",
                     {"canShineCharge": {
                       "usedTiles": 28,
-                      "shinesparkFrames": 11,
                       "openEnd": 0
                     }},
-                    {"heatFrames": 900}
+                    {"heatFrames": 900},
+                    {"shinespark": {"frames": 11}}
                   ],
                   "reusableRoomwideNotable": "Golden Torizo Supers Double Shinespark",
                   "note": [
@@ -1430,7 +1424,7 @@
                   ]
                 },
                 {
-                  "name": "GT Supers Morph Bomb Springwall",
+                  "name": "Golden Torizo Supers Springwall with Bombs",
                   "notable": true,
                   "requires": [
                     "h_canNavigateHeatRooms",
@@ -1533,7 +1527,7 @@
                       ]}
                     ]},
                     "canSpringBallJumpMidAir",
-                    "canDamageBoost",
+                    "canNeutralDamageBoost",
                     {"enemyDamage": {
                       "enemy": "Golden Torizo",
                       "type": "contact",
@@ -1558,12 +1552,7 @@
                   "name": "Base",
                   "notable": false,
                   "requires": [],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": []
-                    }
-                  ]
+                  "clearsObstacles": ["A"]
                 }
               ]
             }
@@ -1735,25 +1724,22 @@
                     "h_canNavigateHeatRooms",
                     {"canComeInCharged": {
                       "fromNode": 1,
-                      "framesRemaining": 25,
-                      "shinesparkFrames": 31,
-                      "excessShinesparkFrames": 10
+                      "framesRemaining": 25
                     }},
-                    { "heatFrames": 200 }
+                    {"heatFrames": 200},
+                    {"shinespark": {
+                      "frames": 31,
+                      "excessFrames": 10
+                    }}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "B",
-                      "requires": []
-                    }
-                  ]
+                  "clearsObstacles": ["B"]
                 },
                 {
                   "name": "Screw Attack Room Left-Side X-Ray Climb (to Middle Door)",
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
-                    "canRightFacingDoorXRayClimb",
+                    "h_canLeftDoorXRayClimb",
                     {"resetRoom":{
                       "nodes": [1],
                       "mustStayPut": true
@@ -1766,7 +1752,8 @@
                     }},
                     {"heatFrames": 1000}
                   ],
-                  "note": "Heat frames split into the actual climb and the setup in the adjacent room."
+                  "note": "Climb up half a screen.",
+                  "devNote": "Heat frames split into the actual climb and the setup in the adjacent room."
                 }
               ],
               "note": "Shinespark and XRayClimb have a direct link. Other strats should go 1 -> 4 -> 2."
@@ -1779,31 +1766,24 @@
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
-                    { "canComeInCharged": {
+                    {"canComeInCharged": {
                       "fromNode": 1,
-                      "framesRemaining": 50,
-                      "shinesparkFrames": 41,
-                      "excessShinesparkFrames": 4
-                      }},
-                    { "heatFrames": 250 }
+                      "framesRemaining": 50
+                    }},
+                    {"heatFrames": 250},
+                    {"shinespark": {
+                      "frames": 41,
+                      "excessFrames": 4
+                    }}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "B",
-                      "requires": []
-                    },
-                    {
-                      "id": "A",
-                      "requires": []
-                    }
-                  ]
+                  "clearsObstacles": ["A","B"]
                 },
                 {
                   "name": "Screw Attack Room Left-Side X-Ray Climb (to Top Door)",
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
-                    "canRightFacingDoorXRayClimb",
+                    "h_canLeftDoorXRayClimb",
                     {"resetRoom":{
                       "nodes": [1],
                       "mustStayPut": true
@@ -1816,7 +1796,8 @@
                     }},
                     {"heatFrames": 2800}
                   ],
-                  "note": "Heat frames split into the actual climb and the setup in the adjacent room."
+                  "note": "Climb up 2 screens.",
+                  "devNote": "Heat frames split into the actual climb and the setup in the adjacent room."
                 }
               ],
               "note": "Shinespark and XRayClimb have a direct link. Other strats should go 1 -> 4 -> 2 -> 3."
@@ -1851,12 +1832,7 @@
                     "ScrewAttack",
                     {"heatFrames": 400}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": []
-                    }
-                  ]
+                  "clearsObstacles": ["A"]
                 },
                 {
                   "name": "Screw Attack Room Transition Screwjump",
@@ -1873,12 +1849,7 @@
                     }},
                     {"heatFrames": 150}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": []
-                    }
-                  ],
+                  "clearsObstacles": ["A"],
                   "note": "Run through the doorway with enough momentum to break the bomb blocks with Screw."
                 },
                 {
@@ -1888,18 +1859,15 @@
                     "h_canNavigateHeatRooms",
                     {"canComeInCharged": {
                       "fromNode": 2,
-                      "framesRemaining": 50,
-                      "shinesparkFrames": 35,
-                      "excessShinesparkFrames": 4
+                      "framesRemaining": 50
                     }},
-                    {"heatFrames": 250}
+                    {"heatFrames": 250},
+                    {"shinespark": {
+                      "frames": 35,
+                      "excessFrames": 4
+                    }}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": []
-                    }
-                  ]
+                  "clearsObstacles": ["A"]
                 },
                 {
                   "name": "Jump into Room Shinespark",
@@ -1911,22 +1879,19 @@
                     "canPrepareForNextRoom",
                     {"canComeInCharged": {
                       "fromNode": 2,
-                      "framesRemaining": 15,
-                      "shinesparkFrames": 18,
-                      "excessShinesparkFrames": 4
+                      "framesRemaining": 15
                     }},
                     {"adjacentRunway": {
                       "fromNode": 2,
                       "usedTiles": 0.5
                     }},
-                    {"heatFrames": 250}
+                    {"heatFrames": 250},
+                    {"shinespark": {
+                      "frames": 18,
+                      "excessFrames": 4
+                    }}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": []
-                    }
-                  ],
+                  "clearsObstacles": ["A"],
                   "note": [
                     "Jump into Screw Attack Room and spark diagonally once above the center of the door vertically.",
                     "Or diagonally spark anywhere that is not the bottom of the door in the previous room."
@@ -1938,7 +1903,7 @@
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
-                    "canLeftFacingDoorXRayClimb",
+                    "h_canRightDoorXRayClimb",
                     { "resetRoom": {
                       "nodes": [2],
                       "mustStayPut": true
@@ -1952,7 +1917,7 @@
                         "useFrames": 200
                       }},
                       {"and": [
-                        "canSubmergedLeftFacingDoorXRayClimb",
+                        "h_canRightDoorXRayClimbFromWater",
                         {"adjacentRunway": {
                           "fromNode": 2,
                           "usedTiles": 0.5,
@@ -1964,7 +1929,8 @@
                     ]},
                     {"heatFrames": 1600}
                   ],
-                  "note": "Heat frames split into the actual climb and the setup in the adjacent room."
+                  "note": "Climb up 1 screen.",
+                  "devNote": "Heat frames split into the actual climb and the setup in the adjacent room."
                 }
               ]
             },
@@ -1972,58 +1938,43 @@
               "id": 4,
               "strats": [
                 {
-                  "name": "Screw",
+                  "name": "Base",
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
-                    {"heatFrames": 90}
-                  ],
-                  "obstacles": [
-                    {
-                      "id": "B",
-                      "requires": [
+                    {"heatFrames": 90},
+                    {"or": [
+                      {"obstaclesCleared": ["B"]},
+                      {"and": [
                         "ScrewAttack",
-                        {"or":[
+                        {"or": [
                           "canPrepareForNextRoom",
                           {"heatFrames": 30}
                         ]}
-                      ]
-                    }
-                  ]
+                      ]}
+                    ]}
+                  ],
+                  "clearsObstacles": ["B"]
                 },
                 {
-                  "name": "Power Bombs",
+                  "name": "Power Bomb",
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
-                    {"heatFrames": 90}
+                    "h_canUsePowerBombs",
+                    {"heatFrames": 190}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "B",
-                      "requires": [
-                        "h_canUsePowerBombs",
-                        {"heatFrames": 100}
-                      ]
-                    }
-                  ]
+                  "clearsObstacles": ["B"]
                 },
                 {
-                  "name": "Morph Bombs",
+                  "name": "Bombs",
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
-                    {"heatFrames": 90}
+                    "h_canUseMorphBombs",
+                    {"heatFrames": 180}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "B",
-                      "requires": [
-                        "h_canUseMorphBombs",
-                        {"heatFrames": 90}
-                      ]
-                    }
-                  ]
+                  "clearsObstacles": ["B"]
                 },
                 {
                   "name": "Temporary Blue",
@@ -2033,8 +1984,7 @@
                     "canPrepareForNextRoom",
                     {"canComeInCharged": {
                        "framesRemaining": 180,
-                       "fromNode": 2,
-                       "shinesparkFrames": 0
+                       "fromNode": 2
                      }},
                     {"adjacentRunway": {
                       "fromNode": 2,
@@ -2044,12 +1994,7 @@
                     }},
                     {"heatFrames": 75}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "B",
-                      "requires": []
-                    }
-                  ],
+                  "clearsObstacles": ["B"],
                   "note": "This expects the more controlled Temporary Blue to fall though the blocks, not storing a shinecharge through the door."
                 },
                 {
@@ -2060,21 +2005,11 @@
                     "canPrepareForNextRoom",
                     {"canComeInCharged": {
                        "framesRemaining": 180,
-                       "fromNode": 2,
-                       "shinesparkFrames": 0
+                       "fromNode": 2
                      }},
                     {"heatFrames": 75}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "B",
-                      "requires": []
-                    },
-                    {
-                      "id": "C",
-                      "requires": []
-                    }
-                  ],
+                  "clearsObstacles": ["B","C"],
                   "reusableRoomwideNotable": "Screw Attack Room Descent and Shinespark Escape",
                   "note": "Store the shinecharge while hitting the door transition to maintain the ability to break blocks."
                 },
@@ -2086,21 +2021,11 @@
                     "canShinechargeMovement",
                     {"canComeInCharged": {
                        "framesRemaining": 125,
-                       "fromNode": 2,
-                       "shinesparkFrames": 0
+                       "fromNode": 2
                      }},
                     {"heatFrames": 120}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "B",
-                      "requires": []
-                    },
-                    {
-                      "id": "C",
-                      "requires": []
-                    }
-                  ],
+                  "clearsObstacles": ["B","C"],
                   "reusableRoomwideNotable": "Screw Attack Room Descent and Shinespark Escape",
                   "note": "Enter with a shinespark stored and screw attack down to the item."
                 }
@@ -2117,83 +2042,63 @@
                 {
                   "name": "Power Bombs",
                   "notable": false,
-                  "requires": ["h_canNavigateHeatRooms"],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [
-                        "h_canUsePowerBombs",
-                        {"heatFrames": 200}
-                      ]
-                    }
-                  ]
+                  "requires": [
+                    "h_canNavigateHeatRooms",
+                    "h_canUsePowerBombs",
+                    {"heatFrames": 200}
+                  ],
+                  "clearsObstacles": ["A"]
                 },
                 {
                   "name": "Screw Attack Room IBJ to Break the Top Blocks",
                   "notable": false,
-                  "requires": ["h_canNavigateHeatRooms"],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [
-                        "h_canIBJ",
-                        {"heatFrames": 1200}
-                      ]
-                    }
+                  "requires": [
+                    "h_canNavigateHeatRooms",
+                    "h_canIBJ",
+                    {"heatFrames": 1200}
                   ],
+                  "clearsObstacles": ["A"],
                   "note": "Expects that you fall down afterwards."
                 },
                 {
-                  "name": "Space Morph Bombs",
+                  "name": "Space Bombs",
                   "notable": false,
-                  "requires": ["h_canNavigateHeatRooms"],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [
-                        "h_canUseMorphBombs",
-                        "SpaceJump",
-                        {"heatFrames": 300}
-                      ]
-                    }
-                  ]
+                  "requires": [
+                    "h_canNavigateHeatRooms",
+                    "h_canUseMorphBombs",
+                    "SpaceJump",
+                    {"heatFrames": 300}
+                  ],
+                  "clearsObstacles": ["A"]
                 },
                 {
-                  "name": "Screw Attack Room Springwall Morph Bombs",
+                  "name": "Screw Attack Room Springwall with Bombs",
                   "notable": true,
-                  "requires": ["h_canNavigateHeatRooms"],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [
-                        "h_canUseMorphBombs",
-                        "canSpringwall",
-                        {"heatFrames": 300}
-                      ]
-                    }
+                  "requires": [
+                    "h_canNavigateHeatRooms",
+                    "h_canUseMorphBombs",
+                    "canSpringwall",
+                    {"heatFrames": 300}
                   ],
-                  "note": "Use a Springwall to get up to the bomb blocks, to break them with a morph bomb."
+                  "clearsObstacles": ["A"],
+                  "note": "Use a Springwall to get up to the bomb blocks, to break them with a bomb."
                 },
                 {
-                  "name": "Screw Attack Room Transition Speedjump (Morph Bombs)",
+                  "name": "Screw Attack Room Transition Speedjump with Bombs",
                   "notable": true,
-                  "requires": ["h_canNavigateHeatRooms"],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [
-                        "HiJump",
-                        "SpeedBooster",
-                        {"adjacentRunway": {
-                          "fromNode": 2,
-                          "usedTiles": 2
-                        }},
-                        "h_canUseMorphBombs",
-                        {"heatFrames": 200}
-                      ]
-                    }
+                  "requires": [
+                    "h_canNavigateHeatRooms",
+                    "HiJump",
+                    "SpeedBooster",
+                    {"adjacentRunway": {
+                      "fromNode": 2,
+                      "usedTiles": 2
+                    }},
+                    "h_canUseMorphBombs",
+                    {"heatFrames": 200}
                   ],
-                  "note": "Run in the adjacent room and jump through the door, to place a Morph Bomb to break the obstacle."
+                  "clearsObstacles": ["A"],
+                  "note": "Run in the adjacent room and jump through the door, to place a Bomb to break the obstacle."
                 }
               ],
               "note": "The heat frames for these strats assumes you've already fallen from the door, because the cost is already baked into the subsequent 5-> 3 heat costs when relevant."
@@ -2207,72 +2112,50 @@
               "id": 2,
               "strats": [
                 {
-                  "name": "Screw",
+                  "name": "Base",
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
-                    {"heatFrames": 200}
+                    {"heatFrames": 200},
+                    {"or": [
+                      "ScrewAttack",
+                      {"obstaclesCleared": ["A"]}
+                    ]}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": ["ScrewAttack"]
-                    }
-                  ]
+                  "clearsObstacles": ["A"]
                 },
                 {
                   "name": "Power Bombs",
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
-                    {"heatFrames": 200}
+                    "h_canUsePowerBombs",
+                    {"heatFrames": 300}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [
-                        "h_canUsePowerBombs",
-                        {"heatFrames": 100}
-                      ]
-                    }
-                  ]
+                  "clearsObstacles": ["A"]
                 },
                 {
-                  "name": "Morph Bomb",
+                  "name": "Bombs",
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
-                    {"heatFrames": 200}
+                    "h_canUseMorphBombs",
+                    {"heatFrames": 300}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [
-                        "h_canUseMorphBombs",
-                        {"heatFrames": 100}
-                      ]
-                    }
-                  ]
+                  "clearsObstacles": ["A"]
                 },
                 {
                   "name": "SpeedBooster",
                   "notable": false,
                   "requires": [
+                    {"canComeInCharged": {
+                      "framesRemaining": 180,
+                      "fromNode": 3,
+                      "unusableTiles": 4
+                    }},
                     {"heatFrames": 200}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [
-                        {"canComeInCharged": {
-                          "framesRemaining": 180,
-                          "fromNode": 3,
-                          "shinesparkFrames": 0,
-                          "unusableTiles": 4
-                        }}
-                      ]
-                    }
-                  ],
+                  "clearsObstacles": ["A"],
                   "devNote": "FIXME: Running in is not required.  Entering the room with canBlueSpaceJump could work, for example."
                 }
               ]
@@ -2290,7 +2173,6 @@
                         {"canComeInCharged": {
                           "framesRemaining": 180,
                           "fromNode": 3,
-                          "shinesparkFrames": 0,
                           "unusableTiles": 9
                         }},
                         {"heatFrames": 240}
@@ -2299,23 +2181,13 @@
                         "canXRayTurnaround",
                         {"canComeInCharged": {
                           "framesRemaining": 180,
-                          "fromNode": 3,
-                          "shinesparkFrames": 0
+                          "fromNode": 3
                         }},
                         {"heatFrames": 285}
                       ]}
                     ]}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": []
-                    },
-                    {
-                      "id": "B",
-                      "requires": []
-                    }
-                  ],
+                  "clearsObstacles": ["A","B"],
                   "note": "This expects the more controlled Temporary Blue to fall though the blocks, not storing a shinecharge on the first breakable block."
                 },
                 {
@@ -2326,25 +2198,11 @@
                     {"canComeInCharged": {
                       "framesRemaining": 180,
                       "fromNode": 3,
-                      "shinesparkFrames": 0,
                       "unusableTiles": 9
                     }},
                     {"heatFrames": 130}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": []
-                    },
-                    {
-                      "id": "B",
-                      "requires": []
-                    },
-                    {
-                      "id": "C",
-                      "requires": []
-                    }
-                  ],
+                  "clearsObstacles": ["A","B","C"],
                   "reusableRoomwideNotable": "Screw Attack Room Descent and Shinespark Escape",
                   "note": "Simultaneously store a shinespark and break through the bomb blocks down to the Screw Attack item location."
                 },
@@ -2356,25 +2214,11 @@
                     "canShinechargeMovement",
                     {"canComeInCharged": {
                       "framesRemaining": 180,
-                      "fromNode": 3,
-                      "shinesparkFrames": 0
+                      "fromNode": 3
                     }},
                     {"heatFrames": 170}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": []
-                    },
-                    {
-                      "id": "B",
-                      "requires": []
-                    },
-                    {
-                      "id": "C",
-                      "requires": []
-                    }
-                  ],
+                  "clearsObstacles": ["A","B","C"],
                   "reusableRoomwideNotable": "Screw Attack Room Descent and Shinespark Escape",
                   "note": "Store a shinespark then use screw to break through the bomb blocks down to the Screw Attack item location.",
                   "devNote": "Storing the spark on the left side of the runway takes fine control over shinecharge spacing, but that is ok at this difficulty."
@@ -2416,48 +2260,30 @@
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
+                    "ScrewAttack",
                     {"heatFrames": 200}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "B",
-                      "requires": ["ScrewAttack"]
-                    }
-                  ]
+                  "clearsObstacles": ["B"]
                 },
                 {
                   "name": "Power Bomb",
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
-                    {"heatFrames": 200}
+                    "h_canUsePowerBombs",
+                    {"heatFrames": 300}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "B",
-                      "requires": [
-                        "h_canUsePowerBombs",
-                        {"heatFrames": 100}
-                      ]
-                    }
-                  ]
+                  "clearsObstacles": ["B"]
                 },
                 {
-                  "name": "Morph Bomb",
+                  "name": "Bomb",
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
-                    {"heatFrames": 200}
+                    "h_canUseMorphBombs",
+                    {"heatFrames": 300}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "B",
-                      "requires": [
-                        "h_canUseMorphBombs",
-                        {"heatFrames": 100}
-                      ]
-                    }
-                  ]
+                  "clearsObstacles": ["B"]
                 },
                 {
                   "name": "Screw Attack Room Shinespark Escape Mid Door Part 2",
@@ -2467,18 +2293,15 @@
                     {"obstaclesCleared": ["C"]},
                     {"canShineCharge": {
                       "usedTiles": 33,
-                      "openEnd": 2,
-                      "shinesparkFrames": 31,
-                      "excessShinesparkFrames": 10
+                      "openEnd": 2
                     }},
-                    {"heatFrames": 240}
+                    {"heatFrames": 240},
+                    {"shinespark": {
+                      "frames": 31,
+                      "excessFrames": 10
+                    }}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "B",
-                      "requires": []
-                    }
-                  ],
+                  "clearsObstacles": ["B"],
                   "reusableRoomwideNotable": "Screw Attack Room Descent and Shinespark Escape",
                   "note": "Diagonally shinespark towards the middle door.",
                   "devNote": [
@@ -2499,22 +2322,15 @@
                     {"obstaclesCleared": ["C"]},
                     {"canShineCharge": {
                       "usedTiles": 33,
-                      "openEnd": 2,
-                      "shinesparkFrames": 41,
-                      "excessShinesparkFrames": 4
+                      "openEnd": 2
                     }},
-                    {"heatFrames": 270}
+                    {"heatFrames": 270},
+                    {"shinespark": {
+                      "frames": 41,
+                      "excessFrames": 4
+                    }}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": []
-                    },
-                    {
-                      "id": "B",
-                      "requires": []
-                    }
-                  ],
+                  "clearsObstacles": ["A","B"],
                   "reusableRoomwideNotable": "Screw Attack Room Descent and Shinespark Escape",
                   "note": "Carry a shinecharge down though the bomb blocks and shinespark back up.",
                   "devNote": "There is no actual runway. Obstacle C is indicating that Samus has a shinecharge ready to be used."
@@ -2569,6 +2385,7 @@
                     "SpeedBooster",
                     "canWalljump",
                     "canCarefulJump",
+                    {"doorUnlockedAtNode": 2},
                     {"heatFrames": 400}
                   ],
                   "note": "Position yourself in the door way, then run and jump. Makes it possible to walljump up."
@@ -2581,7 +2398,8 @@
                     "HiJump",
                     "canCWJ",
                     "canStationarySpinJump",
-                    "canInsaneWalljump"
+                    "canInsaneWalljump",
+                    {"doorUnlockedAtNode": 2}
                   ],
                   "note": "Position yourself in the door way a few pixels from the edge.  Dashing stationary spinjump into a delayed CWJ and hopefully catch the upper ledge with a walljump."
                 }
@@ -2663,6 +2481,18 @@
                   "requires": []
                 }
               ]
+            },
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Refill",
+                  "notable": false,
+                  "requires": [
+                    "h_useEnergyRefillStation"
+                  ]
+                }
+              ]
             }
           ]
         }
@@ -2740,14 +2570,13 @@
                       "enemy": "Ripper 2 (red)",
                       "type": "contact",
                       "hits": 2
-                    }}
+                    }},
+                    {"or": [
+                      "h_canHeatedGreenGateGlitch",
+                      {"obstaclesCleared": ["A"]}
+                    ]}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": ["h_canHeatedGreenGateGlitch"]
-                    }
-                  ],
+                  "clearsObstacles": ["A"],
                   "note": "This longer runway requires the green gate to be open, and usually involves tanking some ripper hits."
                 }
               ],
@@ -2785,6 +2614,24 @@
           "from": 1,
           "to": [
             {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Ripper Farm",
+                  "notable": false,
+                  "requires": [
+                    "h_heatProof",
+                    "ScrewAttack",
+                    {"resetRoom": {
+                      "nodes": [1],
+                      "mustStayPut": false
+                    }},
+                    {"refill": ["Energy", "Super"]}
+                  ]
+                }
+              ]
+            },
+            {
               "id": 3,
               "strats": [
                 {
@@ -2792,7 +2639,6 @@
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
-                    "h_canOpenGreenDoors",
                     {"heatFrames": 450},
                     {"enemyDamage": {
                       "enemy": "Ripper 2 (red)",
@@ -2806,7 +2652,6 @@
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
-                    "h_canOpenGreenDoors",
                     {"heatFrames": 350},
                     "ScrewAttack"
                   ]
@@ -2816,12 +2661,9 @@
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
-                    "h_canOpenGreenDoors",
                     {"heatFrames": 450},
                     {"enemyKill":{
-                      "enemies": [
-                        [ "Ripper 2 (red)", "Ripper 2 (red)"]
-                      ],
+                      "enemies": [ [ "Ripper 2 (red)", "Ripper 2 (red)"] ],
                       "explicitWeapons": [
                         "Super",
                         "PowerBomb"
@@ -2841,20 +2683,17 @@
               "id": 3,
               "strats": [
                 {
-                  "name": "GGG",
+                  "name": "Base",
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
+                    {"or": [
+                      "h_canHeatedGreenGateGlitch",
+                      {"obstaclesCleared": ["A"]}
+                    ]},
                     {"heatFrames": 100}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [
-                        "h_canHeatedGreenGateGlitch"
-                      ]
-                    }
-                  ]
+                  "clearsObstacles": ["A"]
                 }
               ]
             }
@@ -2895,9 +2734,7 @@
                     "h_canNavigateHeatRooms",
                     {"heatFrames": 600},
                     {"enemyKill":{
-                      "enemies": [
-                        [ "Ripper 2 (red)", "Ripper 2 (red)"]
-                      ],
+                      "enemies": [ [ "Ripper 2 (red)", "Ripper 2 (red)"] ],
                       "explicitWeapons": [
                         "Super",
                         "PowerBomb"
@@ -2916,18 +2753,16 @@
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
-                    {"heatFrames": 100}
-                  ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [
-                        "h_canNavigateHeatRooms",
+                    {"heatFrames": 100},
+                    {"or": [
+                      {"and": [
                         {"heatFrames": 50},
-                        "h_canOpenGreenDoors"
-                      ]
-                    }
-                  ]
+                        {"ammo": { "type": "Super", "count": 1 }}
+                      ]},
+                      {"obstaclesCleared": ["A"]}
+                    ]}
+                  ],
+                  "clearsObstacles": ["A"]
                 }
               ]
             }

@@ -38,6 +38,28 @@
               "openEnd": 1
             }
           ],
+          "leaveWithGModeSetup": [
+            {
+              "strats": [
+                {
+                  "name": "Get Hit By Zeela",
+                  "notable": false,
+                  "requires": [],
+                  "note": "It is possible to save a lot of time by using a Super to knock the clockwise Zeela off the small platform above."
+                }
+              ]
+            }
+          ],
+          "gModeImmobile": {
+            "requires": [
+              {"enemyDamage": {
+                "enemy": "Zeela",
+                "type": "contact",
+                "hits": 1
+              }}
+            ],
+            "note": "It takes 80 seconds for the global Zeela to make it over here. A Super could speed this up, but it's likely to just get the Zeela stuck."
+          },
           "locks": [
             {
               "name": "Green Shaft Top Left Red Lock (to Pre-Map)",
@@ -73,6 +95,27 @@
               "openEnd": 1
             }
           ],
+          "leaveWithGModeSetup": [
+            {
+              "strats": [
+                {
+                  "name": "Get Hit By Zeela",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ],
+          "gModeImmobile": {
+            "requires": [
+              {"enemyDamage": {
+                "enemy": "Zeela",
+                "type": "contact",
+                "hits": 1
+              }}
+            ],
+            "note": "Wait for the global Zeela."
+          },
           "locks": [
             {
               "name": "Green Shaft Top Right Red Lock (to Early Supers)",
@@ -109,6 +152,28 @@
               "openEnd": 1
             }
           ],
+          "leaveWithGModeSetup": [
+            {
+              "strats": [
+                {
+                  "name": "Get Hit By Zeela",
+                  "notable": false,
+                  "requires": [],
+                  "note": "It is possible to save a lot of time by using a Super to knock the clockwise Zeela off the small platform above."
+                }
+              ]
+            }
+          ],
+          "gModeImmobile": {
+            "requires": [
+              {"enemyDamage": {
+                "enemy": "Zeela",
+                "type": "contact",
+                "hits": 1
+              }}
+            ],
+            "note": "It takes 70 seconds for the global Zeela to make it over here. A Super could speed this up, but it's likely to just get the Zeela stuck."
+          },
           "locks": [
             {
               "name": "Green Shaft Mid-High Left Red Lock (to Save)",
@@ -138,18 +203,34 @@
                 {
                   "name": "Base",
                   "notable": false,
-                  "requires": [
-                    {"resetRoom":{
-                      "nodes": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-                      "obstaclesToAvoid": [ "A" ]
-                    }}
-                  ],
+                  "requires": [ {"obstaclesNotCleared": ["A"]} ],
                   "note": "Runway is not usable if the PB blocks are broken."
                 }
               ],
               "openEnd": 0
             }
           ],
+          "leaveWithGModeSetup": [
+            {
+              "strats": [
+                {
+                  "name": "Get Hit By Zeela",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ],
+          "gModeImmobile": {
+            "requires": [
+              {"enemyDamage": {
+                "enemy": "Zeela",
+                "type": "contact",
+                "hits": 1
+              }}
+            ],
+            "note": "It takes 60 seconds for the global Zeela to make it over here. A Super could speed this up, but it's likely to just get the Zeela stuck."
+          },
           "locks": [
             {
               "name": "Green Shaft Mid-Low Left Red Lock (to Firefleas)",
@@ -179,18 +260,34 @@
                 {
                   "name": "Base",
                   "notable": false,
-                  "requires": [ 
-                    {"resetRoom":{
-                      "nodes": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-                      "obstaclesToAvoid": [ "A" ]
-                    }}
-                  ],
+                  "requires": [ {"obstaclesNotCleared": ["A"]} ],
                   "note": "Runway is not usable if the PB blocks are broken."
                 }
               ],
               "openEnd": 0
             }
           ],
+          "leaveWithGModeSetup": [
+            {
+              "strats": [
+                {
+                  "name": "Get Hit By Zeela",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ],
+          "gModeImmobile": {
+            "requires": [
+              {"enemyDamage": {
+                "enemy": "Zeela",
+                "type": "contact",
+                "hits": 1
+              }}
+            ],
+            "note": "It takes 50 seconds for the global Zeela to make it over here. A Super could speed this up, but it's likely to just get the Zeela stuck."
+          },
           "locks": [
             {
               "name": "Green Shaft Middle Right Red Lock (to Dachora Room)",
@@ -225,6 +322,18 @@
               ],
               "usableComingIn": false,
               "openEnd": 1
+            }
+          ],
+          "leaveWithGModeSetup": [
+            {
+              "strats": [
+                {
+                  "name": "Get Hit By Zeela",
+                  "notable": false,
+                  "requires": [],
+                  "note": "Bring the Zeela from above. It is not global, so it will need to remain on camera for it to move."
+                }
+              ]
             }
           ],
           "locks": [
@@ -262,6 +371,21 @@
               "usableComingIn": false,
               "openEnd": 1
             }
+          ],
+          "leaveWithGModeSetup": [
+            {
+              "strats": [
+                {
+                  "name": "Get Hit By Zeela",
+                  "notable": false,
+                  "requires": [],
+                  "note": [
+                    "Bring the Zeela from above. It is not global, so it will need to remain on camera for it to move.",
+                    "Using a Super once it's on the right wall below the door can save 20 seconds."
+                  ]
+                }
+              ]
+            }
           ]
         },
         {
@@ -271,6 +395,7 @@
           "nodeSubType": "blue",
           "nodeAddress": "0x0018d06",
           "doorEnvironments": [{"physics": "air"}],
+          "spawnAt": 9,
           "runways": [
             {
               "name": "Base Runway - Top Left Etecoons Door (to Green Shaft)",
@@ -298,6 +423,46 @@
                 }
               ]
             }
+          ],
+          "leaveWithGMode": [
+            {
+              "leavesWithArtificialMorph": false,
+              "strats": [
+                {
+                  "name": "Carry G-Mode Back through the Door",
+                  "notable": false,
+                  "requires": [
+                    {"comeInWithGMode": {
+                      "fromNodes": [9],
+                      "artificialMorph": false,
+                      "mode": "direct"
+                    }},
+                    "h_EtecoonDoorSpawnFix"
+                  ]
+                }
+              ]
+            },
+            {
+              "leavesWithArtificialMorph": true,
+              "strats": [
+                {
+                  "name": "Carry G-Mode Morph Back through the Door",
+                  "notable": false,
+                  "requires": [
+                    {"comeInWithGMode": {
+                      "fromNodes": [9],
+                      "artificialMorph": true,
+                      "mode": "direct"
+                    }},
+                    "h_EtecoonDoorSpawnFix"
+                  ]
+                }
+              ]
+            }
+          ],
+          "devNote": [
+            "When entering this room in direct g-mode, the door is closed because of it being placed on the wrong location.",
+            "The spawn at node here to its self, is to document that you can not return back to the left without exiting g-mode."
           ]
         },
         {
@@ -486,7 +651,7 @@
                   "name": "Green Brinstar Main Shaft Right-Side X-Ray Climb",
                   "notable": false,
                   "requires": [
-                    "canLeftFacingDoorXRayClimb",
+                    "h_canRightDoorXRayClimb",
                     { "resetRoom": {
                       "nodes": [7],
                       "mustStayPut": true
@@ -500,7 +665,7 @@
                         "useFrames": 200
                       }},
                       {"and": [
-                        "canSubmergedLeftFacingDoorXRayClimb",
+                        "h_canRightDoorXRayClimbFromWater",
                         {"adjacentRunway": {
                           "fromNode": 7,
                           "usedTiles": 0.5,
@@ -510,7 +675,23 @@
                         }}
                       ]}
                     ]}
-                  ]
+                  ],
+                  "note": "Climb up 1 screen."
+                },
+                {
+                  "name": "G-Mode Morph Power Bomb",
+                  "notable": false,
+                  "requires": [
+                    {"comeInWithGMode": {
+                      "fromNodes": [7],
+                      "mode": "any",
+                      "artificialMorph": true
+                    }},
+                    "h_canArtificialMorphMovement",
+                    {"ammo": { "type": "PowerBomb", "count": 1 }}
+                  ],
+                  "clearsObstacles": ["A"],
+                  "note": "Place a Power Bomb while on the top single tile platform, then exit g-mode before the Power Bomb explodes in order to break the blocks above."
                 }
               ],
               "note": "This link is only for the X-Ray climb, which skips the junction altogether."
@@ -537,7 +718,7 @@
                   "name": "Green Brinstar Main Shaft Left-Side X-Ray Climb",
                   "notable": false,
                   "requires": [
-                    "canRightFacingDoorXRayClimb",
+                    "h_canLeftDoorXRayClimb",
                     { "resetRoom": {
                       "nodes": [8],
                       "mustStayPut": true
@@ -547,8 +728,36 @@
                       "usedTiles": 0.5,
                       "overrideRunwayRequirements": true,
                       "useFrames": 200
-                    }}
-                  ]
+                    }},
+                    "canBePatient"
+                  ],
+                  "note": "Climb up 4 screens."
+                },
+                {
+                  "name": "G-Mode Morph Power Bomb",
+                  "notable": false,
+                  "requires": [
+                    {"comeInWithGMode": {
+                      "fromNodes": [8],
+                      "mode": "any",
+                      "artificialMorph": true
+                    }},
+                    {"ammo": { "type": "PowerBomb", "count": 1 }},
+                    {"or": [
+                      "h_canArtificialMorphIBJ",
+                      {"and": [
+                        "SpringBall",
+                        "HiJump"
+                      ]},
+                      {"and": [
+                        "SpringBall",
+                        "canSpringBallBombJump",
+                        {"ammo": { "type": "PowerBomb", "count": 6 }}
+                      ]}
+                    ]}
+                  ],
+                  "clearsObstacles": ["A"],
+                  "note": "Place a Power Bomb while on the top single tile platform, then exit g-mode before the Power Bomb explodes in order to break the blocks above."
                 }
               ],
               "note": "This link is only for the X-Ray climb, which skips the junction altogether."
@@ -568,6 +777,70 @@
         {
           "from": 9,
           "to": [
+            {
+              "id": 11,
+              "strats": [
+                {
+                  "name": "G-Mode Morph",
+                  "notable": false,
+                  "requires": [
+                    {"comeInWithGMode": {
+                      "fromNodes": [9],
+                      "mode": "any",
+                      "artificialMorph": true
+                    }},
+                    "h_canArtificialMorphMovement"
+                  ],
+                  "note": "This is only useful if the item is Morph."
+                }
+              ]
+            },
+            {
+              "id": 12,
+              "strats": [
+                {
+                  "name": "G-Mode Morph Bombs and Power Bomb",
+                  "notable": false,
+                  "requires": [
+                    {"itemNotCollectedAtNode": 11},
+                    "canRiskPermanentLossOfAccess",
+                    {"comeInWithGMode": {
+                      "fromNodes": [9],
+                      "mode": "any",
+                      "artificialMorph": true
+                    }},
+                    "h_canArtificialMorphIBJ",
+                    {"ammo": { "type": "PowerBomb", "count": 1 }},
+                    "canBePatient",
+                    "canOffScreenMovement"
+                  ],
+                  "note": [
+                    "Place bombs against the item Chozo ball to overload PLMs. Then go through the bomb blocks and tunnel.",
+                    "IBJ up the left side, blind, until getting on the top small platform. Place a Power Bomb and exit g-mode before the bomb goes off to break the blocks."
+                  ]
+                }
+              ]
+            },
+            {
+              "id": 13,
+              "strats": [
+                {
+                  "name": "G-Mode Morph",
+                  "notable": false,
+                  "requires": [
+                    {"itemNotCollectedAtNode": 11},
+                    "canRiskPermanentLossOfAccess",
+                    {"comeInWithGMode": {
+                      "fromNodes": [9],
+                      "mode": "any",
+                      "artificialMorph": true
+                    }},
+                    "h_canArtificialMorphIBJ"
+                  ],
+                  "note": "Place bombs against the item Chozo ball to overload PLMs. Then go through the bomb blocks and tunnel, then exit g-mode."
+                }
+              ]
+            },
             {
               "id": 14,
               "strats": [
@@ -602,14 +875,93 @@
                   "requires": [
                     {"canComeInCharged": {
                       "fromNode": 10,
-                      "framesRemaining": 30,
-                      "shinesparkFrames": 75,
-                      "excessShinesparkFrames": 5
-                     }}
+                      "framesRemaining": 30
+                    }},
+                    {"shinespark": {
+                      "frames": 75,
+                      "excessFrames": 5
+                    }}
+                  ]
+                },
+                {
+                  "name": "G-Mode Morph",
+                  "notable": false,
+                  "requires": [
+                    {"comeInWithGMode": {
+                      "fromNodes": [10],
+                      "mode": "any",
+                      "artificialMorph": true
+                    }},
+                    "h_canArtificialMorphIBJ"
                   ]
                 }
               ],
               "note": "One-way link for shinespark"
+            },
+            {
+              "id": 11,
+              "strats": [
+                {
+                  "name": "G-Mode Morph",
+                  "notable": false,
+                  "requires": [
+                    {"comeInWithGMode": {
+                      "fromNodes": [10],
+                      "mode": "any",
+                      "artificialMorph": true
+                    }},
+                    "h_canArtificialMorphIBJ"
+                  ],
+                  "note": "This is only useful if the item is Morph."
+                }
+              ]
+            },
+            {
+              "id": 12,
+              "strats": [
+                {
+                  "name": "G-Mode Morph Bombs and Power Bomb",
+                  "notable": false,
+                  "requires": [
+                    {"itemNotCollectedAtNode": 11},
+                    "canRiskPermanentLossOfAccess",
+                    {"comeInWithGMode": {
+                      "fromNodes": [10],
+                      "mode": "any",
+                      "artificialMorph": true
+                    }},
+                    "h_canArtificialMorphIBJ",
+                    {"ammo": { "type": "PowerBomb", "count": 1 }},
+                    "canBePatient",
+                    "canOffScreenMovement"
+                  ],
+                  "note": [
+                    "IBJ up and place bombs against the item Chozo ball to overload PLMs. Then go through the bomb blocks and tunnel.",
+                    "IBJ up again, blind, until getting on the top small platform. Place a Power Bomb and exit g-mode before the bomb goes off to break the blocks."
+                  ]
+                }
+              ]
+            },
+            {
+              "id": 13,
+              "strats": [
+                {
+                  "name": "G-Mode Morph",
+                  "notable": false,
+                  "requires": [
+                    {"itemNotCollectedAtNode": 11},
+                    "canRiskPermanentLossOfAccess",
+                    {"comeInWithGMode": {
+                      "fromNodes": [10],
+                      "mode": "any",
+                      "artificialMorph": true
+                    }},
+                    "h_canArtificialMorphIBJ",
+                    "canBePatient"
+                  ],
+                  "note": "IBJ up and place bombs against the item Chozo ball to overload PLMs. Then go through the bomb blocks and tunnel, then exit g-mode."
+                }
+              ]
             },
             {
               "id": 14,
@@ -637,10 +989,12 @@
                     "canShinechargeMovement",
                     {"canComeInCharged": {
                       "fromNode": 10,
-                      "framesRemaining": 60,
-                      "shinesparkFrames": 20,
-                      "excessShinesparkFrames": 11
-                     }}
+                      "framesRemaining": 60
+                    }},
+                    {"shinespark": {
+                      "frames": 20,
+                      "excessFrames": 11
+                    }}
                   ],
                   "note": [
                     "This is specifically a shinespark that doesn't reach the top.",
@@ -743,17 +1097,67 @@
               ]
             },
             {
+              "id": 12,
+              "strats": [
+                {
+                  "name": "Zeela Farm",
+                  "notable": false,
+                  "requires": [
+                    {"resetRoom": {
+                      "nodes": [1, 2, 3, 4, 5, 6],
+                      "mustStayPut": false
+                    }},
+                    {"refill": ["Energy", "Missile", "Super"]}
+                  ]
+                }
+              ]  
+            },
+            {
               "id": 13,
               "strats": [
                 {
                   "name": "Base",
                   "notable": false,
-                  "requires": [],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [ "h_canUsePowerBombs" ]
-                    }
+                  "requires": [
+                    {"or": [
+                      "h_canUsePowerBombs",
+                      {"obstaclesCleared": ["A"]}
+                    ]}
+                  ],
+                  "clearsObstacles": ["A"]
+                },
+                {
+                  "name": "G-Mode Morph Power Bomb",
+                  "notable": false,
+                  "requires": [
+                    {"comeInWithGMode": {
+                      "fromNodes": [1,2,3,4,5,6],
+                      "mode": "any",
+                      "artificialMorph": true
+                    }},
+                    {"ammo": { "type": "PowerBomb", "count": 1 }}
+                  ],
+                  "clearsObstacles": ["A"],
+                  "note": "Place a Power Bomb, then exit g-mode in order to break the Power Bomb blocks."
+                },
+                {
+                  "name": "Green Brinstar Shaft Zeela Stuck Moonfall",
+                  "notable": true,
+                  "requires": [
+                    "canEnemyStuckMoonfall",
+                    "canTrickyUseFrozenEnemies",
+                    {"or": [
+                      {"ammo": {"type": "Super", "count": 1}},
+                      "canBePatient"
+                    ]}
+                  ],
+                  "note": [
+                    "Freeze two Zeelas to perform an 'Enemy Stuck Moonfall' in order to clip through the Power Bomb blocks.",
+                    "Position one Zeela upside down on a ceiling, and another below it on the ground.",
+                    "Freezing them together is the hardest part.",
+                    "Freezing one then unequipping Ice Beam to dispel the ice effect works well to synchronize them.",
+                    "They must be frozen for the full duration of the moonfall to automatically clip through the floor, but sliding off early can also work.",
+                    "From directly on top of the Power Bomb blocks, no pose change is needed, but a Super Missile can speed up the Zeela setup greatly."
                   ]
                 }
               ]
@@ -784,18 +1188,75 @@
               ]
             },
             {
+              "id": 9,
+              "strats": [
+                {
+                  "name": "G-Mode Morph",
+                  "notable": false,
+                  "requires": [
+                    {"comeInWithGMode": {
+                      "fromNodes": [7,8],
+                      "mode": "any",
+                      "artificialMorph": true
+                    }},
+                    "h_canArtificialMorphIBJ",
+                    "canOffScreenMovement"
+                  ],
+                  "note": "Roll through the camera scroll blocks in front of the bomb block, then go through the morph tunnel and IBJ to the top."
+                }
+              ]
+            },
+            {
+              "id": 10,
+              "strats": [
+                {
+                  "name": "G-Mode Morph",
+                  "notable": false,
+                  "requires": [
+                    {"comeInWithGMode": {
+                      "fromNodes": [7,8],
+                      "mode": "any",
+                      "artificialMorph": true
+                    }},
+                    "h_canArtificialMorphMovement"
+                  ],
+                  "note": "Roll through the camera scroll blocks in front of the bomb block, then go through the morph tunnel and exit g-mode."
+                }
+              ]
+            },
+            {
+              "id": 11,
+              "strats": [
+                {
+                  "name": "G-Mode Morph",
+                  "notable": false,
+                  "requires": [
+                    {"comeInWithGMode": {
+                      "fromNodes": [7,8],
+                      "mode": "any",
+                      "artificialMorph": true
+                    }},
+                    "h_canArtificialMorphIBJ",
+                    "canOffScreenMovement"
+                  ],
+                  "note": "Roll through the camera scroll blocks in front of the bomb block, then go through the morph tunnel and IBJ to the top.",
+                  "devNote": "This is only useful if the item is Morph"
+                }
+              ]
+            },
+            {
               "id": 12,
               "strats": [
                 {
                   "name": "Base",
                   "notable": false,
-                  "requires": [],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [ "h_canUsePowerBombs" ]
-                    }
-                  ]
+                  "requires": [
+                    {"or": [
+                      "h_canUsePowerBombs",
+                      {"obstaclesCleared": ["A"]}
+                    ]}
+                  ],
+                  "clearsObstacles": ["A"]
                 },
                 {
                   "name": "Green Brinstar Main Shaft Ice Clip",
@@ -858,13 +1319,7 @@
                     "Morph",
                     {"or": [
                       "Bombs",
-                      {"and": [
-                        "PowerBomb",
-                        {"ammo": {
-                          "type": "PowerBomb",
-                          "count": 2
-                        }}
-                      ]}
+                      {"ammo": { "type": "PowerBomb", "count": 2 }}
                     ]}
                   ]
                 }
@@ -943,6 +1398,17 @@
               ],
               "openEnd": 1
             }
+          ],
+          "leaveWithGModeSetup": [
+            {
+              "strats": [
+                {
+                  "name": "Get Hit By Zeb",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
           ]
         },
         {
@@ -1020,6 +1486,40 @@
               }
             }
           ],
+          "leaveWithGModeSetup": [
+            {
+              "strats": [
+                {
+                  "name": "Get Hit By Waver",
+                  "notable": false,
+                  "requires": [
+                    {"resetRoom":{
+                      "nodes": [1],
+                      "mustStayPut": true
+                    }},
+                    {"or": [
+                      "SpeedBooster",
+                      "canMockball",
+                      {"and": [
+                        "canCrouchGateClip",
+                        {"or": [
+                          "canXRayTurnaround",
+                          "canMoonwalk"
+                        ]}
+                      ]}
+                    ]}
+                  ],
+                  "note": [
+                    "The only way the Wavers will get to the door is if the right crumble blocks are all broken.",
+                    "This assumes that Samus comes from the left with Speed, a mockball, or a crouch gate clip.",
+                    "After the crumbles are broken, shoot the ceiling block and wait by the door for the Waver to come.",
+                    "Note that if Samus takes more than 35 seconds after entering the room, before shooting the ceiling, the Waver will not come down."
+                  ],
+                  "devNote": "FIXME: It is possible to come in from the right and get under the gate to break the crumbles."
+                }
+              ]
+            }
+          ],
           "locks": [
             {
               "name": "Early Supers Red Lock (to Brinstar Reserve)",
@@ -1055,6 +1555,13 @@
           "name": "Early Supers Junction (Sidehopper Pit)",
           "nodeType": "junction",
           "nodeSubType": "junction"
+        }
+      ],
+      "obstacles": [
+        {
+          "id": "A",
+          "name": "Gates Have Closed",
+          "obstacleType": "inanimate"
         }
       ],
       "enemies": [
@@ -1099,34 +1606,41 @@
           "from": 1,
           "to": [
             {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Zeb Farm",
+                  "notable": false,
+                  "requires": [
+                    {"refill": ["Energy", "Missile", "Super"]}
+                  ]
+                }
+              ]                
+            },
+            {
               "id": 2,
               "strats": [
                 {
                   "name": "Speed Through",
                   "notable": false,
                   "requires": [
-                    {"resetRoom":{
-                      "nodes": [1],
-                      "mustStayPut": true
-                    }},
+                    {"obstaclesNotCleared": ["A"]},
                     "SpeedBooster"
-                  ]
+                  ],
+                  "clearsObstacles": ["A"]
                 },
                 {
                   "name": "Early Supers Mockball",
                   "notable": true,
                   "requires": [
-                    {"resetRoom":{
-                      "nodes": [1],
-                      "mustStayPut": true
-                    }},
+                    {"obstaclesNotCleared": ["A"]},
                     "canMockball"
                   ],
+                  "clearsObstacles": ["A"],
                   "failures": [
                     {
                       "name": "Crumble Fall",
                       "leadsToNode": 3,
-                      "clearsPreviousNode": true,
                       "note": "Falls down into node 3 with no possiblity of quick crumble escape."
                     }
                   ],
@@ -1136,21 +1650,18 @@
                   "name": "Early Supers Crouch Gate Clip Jump",
                   "notable": false,
                   "requires": [
-                    {"resetRoom":{
-                      "nodes": [1],
-                      "mustStayPut": true
-                    }},
+                    {"obstaclesNotCleared": ["A"]},
                     "canCrouchGateClip",
                     {"or": [
                       "canXRayTurnaround",
                       "canMoonwalk"
                     ]}
                   ],
+                  "clearsObstacles": ["A"],
                   "failures": [
                     {
                       "name": "Crumble Fall",
                       "leadsToNode": 3,
-                      "clearsPreviousNode": true,
                       "note": "Falls down into node 3 with no possiblity of quick crumble escape."
                     }
                   ],
@@ -1165,23 +1676,21 @@
                   "name": "Early Supers Crouch Gate Clip Damage Boost",
                   "notable": true,
                   "requires": [
-                    {"resetRoom":{
-                      "nodes": [1],
-                      "mustStayPut": true
-                    }},
+                    {"obstaclesNotCleared": ["A"]},
                     "canCrouchGateClip",
-                    "canDamageBoost",
+                    "canCameraManip",
+                    "canHorizontalDamageBoost",
                     {"enemyDamage": {
                       "enemy": "Zeb",
                       "hits": 2,
                       "type": "contact"
                     }}
                   ],
+                  "clearsObstacles": ["A"],
                   "failures": [
                     {
                       "name": "Crumble Fall",
                       "leadsToNode": 3,
-                      "clearsPreviousNode": true,
                       "note": "Falls down into node 3 with no possiblity of quick crumble escape."
                     }
                   ],
@@ -1200,7 +1709,8 @@
                   "name": "Base",
                   "notable": false,
                   "requires": [],
-                  "note": "This has no requirements, but getting back out does!"
+                  "clearsObstacles": ["A"],
+                  "note": "This has no requirements, but getting back out does."
                 }
               ]
             },
@@ -1211,24 +1721,11 @@
                   "name": "Base",
                   "notable": false,
                   "requires": [
-                    {"resetRoom":{
-                      "nodes": [1],
-                      "mustStayPut": true
-                    }},
+                    {"obstaclesNotCleared": ["A"]},
                     "SpeedBooster"
-                  ]
-                },
-                {
-                  "name": "Mockball",
-                  "notable": false,
-                  "requires": [
-                    {"resetRoom":{
-                      "nodes": [1],
-                      "mustStayPut": true
-                    }},
-                    "canMockball"
                   ],
-                  "note" : "Not considered a notable strat because executing this has no real value."
+                  "clearsObstacles": ["A"],
+                  "devNote": "There are other ways to get here, but there is no reason to go there, so they are omitted."
                 }
               ]
             }
@@ -1245,20 +1742,19 @@
                   "notable": false,
                   "requires": [
                     {"or": [
+                      "canWalljump",
                       "HiJump",
-                      "h_canFly"
+                      "h_canFly",
+                      "canSpringBallJumpMidAir"
                     ]}
-                  ]
-                },
-                {
-                  "name": "Wall Jump",
-                  "notable": false,
-                  "requires": [ "canWalljump" ]
+                  ],
+                  "clearsObstacles": ["A"]
                 },
                 {
                   "name": "Crouch Jump Down Grab",
                   "notable": false,
-                  "requires": [ "h_canCrouchJumpDownGrab" ]
+                  "requires": [ "h_canCrouchJumpDownGrab" ],
+                  "clearsObstacles": ["A"]
                 }
               ]
             }
@@ -1276,69 +1772,18 @@
                   "requires": [ "h_canBombThings" ]
                 },
                 {
-                  "name": "Early Supers Quick Crumble Escape (Dual Quick Crumble)",
+                  "name": "Early Supers Quick Crumble Escape",
                   "notable": false,
-                  "requires": [
-                    "canQuickCrumbleEscape",
-                    {"previousNode": 1}
-                  ],
+                  "requires": [ "canQuickCrumbleEscape" ],
                   "failures": [
                     {
                       "name": "Crumble Failure",
-                      "clearsPreviousNode": true,
                       "note": "Failure leaves you in node 3 with solid crumble blocks above your head."
                     }
                   ],
-                  "note": "This one involves doing a second quick crumble escape on the way out as a means to avoid doing a crumble jump."
-                },
-                {
-                  "name": "Early Supers Quick Crumble Escape (Space)",
-                  "notable": false,
-                  "requires": [
-                    "canQuickCrumbleEscape",
-                    "SpaceJump",
-                    {"previousNode": 1}
-                  ],
-                  "failures": [
-                    {
-                      "name": "Crumble Failure",
-                      "clearsPreviousNode": true,
-                      "note": "Failure leaves you in node 3 with solid crumble blocks above your head."
-                    }
-                  ],
-                  "note": "Space Jump is here as an alternative to performing a crumble jump on the way out."
-                },
-                {
-                  "name": "Early Supers Quick Crumble Escape (SpringBall)",
-                  "notable": false,
-                  "requires": [
-                    "canQuickCrumbleEscape",
-                    "h_canUseSpringBall",
-                    {"previousNode": 1}
-                  ],
-                  "failures": [
-                    {
-                      "name": "Crumble Failure",
-                      "clearsPreviousNode": true,
-                      "note": "Failure leaves you in node 3 with solid crumble blocks above your head."
-                    }
-                  ],
-                  "note": "Spring Ball is here as an alternative to performing a crumble jump on the way out."
-                },
-                {
-                  "name": "Early Supers Quick Crumble Escape (Crumble Jump)",
-                  "notable": false,
-                  "requires": [
-                    "canQuickCrumbleEscape",
-                    "canCrumbleJump",
-                    {"previousNode": 1}
-                  ],
-                  "failures": [
-                    {
-                      "name": "Crumble Failure",
-                      "clearsPreviousNode": true,
-                      "note": "Failure leaves you in node 3 with solid crumble blocks above your head."
-                    }
+                  "note": [
+                    "It is possible to do a quick crumble escape twice, requiring no other items or tech.",
+                    "It is easier to escape by doing a quick crumble escape, followed by a crumble block jump or using spring ball or space jump."
                   ]
                 }
               ]
@@ -1454,6 +1899,13 @@
           "nodeAddress": "0x78532"
         }
       ],
+      "obstacles": [
+        {
+          "id": "A",
+          "name": "G-Mode Morph: Remote Acquire the item",
+          "obstacleType": "abstract"
+        }
+      ],
       "enemies": [],
       "links": [
         {
@@ -1466,6 +1918,49 @@
                   "name": "Base",
                   "notable": false,
                   "requires": []
+                }
+              ]
+            },
+            {
+              "id": 3,
+              "strats": [
+                {
+                  "name": "G-mode Morph",
+                  "notable": false,
+                  "requires": [
+                    {"comeInWithGMode": {
+                      "fromNodes": [1],
+                      "mode": "any",
+                      "artificialMorph": true
+                    }}
+                  ]
+                },
+                {
+                  "name": "G-mode Morph Remote Acquire",
+                  "notable": false,
+                  "requires": [
+                    {"comeInWithGMode": {
+                      "fromNodes": [1],
+                      "mode": "direct",
+                      "artificialMorph": true
+                    }},
+                    {"or": [
+                      "SpringBall",
+                      {"and": [
+                        "h_canArtificialMorphIBJ",
+                        "canOffScreenMovement"
+                      ]}
+                    ]}
+                  ],
+                  "clearsObstacles": ["A"],
+                  "note": [
+                    "Blindly grab the item before PLMs are overloaded, then return and exit g-mode to remotely acquire the item.",
+                    "Starting a completely blind IBJ can be somewhat tricky, even if for such a short distance."
+                  ],
+                  "devNote": [
+                    "There would typically be risk of the logic being incorrect if the player exits g-mode, progresses to the right to get the next item,",
+                    "then comes back and this obstacle is still set so they can go through the pipe. Fortunately getting the item to the right also requires Morph."
+                  ]
                 }
               ]
             }
@@ -1506,6 +2001,11 @@
                   "name": "Base",
                   "notable": false,
                   "requires": [ "Morph" ]
+                },
+                {
+                  "name": "G-mode Morph Remote Acquire Return",
+                  "notable": false,
+                  "requires": [ {"obstaclesCleared": ["A"]} ]
                 }
               ]
             },
@@ -1540,7 +2040,7 @@
                   "name": "Brinstar Reserve Temporary Blue",
                   "notable": true,
                   "requires": [
-                    "canMockball",
+                    "canSpeedball",
                     "canTrickyJump",
                     {"or": [
                       "canTemporaryBlue",
@@ -1552,14 +2052,12 @@
                         {"canComeInCharged": {
                           "framesRemaining": 180,
                           "fromNode": 1,
-                          "shinesparkFrames": 0,
                           "unusableTiles": 2
                         }}
                       ]},
                       {"canComeInCharged": {
                         "framesRemaining": 180,
                         "fromNode": 1,
-                        "shinesparkFrames": 0,
                         "unusableTiles": 10
                       }}
                     ]}
@@ -1567,6 +2065,10 @@
                   "note": [
                     "Speedball through the morphtunnel and use it to break the bomb blocks in front of the hidden Missile location.",
                     "This can be done using springball, or by unmorphing and using Temporary Blue to bounce through the bomb blocks."
+                  ],
+                  "devNote": [
+                    "Speedballing through a door into a pit like this must limit run speed a little bit.",
+                    "UnusableTiles doesn't help, but with canTrickyJump and Notable, we can make some assumptions about shortcharge ability."
                   ]
                 }
               ]
@@ -1620,7 +2122,27 @@
               "usableComingIn": false,
               "openEnd": 0
             }
-          ]
+          ],
+          "leaveWithGModeSetup": [
+            {
+              "strats": [
+                {
+                  "name": "Get Hit By Zeela",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ],
+          "gModeImmobile": {
+            "requires": [
+              {"enemyDamage": {
+                "enemy": "Zeela",
+                "type": "contact",
+                "hits": 1
+              }}
+            ]
+          }
         },
         {
           "id": 2,
@@ -1657,6 +2179,26 @@
               ]
             }
           ],
+          "leaveWithGModeSetup": [
+            {
+              "strats": [
+                {
+                  "name": "Get Hit By Zeela or Sidehopper",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ],
+          "gModeImmobile": {
+            "requires": [
+              {"enemyDamage": {
+                "enemy": "Sm. Sidehopper",
+                "type": "contact",
+                "hits": 1
+              }}
+            ]
+          },
           "locks": [
             {
               "name": "Brinstar Pre-Map Grey Lock (to Green Shaft)",
@@ -1665,18 +2207,26 @@
                 {
                   "name": "Base",
                   "notable": false,
-                  "requires": ["Morph"],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires":[ "h_canBombThings" ]
-                    }
+                  "requires": [
+                    "Morph",
+                    {"or": [
+                      "h_canBombThings",
+                      {"obstaclesCleared": ["A"]},
+                      {"and": [
+                        "canSlowShortCharge",
+                        "canSpeedball",
+                        {"canShineCharge": {
+                          "usedTiles": 14,
+                          "openEnd": 1
+                        }}
+                      ]}
+                    ]}
                   ],
+                  "clearsObstacles": ["A"],
                   "note": [
                     "Both sides of the room must be accessed to reach all enemies and unlock the door.",
                     "Beyond that, the enemies can be killed with Power Beam."
-                  ],
-                  "devNote": "A speedball would require a room reset to set up."
+                  ]
                 }
               ],
               "yields": [ "f_ZebesAwake" ]
@@ -1724,33 +2274,28 @@
                 {
                   "name": "Base",
                   "notable": false,
-                  "requires": [ "Morph" ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires":[ "h_canBombThings" ]
-                    }
-                  ]
+                  "requires": [
+                    "Morph",
+                    {"or": [
+                      "h_canBombThings",
+                      {"obstaclesCleared": ["A"]}
+                    ]}
+                  ],
+                  "clearsObstacles": ["A"]
                 },
                 {
                   "name": "Temporary Blue Bounce",
                   "notable": false,
-                  "requires": ["Morph"],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires":[ 
-                        "canTemporaryBlue",
-                        "canSpringBallBounce",
-                        {"canComeInCharged": {
-                          "framesRemaining": 180,
-                          "fromNode": 1,
-                          "shinesparkFrames": 0,
-                          "unusableTiles": 1
-                        }}
-                      ]
-                    }
-                  ]
+                  "requires": [
+                    "canTemporaryBlue",
+                    "canSpringBallBounce",
+                    {"canComeInCharged": {
+                      "framesRemaining": 180,
+                      "fromNode": 1,
+                      "unusableTiles": 1
+                    }}
+                  ],
+                  "clearsObstacles": ["A"]
                 }
               ]
             }
@@ -1765,34 +2310,55 @@
                 {
                   "name": "Base",
                   "notable": false,
-                  "requires": [ "Morph" ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires":[ "h_canBombThings" ]
-                    }
-                  ]
+                  "requires": [
+                    "Morph",
+                    {"or": [
+                      "h_canBombThings",
+                      {"obstaclesCleared": ["A"]}
+                    ]}
+                  ],
+                  "clearsObstacles": ["A"]
                 },
                 {
-                  "name": "SpeedBall",
+                  "name": "Speedball",
                   "notable": false,
                   "requires": [
-                    "canMockball",
-                    {"canComeInCharged": {
-                      "framesRemaining": 180,
-                      "fromNode": 2,
-                      "shinesparkFrames": 0,
-                      "unusableTiles": 3
-                    }}
+                    "canSpeedball",
+                    {"or": [
+                      {"canComeInCharged": {
+                        "framesRemaining": 180,
+                        "fromNode": 2,
+                        "unusableTiles": 3
+                      }},
+                      {"and": [
+                        "canSlowShortCharge",
+                        {"canShineCharge": {
+                          "usedTiles": 14,
+                          "openEnd": 1
+                        }}
+                      ]}
+                    ]}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": []
-                    }
-                  ]
+                  "clearsObstacles": ["A"]
                 }
               ]
+            },
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Zeela & Sidehopper Farm",
+                  "notable": false,
+                  "requires": [
+                    {"resetRoom": {
+                      "nodes": [2],
+                      "mustStayPut": false
+                    }},
+                    {"refill": ["Missile", "Super"]}
+                  ]
+                }
+              ],
+              "devNote": "FIXME: Node 1 could be used to reset the room, with additional requirements."
             }
           ]
         }
@@ -1947,7 +2513,6 @@
               "framesRemaining": 0,
               "usedTiles": 33,
               "openEnd": 2,
-              "shinesparkFrames": 45,
               "strats": [
                 {
                   "name": "XMode",
@@ -1959,7 +2524,8 @@
                       "HiJump",
                       "canWalljump",
                       "SpaceJump"
-                    ]}
+                    ]},
+                    {"shinespark": {"frames": 45}}
                   ],
                   "note": "Jump into the large patch of thorns from below."
                 }
@@ -1981,6 +2547,22 @@
         {
           "from": 1,
           "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Fireflea Farm",
+                  "notable": false,
+                  "requires": [
+                    {"resetRoom": {
+                      "nodes": [1, 2],
+                      "mustStayPut": false
+                    }},
+                    {"refill": ["Energy", "PowerBomb"]}
+                  ]
+                }
+              ]
+            },
             {
               "id": 2,
               "strats": [
@@ -2040,6 +2622,18 @@
               "usableComingIn": false,
               "openEnd": 1
             }
+          ],
+          "leaveWithGModeSetup": [
+            {
+              "knockback": false,
+              "strats": [
+                {
+                  "name": "Get Hit By Beetom",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
           ]
         },
         {
@@ -2063,6 +2657,18 @@
               "usableComingIn": false,
               "openEnd": 1
             }
+          ],
+          "leaveWithGModeSetup": [
+            {
+              "knockback": false,
+              "strats": [
+                {
+                  "name": "Get Hit By Beetom",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
           ]
         }
       ],
@@ -2079,6 +2685,36 @@
         {
           "from": 1,
           "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Beetom Farm",
+                  "notable": false,
+                  "requires": [
+                    {"resetRoom": {
+                      "nodes": [1, 2],
+                      "mustStayPut": false
+                    }},
+                    {"or": [
+                      "ScrewAttack",
+                      {"and": [
+                        "Ice",
+                        "h_canUseMorphBombs"
+                      ]}
+                    ]},
+                    {"refill": ["PowerBomb"]}
+                  ],
+                  "note": "Kill the Beetoms with Screw Attack or by freezing them and using Bombs or Power Bombs.",
+                  "devNote": [
+                    "Using an adjacent 2-tile runway doesn't seem workable since heat frames may be too much to maintain energy.",
+                    "We can't use Missiles for the farm since the Beetoms don't drop Missiles.",
+                    "Potentially there could be some other way to dodge the Beetoms, to kill them without Ice or Screw",
+                    "FIXME: Using a Missile, Super, or Power Bomb at the start could be added to the logic to get the first Power Bombs to use for further farming, but this needs a way to express that we're not in health-bomb energy range."
+                  ]
+                }
+              ]
+            },
             {
               "id": 2,
               "strats": [
@@ -2467,9 +3103,7 @@
             {
               "name": "Crouch two tiles above spawn point",
               "cycleFrames": 130,
-              "requires": [
-                {"obstaclesCleared": ["A"]}
-              ]
+              "requires": [ {"obstaclesCleared": ["A"]} ]
             }
           ]
         },
@@ -2483,9 +3117,7 @@
             {
               "name": "Crouch over spawn point",
               "cycleFrames": 120,
-              "requires": [
-                {"obstaclesCleared": ["A"]}
-              ]
+              "requires": [ {"obstaclesCleared": ["A"]} ]
             }
           ]
         },
@@ -2499,9 +3131,7 @@
             {
               "name": "Crouch two tiles above spawn point",
               "cycleFrames": 130,
-              "requires": [
-                {"obstaclesCleared": ["A"]}
-              ]
+              "requires": [ {"obstaclesCleared": ["A"]} ]
             }
           ]
         },
@@ -2625,8 +3255,8 @@
                   "name": "Etecoon E-Tank X-Ray Climb",
                   "notable": false,
                   "requires": [
-                    "canRightFacingDoorXRayClimb",
-                    { "resetRoom": {
+                    "h_canLeftDoorXRayClimb",
+                    {"resetRoom": {
                       "nodes": [3],
                       "mustStayPut": true
                     }},
@@ -2637,7 +3267,8 @@
                       "useFrames": 200
                     }}
                   ],
-                  "note": "In truth this goes to node 1, but there's no need to make a link for this since movement between 1 and 2 is free (via 5)."
+                  "note": "Climb up 1 screen.",
+                  "devNote": "In truth this goes to node 1, but there's no need to make a link for this since movement between 1 and 2 is free (via 5)."
                 }
               ]
             },
@@ -2676,7 +3307,7 @@
                   "notable": true,
                   "requires": [
                     "canTurnaroundAimCancel",
-                    "canBePatient",
+                    "canBeVeryPatient",
                     {"thornHits": 180}
                   ],
                   "note": "Wiggle through the thorns. It is a long wiggle with a lot of thorn hits."
@@ -2704,45 +3335,65 @@
           "from": 4,
           "to": [
             {
+              "id": 4,
+              "strats": [
+                {
+                  "name": "Zeb and Beetom Farm",
+                  "notable": false,
+                  "requires": [
+                    {"resetRoom": {
+                      "nodes": [4],
+                      "mustStayPut": false
+                    }},
+                    {"enemyKill": {
+                      "enemies": [ [ "Beetom" ] ]
+                    }},
+                    {"refill": ["Energy", "Missile", "Super", "PowerBomb"]}
+                  ],
+                  "devNote": [
+                    "FIXME: Node 3 could be used to reset the room, with additional requirements."
+                  ]
+                },
+                {
+                  "name": "Zeb Farm",
+                  "notable": false,
+                  "requires": [
+                    {"obstaclesCleared": ["A"]},
+                    {"refill": ["Energy", "Missile", "Super"]}
+                  ]
+                }
+              ]              
+            },
+            {
               "id": 7,
               "strats": [
                 {
                   "name": "Kill the Beetoms",
                   "notable": false,
-                  "requires": [],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [
-                        {"enemyKill":{
-                          "enemies": [ [ "Beetom" ] ],
-                          "excludedWeapons": [ "Bombs" ]
-                        }}
-                      ]
-                    }
+                  "requires": [
+                    {"enemyKill":{
+                      "enemies": [ [ "Beetom" ] ],
+                      "excludedWeapons": [ "Bombs" ]
+                    }}
                   ],
+                  "clearsObstacles": ["A"],
                   "note": "Killing one Beetom is all that is needed to get to the farm."
                 },
                 {
                   "name": "Bomb the Beetoms",
                   "notable": false,
-                  "requires": [],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [
-                        {"enemyKill":{
-                          "enemies": [ [ "Beetom" ] ],
-                          "explicitWeapons": [ "Bombs" ]
-                        }},
-                        {"enemyDamage": {
-                          "enemy": "Beetom",
-                          "type": "contact",
-                          "hits": 2
-                        }}
-                      ]
-                    }
+                  "requires": [
+                    {"enemyKill":{
+                      "enemies": [ [ "Beetom" ] ],
+                      "explicitWeapons": [ "Bombs" ]
+                    }},
+                    {"enemyDamage": {
+                      "enemy": "Beetom",
+                      "type": "contact",
+                      "hits": 2
+                    }}
                   ],
+                  "clearsObstacles": ["A"],
                   "note": [
                     "You typically need to place two bombs to kill them. Place the second shortly after the first and it will kill the Beetom on your way down.",
                     "Killing one Beetom is all that is needed to get to the farm."
@@ -2751,15 +3402,8 @@
                 {
                   "name": "Freeze the Beetoms",
                   "notable": false,
-                  "requires": [],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [
-                        "Ice"
-                      ]
-                    }
-                  ],
+                  "requires": [ "Ice" ],
+                  "clearsObstacles": ["A"],
                   "devNote": "Although this won't kill the Beetoms, it will remove them as an obstacle."
                 },
                 {
@@ -2777,13 +3421,8 @@
                 {
                   "name": "Etecoon Beetom Tricky Dodge (Right to Left)",
                   "notable": true,
-                  "requires": [],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [ "canTrickyJump" ]
-                    }
-                  ],
+                  "requires": [ "canTrickyJump" ],
+                  "clearsObstacles": ["A"],
                   "reusableRoomwideNotable": "Etecoon Beetom Tricky Dodge",
                   "devNote": "Although this won't kill the Beetoms, it will remove them as an obstacle.",
                   "note": [
@@ -2878,42 +3517,38 @@
               "id": 7,
               "strats": [
                 {
+                  "name": "Back to the Farm",
+                  "notable": false,
+                  "requires": [ {"obstaclesCleared": ["A"]} ],
+                  "note": "Killing one Beetom is all that is needed to get to the farm."
+                },
+                {
                   "name": "Kill the Beetoms",
                   "notable": false,
-                  "requires": [],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [
-                        {"enemyKill":{
-                          "enemies": [ [ "Beetom" ] ],
-                          "excludedWeapons": [ "Bombs" ]
-                        }}
-                      ]
-                    }
+                  "requires": [
+                    {"enemyKill":{
+                      "enemies": [ [ "Beetom" ] ],
+                      "excludedWeapons": [ "Bombs" ]
+                    }}
                   ],
+                  "clearsObstacles": ["A"],
                   "note": "Killing one Beetom is all that is needed to get to the farm."
                 },
                 {
                   "name": "Bomb the Beetoms",
                   "notable": false,
-                  "requires": [],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [
-                        {"enemyKill":{
-                          "enemies": [ [ "Beetom" ] ],
-                          "explicitWeapons": [ "Bombs" ]
-                        }},
-                        {"enemyDamage": {
-                          "enemy": "Beetom",
-                          "type": "contact",
-                          "hits": 2
-                        }}
-                      ]
-                    }
+                  "requires": [
+                    {"enemyKill":{
+                      "enemies": [ [ "Beetom" ] ],
+                      "explicitWeapons": [ "Bombs" ]
+                    }},
+                    {"enemyDamage": {
+                      "enemy": "Beetom",
+                      "type": "contact",
+                      "hits": 2
+                    }}
                   ],
+                  "clearsObstacles": ["A"],
                   "note": [
                     "You typically need to place two bombs to kill them. Place the second shortly after the first and it will kill the Beetom on your way down.",
                     "Killing one Beetom is all that is needed to get to the farm."
@@ -2922,15 +3557,8 @@
                 {
                   "name": "Freeze the Beetoms",
                   "notable": false,
-                  "requires": [],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [
-                        "Ice"
-                      ]
-                    }
-                  ],
+                  "requires": [ "Ice" ],
+                  "clearsObstacles": ["A"],
                   "devNote": "Although this won't kill the Beetoms, it will remove them as an obstacle."
                 },
                 {
@@ -2948,13 +3576,8 @@
                 {
                   "name": "Etecoon Beetom Tricky Dodge (Left to Right)",
                   "notable": true,
-                  "requires": [],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [ "canTrickyJump" ]
-                    }
-                  ],
+                  "requires": [ "canTrickyJump" ],
+                  "clearsObstacles": ["A"],
                   "reusableRoomwideNotable": "Etecoon Beetom Tricky Dodge",
                   "devNote": "Although this won't kill the Beetoms, it will remove them as an obstacle.",
                   "note": [
@@ -3158,6 +3781,26 @@
               "openEnd": 1
             }
           ],
+          "leaveWithGModeSetup": [
+            {
+              "strats": [
+                {
+                  "name": "Get Hit By Sidehopper",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ],
+          "gModeImmobile": {
+            "requires": [
+              {"enemyDamage": {
+                "enemy": "Sm. Sidehopper",
+                "type": "contact",
+                "hits": 1
+              }}
+            ]
+          },
           "canLeaveCharged": [
             {
               "usedTiles": 22,
@@ -3214,6 +3857,13 @@
           "nodeItem": "Missile",
           "nodeAddress": "0x78676",
           "devNote": "Z3M3: Pink Brin"
+        }
+      ],
+      "obstacles": [
+        {
+          "id": "A",
+          "name": "G-Mode Morph: Remote Acquire the item",
+          "obstacleType": "abstract"
         }
       ],
       "enemies": [
@@ -3306,12 +3956,31 @@
         {
           "name": "Green Hill Zone Tunnel Crawl",
           "note": "It's a long Tunnel Crawl, so there's a heavy softlock risk."
+        },
+        {
+          "name": "Green Hill Zone X-Ray Wiggle",
+          "note": [
+            "It's a long Wiggle, but you can see the item before going in too far.",
+            "Spin jumping directly into the tube will disable X-Ray, so enter aiming down to standup first."
+          ]
         }
       ],
       "links": [
         {
           "from": 1,
           "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Geega Farm",
+                  "notable": false,
+                  "requires": [
+                    {"refill": ["Energy", "Missile", "Super"]}
+                  ]
+                }
+              ]
+            },
             {
               "id": 2,
               "strats": [
@@ -3340,6 +4009,22 @@
                   "name": "Use Frozen Enemy",
                   "notable": false,
                   "requires": [ "canUseFrozenEnemies" ]
+                },
+                {
+                  "name": "G-Mode Morph",
+                  "notable": false,
+                  "requires": [
+                    {"comeInWithGMode": {
+                      "fromNodes": [1],
+                      "mode": "any",
+                      "artificialMorph": true
+                    }},
+                    {"or": [
+                      "h_canArtificialMorphIBJ",
+                      "h_canArtificialMorphSpringBallBombJump"
+                    ]}
+                  ],
+                  "note": "Kill or spring ball over the first bug. IBJ or bomb boost spring ball jump up to the door."
                 }
               ]
             },
@@ -3384,8 +4069,8 @@
                   "note": "It takes Morph or a Tunnel Crawl to get back out."
                 },
                 {
-                  "name": "Xray Wiggle",
-                  "notable": false,
+                  "name": "Green Hill Zone X-Ray Wiggle (In)",
+                  "notable": true,
                   "requires": [
                     "canTwoTileSqueeze",
                     "canXRayTurnaround",
@@ -3396,7 +4081,11 @@
                       "canUseFrozenEnemies"
                     ]}
                   ],
-                  "note": "Spinjumping directly into the tube will disable X-Ray, so enter aiming down to standup first."
+                  "reusableRoomwideNotable": "Green Hill Zone X-Ray Wiggle",
+                  "note": [
+                    "It's a long Wiggle, but you can see the item before going in too far.",
+                    "Spin jumping directly into the tube will disable X-Ray, so enter aiming down to standup first."
+                  ]
                 },
                 {
                   "name": "Green Hill Zone Tunnel Crawl (In)",
@@ -3412,6 +4101,44 @@
                   ],
                   "reusableRoomwideNotable": "Green Hill Zone Tunnel Crawl",
                   "note": "It's a long Tunnel Crawl, so there's a heavy softlock risk."
+                },
+                {
+                  "name": "G-Mode Morph",
+                  "notable": false,
+                  "requires": [
+                    {"comeInWithGMode": {
+                      "fromNodes": [1],
+                      "mode": "any",
+                      "artificialMorph": true
+                    }},
+                    {"or": [
+                      "h_canArtificialMorphIBJ",
+                      "h_canArtificialMorphSpringBallBombJump",
+                      {"and": [
+                        "HiJump",
+                        "SpringBall"
+                      ]}
+                    ]}
+                  ],
+                  "note": "Roll under the first bug, wait for the second to spawn before rolling off the ledge. IBJ, bomb boost spring ball jump, or HiJump Spring Fling into the pipe.",
+                  "devNote": "FIXME: Add springFling tech."
+                },
+                {
+                  "name": "G-Mode Morph Remote Acquire",
+                  "notable": false,
+                  "requires": [
+                    {"comeInWithGMode": {
+                      "fromNodes": [1],
+                      "mode": "direct",
+                      "artificialMorph": true
+                    }},
+                    {"or": [
+                      "h_canArtificialMorphIBJ",
+                      "h_canArtificialMorphSpringBallBombJump"
+                    ]}
+                  ],
+                  "clearsObstacles": ["A"],
+                  "note": "Roll under the first bug, wait for the second to spawn before rolling off the ledge. IBJ or bomb boost spring ball jump into the pipe."
                 }
               ]
             }
@@ -3427,6 +4154,48 @@
                   "name": "Base",
                   "notable": false,
                   "requires": []
+                }
+              ]
+            },
+            {
+              "id": 4,
+              "strats": [
+                {
+                  "name": "G-Mode Morph",
+                  "notable": false,
+                  "requires": [
+                    {"comeInWithGMode": {
+                      "fromNodes": [2],
+                      "mode": "any",
+                      "artificialMorph": true
+                    }},
+                    {"or": [
+                      "h_canArtificialMorphIBJ",
+                      "h_canArtificialMorphSpringBallBombJump"
+                    ]}
+                  ],
+                  "note": "Fall past the first bug, wait for the second to spawn before rolling off the ledge. IBJ or bomb boost spring ball jump into the pipe."
+                },
+                {
+                  "name": "G-Mode Morph Remote Acquire",
+                  "notable": false,
+                  "requires": [
+                    {"comeInWithGMode": {
+                      "fromNodes": [2],
+                      "mode": "direct",
+                      "artificialMorph": true
+                    }},
+                    {"or": [
+                      "h_canArtificialMorphIBJ",
+                      "h_canArtificialMorphSpringBallBombJump",
+                      {"and": [
+                        "HiJump",
+                        "SpringBall"
+                      ]}
+                    ]}
+                  ],
+                  "clearsObstacles": ["A"],
+                  "note": "Fall past the first bug, wait for the second to spawn before rolling off the ledge. IBJ, bomb boost spring ball jump, or HiJump Spring Fling into the pipe."
                 }
               ]
             }
@@ -3447,6 +4216,122 @@
                   "name": "Gate Glitch",
                   "notable": false,
                   "requires": ["h_canBlueGateGlitch"]
+                },
+                {
+                  "name": "Green Hills Grapple Gate Glitch",
+                  "notable": true,
+                  "requires": [
+                    "Grapple",
+                    "SpeedBooster",
+                    "canTrickyJump",
+                    "canBePatient"
+                  ],
+                  "note": [
+                    "Build up some run speed and then extend the Grapple Beam through the Blue Gate, while jumping, to open it from the wrong side.",
+                    "This may take many attempts."
+                  ]
+                },
+                {
+                  "name": "G-Mode Indirect Despawn Gate",
+                  "notable": false,
+                  "requires": [
+                    {"comeInWithGMode": {
+                      "fromNodes": [3],
+                      "mode": "indirect",
+                      "artificialMorph": false
+                    }}
+                  ]
+                }
+              ]
+            },
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "G-Mode Morph Indirect Despawn Gate - To the Top Right Door",
+                  "notable": false,
+                  "requires": [
+                    {"comeInWithGMode": {
+                      "fromNodes": [3],
+                      "mode": "indirect",
+                      "artificialMorph": true
+                    }},
+                    {"or": [
+                      "canTrickyJump",
+                      {"and": [
+                        "Bombs",
+                        {"ammo": { "type": "PowerBomb", "count": 1 }}
+                      ]},
+                      {"ammo": { "type": "PowerBomb", "count": 3 }}
+                    ]},
+                    {"or": [
+                      "h_canArtificialMorphIBJ",
+                      {"and": [
+                        "canSpringBallBombJump",
+                        {"or": [
+                          "Bombs",
+                          {"ammo": { "type": "PowerBomb", "count": 2 }}
+                        ]}
+                      ]}
+                    ]}
+                  ],
+                  "note": [
+                    "Use a Power Bombs to kill the first three hoppers,",
+                    "or carefully dodge them by quickly rolling between the first two tall flowers and waiting for the hopper to jump over Samus.",
+                    "The middle hopper can be killed safely with many Bombs by staying on the top left of the raised ground,",
+                    "without overhanging or the hopper can hit Samus. Alternatively, lure and spring ball jump past it.",
+                    "Killing the bugs in their pipes is possible without getting hit, or use spring ball to jump past them.",
+                    "Once the bugs are killed once they will stop respawning.",
+                    "The last hopper can be carefully killed with Bombs, killed with a Power Bomb, or dodged and lured off the edge.",
+                    "IBJ or bomb boost spring ball jump up to the top right door."
+                  ],
+                  "devNote": "The canTrickyJump is used for rolling into a precise location, dodging hoppers while rolling, and spring ball jumping past enemies."
+                }
+              ]
+            },
+            {
+              "id": 4,
+              "strats": [
+                {
+                  "name": "G-Mode Morph Indirect Despawn Gate - Into the Pipe",
+                  "notable": false,
+                  "requires": [
+                    {"comeInWithGMode": {
+                      "fromNodes": [3],
+                      "mode": "indirect",
+                      "artificialMorph": true
+                    }},
+                    {"or": [
+                      "canTrickyJump",
+                      {"and": [
+                        "Bombs",
+                        {"ammo": { "type": "PowerBomb", "count": 1 }}
+                      ]},
+                      {"ammo": { "type": "PowerBomb", "count": 3 }}
+                    ]},
+                    {"or": [
+                      "h_canArtificialMorphIBJ",
+                      "h_canArtificialMorphSpringBallBombJump",
+                      {"and": [
+                        "HiJump",
+                        "SpringBall"
+                      ]}
+                    ]}
+                  ],
+                  "note": [
+                    "Use a Power Bombs to kill the first three hoppers,",
+                    "or carefully dodge them by quickly rolling between the first two tall flowers and waiting for the hopper to jump over Samus.",
+                    "The middle hopper can be killed safely with many Bombs by staying on the top left of the raised ground,",
+                    "without overhanging or the hopper can hit Samus. Alternatively, lure and spring ball jump past it.",
+                    "Killing the bugs in their pipes is possible without getting hit, or use spring ball to jump past them.",
+                    "Once the bugs are killed once they will stop respawning.",
+                    "The last hopper can be carefully killed with Bombs, or killed with a Power Bomb, or dodged and lured off the edge.",
+                    "IBJ, bomb boost spring ball jump, or HiJump Spring Fling up to the pipe."
+                  ],
+                  "devNote": [
+                    "The canTrickyJump is used for rolling into a precise location, dodging hoppers while rolling, and spring ball jumping past enemies.",
+                    "This cannot be used to obtain the item remotely, as the item only spawns in direct g-mode."
+                  ]
                 }
               ]
             }
@@ -3464,9 +4349,11 @@
                   "requires": [ "Morph" ]
                 },
                 {
-                  "name": "X-Ray Wiggle",
-                  "notable": false,
-                  "requires": [ "canXRayTurnaround" ]
+                  "name": "Green Hill Zone X-Ray Wiggle (Out)",
+                  "notable": true,
+                  "requires": [ "canXRayTurnaround" ],
+                  "reusableRoomwideNotable": "Green Hill Zone X-Ray Wiggle",
+                  "note": "It's a long Wiggle, but you can see the item before going in too far."
                 },
                 {
                   "name": "Green Hill Zone Tunnel Crawl (Out)",
@@ -3474,6 +4361,35 @@
                   "requires": [ "canTunnelCrawl" ],
                   "reusableRoomwideNotable": "Green Hill Zone Tunnel Crawl",
                   "note": "It's a long Tunnel Crawl, so there's a heavy softlock risk."
+                },
+                {
+                  "name": "G-mode Morph Remote Acquire",
+                  "notable": false,
+                  "requires": [ {"obstaclesCleared": ["A"]} ],
+                  "note": "While in g-mode, touch the item, roll out of the pipe, then exit g-mode to obtain the item."
+                }
+              ]
+            },
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "G-mode Morph Remote Acquire at the Top Right Door",
+                  "notable": false,
+                  "requires": [
+                    {"obstaclesCleared": ["A"]},
+                    {"or": [
+                      "h_canArtificialMorphIBJ",
+                      {"and": [
+                        "canSpringBallBombJump",
+                        {"or": [
+                          "Bombs",
+                          {"ammo": { "type": "PowerBomb", "count": 2 }}
+                        ]}
+                      ]}
+                    ]}
+                  ],
+                  "note": "While in g-mode, touch the item, roll out of the pipe, then get to the top right door before exiting g-mode and obtaining the item."
                 }
               ]
             }
@@ -3511,6 +4427,29 @@
               "openEnd": 1
             }
           ],
+          "leaveWithGModeSetup": [
+            {
+              "strats": [
+                {
+                  "name": "Get Hit By Zeela",
+                  "notable": false,
+                  "requires": [ "canBeVeryPatient" ],
+                  "note": "Wait for the slow global Zeelas. They take almost 4 minutes to get there."
+                }
+              ]
+            }
+          ],
+          "gModeImmobile": {
+            "requires": [
+              {"enemyDamage": {
+                "enemy": "Zeela",
+                "type": "contact",
+                "hits": 1
+              }},
+              "canBeVeryPatient"
+            ],
+            "note": "Wait for the slow global Zeelas. They take almost 4 minutes to get there."
+          },
           "canLeaveCharged": [
             {
               "usedTiles": 33,
@@ -3548,6 +4487,29 @@
               "openEnd": 1
             }
           ],
+          "leaveWithGModeSetup": [
+            {
+              "strats": [
+                {
+                  "name": "Get Hit By Zeela",
+                  "notable": false,
+                  "requires": [ "canBePatient" ],
+                  "note": "Wait for the slow global Zeelas. They take almost 2 minutes to get there."
+                }
+              ]
+            }
+          ],
+          "gModeImmobile": {
+            "requires": [
+              {"enemyDamage": {
+                "enemy": "Zeela",
+                "type": "contact",
+                "hits": 1
+              }},
+              "canBePatient"
+            ],
+            "note": "Wait for the slow global Zeelas. They take almost 2 minutes to get there."
+          },
           "canLeaveCharged": [
             {
               "usedTiles": 33,
@@ -3617,6 +4579,22 @@
           "from": 1,
           "to": [
             {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Cacatac and Zeela Farm",
+                  "notable": false,
+                  "requires": [
+                    {"resetRoom": {
+                      "nodes": [1, 2],
+                      "mustStayPut": false
+                    }},
+                    {"refill": ["Energy", "Missile", "Super"]}
+                  ]
+                }
+              ]
+            },
+            {
               "id": 2,
               "strats": [
                 {
@@ -3675,6 +4653,26 @@
               "openEnd": 1
             }
           ],
+          "leaveWithGModeSetup": [
+            {
+              "strats": [
+                {
+                  "name": "Get Hit By Kihunter",
+                  "notable": false,
+                  "requires": []
+                }
+              ]
+            }
+          ],
+          "gModeImmobile": {
+            "requires": [
+              {"enemyDamage": {
+                "enemy": "Kihunter (green)",
+                "type": "contact",
+                "hits": 1
+              }}
+            ]
+          },
           "canLeaveCharged": [
             {
               "usedTiles": 32,
@@ -3729,6 +4727,15 @@
               "requires": []
             }
           ],
+          "gModeImmobile": {
+            "requires": [
+              {"enemyDamage": {
+                "enemy": "Kihunter (green)",
+                "type": "contact",
+                "hits": 1
+              }}
+            ]
+          },
           "canLeaveCharged": [
             {
               "usedTiles": 32,
@@ -3774,6 +4781,26 @@
         {
           "from": 1,
           "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Kihunter Farm",
+                  "notable": false,
+                  "requires": [
+                    {"resetRoom": {
+                      "nodes": [1, 2],
+                      "mustStayPut": false
+                    }},
+                    {"or": [
+                      "ScrewAttack",
+                      "h_hasBeamUpgrade"
+                    ]},
+                    {"refill": ["Energy", "Missile"]}
+                  ]
+                }
+              ]
+            },
             {
               "id": 2,
               "strats": [
@@ -3873,23 +4900,18 @@
                 {
                   "name": "Missiles",
                   "notable": false,
-                  "requires": ["Missile"],
-                  "note": "No ammo count because Missiles are farmable here."
+                  "requires": [
+                    {"resourceCapacity": [
+                      {"type": "Missile", "count": 1}
+                    ]}
+                  ],
+                  "devNote": "No ammo count because Missiles are farmable here."
                 },
                 {
                   "name": "Supers",
                   "notable": false,
-                  "requires": [
-                    "Super",
-                    {"ammo": {
-                      "type": "Super",
-                      "count": 4
-                    }}
-                  ],
-                  "note": [
-                    "Spore Spawn's pollen does not drop supers, which is why we have ammo requirements.",
-                    "Too many misses could lead to a softlock."
-                  ]
+                  "requires": [ {"ammo": { "type": "Super", "count": 4 }} ],
+                  "note": "Spore Spawn's pollen does not drop Supers. The fight requires 4 Supers, where many misses could lead to a softlock."
                 }
               ]
             }
@@ -4177,6 +5199,18 @@
                   "name": "Base",
                   "notable": false,
                   "requires": []
+                }
+              ]
+            },
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Refill",
+                  "notable": false,
+                  "requires": [
+                    "h_useMissileRefillStation"
+                  ]
                 }
               ]
             }

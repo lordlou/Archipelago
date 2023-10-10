@@ -641,9 +641,11 @@
                   "requires": [
                     {"canComeInCharged": {
                       "fromNode": 2,
-                      "shinesparkFrames": 1,
-                      "excessShinesparkFrames": 1,
                       "framesRemaining": 1
+                    }},
+                    {"shinespark": {
+                      "frames": 1,
+                      "excessFrames": 1
                     }},
                     "canShinesparkDeepStuck",
                     "canXRayClimb"
@@ -1463,7 +1465,7 @@
                   "name": "X-Ray Climb",
                   "notable": false,
                   "requires": [
-                    "canLeftFacingDoorXRayClimb",
+                    "h_canRightDoorXRayClimb",
                     {"or": [
                       {"adjacentRunway": {
                         "fromNode": 2,
@@ -1473,7 +1475,7 @@
                         "useFrames": 200
                       }},
                       {"and": [
-                        "canSubmergedLeftFacingDoorXRayClimb",
+                        "h_canRightDoorXRayClimbFromWater",
                         {"adjacentRunway": {
                           "fromNode": 2,
                           "usedTiles": 0.5,
@@ -1483,7 +1485,8 @@
                         }}
                       ]}
                     ]}
-                  ]
+                  ],
+                  "note": "Climb up 1 screen."
                 }
               ],
               "note": "This link is only for the cross room jump and X-ray climb. Other strats should go 2 -> 8 -> 3."
@@ -1504,6 +1507,23 @@
           "from": 3,
           "to": [
             {
+              "id": 3,
+              "strats": [
+                {
+                  "name": "Sciser Farm",
+                  "notable": false,
+                  "requires": [
+                    "h_canNavigateUnderwater",
+                    {"resetRoom": {
+                      "nodes": [3],
+                      "mustStayPut": false
+                    }},
+                    {"refill": ["PowerBomb"]}
+                  ]
+                }
+              ]
+            },
+            {
               "id": 4,
               "strats": [
                 {
@@ -1521,7 +1541,7 @@
                       "h_canArtificialMorphJumpIntoIBJ",
                       "canDoubleBombJump",
                       "canStaggeredIBJ",
-                      "canBePatient"
+                      "canBeVeryPatient"
                     ]}
                   ],
                   "note": "This is a long climb, and getting around the fish under the missiles can be tricky or slow."
@@ -1538,17 +1558,14 @@
                     "Gravity",
                     {"canComeInCharged": {
                       "fromNode": 3,
-                      "framesRemaining": 150,
-                      "shinesparkFrames": 50,
-                      "excessShinesparkFrames": 2
+                      "framesRemaining": 150
+                    }},
+                    {"shinespark": {
+                      "frames": 50,
+                      "excessFrames": 2
                     }}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": []
-                    }
-                  ]
+                  "clearsObstacles": ["A"]
                 },
                 {
                   "name": "Suitless Water Shinecharge",
@@ -1559,8 +1576,7 @@
                         "canWaterShineCharge",
                         {"canComeInCharged": {
                           "fromNode": 3,
-                          "framesRemaining": 180,
-                          "shinesparkFrames": 0
+                          "framesRemaining": 180
                         }}
                       ]},
                       {"and": [
@@ -1577,17 +1593,14 @@
                     "canMidairShinespark",
                     {"canShineCharge": {
                       "usedTiles": 33,
-                      "shinesparkFrames": 62,
-                      "excessShinesparkFrames": 2,
                       "openEnd": 2
+                    }},
+                    {"shinespark": {
+                      "frames": 62,
+                      "excessFrames": 2
                     }}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": []
-                    }
-                  ],
+                  "clearsObstacles": ["A"],
                   "note": "This can be done with only a door-frame runway in the adjacent room.",
                   "devNote": "It can technically be done without a stutter, but it's not really easier."
                 },
@@ -1616,7 +1629,7 @@
                       ]},
                       "canDoubleBombJump",
                       "canStaggeredIBJ",
-                      "canBePatient",
+                      "canBeVeryPatient",
                       {"enemyKill": {
                         "enemies": [ [ "Skultera" ] ],
                         "explicitWeapons": [ "PowerBomb" ]
@@ -1625,7 +1638,7 @@
                     {"or":[
                       "SpringBall",
                       "h_canArtificialMorphCeilingBombJump",
-                      "canBePatient"
+                      "canBeVeryPatient"
                     ]}
                   ],
                   "reusableRoomwideNotable": "Main Street G-Mode Overload Speed Blocks then use Frozen Crab",
@@ -1656,7 +1669,7 @@
                     ]},
                     {"or":[
                       "SpringBall",
-                      "canBePatient",
+                      "canBeVeryPatient",
                       {"and":[
                         "Gravity",
                         "h_canCeilingBombJump",
@@ -1687,7 +1700,7 @@
                       "h_canArtificialMorphJumpIntoIBJ",
                       "canDoubleBombJump",
                       "canStaggeredIBJ",
-                      "canBePatient",
+                      "canBeVeryPatient",
                       {"enemyKill": {
                         "enemies": [ [ "Skultera" ] ],
                         "explicitWeapons": [ "PowerBomb" ]
@@ -1776,14 +1789,40 @@
                   "requires": [
                     "canSuitlessMaridia",
                     "HiJump",
-                    "canUseFrozenEnemies"
+                    "canTrickyUseFrozenEnemies"
+                  ]
+                },
+                {
+                  "name": "Main Street Climb with Ice and Spring Ball",
+                  "notable": true,
+                  "requires": [
+                    "canSuitlessMaridia",
+                    "canSpringBallJumpMidAir",
+                    "canTrickyUseFrozenEnemies",
+                    {"or": [
+                      "canTrickyJump",
+                      {"and": [
+                        "h_canMaxHeightSpringBallJump",
+                        "canStationaryLateralMidAirMorph"
+                      ]}
+                    ]}
+                  ],
+                  "note": [
+                    "The tricky part is getting to the ledge below the missiles. There are two ways to do this:",
+                    "1. Stand on a frozen crab with a frozen fish at the lowest height of its cycle to the right. Further to the right is better as long as it can be stood upon without the ledge above.",
+                    "Perform a stationary lateral midair morph into a max height spring ball jump to get onto the fish before it thaws.",
+                    "Press against the fish for the maximum amount of time possible while moving upwards in order to gain more height in order to get on top of it.",
+                    "2. Freeze the global crab on the right wall, get onto it and up and onto the frozen fish before it thaws. Be careful not to fall through the crab.",
+                    "A fail will require Samus to reset the room, or wait a very long time in order for the crab to circle the room.",
+                    "Using a Super may make the crab fall on a floating platform, and it still takes more than a minute to return.",
+                    "Note that it is possible to turn off ice beam to immediately thaw any frozen enemies; this can help get the crab and fish in a good cycle with each other."
                   ]
                 },
                 {
                   "name": "Main Street Underwater Walljumps (Middle)",
                   "notable": true,
                   "requires": ["canUnderwaterWalljump"],
-                  "reusableRoomwideNotable":  "Main Street Underwater Walljumps",
+                  "reusableRoomwideNotable": "Main Street Underwater Walljumps",
                   "note": "This underwater walljump is relatively long."
                 },
                 {
@@ -1792,7 +1831,7 @@
                   "requires": [
                     "canSuitlessMaridia",
                     "canCrazyCrabClimb",
-                    "canBePatient",
+                    "canBeVeryPatient",
                     {"ammo": { "type": "Super", "count": 1 }}
                   ],
                   "reusableRoomwideNotable": "Main Street Crab Climb with Only Ice and Supers",
@@ -1810,7 +1849,7 @@
                   "requires": [
                     "canSuitlessMaridia",
                     "canCrazyCrabClimb",
-                    "canBePatient",
+                    "canBeVeryPatient",
                     {"or": [
                       "canSunkenTileWideWallClimb",
                       "canTrickyJump"
@@ -1832,9 +1871,11 @@
                     "Gravity",
                     {"canComeInCharged": {
                       "fromNode": 3,
-                      "framesRemaining": 100,
-                      "shinesparkFrames": 58,
-                      "excessShinesparkFrames": 3
+                      "framesRemaining": 100
+                    }},
+                    {"shinespark": {
+                      "frames": 58,
+                      "excessFrames": 3
                     }}
                   ]
                 },
@@ -1847,9 +1888,11 @@
                     "canMidairShinespark",
                     {"canComeInCharged": {
                       "fromNode": 3,
-                      "framesRemaining": 80,
-                      "shinesparkFrames": 50,
-                      "excessShinesparkFrames": 3
+                      "framesRemaining": 80
+                    }},
+                    {"shinespark": {
+                      "frames": 50,
+                      "excessFrames": 3
                     }}
                   ]
                 },
@@ -1867,9 +1910,11 @@
                     }},
                     {"canComeInCharged": {
                       "fromNode": 3,
-                      "framesRemaining": 145,
-                      "shinesparkFrames": 55,
-                      "excessShinesparkFrames": 3
+                      "framesRemaining": 145
+                    }},
+                    {"shinespark": {
+                      "frames": 55,
+                      "excessFrames": 3
                     }}
                   ]
                 },
@@ -1882,8 +1927,7 @@
                         "canWaterShineCharge",
                         {"canComeInCharged": {
                           "fromNode": 3,
-                          "framesRemaining": 180,
-                          "shinesparkFrames": 0
+                          "framesRemaining": 180
                         }}
                       ]},
                       {"and": [
@@ -1900,9 +1944,11 @@
                     "canMidairShinespark",
                     {"canShineCharge": {
                       "usedTiles": 33,
-                      "shinesparkFrames": 35,
-                      "excessShinesparkFrames": 3,
                       "openEnd": 2
+                    }},
+                    {"shinespark": {
+                      "frames": 35,
+                      "excessFrames": 3
                     }}
                   ],
                   "note": "This can be done with only a door-frame runway in the adjacent room. It can technically be done without a stutter, but it's not really easier."
@@ -1914,6 +1960,23 @@
         {
           "from": 4,
           "to": [
+            {
+              "id": 4,
+              "strats": [
+                {
+                  "name": "Sciser Farm",
+                  "notable": false,
+                  "requires": [
+                    "h_canNavigateUnderwater",
+                    {"resetRoom": {
+                      "nodes": [4],
+                      "mustStayPut": false
+                    }},
+                    {"refill": ["PowerBomb"]}
+                  ]
+                }
+              ]
+            },
             {
               "id": 6,
               "strats": [
@@ -1942,8 +2005,7 @@
                         ]},
                         {"canComeInCharged": {
                           "fromNode": 4,
-                          "framesRemaining": 180,
-                          "shinesparkFrames": 0
+                          "framesRemaining": 180
                         }}
                       ]},
                       {"and": [
@@ -1987,7 +2049,7 @@
                       "SpringBall",
                       {"and":[
                         "Morph",
-                        "canBePatient"
+                        "canBeVeryPatient"
                       ]},
                       {"and":[
                         "Gravity",
@@ -1997,7 +2059,7 @@
                       {"and":[
                         "Gravity",
                         "h_canArtificialMorphIBJ",
-                        "canBePatient"
+                        "canBeVeryPatient"
                       ]}
                     ]}
                   ],
@@ -2058,9 +2120,27 @@
                 {
                   "name": "Base",
                   "notable": false,
-                  "requires": [ "Morph" ],
+                  "requires": [
+                    "Morph",
+                    {"or": [
+                      "SpringBall",
+                      {"and": [
+                        "Gravity",
+                        "h_canBombThings"
+                      ]}
+                    ]}
+                  ],
+                  "note": "The crab will not come through the whole tunnel. Retreat to the right to avoid taking a hit."
+                },
+                {
+                  "name": "Suitless Bootless Mid-Air Morph",
+                  "notable": false,
+                  "requires": [
+                    "canSuitlessMaridia",
+                    "canDisableEquipment"
+                  ],
                   "note": [
-                    "Turn HiJump and gravity suit off before jumping and morphing into the tunnel.",
+                    "Turn HiJump and Gravity suit off before jumping and morphing into the tunnel.",
                     "The crab will not come through the whole tunnel. Retreat to the right to avoid taking a hit."
                   ]
                 },
@@ -2082,12 +2162,7 @@
                       ]}
                     ]}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "B",
-                      "requires": []
-                    }
-                  ],
+                  "clearsObstacles": ["B"],
                   "note": [
                     "There is a camera scroll block inside of the morph tunnel, so it is best to go through the tunnel quickly and not backtrack.",
                     "The crab will not come through the whole tunnel, so as Samus gets close to the vertical portion, wait for the crab to pass.",
@@ -2272,7 +2347,7 @@
                     "canSuitlessMaridia",
                     "canCrazyCrabClimb",
                     "canSunkenTileWideWallClimb",
-                    "canBePatient",
+                    "canBeVeryPatient",
                     "canMidairWiggle",
                     {"obstaclesNotCleared": ["A"]}
                   ],
@@ -2436,7 +2511,7 @@
                         "maxHeight": 6,
                         "maxLeftPosition": -2,
                         "minRightPosition": -1
-                      }}  
+                      }}
                     ]},
                     "canTrickyUseFrozenEnemies",
                     {"or": [
@@ -2497,29 +2572,22 @@
                       {"canShineCharge": {
                         "usedTiles": 17,
                         "steepUpTiles": 1,
-                        "shinesparkFrames": 77,
                         "openEnd": 0
                       }},
                       {"canComeInCharged": {
                         "fromNode": 1,
                         "inRoomPath": [1, 8],
-                        "framesRemaining": 80,
-                        "shinesparkFrames": 77
+                        "framesRemaining": 80
                       }},
                       {"canComeInCharged": {
                         "fromNode": 2,
                         "inRoomPath": [2, 8],
-                        "framesRemaining": 120,
-                        "shinesparkFrames": 77
+                        "framesRemaining": 120
                       }}
-                    ]}
+                    ]},
+                    {"shinespark": {"frames": 77}}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": []
-                    }
-                  ],
+                  "clearsObstacles": ["A"],
                   "devNote": [
                     "The short charge actually has 2 steep up tiles, but one is against a wall so it was excluded.",
                     "FIXME: Add a midair version requiring 0 tanks"
@@ -2534,23 +2602,17 @@
                       {"canComeInCharged": {
                         "fromNode": 1,
                         "inRoomPath": [1, 8],
-                        "framesRemaining": 120,
-                        "shinesparkFrames": 77
+                        "framesRemaining": 120
                       }},
                       {"canComeInCharged": {
                         "fromNode": 2,
                         "inRoomPath": [2, 8],
-                        "framesRemaining": 180,
-                        "shinesparkFrames": 77
+                        "framesRemaining": 180
                       }}
-                    ]}
+                    ]},
+                    {"shinespark": {"frames": 77}}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": []
-                    }
-                  ],
+                  "clearsObstacles": ["A"],
                   "devNote": "FIXME: Add a midair version requiring 0 tanks"
                 },
                 {
@@ -2578,7 +2640,7 @@
                       ]},
                       "canDoubleBombJump",
                       "canStaggeredIBJ",
-                      "canBePatient",
+                      "canBeVeryPatient",
                       {"enemyKill": {
                         "enemies": [ [ "Skultera" ] ],
                         "explicitWeapons": [ "PowerBomb" ]
@@ -2587,7 +2649,7 @@
                     {"or":[
                       "SpringBall",
                       "h_canArtificialMorphCeilingBombJump",
-                      "canBePatient"
+                      "canBeVeryPatient"
                     ]}
                   ],
                   "reusableRoomwideNotable": "Main Street G-Mode Overload Speed Blocks then use Frozen Crab",
@@ -2618,7 +2680,7 @@
                     ]},
                     {"or":[
                       "SpringBall",
-                      "canBePatient",
+                      "canBeVeryPatient",
                       {"and":[
                         "Gravity",
                         "h_canCeilingBombJump",
@@ -2649,7 +2711,7 @@
                       "h_canArtificialMorphJumpIntoIBJ",
                       "canDoubleBombJump",
                       "canStaggeredIBJ",
-                      "canBePatient",
+                      "canBeVeryPatient",
                       {"enemyKill": {
                         "enemies": [ [ "Skultera" ] ],
                         "explicitWeapons": [ "PowerBomb" ]
@@ -2697,6 +2759,23 @@
               ]
             },
             {
+              "id": 8,
+              "strats": [
+                {
+                  "name": "Sciser Farm",
+                  "notable": false,
+                  "requires": [
+                    "h_canNavigateUnderwater",
+                    {"resetRoom": {
+                      "nodes": [1, 2],
+                      "mustStayPut": false
+                    }},
+                    {"refill": ["PowerBomb"]}
+                  ]
+                }
+              ]
+            },
+            {
               "id": 9,
               "strats": [
                 {
@@ -2708,8 +2787,6 @@
                       {"canShineCharge": {
                         "usedTiles": 17,
                         "steepUpTiles": 1,
-                        "shinesparkFrames": 76,
-                        "excessShinesparkFrames": 3,
                         "openEnd": 0
                       }},
                       {"and": [
@@ -2717,19 +2794,19 @@
                         {"canComeInCharged": {
                           "fromNode": 1,
                           "inRoomPath": [1, 8],
-                          "framesRemaining": 40,
-                          "shinesparkFrames": 76,
-                          "excessShinesparkFrames": 3
+                          "framesRemaining": 40
                         }}
                       ]},
                       {"canComeInCharged": {
                         "fromNode": 2,
                         "inRoomPath": [2, 8],
-                        "framesRemaining": 70,
-                        "shinesparkFrames": 76,
-                        "excessShinesparkFrames": 3
+                        "framesRemaining": 70
                       }}
-                    ]}
+                    ]},
+                    {"shinespark": {
+                      "frames": 76,
+                      "excessFrames": 3
+                    }}
                   ],
                   "note": "To avoid breaking the speed blocks, align Samus on the first plant, just to the left of the door.",
                   "devNote": [
@@ -2748,25 +2825,19 @@
                         {"canComeInCharged": {
                           "fromNode": 1,
                           "inRoomPath": [1, 8],
-                          "framesRemaining": 60,
-                          "shinesparkFrames": 76,
-                          "excessShinesparkFrames": 3
+                          "framesRemaining": 60
                         }}
                       ]},
                       {"canComeInCharged": {
                         "fromNode": 2,
                         "inRoomPath": [2, 8],
-                        "framesRemaining": 180,
-                        "shinesparkFrames": 76,
-                        "excessShinesparkFrames": 3
+                        "framesRemaining": 180
                       }},
                       {"and": [
                         {"canComeInCharged": {
                           "fromNode": 2,
                           "inRoomPath": [2, 8],
-                          "framesRemaining": 100,
-                          "shinesparkFrames": 76,
-                          "excessShinesparkFrames": 3
+                          "framesRemaining": 100
                         }},
                         {"adjacentRunway": {
                           "fromNode": 2,
@@ -2775,7 +2846,11 @@
                           "physics": ["air"]
                         }}
                       ]}
-                    ]}
+                    ]},
+                    {"shinespark": {
+                      "frames": 76,
+                      "excessFrames": 3
+                    }}
                   ],
                   "devNote": "FIXME: Add a midair version requiring 0 tanks",
                   "note": "To avoid breaking the speed blocks, align Samus on the first plant, just to the left of the door."
@@ -2833,42 +2908,6 @@
                   "note": "Jump from the slope for a bit of extra height to start."
                 },
                 {
-                  "name": "Suitless Frozen Crab",
-                  "notable": false,
-                  "requires": [
-                    "canSuitlessMaridia",
-                    {"or": [
-                      "HiJump",
-                      {"and": [
-                        "canSpringBallJumpMidAir",
-                        "canStationaryLateralMidAirMorph"
-                      ]}
-                    ]},
-                    "canTrickyUseFrozenEnemies",
-                    "h_canCrouchJumpDownGrab"
-                  ],
-                  "note": [
-                    "The first crab, coming down, is a bit tricky to freeze fast enough without any other beams or a missile.",
-                    "Prevent it from coming on screen until Samus is in position to hit it accurately."
-                  ]
-                },
-                {
-                  "name": "Suitless Frozen Global Crab with Jump Assist",
-                  "notable": false,
-                  "requires": [
-                    "canSuitlessMaridia",
-                    {"or": [
-                      "HiJump",
-                      "canSpringBallJumpMidAir"
-                    ]},
-                    "canUseFrozenEnemies",
-                    "canBePatient",
-                    {"obstaclesNotCleared": ["A"]}
-                  ],
-                  "note": "Wait for the global crab to come around and freeze it to get up to the second ledge on the right.",
-                  "devNote": "The global crab will fall if the speed blocks are broken."
-                },
-                {
                   "name": "Suitless Frozen Crab with HiJump",
                   "notable": false,
                   "requires": [
@@ -2876,43 +2915,65 @@
                     "HiJump",
                     "canTrickyUseFrozenEnemies",
                     {"or": [
-                      "canCrouchJump",
-                      "canDownGrab"
+                      "h_canCrouchJumpDownGrab",
+                      {"obstaclesNotCleared": ["A"]}
                     ]}
                   ],
-                  "note": "Be sure not to get the first downward moving crab on screen until Samus is in position to quickly and accurately shoot and freeze it.",
-                  "devNote": "It can be done without a crouch jump or down grab, but is somewhat tight and unforgiving."
+                  "note": [
+                    "The first crab, coming down, is a bit tricky to freeze fast enough without any other beams or a missile.",
+                    "Prevent it from coming on screen until Samus is in position to hit it accurately.",
+                    "The global crab coming up can be used as a backup if the speed blocks are not broken, but it can only be used once without waiting a very long time."
+                  ],
+                  "devNote": "Using these same items to get up from the lower portions before the global crab gets there should be reasonable."
+                },
+                {
+                  "name": "Suitless Frozen Global Crab with Spring Ball",
+                  "notable": false,
+                  "requires": [
+                    "canSuitlessMaridia",
+                    "canSpringBallJumpMidAir",
+                    "canTrickyUseFrozenEnemies",
+                    {"obstaclesNotCleared": ["A"]}
+                  ],
+                  "note": [
+                    "Using the slow global crab to ascend the top section of Main Street requires the speed blocks to not be broken.",
+                    "The trickiest part is getting to the second ledge. Freeze the crab when it is overhead and spring ball jump up onto it.",
+                    "Follow the crab up while using it as a platform multiple times."
+                  ]
                 },
                 {
                   "name": "Suitless Frozen Crab with Spring Ball",
                   "notable": false,
                   "requires": [
                     "canSuitlessMaridia",
-                    "canSpringBallJumpMidAir",
-                    "canCrouchJump",
+                    "h_canMaxHeightSpringBallJump",
                     "canTrickyUseFrozenEnemies",
+                    {"or": [
+                      "canTrickyJump",
+                      "Wave",
+                      "Spazer",
+                      "Plasma"
+                    ]},
                     {"or": [
                       "canTrickyJump",
                       "canStationaryLateralMidAirMorph"
                     ]}
                   ],
                   "note": [
-                    "Be sure not to get the first downward moving crab on screen until Samus is in position to quickly and accurately shoot and freeze it.",
-                    "The jump up to the platform with the fish can be done with a crouch jump and spring ball jump, but it is very tight. A stationary lateral midair morph can help."
+                    "Be sure not to get the first downward moving crab on screen until Samus is in position to quickly and accurately shoot and freeze it. This is much tighter with spring ball relative to HiJump.",
+                    "Performing a max height spring ball jump from the frozen crab can get Samus to the next ledge.",
+                    "Getting to the ledge with the fish is particularly precise. Either stand at the very edge of the platform and perform a very precise max heigh spring ball jump,",
+                    "or stand against the left wall and and perform a slightly less tight stationary lateral morph into spring ball jump."
                   ]
                 },
                 {
                   "name": "Main Street Top Crab Climb with Supers",
                   "notable": true,
                   "requires": [
-                    "canBePatient",
+                    "canBeVeryPatient",
                     "canSuitlessMaridia",
                     "canCrazyCrabClimb",
-                    "Super",
-                    {"ammo": {
-                      "type": "Super",
-                      "count": 2
-                    }},
+                    {"ammo": { "type": "Super", "count": 2 }},
                     {"obstaclesNotCleared": ["A"]}
                   ],
                   "reusableRoomwideNotable": "Main Street Crab Climb with Only Ice and Supers",
@@ -2929,7 +2990,7 @@
                   "name": "Main Street Ice Only Top Crab Climb",
                   "notable": true,
                   "requires": [
-                    "canBePatient",
+                    "canBeVeryPatient",
                     "canSuitlessMaridia",
                     "canCrazyCrabClimb",
                     "canTrickyJump",
@@ -3196,9 +3257,9 @@
                     "h_canNavigateUnderwater",
                     {"canComeInCharged": {
                       "fromNode": 1,
-                      "framesRemaining": 30,
-                      "shinesparkFrames": 55
-                    }}
+                      "framesRemaining": 30
+                    }},
+                    {"shinespark": {"frames": 55}}
                   ]
                 },
                 {
@@ -3206,7 +3267,7 @@
                   "notable": false,
                   "requires": [
                     "canSuitlessMaridia",
-                    "canUseFrozenEnemies",
+                    "canTrickyUseFrozenEnemies",
                     "HiJump",
                     "canSpringBallJumpMidAir"
                   ]
@@ -3219,6 +3280,51 @@
                     "canDoubleSpringBallJumpMidAir",
                     "HiJump"
                   ]
+                },
+                {
+                  "name": "Cross Room Jump to the Frozen Fish",
+                  "notable": false,
+                  "requires": [
+                    "HiJump",
+                    "canCrossRoomJumpIntoWater",
+                    "canMomentumConservingTurnaround",
+                    "canTrickyUseFrozenEnemies",
+                    "canTrickyJump",
+                    "canDownGrab",
+                    {"or": [
+                      "Wave",
+                      "Spazer",
+                      "Plasma"
+                    ]},
+                    {"adjacentRunway": {
+                      "fromNode": 1,
+                      "usedTiles": 1.5,
+                      "inRoomPath": [ 1, 5 ],
+                      "physics": ["air"]
+                    }}
+                  ],
+                  "note": [
+                    "Cross Room jump and aim towards the left side where the fish is.",
+                    "Shooting at it from below can deal damage sooner to get a faster freeze.",
+                    "Hug the frozen fish to gain the extra height needed to climb on top."
+                  ]
+                },
+                {
+                  "name": "Cross Room Jump with HiJump and Springball",
+                  "notable": false,
+                  "requires": [
+                    "HiJump",
+                    "canCrossRoomJumpIntoWater",
+                    "canMomentumConservingTurnaround",
+                    "canSpringBallJumpMidAir",
+                    {"adjacentRunway": {
+                      "fromNode": 1,
+                      "usedTiles": 1.5,
+                      "inRoomPath": [ 1, 5 ],
+                      "physics": ["air"]
+                    }}
+                  ],
+                  "note": "Requires 1.5 tiles of run speed to make it past the overhang above the door."
                 },
                 {
                   "name": "Cross Room Jump with HiJump and Speedbooster",
@@ -3254,11 +3360,12 @@
                   "note": "Requires a runway of approximately 4.5 tiles in the adjacent room."
                 },
                 {
-                  "name": "Cross Room Jump with Speedbooster",
+                  "name": "Tricky Cross Room Jump with Speedbooster",
                   "notable": false,
                   "requires": [
                     "canTrickyDashJump",
                     "canCrossRoomJumpIntoWater",
+                    "canMomentumConservingTurnaround",
                     {"adjacentRunway": {
                       "fromNode": 1,
                       "usedTiles": 7.5,
@@ -3282,6 +3389,22 @@
                     }}
                   ],
                   "note": "Requires a runway of approximately 12 tiles in the adjacent room."
+                },
+                {
+                  "name": "Cross Room Jump with Speedbooster and Springball",
+                  "notable": false,
+                  "requires": [
+                    "SpeedBooster",
+                    "canCrossRoomJumpIntoWater",
+                    "canSpringBallJumpMidAir",
+                    {"adjacentRunway": {
+                      "fromNode": 1,
+                      "usedTiles": 10,
+                      "inRoomPath": [ 1, 5 ],
+                      "physics": ["air"]
+                    }}
+                  ],
+                  "note": "Requires a runway of approximately 10 tiles in the adjacent room."
                 },
                 {
                   "name": "G-Mode Morph IBJ",
@@ -3313,19 +3436,25 @@
                   "requires": [
                     "canWaterShineCharge",
                     {"or": [
-                      {"canShineCharge": {
-                        "usedTiles": 33,
-                        "shinesparkFrames": 41,
-                        "excessShinesparkFrames": 7,
-                        "openEnd": 2
-                      }},
+                      {"and": [
+                        {"canShineCharge": {
+                          "usedTiles": 33,
+                          "openEnd": 2
+                        }},
+                        {"shinespark": {
+                          "frames": 41,
+                          "excessFrames": 7
+                        }}
+                      ]},
                       {"and": [
                         "canMidairShinespark",
                         {"canShineCharge": {
                           "usedTiles": 33,
-                          "shinesparkFrames": 38,
-                          "excessShinesparkFrames": 7,
                           "openEnd": 2
+                        }},
+                        {"shinespark": {
+                          "frames": 38,
+                          "excessFrames": 7
                         }}
                       ]}
                     ]},
@@ -3398,19 +3527,25 @@
                   "requires": [
                     "canWaterShineCharge",
                     {"or": [
-                      {"canShineCharge": {
-                        "usedTiles": 33,
-                        "shinesparkFrames": 43,
-                        "excessShinesparkFrames": 9,
-                        "openEnd": 2
-                      }},
+                      {"and": [
+                        {"canShineCharge": {
+                          "usedTiles": 33,
+                          "openEnd": 2
+                        }},
+                        {"shinespark": {
+                          "frames": 43,
+                          "excessFrames": 9
+                        }}
+                      ]},
                       {"and": [
                         "canMidairShinespark",
                         {"canShineCharge": {
                           "usedTiles": 33,
-                          "shinesparkFrames": 38,
-                          "excessShinesparkFrames": 9,
                           "openEnd": 2
+                        }},
+                        {"shinespark": {
+                          "frames": 38,
+                          "excessFrames": 9
                         }}
                       ]}
                     ]},
@@ -3433,19 +3568,25 @@
                   "requires": [
                     "canWaterShineCharge",
                     {"or": [
-                      {"canShineCharge": {
-                        "usedTiles": 33,
-                        "shinesparkFrames": 43,
-                        "excessShinesparkFrames": 26,
-                        "openEnd": 2
-                      }},
+                      {"and": [
+                        {"canShineCharge": {
+                          "usedTiles": 33,
+                          "openEnd": 2
+                        }},
+                        {"shinespark": {
+                          "frames": 43,
+                          "excessFrames": 26
+                        }}
+                      ]},
                       {"and": [
                         "canMidairShinespark",
                         {"canShineCharge": {
                           "usedTiles": 33,
-                          "shinesparkFrames": 38,
-                          "excessShinesparkFrames": 25,
                           "openEnd": 2
+                        }},
+                        {"shinespark": {
+                          "frames": 38,
+                          "excessFrames": 25
                         }}
                       ]}
                     ]},
@@ -3457,8 +3598,8 @@
                       "useFrames": 80
                     }},
                     {"or": [
-                      { "enemyDamage": { "enemy": "Pink Space Pirate (standing)", "type": "contact", "hits": 1 } },
-                      { "enemyKill": {
+                      {"enemyDamage": {"enemy": "Pink Space Pirate (standing)", "type": "contact", "hits": 1}},
+                      {"enemyKill": {
                         "enemies": [ [ "Pink Space Pirate (standing)" ] ],
                         "explicitWeapons": [ "Plasma" ]
                       }}
@@ -3694,6 +3835,33 @@
               ]
             },
             {
+              "id": 6,
+              "strats": [
+                {
+                  "name": "Space Pirate Farm",
+                  "notable": false,
+                  "requires": [
+                    {"or": [
+                      "Gravity",
+                      "HiJump"
+                    ]},
+                    {"or": [
+                      "Plasma",
+                      {"and": [
+                        "ScrewAttack",
+                        "Gravity"
+                      ]}
+                    ]},
+                    {"resetRoom": {
+                      "nodes": [2, 3],
+                      "mustStayPut": false
+                    }},
+                    {"refill": ["Energy", "Missile"]}
+                  ]
+                }
+              ]
+            },
+            {
               "id": 7,
               "strats": [
                 {
@@ -3760,16 +3928,12 @@
                   "name": "Shinespark",
                   "notable": false,
                   "requires": [
-                    "canSuitlessMaridia",
+                    "h_canNavigateUnderwater",
                     {"canComeInCharged": {
                       "fromNode": 3,
-                      "framesRemaining": 25,
-                      "shinesparkFrames": 90
+                      "framesRemaining": 25
                     }},
-                    {"resetRoom": {
-                      "nodes": [ 3 ],
-                      "nodesToAvoid": [ 2 ]
-                    }}
+                    {"shinespark": {"frames": 90}}
                   ],
                   "devNote": [
                     "Spark through 5 into the wall past 4. Then fall down to 1.",
@@ -3834,11 +3998,7 @@
                   "requires": [
                     "h_canNavigateUnderwater",
                     "canPrepareForNextRoom",
-                    {"resetRoom": {
-                      "nodes": [ 4 ],
-                      "nodesToAvoid": [ 1 ]
-                    }},
-                    "canUseFrozenEnemies",
+                    "canTrickyUseFrozenEnemies",
                     {"or": [
                       {"and": [
                         "Wave",
@@ -3863,16 +4023,12 @@
                   "notable": false,
                   "requires": [
                     "Gravity",
-                    "canDamageBoost",
+                    "canHorizontalDamageBoost",
                     "canPrepareForNextRoom",
                     {"enemyDamage": {
                       "enemy": "Skultera",
                       "hits": 1,
                       "type": "contact"
-                    }},
-                    {"resetRoom": {
-                      "nodes": [ 4 ],
-                      "nodesToAvoid": [ 1 ]
                     }}
                   ]
                 },
@@ -3882,11 +4038,7 @@
                   "requires": [
                     "canSuitlessMaridia",
                     "h_canResetFallSpeed",
-                    "canPrepareForNextRoom",
-                    {"resetRoom": {
-                      "nodes": [ 4 ],
-                      "nodesToAvoid": [ 1 ]
-                    }}
+                    "canPrepareForNextRoom"
                   ],
                   "note": "Morph and unmorph then drift to the ledge.",
                   "devNote": "Strat starts before entering this transition. An enemy can be used for this strat instead of morph."
@@ -3899,11 +4051,7 @@
                     "canPreciseWalljump",
                     "canPrepareForNextRoom",
                     "canMidairWiggle",
-                    "canCarefulJump",
-                    {"resetRoom": {
-                      "nodes": [ 4 ],
-                      "nodesToAvoid": [ 1 ]
-                    }}
+                    "canCarefulJump"
                   ],
                   "note": [
                     "Wall jump in the room above, on the right wall of the doorway, immdiately before the door transition. Failure will likely result in a soft lock.",
@@ -3911,7 +4059,7 @@
                   ],
                   "devNote": [
                     "Strat starts before entering this transition.",
-                    "FIXME: The midair wiggle is only needed if the room above has water physics. That's not something in the logic for vertical doors currently."
+                    "FIXME: The midair wiggle is only needed if the room above has water physics. That's not something in the logic for vertical doors currently. Also if the room above is heated, these may require some heat frames to set up."
                   ]
                 },
                 {
@@ -3922,13 +4070,9 @@
                     "canPrepareForNextRoom",
                     {"canComeInCharged": {
                       "fromNode": 4,
-                      "framesRemaining": 10,
-                      "shinesparkFrames": 5
+                      "framesRemaining": 10
                     }},
-                    {"resetRoom": {
-                      "nodes": [ 4 ],
-                      "nodesToAvoid": [ 1 ]
-                    }}
+                    {"shinespark": {"frames": 5}}
                   ],
                   "note": "Assumes you enter in a state that can spark immediately."
                 }
@@ -3946,9 +4090,9 @@
                     "canMidairShinespark",
                     {"canComeInCharged": {
                       "fromNode": 4,
-                      "framesRemaining": 25,
-                      "shinesparkFrames": 85
-                    }}
+                      "framesRemaining": 25
+                    }},
+                    {"shinespark": {"frames": 85}}
                   ],
                   "note": "Immediately spark after the door transition into the wall just to the right of the top right door.",
                   "devNote": [
@@ -4136,7 +4280,6 @@
               },
               "usedTiles": 33,
               "framesRemaining": 0,
-              "shinesparkFrames": 0,
               "openEnd": 2,
               "strats": [
                 {
@@ -4150,6 +4293,26 @@
                 "Initiates at 9 rather than 2 because dropping to 2 is expected to be free, and because you need to be at 9 to open the door first.",
                 "MustOpenDoorFirst is still set to false because the door can be opened from 9, no need to actually go to 5.",
                 "Shinespark frames are 0 because those are covered by the Shinespark strat from 9 to 5."
+              ]
+            }
+          ],
+          "leaveWithGModeSetup": [
+            {
+              "strats": [
+                {
+                  "name": "Frozen Sciser",
+                  "notable": false,
+                  "requires": [
+                    "Gravity",
+                    "canUpwardGModeSetup",
+                    "SpaceJump",
+                    "canTrickyUseFrozenEnemies",
+                    {"or": [
+                      "Morph",
+                      "canTwoTileSqueeze"
+                    ]}
+                  ]
+                }
               ]
             }
           ]
@@ -4492,9 +4655,9 @@
                     "h_canNavigateUnderwater",
                     {"canComeInCharged":{
                       "fromNode": 1,
-                      "framesRemaining": 0,
-                      "shinesparkFrames": 150
-                    }}
+                      "framesRemaining": 0
+                    }},
+                    {"shinespark": {"frames": 150}}
                   ]
                 },
                 {
@@ -4597,9 +4760,9 @@
                     "h_canNavigateUnderwater",
                     {"canComeInCharged":{
                       "fromNode": 2,
-                      "framesRemaining": 0,
-                      "shinesparkFrames": 60
-                    }}
+                      "framesRemaining": 0
+                    }},
+                    {"shinespark": {"frames": 60}}
                   ],
                   "note": "Shinespark up left to get all the way up to the door."
                 },
@@ -4611,11 +4774,8 @@
                     "canCrazyCrabClimb",
                     "canTrickyJump",
                     "h_canCrouchJumpDownGrab",
-                    "Super",
-                    {"ammo": {
-                      "type": "Super",
-                      "count": 1
-                    }}
+                    "canCameraManip",
+                    {"ammo": { "type": "Super", "count": 1 }}
                   ],
                   "note": [
                     "Near the bottom left door, there are three pathways upwards: one directly above the door and two to the right.",
@@ -4662,6 +4822,23 @@
               "note": "One-way link for shinesparking and crab climb."
             },
             {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Sciser Farm",
+                  "notable": false,
+                  "requires": [
+                    "h_canNavigateUnderwater",
+                    {"resetRoom": {
+                      "nodes": [2],
+                      "mustStayPut": false
+                    }},
+                    {"refill": ["PowerBomb"]}
+                  ]
+                }
+              ]
+            },
+            {
               "id": 3,
               "strats": [
                 {
@@ -4703,9 +4880,9 @@
                     "Gravity",
                     {"canShineCharge": {
                       "usedTiles": 33,
-                      "shinesparkFrames": 65,
                       "openEnd": 2
-                    }}
+                    }},
+                    {"shinespark": {"frames": 65}}
                   ],
                   "note": "Shinespark up right through the rightmost gap to land directly by the door."
                 },
@@ -4767,7 +4944,7 @@
                     "This strat applies only with Post Crocomire Jump Room below.",
                     "In Crocomire's Room, the different platform height affects which vertical speeds are obtainable, and apparently none of them work."
                   ]
-                }                    
+                }
               ]
             },
             {
@@ -4858,6 +5035,20 @@
                   "name": "Underwater Walljump",
                   "notable": false,
                   "requires": ["canUnderwaterWalljump"]
+                },
+                {
+                  "name": "Everest Double Crab Bomb-Grapple-Jump",
+                  "notable": true,
+                  "requires": [
+                    "h_canNavigateUnderwater",
+                    "canBombGrappleJump",
+                    "h_canCrouchJumpDownGrab"
+                  ],
+                  "note": [
+                    "Position 2 Scisors so that they can each be used for a Bomb-Grapple-Jump, back to back.",
+                    "This gives a total of 3 jumps to climb from the bottom of Everest up to one of the lower peaks.",
+                    "In the likely event of failure, the room will need to be reset and the crabs repositioned for the next attempt."
+                  ]
                 }
               ]
             },
@@ -4975,9 +5166,9 @@
                     "Gravity",
                     {"canShineCharge": {
                       "usedTiles": 33,
-                      "shinesparkFrames": 61,
                       "openEnd": 2
-                    }}
+                    }},
+                    {"shinespark": {"frames": 61}}
                   ],
                   "note": "Shinespark up in the middle of the three upward pathways near either the right or left wall."
                 },
@@ -5132,7 +5323,6 @@
                   "requires": [
                     "h_canNavigateUnderwater",
                     "canTrickyUseFrozenEnemies",
-                    "Super",
                     {"ammo": {"type": "Super", "count": 1}},
                     {"resetRoom": {
                       "nodes": [3],
@@ -5260,9 +5450,9 @@
                     "h_canNavigateUnderwater",
                     {"canComeInCharged":{
                       "fromNode": 3,
-                      "framesRemaining": 5,
-                      "shinesparkFrames": 70
-                    }}
+                      "framesRemaining": 5
+                    }},
+                    {"shinespark": {"frames": 70}}
                   ],
                   "note": "Shinespark up left to get onto the platform below the door. If gravity suit is on, hold right to land on the platform.",
                   "devNote": "FIXME: It is possible to get to this from sparking through the door diagonally, but that is not something the logic can handle."
@@ -5280,9 +5470,9 @@
                     "h_canNavigateUnderwater",
                     {"canComeInCharged":{
                       "fromNode": 3,
-                      "framesRemaining": 0,
-                      "shinesparkFrames": 65
-                    }}
+                      "framesRemaining": 0
+                    }},
+                    {"shinespark": {"frames": 65}}
                   ]
                 },
                 {
@@ -5325,9 +5515,9 @@
                     "h_canNavigateUnderwater",
                     {"canComeInCharged":{
                       "fromNode": 4,
-                      "framesRemaining": 0,
-                      "shinesparkFrames": 150
-                    }}
+                      "framesRemaining": 0
+                    }},
+                    {"shinespark": {"frames": 150}}
                   ]
                 },
                 {
@@ -5713,6 +5903,27 @@
               ]
             },
             {
+              "id": 7,
+              "strats": [
+                {
+                  "name": "Powamp Farm",
+                  "notable": false,
+                  "requires": [
+                    "Gravity",
+                    {"or": [
+                      "HiJump",
+                      "SpaceJump"
+                    ]},
+                    {"resetRoom": {
+                      "nodes": [1, 2, 3],
+                      "mustStayPut": false
+                    }},
+                    {"refill": ["Super"]}
+                  ]
+                }
+              ]
+            },
+            {
               "id": 8,
               "strats": [
                 {
@@ -5773,14 +5984,8 @@
                 {
                   "name": "Gravity Jump",
                   "notable": false,
-                  "requires": ["canGravityJump"],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [],
-                      "additionalObstacles": ["B"]
-                    }
-                  ],
+                  "requires": [ "canGravityJump" ],
+                  "clearsObstacles": ["A","B"],
                   "devNote": "It is possible to bring 2 crabs with gravity jump alone, but is relatively pointless."
                 },
                 {
@@ -5790,13 +5995,7 @@
                     "Gravity",
                     "canInsaneWalljump"
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [],
-                      "additionalObstacles": ["B"]
-                    }
-                  ],
+                  "clearsObstacles": ["A","B"],
                   "note": "There is a ridiculously precise, but possible, walljump to get up there. With and without HiJump is equally difficult.",
                   "devNote": "It is possible to bring 2 crabs with gravity and a wall jump, but is relatively pointless."
                 },
@@ -5809,13 +6008,7 @@
                     "canTrickyDashJump",
                     "canWalljump"
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [],
-                      "additionalObstacles": ["B"]
-                    }
-                  ],
+                  "clearsObstacles": ["A","B"],
                   "note": [
                     "The run and jump is done from the middle peak in the floor. Not the one closest to the bottom right door.",
                     "Run from the left edge to just right of the peak, jump and wall jump on the overhang.",
@@ -5830,13 +6023,7 @@
                     "Gravity",
                     "h_canFly"
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [],
-                      "additionalObstacles": ["B"]
-                    }
-                  ],
+                  "clearsObstacles": ["A","B"],
                   "devNote": "It is possible to bring 2 crabs with gravity and canFly, but is relatively pointless."
                 },
                 {
@@ -5847,12 +6034,7 @@
                     "canUseEnemies",
                     "Grapple"
                   ],
-                  "obstacles": [
-                    {
-                      "id": "B",
-                      "requires": []
-                    }
-                  ],
+                  "clearsObstacles": ["B"],
                   "note": "There is a grappleable Powamp directly above each of the 3 peaks.",
                   "devNote": [
                     "This strat is only able to bring one crab up without dropping down to 2.",
@@ -5868,13 +6050,7 @@
                     "canSpringBallJumpMidAir",
                     "canTrickyUseFrozenEnemies"
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [],
-                      "additionalObstacles": ["B"]
-                    }
-                  ],
+                  "clearsObstacles": ["A","B"],
                   "note": [
                     "Freeze the crab midway up the right wall and jump and spring ball jump up to the higher platform.",
                     "Luring a second crab, which will make it to the upper platform, may be useful to avoid a tricky spring ball jump and flatley jump to get to the top right door."
@@ -5889,13 +6065,7 @@
                     "HiJump",
                     "canDoubleSpringBallJumpMidAir"
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [],
-                      "additionalObstacles": ["B"]
-                    }
-                  ],
+                  "clearsObstacles": ["A","B"],
                   "note": "Start the springball jumps from the highest ledge on the wall.",
                   "devNote": "It is possible to bring 2 crabs with double spring ball jump, but is relatively pointless."
                 },
@@ -5908,13 +6078,7 @@
                     "HiJump",
                     {"ammo": { "type": "Super", "count": 1 }}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [],
-                      "additionalObstacles": ["B"]
-                    }
-                  ],
+                  "clearsObstacles": ["A","B"],
                   "note": [
                     "Climbing the right side of Mt. Everest with two supers, ice, and HiJump.",
                     "Requires luring 3 crabs; the third crab is from the morph tunnel to the left.",
@@ -5931,13 +6095,7 @@
                     "canSpringBallJumpMidAir",
                     {"ammo": { "type": "Super", "count": 1 }}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [],
-                      "additionalObstacles": ["B"]
-                    }
-                  ],
+                  "clearsObstacles": ["A","B"],
                   "note": [
                     "Climbing the right side of Mt. Everest with two supers, ice, and Spring Ball.",
                     "Requires luring 3 crabs; the third crab is from the morph tunnel to the left.",
@@ -5952,16 +6110,10 @@
                     "canSuitlessMaridia",
                     "canCrazyCrabClimb",
                     "canTrickyJump",
-                    "canBePatient",
+                    "canBeVeryPatient",
                     {"ammo": { "type": "Super", "count": 1 }}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [],
-                      "additionalObstacles": ["B"]
-                    }
-                  ],
+                  "clearsObstacles": ["A","B"],
                   "reusableRoomwideNotable": "Mt. Everest Right Crab Climb with Only 1 Super",
                   "note": [
                     "Climbing the right side of Mt. Everest with only two supers and ice. (As used in 14% Icebooster)",
@@ -5982,16 +6134,10 @@
                     "canSuitlessMaridia",
                     "canCrazyCrabClimb",
                     "canTrickyJump",
-                    "canBePatient",
+                    "canBeVeryPatient",
                     {"ammo": { "type": "Super", "count": 1 }}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [],
-                      "additionalObstacles": ["B"]
-                    }
-                  ],
+                  "clearsObstacles": ["A","B"],
                   "reusableRoomwideNotable": "Mt. Everest Right Crab Climb with Only 2 Supers",
                   "note": [
                     "Climbing the right side of Mt. Everest with only two supers and ice. (As used in 14% Icebooster)",
@@ -6008,15 +6154,10 @@
                     "canSuitlessMaridia",
                     "canCrazyCrabClimb",
                     "HiJump",
-                    "canTrickyJump"
+                    "canTrickyJump",
+                    "canCameraManip"
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [],
-                      "additionalObstacles": ["B"]
-                    }
-                  ],
+                  "clearsObstacles": ["A","B"],
                   "reusableRoomwideNotable": "Mt. Everest Right Crab Climb with Only HiJump or Springball",
                   "note": [
                     "Use the crab near the bottom right door. Before the final jump, freeze the crab high enough on the right wall that it can be lured up to the flat platform.",
@@ -6032,15 +6173,10 @@
                     "canSuitlessMaridia",
                     "canCrazyCrabClimb",
                     "canSpringBallJumpMidAir",
-                    "canTrickyJump"
+                    "canTrickyJump",
+                    "canCameraManip"
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [],
-                      "additionalObstacles": ["B"]
-                    }
-                  ],
+                  "clearsObstacles": ["A","B"],
                   "reusableRoomwideNotable": "Mt. Everest Right Crab Climb with Only HiJump or Springball",
                   "note": [
                     "Use the crab near the bottom right door. Only one spring ball jump is needed, it is to get up onto the flat platform.",
@@ -6147,9 +6283,9 @@
                     {"canComeInCharged":{
                       "fromNode": 5,
                       "inRoomPath": [5, 9],
-                      "framesRemaining": 90,
-                      "shinesparkFrames": 65
-                    }}
+                      "framesRemaining": 90
+                    }},
+                    {"shinespark": {"frames": 65}}
                   ]
                 },
                 {
@@ -6174,9 +6310,9 @@
                     {"canComeInCharged":{
                       "fromNode": 5,
                       "inRoomPath": [5, 9],
-                      "framesRemaining": 90,
-                      "shinesparkFrames": 90
-                    }}
+                      "framesRemaining": 90
+                    }},
+                    {"shinespark": {"frames": 90}}
                   ]
                 },
                 {
@@ -6245,9 +6381,9 @@
                     "Gravity",
                     {"canShineCharge": {
                       "usedTiles": 33,
-                      "shinesparkFrames": 61,
                       "openEnd": 2
-                    }}
+                    }},
+                    {"shinespark": {"frames": 61}}
                   ],
                   "devNote": [
                     "Implicitly drops down to 2 first.",
@@ -6272,10 +6408,13 @@
               "id": 11,
               "strats": [
                 {
-                  "name": "Suitless Jump",
+                  "name": "Suitless Bootless Jump",
                   "notable": false,
-                  "requires": [ "canSuitlessMaridia" ],
-                  "note": "May need to disable equipment to jump directly here.",
+                  "requires": [
+                    "canSuitlessMaridia",
+                    "canDisableEquipment"
+                  ],
+                  "note": "Turn off Gravity and HiJump to jump directly here.",
                   "devNote": "Gravity can follow 8->11 with no equipment."
                 }
               ]
@@ -6421,11 +6560,7 @@
                     "canSuitlessMaridia",
                     "HiJump",
                     "canTrickyUseFrozenEnemies",
-                    "Super",
-                    {"ammo": {
-                      "type": "Super",
-                      "count": 1
-                    }},
+                    {"ammo": { "type": "Super", "count": 1 }},
                     {"obstaclesCleared": ["A"]}
                   ],
                   "note": [
@@ -6441,11 +6576,7 @@
                     "canSuitlessMaridia",
                     "canSpringBallJumpMidAir",
                     "canCrazyCrabClimb",
-                    "Super",
-                    {"ammo": {
-                      "type": "Super",
-                      "count": 1
-                    }},
+                    {"ammo": { "type": "Super", "count": 1 }},
                     {"obstaclesCleared": ["A"]}
                   ],
                   "note": [
@@ -6461,12 +6592,8 @@
                     "canSuitlessMaridia",
                     "canCrazyCrabClimb",
                     "canTrickyJump",
-                    "canBePatient",
-                    "Super",
-                    {"ammo": {
-                      "type": "Super",
-                      "count": 1
-                    }},
+                    "canBeVeryPatient",
+                    {"ammo": { "type": "Super", "count": 1 }},
                     {"obstaclesCleared": ["A"]}
                   ],
                   "reusableRoomwideNotable": "Mt. Everest Right Crab Climb with Only 2 Supers",
@@ -6504,6 +6631,7 @@
                     "canCrazyCrabClimb",
                     "HiJump",
                     "canTrickyJump",
+                    "canCameraManip",
                     {"obstaclesCleared": ["B"]}
                   ],
                   "reusableRoomwideNotable": "Mt. Everest Right Crab Climb with Only HiJump or Springball",
@@ -6523,6 +6651,7 @@
                     "canCrazyCrabClimb",
                     "canSpringBallJumpMidAir",
                     "canTrickyJump",
+                    "canCameraManip",
                     {"obstaclesCleared": ["B"]}
                   ],
                   "reusableRoomwideNotable": "Mt. Everest Right Crab Climb with Only HiJump or Springball",
@@ -6681,6 +6810,30 @@
               "openEnd": 1
             }
           ],
+          "canLeaveCharged": [
+            {
+              "usedTiles": 33,
+              "framesRemaining": 0,
+              "openEnd": 2,
+              "strats": [
+                {
+                  "name": "Stutter Water Shine Charge",
+                  "notable": false,
+                  "requires": [ 
+                    "canStutterWaterShineCharge",
+                    "canShinechargeMovement",
+                    {"adjacentRunway": {
+                      "fromNode": 1,
+                      "usedTiles": 2,
+                      "physics": ["air"],
+                      "useFrames": 80
+                    }},
+                    {"shinespark": {"frames": 10}}
+                  ]
+                }
+              ]
+            }
+          ],
           "leaveWithGModeSetup": [
             {
               "strats": [
@@ -6735,6 +6888,38 @@
                   "requires": [ "Gravity" ]
                 }
               ]
+            },
+            {
+              "usedTiles": 33,
+              "framesRemaining": 70,
+              "openEnd": 2,
+              "strats": [
+                {
+                  "name": "Stutter Water Shine Charge",
+                  "notable": false,
+                  "requires": [ 
+                    "canStutterWaterShineCharge",
+                    "canDodgeWhileShooting",
+                    "canShinechargeMovement",
+                    {"or": [
+                      "h_canGreenGateGlitch",
+                      {"obstaclesCleared": ["A"]}
+                    ]},
+                    {"resetRoom": {
+                      "nodes": [1],
+                      "nodesToAvoid": [2]
+                    }},
+                    {"ammo": {"type": "Super", "count": 1}},
+                    {"adjacentRunway": {
+                      "fromNode": 1,
+                      "usedTiles": 2,
+                      "physics": ["air"],
+                      "useFrames": 80
+                    }}
+                  ],
+                  "clearsObstacles": ["A"]
+                }
+              ]
             }
           ],
           "leaveWithGModeSetup": [
@@ -6787,18 +6972,35 @@
           "from": 1,
           "to": [
             {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Sciser Farm",
+                  "notable": false,
+                  "requires": [
+                    "h_canNavigateUnderwater",
+                    {"resetRoom": {
+                      "nodes": [1],
+                      "mustStayPut": false
+                    }},
+                    {"refill": ["PowerBomb"]}
+                  ]
+                }
+              ]
+            },
+            {
               "id": 2,
               "strats": [
                 {
                   "name": "Base",
                   "notable": false,
-                  "requires": [],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": ["h_canOpenGreenDoors"]
-                    }
-                  ]
+                  "requires": [
+                    {"or": [
+                      {"ammo": { "type": "Super", "count": 1 }},
+                      {"obstaclesCleared": ["A"]}
+                    ]}
+                  ],
+                  "clearsObstacles": ["A"]
                 },
                 {
                   "name": "Indirect G-Mode Gate Despawn",
@@ -6825,13 +7027,13 @@
                 {
                   "name": "Green Gate Glitch",
                   "notable": false,
-                  "requires": [],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": ["h_canGreenGateGlitch"]
-                    }
-                  ]
+                  "requires": [
+                    {"or": [
+                      "h_canGreenGateGlitch",
+                      {"obstaclesCleared": ["A"]}
+                    ]}
+                  ],
+                  "clearsObstacles": ["A"]
                 },
                 {
                   "name": "Indirect G-Mode Gate Despawn",
@@ -6844,6 +7046,23 @@
                     }}
                   ],
                   "note": "The gate will not spawn in indirect g-mode, and can be freely passed."
+                }
+              ]
+            },
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Sciser Farm",
+                  "notable": false,
+                  "requires": [
+                    "h_canNavigateUnderwater",
+                    {"resetRoom": {
+                      "nodes": [2],
+                      "mustStayPut": false
+                    }},
+                    {"refill": ["Energy", "PowerBomb"]}
+                  ]
                 }
               ]
             }
@@ -6964,6 +7183,18 @@
           "from": 1,
           "to": [
             {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Zebbo Farm",
+                  "notable": false,
+                  "requires": [
+                    {"refill": ["Energy", "Missile", "Super"]}
+                  ]
+                }
+              ]
+            },
+            {
               "id": 3,
               "strats": [
                 {
@@ -7016,9 +7247,11 @@
                     "Morph",
                     {"canComeInCharged": {
                       "fromNode": 2,
-                      "framesRemaining": 0,
-                      "shinesparkFrames": 26,
-                      "excessShinesparkFrames": 7
+                      "framesRemaining": 0
+                    }},
+                    {"shinespark": {
+                      "frames": 26,
+                      "excessFrames": 7
                     }}
                   ]
                 },
@@ -7107,9 +7340,11 @@
                   "requires": [
                     {"canComeInCharged": {
                       "fromNode": 2,
-                      "framesRemaining": 5,
-                      "shinesparkFrames": 18,
-                      "excessShinesparkFrames": 11
+                      "framesRemaining": 5
+                    }},
+                    {"shinespark": {
+                      "frames": 18,
+                      "excessFrames": 11
                     }}
                   ]
                 },
@@ -7381,13 +7616,7 @@
                     "h_canNavigateUnderwater",
                     "Grapple"
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [],
-                      "additionalObstacles": ["B"]
-                    }
-                  ],
+                  "clearsObstacles": ["A","B"],
                   "note": [
                     "To get out of the water, ride Mama Turtle. To avoid getting hit, shoot one of her babies to wake her up, then quickly get on her back.",
                     "If Mama Turtle is in her starting location, stand on the rightmost side of her to be aligned below the grapple block.",
@@ -7401,13 +7630,7 @@
                     "h_canNavigateUnderwater",
                     "SpaceJump"
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [],
-                      "additionalObstacles": ["B"]
-                    }
-                  ],
+                  "clearsObstacles": ["A","B"],
                   "note": "To get out of the water, ride Mama Turtle. To avoid getting hit, shoot one of her babies to wake her up, then quickly get on her back."
                 },
                 {
@@ -7417,13 +7640,7 @@
                     "h_canNavigateUnderwater",
                     "h_canJumpIntoIBJ"
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [],
-                      "additionalObstacles": ["B"]
-                    }
-                  ],
+                  "clearsObstacles": ["A","B"],
                   "note": [
                     "Ride Mama Turtle. To avoid getting hit, shoot one of her babies to wake her up, then quickly get on her back.",
                     "Once out of the water, jump into an IBJ.",
@@ -7437,14 +7654,9 @@
                     "h_canNavigateUnderwater",
                     "canWallJumpBombBoost"
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": []
-                    }
-                  ],
+                  "clearsObstacles": ["A"],
                   "note": [
-                    "Starting from the top left ledge, wall jump to place a morph bomb or power bomb just below and to the right of the bottom left plant on the wall.",
+                    "Starting from the top left ledge, wall jump to place a bomb or Power Bomb just below and to the right of the bottom left plant on the wall.",
                     "Use the bomb to boost you towards the item, then unmorph to reduce your fall speed and barely reach the item."
                   ]
                 },
@@ -7456,16 +7668,11 @@
                     "canShinechargeMovement",
                     {"canComeInCharged":{
                       "fromNode": 1,
-                      "framesRemaining": 110,
-                      "shinesparkFrames": 60
-                    }}
+                      "framesRemaining": 110
+                    }},
+                    {"shinespark": {"frames": 60}}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "B",
-                      "requires": []
-                    }
-                  ]
+                  "clearsObstacles": ["B"]
                 },
                 {
                   "name": "Spring Ball Jump",
@@ -7475,13 +7682,7 @@
                     "HiJump",
                     "canSpringBallJumpMidAir"
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [],
-                      "additionalObstacles": ["B"]
-                    }
-                  ],
+                  "clearsObstacles": ["A","B"],
                   "note": [
                     "Ride Mama Turtle. To avoid getting hit, shoot one of her babies to wake her up, then quickly get on her back.",
                     "With a fail, if you havent moved horizontally, simply fall straight down to land safely back on Mama Turtle."
@@ -7497,13 +7698,7 @@
                     "SpeedBooster",
                     "canWalljump"
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [],
-                      "additionalObstacles": ["B"]
-                    }
-                  ],
+                  "clearsObstacles": ["A","B"],
                   "note": [
                     "To get out of the water, ride Mama Turtle. To avoid getting hit, shoot one of her babies to wake her up, then quickly get on her back.",
                     "Briefly run on the top ledge on either side (left is slightly easier) then jump and wall jump on the grapple block."
@@ -7517,12 +7712,7 @@
                     "canSpringwall",
                     "canResetFallSpeed"
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": []
-                    }
-                  ],
+                  "clearsObstacles": ["A"],
                   "note": "To get out of the water, ride Mama Turtle. To avoid getting hit, shoot one of her babies to wake her up, then quickly get on her back.",
                   "devNote": "FIXME: It is possible to do this without canResetFallSpeed, but with a spring fling. A spring ball jump midair could be added, which combined with a spring fling can get onto the platform."
                 },
@@ -7536,13 +7726,7 @@
                     "canInsaneWalljump",
                     "canCWJ"
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [],
-                      "additionalObstacles": ["B"]
-                    }
-                  ],
+                  "clearsObstacles": ["A","B"],
                   "note": [
                     "Have to do a running stationary spinjump from a precise spot, to do a CWJ with slightly more speed off the wall one tile further out.",
                     "This makes it possible to just barely walljump off the grapple block."
@@ -7557,8 +7741,7 @@
                         "canWaterShineCharge",
                         {"canComeInCharged": {
                           "fromNode": 1,
-                          "framesRemaining": 180,
-                          "shinesparkFrames": 0
+                          "framesRemaining": 180
                         }}
                       ]},
                       {"and": [
@@ -7574,29 +7757,30 @@
                     ]},
                     "canShinechargeMovement",
                     {"or": [
-                      {"canShineCharge": {
-                        "usedTiles": 33,
-                        "shinesparkFrames": 61,
-                        "excessShinesparkFrames": 7,
-                        "openEnd": 2
-                      }},
+                      {"and": [
+                        {"canShineCharge": {
+                          "usedTiles": 33,
+                          "openEnd": 2
+                        }},
+                        {"shinespark": {
+                          "frames": 61,
+                          "excessFrames": 7
+                        }}
+                      ]},
                       {"and": [
                         "canMidairShinespark",
                         {"canShineCharge": {
                           "usedTiles": 33,
-                          "shinesparkFrames": 56,
-                          "excessShinesparkFrames": 7,
                           "openEnd": 2
+                        }},
+                        {"shinespark": {
+                          "frames": 56,
+                          "excessFrames": 7
                         }}
                       ]}
                     ]}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "B",
-                      "requires": []
-                    }
-                  ],
+                  "clearsObstacles": ["B"],
                   "devNote": "Can save an additional 4 energy with HiJump, and a bit more excess frames if not getting on top of the block to go to 2."
                 },
                 {
@@ -7612,12 +7796,7 @@
                     "h_canArtificialMorphIBJ",
                     "canBombHorizontally"
                   ],
-                  "obstacles": [
-                    {
-                      "id": "B",
-                      "requires": []
-                    }
-                  ],
+                  "clearsObstacles": ["B"],
                   "note": [
                     "Get into position as close to the center of the room as possible while not being too close to any baby turtles.",
                     "Start an IBJ without hiting any baby turtles otherwhise Mama Turtle will wake up."
@@ -7636,13 +7815,7 @@
                     "SpringBall",
                     "h_canArtificialMorphIBJ"
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [],
-                      "additionalObstacles": ["B"]
-                    }
-                  ],
+                  "clearsObstacles": ["A","B"],
                   "note": [
                     "Place a bomb next to one of the baby turtles, then use spring ball to get on Mama Turtle's back.",
                     "Start an IBJ above the waterline to get to the item."
@@ -7665,12 +7838,7 @@
                       "HiJump"
                     ]}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": []
-                    }
-                  ],
+                  "clearsObstacles": ["A"],
                   "note": "Ride Mama Turtle. To avoid getting hit, shoot one of her babies to wake her up, then quickly get on her back."
                 },
                 {
@@ -7680,12 +7848,7 @@
                     "h_canNavigateUnderwater",
                     "Grapple"
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": []
-                    }
-                  ],
+                  "clearsObstacles": ["A"],
                   "note": [
                     "Ride Mama Turtle. To avoid getting hit, shoot one of her babies to wake her up, then quickly get on her back.",
                     "If Mama Turtle is in her starting location, stand on the rightmost side of her to be aligned below the grapple block.",
@@ -7706,12 +7869,7 @@
                       }}
                     ]}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": []
-                    }
-                  ],
+                  "clearsObstacles": ["A"],
                   "note": "Requires getting back on Mama Turtle while she is at the right."
                 },
                 {
@@ -7722,9 +7880,9 @@
                     "canShinechargeMovement",
                     {"canComeInCharged":{
                       "fromNode": 1,
-                      "framesRemaining": 80,
-                      "shinesparkFrames": 44
-                    }}
+                      "framesRemaining": 80
+                    }},
+                    {"shinespark": {"frames": 44}}
                   ]
                 },
                 {
@@ -7763,8 +7921,7 @@
                         "canWaterShineCharge",
                         {"canComeInCharged": {
                           "fromNode": 1,
-                          "framesRemaining": 180,
-                          "shinesparkFrames": 0
+                          "framesRemaining": 180
                         }}
                       ]},
                       {"and": [
@@ -7780,19 +7937,25 @@
                     ]},
                     "canShinechargeMovement",
                     {"or": [
-                      {"canShineCharge": {
-                        "usedTiles": 33,
-                        "shinesparkFrames": 47,
-                        "excessShinesparkFrames": 5,
-                        "openEnd": 2
-                      }},
+                      {"and": [
+                        {"canShineCharge": {
+                          "usedTiles": 33,
+                          "openEnd": 2
+                        }},
+                        {"shinespark": {
+                          "frames": 47,
+                          "excessFrames": 5
+                        }}
+                      ]},
                       {"and": [
                         "canMidairShinespark",
                         {"canShineCharge": {
                           "usedTiles": 33,
-                          "shinesparkFrames": 44,
-                          "excessShinesparkFrames": 5,
                           "openEnd": 2
+                        }},
+                        {"shinespark": {
+                          "frames": 44,
+                          "excessFrames": 5
                         }}
                       ]}
                     ]}
@@ -8172,12 +8335,24 @@
           "from": 3,
           "to": [
             {
+              "id": 3,
+              "strats": [
+                {
+                  "name": "Zebbo Farm",
+                  "notable": false,
+                  "requires": [
+                    {"refill": ["Energy", "Missile", "PowerBomb"]}
+                  ]
+                }
+              ]
+            },
+            {
               "id": 4,
               "strats": [
                 {
                   "name": "Base",
                   "notable": false,
-                  "requires": [ "h_canOpenGreenDoors" ]
+                  "requires": [ {"ammo": { "type": "Super", "count": 1 }} ]
                 },
                 {
                   "name": "Indirect G-Mode Despawn Gate",
@@ -8205,6 +8380,18 @@
                   "name": "Base",
                   "notable": false,
                   "requires": []
+                }
+              ]
+            },
+            {
+              "id": 4,
+              "strats": [
+                {
+                  "name": "Zebbo Farm",
+                  "notable": false,
+                  "requires": [
+                    {"refill": ["Energy", "Missile", "PowerBomb"]}
+                  ]
                 }
               ]
             }
@@ -8591,6 +8778,23 @@
           "from": 1,
           "to": [
             {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Sciser Farm",
+                  "notable": false,
+                  "requires": [
+                    "h_canNavigateUnderwater",
+                    {"resetRoom": {
+                      "nodes": [1, 4],
+                      "mustStayPut": false
+                    }},
+                    {"refill": ["Energy", "PowerBomb"]}
+                  ]
+                }
+              ]
+            },
+            {
               "id": 2,
               "strats": [
                 {
@@ -8687,7 +8891,7 @@
                   "notable": false,
                   "requires": [
                     "h_canNavigateUnderwater",
-                    "canRightFacingDoorXRayClimb",
+                    "h_canLeftDoorXRayClimb",
                     {"resetRoom":{
                       "nodes": [2],
                       "mustStayPut": true
@@ -8698,7 +8902,8 @@
                       "overrideRunwayRequirements": true,
                       "useFrames": 200
                     }}
-                  ]
+                  ],
+                  "note": "Climb up 1 screen."
                 },
                 {
                   "name": "Suitless HiJump Crab Hole Ascent",
@@ -8748,12 +8953,15 @@
                     "canSuitlessMaridia",
                     "canTrickyJump",
                     "canSpringBallJumpMidAir",
-                    "canTrickyUseFrozenEnemies"
+                    "canTrickyUseFrozenEnemies",
+                    "canStationaryLateralMidAirMorph"
                   ],
                   "note": [
                     "Freeze one crab on the lip of the overhead opening and another on the edge of a doors platform then springballjump up.",
+                    "Use a Stationary Lateral Mid-Air Morph to gain enough jump height without bonking the ceiling.",
                     "It is possible with a crouch jump to not need the second crab."
-                  ]
+                  ],
+                  "devNote": "It is possible without canStationaryLateralMidAirMorph, but very precise."
                 },
                 {
                   "name": "Cross Room Jump with Kago",
@@ -8816,6 +9024,23 @@
               ]
             },
             {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Sciser Farm",
+                  "notable": false,
+                  "requires": [
+                    "h_canNavigateUnderwater",
+                    {"resetRoom": {
+                      "nodes": [2, 3],
+                      "mustStayPut": false
+                    }},
+                    {"refill": ["Energy", "PowerBomb"]}
+                  ]
+                }
+              ]              
+            },
+            {
               "id": 3,
               "strats": [
                 {
@@ -8847,7 +9072,7 @@
                   "name": "Crab Hole Right-Side X-Ray Climb",
                   "notable": false,
                   "requires": [
-                    "canLeftFacingDoorXRayClimb",
+                    "h_canRightDoorXRayClimb",
                     { "resetRoom": {
                       "nodes": [3],
                       "mustStayPut": true
@@ -8861,7 +9086,7 @@
                         "useFrames": 200
                       }},
                       {"and": [
-                        "canSubmergedLeftFacingDoorXRayClimb",
+                        "h_canRightDoorXRayClimbFromWater",
                         {"adjacentRunway": {
                           "fromNode": 3,
                           "usedTiles": 0.5,
@@ -8871,7 +9096,8 @@
                         }}
                       ]}
                     ]}
-                  ]
+                  ],
+                  "note": "Climb up 1 screen."
                 },
                 {
                   "name": "Cross Room Jump",

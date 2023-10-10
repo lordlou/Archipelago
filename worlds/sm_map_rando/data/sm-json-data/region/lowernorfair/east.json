@@ -73,7 +73,40 @@
           "name": "Lower Norfair Elevator to Norfair",
           "nodeType": "door",
           "nodeSubType": "elevator",
-          "nodeAddress": "0x001986a"
+          "nodeAddress": "0x001986a",
+          "canLeaveCharged": [
+            {
+              "framesRemaining": 90,
+              "usedTiles": 24,
+              "strats": [
+                {
+                  "name": "Full Runway Shinecharge",
+                  "notable": false,
+                  "requires": [
+                    "h_canNavigateHeatRooms",
+                    "canShinechargeMovement",
+                    {"heatFrames": 300}
+                  ]
+                }
+              ],
+              "openEnd": 1
+            },
+            {
+              "framesRemaining": 140,
+              "usedTiles": 18,
+              "strats": [
+                {
+                  "name": "Finish Shortcharge Near Elevator",
+                  "notable": false,
+                  "requires": [
+                    "h_canNavigateHeatRooms",
+                    {"heatFrames": 210}
+                  ]
+                }
+              ],
+              "openEnd": 1
+            }
+          ]
         }
       ],
       "enemies": [
@@ -169,7 +202,7 @@
                   ]
                 },
                 {
-                  "name": "ShineSpark",
+                  "name": "Shinespark",
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
@@ -177,10 +210,12 @@
                     "canMidairShinespark",
                     {"canComeInCharged": {
                        "framesRemaining": 16,
-                       "fromNode": 1,
-                       "shinesparkFrames": 75,
-                       "excessShinesparkFrames": 10
-                     }},
+                       "fromNode": 1
+                    }},
+                    {"shinespark": {
+                      "frames": 75,
+                      "excessFrames": 10
+                    }},
                     {"heatFrames": 270}
                   ]
                 }
@@ -234,8 +269,7 @@
                         "canBlueSpaceJump",
                         {"canShineCharge": {
                           "usedTiles": 23,
-                          "openEnd": 2,
-                          "shinesparkFrames": 0
+                          "openEnd": 2
                         }}
                       ]}
                     ]},
@@ -251,10 +285,12 @@
                     "canShinechargeMovement",
                     {"canShineCharge": {
                       "usedTiles": 24,
-                      "openEnd": 1,
-                      "shinesparkFrames": 75,
-                      "excessShinesparkFrames": 5
-                     }},
+                      "openEnd": 1
+                    }},
+                    {"shinespark": {
+                      "frames": 75,
+                      "excessFrames": 5
+                    }},
                     {"heatFrames": 380}
                   ]
                 },
@@ -351,7 +387,7 @@
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
-                    {"heatFrames": 440}
+                    "h_MainHallElevatorFrames"
                   ]
                 }
               ],
@@ -370,7 +406,7 @@
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
-                    {"heatFrames": 440}
+                    "h_MainHallElevatorFrames"
                   ]
                 }
               ],
@@ -407,10 +443,7 @@
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
-                    {"resetRoom":{
-                      "nodes": [1, 4],
-                      "obstaclesToAvoid": ["A"]
-                    }},
+                    {"obstaclesNotCleared": ["A"]},
                     {"heatFrames": 100}
                   ],
                   "note": "This runway is not usable if the PB blocks are broken."
@@ -426,10 +459,7 @@
                   "name": "Bombless Heatproof Pirate Kill",
                   "notable": false,
                   "requires": [
-                    {"resetRoom":{
-                      "nodes": [1, 4],
-                      "obstaclesToAvoid": ["A"]
-                    }},
+                    {"obstaclesNotCleared": ["A"]},
                     "h_heatProof",
                     {"enemyKill":{
                       "enemies": [["Yellow Space Pirate (standing)"]],
@@ -441,10 +471,7 @@
                   "name": "Fast Pillars Setup Careful PB Periphery Kill",
                   "notable": true,
                   "requires": [
-                    {"resetRoom":{
-                      "nodes": [1, 4],
-                      "obstaclesToAvoid": ["A"]
-                    }},
+                    {"obstaclesNotCleared": ["A"]},
                     "h_heatProof",
                     {"enemyKill":{
                       "enemies": [["Yellow Space Pirate (standing)", "Yellow Space Pirate (wall)", "Yellow Space Pirate (wall)"]],
@@ -460,10 +487,7 @@
                   "name": "Suitless Pirate Kill",
                   "notable": false,
                   "requires": [
-                    {"resetRoom":{
-                      "nodes": [1, 4],
-                      "obstaclesToAvoid": ["A"]
-                    }},
+                    {"obstaclesNotCleared": ["A"]},
                     "h_canNavigateHeatRooms",
                     {"heatFrames": 420},
                     {"enemyKill":{
@@ -731,9 +755,11 @@
                     "h_canNavigateHeatRooms",
                     {"canComeInCharged": {
                       "framesRemaining": 5,
-                      "fromNode": 1,
-                      "shinesparkFrames": 21,
-                      "excessShinesparkFrames": 5
+                      "fromNode": 1
+                    }},
+                    {"shinespark": {
+                      "frames": 21,
+                      "excessFrames": 5
                     }},
                     {"heatFrames": 250}
                   ],
@@ -744,7 +770,7 @@
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
-                    "canRightFacingDoorXRayClimb",
+                    "h_canLeftDoorXRayClimb",
                     {"enemyDamage": {
                        "enemy": "Yellow Space Pirate (wall)",
                        "type": "contact",
@@ -778,17 +804,16 @@
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
-                    {"heatFrames": 200}
-                  ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [
+                    {"heatFrames": 200},
+                    {"or": [
+                      {"and": [
                         {"heatFrames": 50},
                         "h_canUsePowerBombs"
-                      ]
-                    }
-                  ]
+                      ]},
+                      {"obstaclesCleared": ["A"]}
+                    ]}
+                  ],
+                  "clearsObstacles": ["A"]
                 }
               ]
             }
@@ -811,7 +836,8 @@
                     }},
                     "canXRayClimb",
                     {"heatFrames": 1600}
-                  ]
+                  ],
+                  "note": "Climb up 1 screen."
                 },
                 {
                   "name": "Shinespark Deep Stuck X-Ray Climb",
@@ -819,13 +845,17 @@
                   "requires": [
                     {"canComeInCharged": {
                       "fromNode": 2,
-                      "shinesparkFrames": 0,
                       "framesRemaining": 1
                     }},
                     "canShinesparkDeepStuck",
+                    {"shinespark": {
+                      "frames": 1,
+                      "excessFrames": 1
+                    }},
                     "canXRayClimb",
                     {"heatFrames": 1600}
-                  ]
+                  ],
+                  "note": "Climb up 1 screen."
                 }
               ]
             },
@@ -870,9 +900,11 @@
                   "requires": [
                     {"canComeInCharged": {
                       "fromNode": 3,
-                      "shinesparkFrames": 1,
-                      "excessShinesparkFrames": 1,
                       "framesRemaining": 1
+                    }},
+                    {"shinespark": {
+                      "frames": 1,
+                      "excessFrames": 1
                     }},
                     "canShinesparkDeepStuck",
                     "canXRayClimb",
@@ -930,27 +962,30 @@
                       "canPreciseWalljump",
                       "canSpringBallJumpMidAir",
                       "SpaceJump",
-                      {"canComeInCharged": {
-                       "framesRemaining": 45,
-                        "fromNode": 2,
-                        "shinesparkFrames": 12,
-                        "inRoomPath": [2,5]
-                      }},
-                      {"canComeInCharged": {
-                        "framesRemaining": 45,
-                        "fromNode": 3,
-                        "shinesparkFrames": 12,
-                        "inRoomPath": [3,5]
-                      }}
+                      {"and": [
+                        {"canComeInCharged": {
+                          "framesRemaining": 45,
+                           "fromNode": 2,
+                           "inRoomPath": [2,5]
+                         }},
+                         {"shinespark": {"frames": 12}}   
+                      ]},
+                      {"and": [
+                        {"canComeInCharged": {
+                          "framesRemaining": 45,
+                          "fromNode": 3,
+                          "inRoomPath": [3,5]
+                        }},
+                        {"shinespark": {"frames": 12}}
+                      ]}
                     ]},
-                    {"heatFrames": 400}
+                    {"heatFrames": 400},
+                    {"or": [
+                      "h_canUsePowerBombs",
+                      {"obstaclesCleared": ["A"]}
+                    ]}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": ["h_canUsePowerBombs"]
-                    }
-                  ],
+                  "clearsObstacles": ["A"],
                   "devNote": [
                     "Destroying the obstacle isn't seen to take extra time for two reasons.",
                     "1- It destroys the shot blocks as well which are assumed to be manually destroyed each time since they respawn.",
@@ -963,17 +998,16 @@
                   "requires": [
                     "h_canNavigateHeatRooms",
                     "HiJump",
-                    {"heatFrames": 250}
-                  ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [
+                    {"heatFrames": 250},
+                    {"or": [
+                      {"and": [
                         "h_canUsePowerBombs",
                         {"heatFrames": 50}
-                      ]
-                    }
-                  ]
+                      ]},
+                      {"obstaclesCleared": ["A"]}
+                    ]}
+                  ],
+                  "clearsObstacles": ["A"]
                 },
                 {
                   "name": "Ice Assist",
@@ -982,17 +1016,16 @@
                     "h_canNavigateHeatRooms",
                     "canUseFrozenEnemies",
                     "h_canCrouchJumpDownGrab",
-                    {"heatFrames": 700}
-                  ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [
+                    {"heatFrames": 700},
+                    {"or": [
+                      {"and": [
                         "h_canUsePowerBombs",
                         {"heatFrames": 50}
-                      ]
-                    }
-                  ]
+                      ]},
+                      {"obstaclesCleared": ["A"]}
+                    ]}
+                  ],
+                  "clearsObstacles": ["A"]
                 },
                 {
                   "name": "IBJ",
@@ -1020,19 +1053,18 @@
                         "h_canJumpIntoIBJ",
                         {"heatFrames": 300}
                       ]}
-                    ]}
-                  ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [
+                    ]},
+                    {"or": [
+                      {"and": [
                         "h_canUsePowerBombs",
                         {"heatFrames": 50}
-                      ]
-                    }
+                      ]},
+                      {"obstaclesCleared": ["A"]}
+                    ]}
                   ],
+                  "clearsObstacles": ["A"],
                   "note": [
-                    "The shot block may respawn while bomb jumping and can be cleared by weaving a power bomb into the IBJ, or with a morph bomb placed overhead while bomb jumping.",
+                    "The shot block may respawn while bomb jumping and can be cleared by weaving a Power Bomb into the IBJ, or with a bomb placed overhead while bomb jumping.",
                     "The Power Bomb can be placed one tile higher than the doors to also clear the Power Bomb Blocks above at the same time."
                   ],
                   "devNote": "Placing a power bomb to break the shot block and the power bomb blocks without dropping the IBJ is the same level of control as canBombAboveIBJ."
@@ -1062,6 +1094,23 @@
                     "h_canNavigateHeatRooms",
                     {"heatFrames": 50}
                   ]
+                }
+              ]
+            },
+            {
+              "id": 5,
+              "strats": [
+                {
+                  "name": "Viola Farm",
+                  "notable": false,
+                  "requires": [
+                    "h_heatProof",
+                    {"resetRoom": {
+                      "nodes": [2, 3],
+                      "mustStayPut": false
+                    }},
+                    {"refill": ["PowerBomb"]}
+                  ]  
                 }
               ]
             }
@@ -1194,9 +1243,11 @@
                     "canMidairShinespark",
                     {"canComeInCharged": {
                       "fromNode": 1,
-                      "framesRemaining": 15,
-                      "shinesparkFrames": 78,
-                      "excessShinesparkFrames": 8
+                      "framesRemaining": 15
+                    }},
+                    {"shinespark": {
+                      "frames": 78,
+                      "excessFrames": 8
                     }},
                     {"heatFrames": 210}
                   ],
@@ -1213,8 +1264,7 @@
                     "canBlueSpaceJump",
                     {"canComeInCharged": {
                       "fromNode": 1,
-                      "framesRemaining": 180,
-                      "shinesparkFrames": 0
+                      "framesRemaining": 180
                     }},
                     {"heatFrames": 300}
                   ],
@@ -1229,10 +1279,7 @@
                   "requires": [
                     "h_canNavigateHeatRooms",
                     "Morph",
-                    {"ammo": {
-                      "type": "PowerBomb",
-                      "count": 2
-                    }},
+                    {"ammo": { "type": "PowerBomb", "count": 2 }},
                     {"or": [
                       {"and": [
                         "canCarefulJump",
@@ -1265,10 +1312,7 @@
                   "requires": [
                     "h_canNavigateHeatRooms",
                     "Morph",
-                    {"ammo": {
-                      "type": "PowerBomb",
-                      "count": 3
-                    }},
+                    {"ammo": { "type": "PowerBomb", "count": 3 }},
                     {"heatFrames": 670}
                   ],
                   "reusableRoomwideNotable": "Lower Norfair Pillar Room with Power Bombs",
@@ -1278,7 +1322,7 @@
                   ]
                 }
               ],
-              "devNote": "Potentially doable with morph bombs and enough energy."
+              "devNote": "Potentially doable with bombs and enough energy."
             }
           ]
         },
@@ -1343,8 +1387,7 @@
                     "canBlueSpaceJump",
                     {"canComeInCharged": {
                       "fromNode": 2,
-                      "framesRemaining": 180,
-                      "shinesparkFrames": 0
+                      "framesRemaining": 180
                     }},
                     {"heatFrames": 300}
                   ],
@@ -1361,9 +1404,11 @@
                     "canMidairShinespark",
                     {"canComeInCharged": {
                       "fromNode": 2,
-                      "framesRemaining": 15,
-                      "shinesparkFrames": 78,
-                      "excessShinesparkFrames": 4
+                      "framesRemaining": 15
+                    }},
+                    {"shinespark": {
+                      "frames": 78,
+                      "excessFrames": 4
                     }},
                     {"heatFrames": 210}
                   ],
@@ -1375,11 +1420,7 @@
                   "requires": [
                     "h_canNavigateHeatRooms",
                     "Morph",
-                    "PowerBomb",
-                    {"ammo": {
-                      "type": "PowerBomb",
-                      "count": 2
-                    }},
+                    {"ammo": { "type": "PowerBomb", "count": 2 }},
                     {"or": [
                       {"and": [
                         "canPreciseWalljump",
@@ -1411,10 +1452,7 @@
                   "requires": [
                     "h_canNavigateHeatRooms",
                     "Morph",
-                    {"ammo": {
-                      "type": "PowerBomb",
-                      "count": 3
-                    }},
+                    {"ammo": { "type": "PowerBomb", "count": 3 }},
                     {"heatFrames": 720},
                     {"or": [
                       "canTrickyJump",
@@ -1432,7 +1470,7 @@
                   ]
                 }
               ],
-              "devNote": "Potentially doable with morph bombs and enough energy."
+              "devNote": "Potentially doable with bombs and enough energy."
             }
           ]
         }
@@ -1668,18 +1706,15 @@
                     "h_canNavigateHeatRooms",
                     {"canComeInCharged": {
                       "fromNode": 2,
-                      "framesRemaining": 60,
-                      "shinesparkFrames": 40,
-                      "excessShinesparkFrames": 3
+                      "framesRemaining": 60
+                    }},
+                    {"shinespark": {
+                      "frames": 40,
+                      "excessFrames": 3
                     }},
                     {"heatFrames": 240}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": []
-                    }
-                  ]
+                  "clearsObstacles": ["A"]
                 },
                 {
                   "name": "Writg New Route with HiJump, Speed, and PowerBombs",
@@ -1694,12 +1729,7 @@
                     "canHitbox",
                     {"heatFrames": 420}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": []
-                    }
-                  ],
+                  "clearsObstacles": ["A"],
                   "note": [
                     "Jump with some run speed to place the power bomb high enough to break the bomb blocks.",
                     "During the explosion, jump through the left wall pirate and precisely walljump to reach the upper area."
@@ -1717,25 +1747,21 @@
                     "ScrewAttack",
                     {"heatFrames": 330}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": []
-                    }
-                  ],
+                  "clearsObstacles": ["A"],
                   "note": [
                     "Use ScrewAttack to remove the left wall pirate and walljump high enough to place a power bomb to destroy the bomb blocks",
                     "Then walljump up again to reach the upper region."
                   ]
                 },
                 {
-                  "name": "Jump Assist and PowerBomb",
-                  "notable": false,
+                  "name": "WRITG with PowerBombs and a Jump Assist",
+                  "notable": true,
                   "requires": [
                     "h_canNavigateHeatRooms",
                     "canPreciseWalljump",
                     "canHitbox",
                     "h_canUsePowerBombs",
+                    "canTrickyJump",
                     {"or": [
                       "canSpringwall",
                       "HiJump",
@@ -1743,12 +1769,7 @@
                     ]},
                     {"heatFrames": 530}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": []
-                    }
-                  ],
+                  "clearsObstacles": ["A"],
                   "note": [
                     "Avoid the bottom pirates and jump high enough to break the bomb blocks with a power bomb.",
                     "During the explosion, climb the right wall passing through any pirates and use a movement item to reach the top."
@@ -1761,14 +1782,13 @@
                     "canTrickyUseFrozenEnemies",
                     "Charge",
                     "h_heatProof",
-                    "canDelayedWalljump"
+                    "canDelayedWalljump",
+                    {"or": [
+                      "h_canDestroyBombWalls",
+                      {"obstaclesCleared": ["A"]}
+                    ]}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [ "h_canDestroyBombWalls" ]
-                    }
-                  ],
+                  "clearsObstacles": ["A"],
                   "note": [
                     "Freeze the pirates to use as platforms to get up through the bomb blocks. Note that the pirates' hitboxes are larger than they seem."
                   ]
@@ -1788,12 +1808,7 @@
                     {"ammo": {"type": "PowerBomb","count": 1}},
                     {"heatFrames": 870}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": []
-                    }
-                  ],
+                  "clearsObstacles": ["A"],
                   "note": [
                     "Deal an exact amount of damage to a wall pirate to freeze it while breaking the bomb blocks with a power bomb without taking damage.",
                     "Quickly move to the right side and walljump up to the right height to power bomb out the bomb blocks, double hitting the top wall pirate.",
@@ -1818,17 +1833,12 @@
                     {"ammo": {"type": "PowerBomb","count": 1}},
                     {"heatFrames": 900}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": []
-                    }
-                  ],
+                  "clearsObstacles": ["A"],
                   "note": [
                     "Deal an exact amount of damage to a wall pirate to freeze it while breaking the bomb blocks with a power bomb without taking damage.",
                     "Wait briefly on the left side of the center platform, then jump and shoot 4 missiles at the top pirate.",
                     "Walljump up the left wall such that the lower pirates are on screen long enough to jump accross to the left.",
-                    "Place a Morph Bomb on the left wall to hit the top pirate when it jumps over, followed by a power bomb.",
+                    "Place a Bomb on the left wall to hit the top pirate when it jumps over, followed by a power bomb.",
                     "Unmorph precisely below the middle pirate so both top pirates will jump back to the right, and begin charging Ice.",
                     "Walljump up the left wall with charge held and freeze the top pirate when it jumps over and use it to reach the upper region."
                   ]
@@ -1844,6 +1854,7 @@
                     "h_canUsePowerBombs",
                     {"heatFrames": 930}
                   ],
+                  "clearsObstacles": ["A"],
                   "note": [
                     "Ignore the Yellow Pirates by walljumping up the left side to start a diagonal bomb jump from the wall, including a power bomb to clear the bomb blocks.",
                     "Two quick walljumps upon entering the room can position Samus to get the left pirate to jump to the right and jump over the right pirate's lazer attack.",
@@ -1856,7 +1867,7 @@
                   "notable": true,
                   "requires": [
                     "h_canNavigateHeatRooms",
-                    "canRightFacingDoorXRayClimb",
+                    "h_canLeftDoorXRayClimb",
                     {"resetRoom":{
                       "nodes": [2],
                       "mustStayPut": true
@@ -1907,7 +1918,7 @@
                     }}
                   ],
                   "note": "Being heatproof allows slower kill methods.",
-                  "devNote": "Morph bombs are still excluded because they take 30 bombs each and that's ridiculous."
+                  "devNote": "Bombs are still excluded because they take 30 bombs each and that's ridiculous."
                 },
                 {
                   "name": "Screw Attack Pirates Kill",
@@ -2032,12 +2043,7 @@
                     }},
                     {"heatFrames": 790}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": []
-                    }
-                  ],
+                  "clearsObstacles": ["A"],
                   "note": [
                     "Jump morph from the center platform to place the first Power Bomb",
                     "Place two more on the platform itself to kill the bottom pirates",
@@ -2065,10 +2071,40 @@
                   "name": "Base",
                   "notable": false,
                   "requires": [
+                    "h_heatProof"
+                  ]
+                },
+                {
+                  "name": "Kill the Pirate",
+                  "notable": false,
+                  "requires": [
                     "h_canNavigateHeatRooms",
+                    {"or": [
+                      "ScrewAttack",
+                      {"and": [
+                        {"heatFrames": 60},
+                        {"enemyKill": {
+                          "enemies": [["Yellow Space Pirate (standing)"]],
+                          "explicitWeapons": [
+                            "Missile",
+                            "Super",
+                            "Charge+Plasma"
+                          ]
+                        }}
+                      ]}
+                    ]},
+                    {"heatFrames": 300}
+                  ]
+                },
+                {
+                  "name": "Avoid the Top Pirate",
+                  "notable": false,
+                  "requires": [
+                    "h_canNavigateHeatRooms",
+                    "canCarefulJump",
                     {"heatFrames": 210}
                   ],
-                  "note": "The shot blocks can be safely cleared from the door."
+                  "note": "Safely clear the shot blocks from the door without drawing fire from the space pirate."
                 }
               ]
             },
@@ -2083,7 +2119,7 @@
                     {"or": [
                       {"and": [
                         {"or": [
-                          "canCarefulJump",
+                          "canTrickyJump",
                           {"enemyKill": {
                             "enemies": [["Yellow Space Pirate (standing)"]],
                             "explicitWeapons": ["ScrewAttack"]
@@ -2111,26 +2147,21 @@
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
-                    {"heatFrames": 180}
+                    {"heatFrames": 180},
+                    {"or": [
+                      "ScrewAttack",
+                      {"and": [
+                        "h_canUsePowerBombs",
+                        {"heatFrames": 70}
+                      ]},
+                      {"and": [
+                        "h_canUseMorphBombs",
+                        {"heatFrames": 200}
+                      ]},
+                      {"obstaclesCleared": ["A"]}
+                    ]}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [
-                        {"or": [
-                          "ScrewAttack",
-                          {"and": [
-                            "h_canUsePowerBombs",
-                            {"heatFrames": 70}
-                          ]},
-                          {"and": [
-                            "h_canUseMorphBombs",
-                            {"heatFrames": 200}
-                          ]}
-                        ]}
-                      ]
-                    }
-                  ]
+                  "clearsObstacles": ["A"]
                 }
               ]
             },
@@ -2179,6 +2210,7 @@
                     "h_canNavigateHeatRooms",
                     "HiJump",
                     "canTrickyJump",
+                    "canMidAirMorph",
                     {"heatFrames": 240}
                   ]
                 },
@@ -2187,9 +2219,9 @@
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
-                    "canPreciseWalljump",
-                    "Morph",
+                    "canWallJumpInstantMorph",
                     "canTrickyJump",
+                    "canInsaneWalljump",
                     {"heatFrames": 290}
                   ]
                 },
@@ -2242,6 +2274,7 @@
                   "requires": [
                     "h_canNavigateHeatRooms",
                     "HiJump",
+                    "canMidAirMorph",
                     "canTrickyJump",
                     {"heatFrames": 160}
                   ]
@@ -2251,8 +2284,8 @@
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
-                    "canPreciseWalljump",
-                    "Morph",
+                    "canInsaneWalljump",
+                    "canWallJumpInstantMorph",
                     "canTrickyJump",
                     {"heatFrames": 160}
                   ]
@@ -2301,6 +2334,32 @@
                   ]
                 }
               ]
+            },
+            {
+              "id": 5,
+              "strats": [
+                {
+                  "name": "Yellow Space Pirates Farm",
+                  "notable": false,
+                  "requires": [
+                    "h_heatProof",
+                    {"or": [
+                      "ScrewAttack",
+                      {"and": [
+                        "Charge",
+                        "Plasma",
+                        "Wave",
+                        "Ice"
+                      ]}
+                    ]},
+                    {"resetRoom": {
+                      "nodes": [1, 3],
+                      "mustStayPut": false
+                    }},
+                    {"refill": ["Energy", "Missile"]}
+                  ]
+                }
+              ]
             }
           ]
         },
@@ -2331,24 +2390,22 @@
                         {"heatFrames": 800}
                       ]},
                       {"heatFrames": 2000}
+                    ]},
+                    {"or": [
+                      "h_canUsePowerBombs",
+                      {"and": [
+                        "h_canBombAboveIBJ",
+                        "canStaggeredIBJ",
+                        {"heatFrames": 180}
+                      ]},
+                      {"and": [
+                        "h_heatProof",
+                        "canBePatient"
+                      ]},
+                      {"obstaclesCleared": ["A"]}
                     ]}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [
-                        {"or": [
-                          "h_canUsePowerBombs",
-                          {"and": [
-                            "h_canBombAboveIBJ",
-                            "canStaggeredIBJ",
-                            {"heatFrames": 180}
-                          ]},
-                          "h_heatProof"
-                        ]}
-                      ]
-                    }
-                  ]
+                  "clearsObstacles": ["A"]
                 },
                 {
                   "name": "SpaceJump",
@@ -2362,38 +2419,33 @@
                         {"heatFrames": 260}
                       ]},
                       {"heatFrames": 360}
+                    ]},
+                    {"or": [
+                      "ScrewAttack",
+                      {"and": [
+                        "h_canUsePowerBombs",
+                        {"or": [
+                          {"and": [
+                            "canWalljump",
+                            {"heatFrames": 120}
+                          ]},
+                          {"heatFrames": 200}
+                        ]}
+                      ]},
+                      {"and": [
+                        "h_canUseMorphBombs",
+                        {"or": [
+                          {"and": [
+                            "canConsecutiveWalljump",
+                            {"heatFrames": 520}
+                          ]},
+                          {"heatFrames": 800}
+                        ]}
+                      ]},
+                      {"obstaclesCleared": ["A"]}
                     ]}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [
-                        {"or": [
-                          "ScrewAttack",
-                          {"and": [
-                            "h_canUsePowerBombs",
-                            {"or": [
-                              {"and": [
-                                "canWalljump",
-                                {"heatFrames": 120}
-                              ]},
-                              {"heatFrames": 200}
-                            ]}
-                          ]},
-                          {"and": [
-                            "h_canUseMorphBombs",
-                            {"or": [
-                              {"and": [
-                                "canConsecutiveWalljump",
-                                {"heatFrames": 520}
-                              ]},
-                              {"heatFrames": 800}
-                            ]}
-                          ]}
-                        ]}
-                      ]
-                    }
-                  ]
+                  "clearsObstacles": ["A"]
                 },
                 {
                   "name": "Writg Springwall",
@@ -2402,25 +2454,20 @@
                     "h_canNavigateHeatRooms",
                     "canSpringwall",
                     "canConsecutiveWalljump",
-                    {"heatFrames": 300}
+                    {"heatFrames": 300},
+                    {"or": [
+                      {"and": [
+                        "h_canUsePowerBombs",
+                        {"heatFrames": 180}
+                      ]},
+                      {"and": [
+                        "h_canUseMorphBombs",
+                        {"heatFrames": 800}
+                      ]},
+                      {"obstaclesCleared": ["A"]}
+                    ]}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [
-                        {"or": [
-                          {"and": [
-                            "h_canUsePowerBombs",
-                            {"heatFrames": 180}
-                          ]},
-                          {"and": [
-                            "h_canUseMorphBombs",
-                            {"heatFrames": 800}
-                          ]}
-                        ]}
-                      ]
-                    }
-                  ]
+                  "clearsObstacles": ["A"]
                 },
                 {
                   "name": "Writg Hj Walljump",
@@ -2430,27 +2477,22 @@
                     "HiJump",
                     "canPreciseWalljump",
                     "canConsecutiveWalljump",
-                    {"heatFrames": 300}
+                    {"heatFrames": 300},
+                    {"or": [
+                      {"and": [
+                        "h_canUsePowerBombs",
+                        {"heatFrames": 200}
+                      ]},
+                      {"and": [
+                        "canDelayedWalljump",
+                        "canWallJumpInstantMorph",
+                        "h_canUseMorphBombs",
+                        {"heatFrames": 520}
+                      ]},
+                      {"obstaclesCleared": ["A"]}
+                    ]}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [
-                        {"or": [
-                          {"and": [
-                            "h_canUsePowerBombs",
-                            {"heatFrames": 200}
-                          ]},
-                          {"and": [
-                            "canDelayedWalljump",
-                            "canWallJumpInstantMorph",
-                            "h_canUseMorphBombs",
-                            {"heatFrames": 520}
-                          ]}
-                        ]}
-                      ]
-                    }
-                  ]
+                  "clearsObstacles": ["A"]
                 },
                 {
                   "name": "Writg Hjless Walljump",
@@ -2458,16 +2500,13 @@
                   "requires": [
                     "canInsaneWalljump",
                     "canConsecutiveWalljump",
-                    "h_heatProof"
+                    "h_heatProof",
+                    {"or": [
+                      "h_canUsePowerBombs",
+                      {"obstaclesCleared": ["A"]}
+                    ]}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [
-                        "h_canUsePowerBombs"
-                      ]
-                    }
-                  ]
+                  "clearsObstacles": ["A"]
                 },
                 {
                   "name": "Writg HiJump and Only Screw",
@@ -2480,12 +2519,7 @@
                     "canConsecutiveWalljump",
                     "canMidairWiggle"
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": []
-                    }
-                  ],
+                  "clearsObstacles": ["A"],
                   "note": [
                     "Break the bomb blocks in The Worst Room In The Game with extremely precise walljumps.",
                     "Either with a fully delayed max height jump from the wall, or with an instant turnaround after jumping from the lower layer of bomb blocks."
@@ -2822,7 +2856,6 @@
                         {"canComeInCharged": {
                           "framesRemaining": 180,
                           "fromNode": 2,
-                          "shinesparkFrames": 0,
                           "unusableTiles": 14
                         }}
                       ]}
@@ -2881,9 +2914,9 @@
                     "canSuitlessLavaDive",
                     {"canShineCharge": {
                       "usedTiles": 13,
-                      "openEnd": 1,
-                      "shinesparkFrames": 55
+                      "openEnd": 1
                     }},
+                    {"shinespark": {"frames": 55}},
                     {"acidFrames": 600}
                   ],
                   "reusableRoomwideNotable": "Amphitheatre Reverse Acid Dive",
@@ -3695,7 +3728,7 @@
               "id": 6,
               "strats": [
                 {
-                  "name": "Morph Bombs",
+                  "name": "Bombs",
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
@@ -3731,10 +3764,35 @@
           "from": 3,
           "to": [
             {
+              "id": 3,
+              "strats": [
+                {
+                  "name": "Red Kihunter Farm",
+                  "notable": false,
+                  "requires": [
+                    "h_heatProof",
+                    {"or": [
+                      "ScrewAttack",
+                      {"and": [
+                        "Plasma",
+                        "Wave",
+                        "Ice"
+                      ]}
+                    ]},
+                    {"resetRoom": {
+                      "nodes": [1, 3, 4],
+                      "mustStayPut": false
+                    }},
+                    {"refill": ["Energy", "Missile", "Super"]}
+                  ]
+                }
+              ]
+            },
+            {
               "id": 6,
               "strats": [
                 {
-                  "name": "Morph Bombs",
+                  "name": "Bombs",
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
@@ -3979,7 +4037,7 @@
               "id": 2,
               "strats": [
                 {
-                  "name": "Morph Bombs",
+                  "name": "Bombs",
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
@@ -4003,7 +4061,7 @@
               "id": 7,
               "strats": [
                 {
-                  "name": "Morph Bombs",
+                  "name": "Bombs",
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
@@ -4026,11 +4084,7 @@
                   "requires": [
                     "h_canNavigateHeatRooms",
                     "Morph",
-                    "PowerBomb",
-                    {"ammo": {
-                      "type": "PowerBomb",
-                      "count": 2
-                    }},
+                    {"ammo": { "type": "PowerBomb", "count": 2 }},
                     {"or": [
                       "ScrewAttack",
                       {"and": [
@@ -4067,8 +4121,8 @@
                     "Watch for the KiHunter to move right before jumping up to get a safe predicatable swoop."
                   ],
                   "devNote": [
-                    "This requires Power Bombs because it saves neither energy nor ammo using Morph Bombs.",
-                    "It's slower than Spring Ball mainly because X-Ray scope won't activate during the PB explosion."
+                    "This requires Power Bombs because it saves neither energy nor ammo using Bombs.",
+                    "It's slower than Spring Ball mainly because X-Ray scope won't activate during the Power Bomb explosion."
                   ]
                 },
                 {
@@ -4093,7 +4147,7 @@
                     "Wait for the bomb blocks to reappear.  Two crouches worth of height are needed before jumping through the rest of the blocks.",
                     "Watch for the KiHunter to move right before jumping up to get a safe predicatable swoop."
                   ],
-                  "devNote": "This requires Power Bombs because it saves neither energy nor ammo using Morph Bombs."
+                  "devNote": "This requires Power Bombs because it saves neither energy nor ammo using Bombs."
                 },
                 {
                   "name": "Spring Power Bombs",
@@ -4409,21 +4463,19 @@
                   "requires": [
                     "h_canNavigateHeatRooms",
                     { "heatFrames": 580 },
-                    { "or": [
+                    {"or": [
                       "canWalljump",
                       { "heatFrames": 200 }
-                    ]}
-                  ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [
+                    ]},
+                    {"or": [
+                      {"and": [
                         "h_canUsePowerBombs",
                         { "heatFrames": 120 }
-                      ],
-                      "additionalObstacles": ["B"]
-                    }
-                  ]
+                      ]},
+                      {"obstaclesCleared": ["A"]}
+                    ]}
+                  ],
+                  "clearsObstacles": ["A","B"]
                 }
               ]
             },
@@ -4435,7 +4487,7 @@
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
-                    "canRightFacingDoorXRayClimb",
+                    "h_canLeftDoorXRayClimb",
                     {"resetRoom":{
                       "nodes":[1],
                       "mustStayPut": true
@@ -4448,7 +4500,8 @@
                     }},
                     {"heatFrames": 2800}
                   ],
-                  "note": [
+                  "note": "Climb up 2 screens.",
+                  "devNote": [
                     "Ever so slightly shorter than the long climb in Screw Attack Room (1 tile), we'll just put the same value.",
                     "Heat frames split into the actual climb and the setup in the adjacent room."
                   ]
@@ -4465,7 +4518,7 @@
               "id": 7,
               "strats": [
                 {
-                  "name": "Morph Bombs",
+                  "name": "Bombs",
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
@@ -4479,11 +4532,7 @@
                   "requires": [
                     "h_canNavigateHeatRooms",
                     "Morph",
-                    "PowerBomb",
-                    {"ammo": {
-                      "type": "PowerBomb",
-                      "count": 2
-                    }},
+                    {"ammo": { "type": "PowerBomb", "count": 2 }},
                     {"heatFrames": 350}
                   ]
                 }
@@ -4545,6 +4594,15 @@
               "id": 7,
               "strats": [
                 {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [
+                    "h_canNavigateHeatRooms",
+                    {"obstaclesCleared": ["D"]},
+                    {"heatFrames": 200}
+                  ]
+                },
+                {
                   "name": "Tank the Damage",
                   "notable": false,
                   "requires": [
@@ -4560,83 +4618,52 @@
                 {
                   "name": "HeatProof Kill",
                   "notable": false,
-                  "requires": ["h_heatProof"],
-                  "obstacles": [
-                    {
-                      "id": "D",
-                      "requires": [
-                        {"enemyKill":{
-                          "enemies": [
-                            [ "Dessgeega" ]
-                          ],
-                          "excludedWeapons": [ "Bombs" ]
-                        }}
-                      ],
-                      "note": "Morph Bombs excluded because that'd probably cost more health than just running through."
-                    }
-                  ]
+                  "requires": [
+                    "h_heatProof",
+                    {"enemyKill":{
+                      "enemies": [ [ "Dessgeega" ] ],
+                      "excludedWeapons": [ "Bombs" ]
+                    }}
+                  ],
+                  "clearsObstacles": ["D"],
+                  "devNote": "Bombs excluded because that'd probably cost more health than just running through."
                 },
                 {
                   "name": "Screw Kill",
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
-                    {"heatFrames": 200}
+                    "ScrewAttack",
+                    {"heatFrames": 300}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "D",
-                      "requires": [
-                        {"heatFrames": 100},
-                        "ScrewAttack"
-                      ]
-                    }
-                  ]
+                  "clearsObstacles": ["D"]
                 },
                 {
                   "name": "Supers Kill",
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
-                    {"heatFrames": 200}
+                    {"heatFrames": 550},
+                    {"enemyKill":{
+                      "enemies": [ [ "Dessgeega", "Dessgeega", "Dessgeega" ] ],
+                      "explicitWeapons": [ "Super" ]
+                    }}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "D",
-                      "requires": [
-                        {"heatFrames": 350},
-                        {"enemyKill":{
-                          "enemies": [
-                            [
-                              "Dessgeega", "Dessgeega", "Dessgeega"
-                            ]
-                          ],
-                          "explicitWeapons": [ "Super" ]
-                        }}
-                      ]
-                    }
-                  ]
+                  "clearsObstacles": ["D"]
                 },
                 {
-                  "name": "Beam Kill",
+                  "name": "Strong Beam Kill",
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
-                    {"heatFrames": 200}
+                    {"heatFrames": 550},
+                    "Plasma",
+                    {"or": [
+                      "Ice",
+                      "Wave"
+                    ]}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "D",
-                      "requires": [
-                        {"heatFrames": 350},
-                        "Plasma",
-                        {"or": [
-                          "Ice",
-                          "Wave"
-                        ]}
-                      ]
-                    }
-                  ]
+                  "clearsObstacles": ["D"]
                 }
               ]
             }
@@ -4653,21 +4680,19 @@
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
-                    {"heatFrames": 600}
-                  ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [
+                    {"heatFrames": 600},
+                    {"or": [
+                      {"and": [
                         "h_canUsePowerBombs",
                         {"heatFrames": 50}
-                      ],
-                      "additionalObstacles": ["B"],
-                      "note": [
-                        "This expects that the PB gets used a bit before the node is actually reached.",
-                        "This is why the full wait time isn't included in heat frames."
-                      ]
-                    }
+                      ]},
+                      {"obstaclesCleared": ["A"]}
+                    ]}
+                  ],
+                  "clearsObstacles": ["A","B"],
+                  "devNote": [
+                    "This expects that the PB gets used a bit before the node is actually reached.",
+                    "This is why the full wait time isn't included in heat frames."
                   ]
                 }
               ]
@@ -4676,32 +4701,32 @@
               "id": 4,
               "strats": [
                 {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [
+                    "h_canNavigateHeatRooms",
+                    {"obstaclesCleared": ["C"]}
+                  ]
+                },
+                {
                   "name": "HeatProof Kill",
                   "notable": false,
                   "requires": [
-                    "h_heatProof"
+                    "h_heatProof",
+                    {"enemyKill":{
+                      "enemies": [ [ "Dessgeega" ] ],
+                      "excludedWeapons": [ "Bombs" ]
+                    }}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "C",
-                      "requires": [
-                        {"enemyKill":{
-                          "enemies": [
-                            [ "Dessgeega" ]
-                          ],
-                          "excludedWeapons": [ "Bombs" ]
-                        }}
-                      ]
-                    }
-                  ],
-                  "note": "Morph Bombs excluded because that'd probably cost more health than just running through."
+                  "clearsObstacles": ["C"],
+                  "devNote": "Bombs excluded because that'd probably cost more health than just running through."
                 },
                 {
                   "name": "Tank the Damage",
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
-                    { "heatFrames": 50 },
+                    {"heatFrames": 50},
                     {"enemyDamage": {
                       "enemy": "Dessgeega",
                       "type": "contact",
@@ -4712,56 +4737,41 @@
                 {
                   "name": "Screw Kill",
                   "notable": false,
-                  "requires": ["h_canNavigateHeatRooms"],
-                  "obstacles": [
-                    {
-                      "id": "C",
-                      "requires": [
-                        { "heatFrames": 100 },
-                        "ScrewAttack"
-                      ]
-                    }
-                  ]
+                  "requires": [
+                    "h_canNavigateHeatRooms",
+                    "ScrewAttack",
+                    {"heatFrames": 100}
+                  ],
+                  "clearsObstacles": ["C"]
                 },
                 {
                   "name": "Supers Kill",
                   "notable": false,
-                  "requires": ["h_canNavigateHeatRooms"],
-                  "obstacles": [
-                    {
-                      "id": "C",
-                      "requires": [
-                        { "heatFrames": 100 },
-                        {"enemyKill":{
-                          "enemies": [
-                            [ "Dessgeega" ]
-                          ],
-                          "explicitWeapons": [ "Super" ]
-                        }}
-                      ]
-                    }
-                  ]
+                  "requires": [
+                    "h_canNavigateHeatRooms",
+                    {"enemyKill":{
+                      "enemies": [ [ "Dessgeega" ] ],
+                      "explicitWeapons": [ "Super" ]
+                    }},
+                    {"heatFrames": 100}
+                  ],
+                  "clearsObstacles": ["C"]
                 },
                 {
                   "name": "Beam Kill",
                   "notable": false,
-                  "requires": ["h_canNavigateHeatRooms"],
-                  "obstacles": [
-                    {
-                      "id": "C",
-                      "requires": [
-                        { "heatFrames": 100 },
-                        "Plasma",
-                        { "or": [
-                          "Ice",
-                          "Wave"
-                        ]}
-                      ]
-                    }
-                  ]
+                  "requires": [
+                    "h_canNavigateHeatRooms",
+                    "Plasma",
+                    {"or": [
+                      "Ice",
+                      "Wave"
+                    ]},
+                    {"heatFrames": 100}
+                  ],
+                  "clearsObstacles": ["C"]
                 }
-              ],
-              "devNote": "No strat specifically for if the enemy is just dead, since all the different kill strats require nothing if it's already dead."
+              ]
             }
           ]
         },
@@ -4772,60 +4782,61 @@
               "id": 3,
               "strats": [
                 {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [
+                    "h_canNavigateHeatRooms",
+                    "Morph",
+                    {"heatFrames": 100},
+                    {"obstaclesCleared": ["B"]}
+                  ]
+                },
+                {
                   "name": "Screw",
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
-                    {"heatFrames": 100},
-                    "Morph"
+                    "ScrewAttack",
+                    "Morph",
+                    {"heatFrames": 100}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "B",
-                      "requires": ["ScrewAttack"]
-                    }
-                  ]
+                  "clearsObstacles": ["B"]
                 },
                 {
-                  "name": "Morph Bombs",
+                  "name": "Bombs",
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
-                    {"heatFrames": 100},
-                    "Morph"
+                    "h_canUseMorphBombs",
+                    {"heatFrames": 200}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "B",
-                      "requires": [
-                        {"heatFrames": 100},
-                        "h_canUseMorphBombs"
-                      ]
-                    }
-                  ]
+                  "clearsObstacles": ["B"]
                 },
                 {
-                  "name": "Power Bombs",
+                  "name": "Power Bomb",
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
-                    {"heatFrames": 100},
-                    "Morph"
+                    "h_canUsePowerBombs",
+                    {"heatFrames": 100}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "B",
-                      "requires": ["h_canUsePowerBombs"],
-                      "additionalObstacles": ["A"]
-                    }
-                  ],
-                  "note": "This expects that the PB is used earlier, avoiding the need to wait for the blast."
+                  "clearsObstacles": ["A","B"],
+                  "devNote": "This expects that the PB is used earlier, avoiding the need to wait for the blast."
                 }
               ]
             },
             {
               "id": 4,
               "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [
+                    "h_canNavigateHeatRooms",
+                    {"heatFrames": 80},
+                    {"obstaclesCleared": ["C"]}
+                  ]
+                },
                 {
                   "name": "Tank the Damage",
                   "notable": false,
@@ -4843,87 +4854,53 @@
                   "name": "HeatProof Kill",
                   "notable": false,
                   "requires": [
-                    "h_heatProof"
+                    "h_heatProof",
+                    {"enemyKill":{
+                      "enemies": [ [ "Dessgeega" ] ],
+                      "excludedWeapons": [ "Bombs" ]
+                    }}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "C",
-                      "requires": [
-                        {"enemyKill":{
-                          "enemies": [
-                            [ "Dessgeega" ]
-                          ],
-                          "excludedWeapons": [ "Bombs" ]
-                        }}
-                      ]
-                    }
-                  ],
-                  "note": "Morph Bombs excluded because that'd probably cost more health than just running through."
+                  "clearsObstacles": ["C"],
+                  "devNote": "Bombs excluded because that'd probably cost more health than just running through."
                 },
                 {
                   "name": "Screw Kill",
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
-                    {"heatFrames": 80}
+                    "ScrewAttack",
+                    {"heatFrames": 130}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "C",
-                      "requires": [
-                        {"heatFrames": 50},
-                        "ScrewAttack"
-                      ]
-                    }
-                  ]
+                  "clearsObstacles": ["C"]
                 },
                 {
                   "name": "Supers Kill",
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
-                    {"heatFrames": 80}
+                    {"enemyKill":{
+                      "enemies": [ [ "Dessgeega" ] ],
+                      "explicitWeapons": [ "Super" ]
+                    }},
+                    {"heatFrames": 130}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "C",
-                      "requires": [
-                        {"heatFrames": 50},
-                        {"enemyKill":{
-                          "enemies": [
-                            [
-                              "Dessgeega"
-                            ]
-                          ],
-                          "explicitWeapons": [ "Super" ]
-                        }}
-                      ]
-                    }
-                  ]
+                  "clearsObstacles": ["C"]
                 },
                 {
-                  "name": "Beam Kill",
+                  "name": "Strong Beam Kill",
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
-                    {"heatFrames": 80}
+                    "Plasma",
+                    {"or": [
+                      "Ice",
+                      "Wave"
+                    ]},
+                    {"heatFrames": 130}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "C",
-                      "requires": [
-                        {"heatFrames": 50},
-                        "Plasma",
-                        {"or": [
-                          "Ice",
-                          "Wave"
-                        ]}
-                      ]
-                    }
-                  ]
+                  "clearsObstacles": ["C"]
                 }
-              ],
-              "devNote": "No strat specifically for if the enemy is just dead, since all the different kill strats require nothing if it's already dead."
+              ]
             }
           ]
         },
@@ -4948,7 +4925,7 @@
                   "devNote": "Note that if using PBs, two is required. One each from h_canBombThings, h_canUsePowerBombs."
                 },
                 {
-                  "name": "Morph Bombs",
+                  "name": "Bombs",
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
@@ -4963,11 +4940,7 @@
                   "requires": [
                     "h_canNavigateHeatRooms",
                     "Morph",
-                    "PowerBomb",
-                    {"ammo": {
-                      "type": "PowerBomb",
-                      "count": 2
-                    }},
+                    {"ammo": { "type": "PowerBomb", "count": 2 }},
                     {"heatFrames": 400},
                     {"hibashiHits": 1}
                   ]
@@ -4977,6 +4950,15 @@
             {
               "id": 4,
               "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [
+                    "h_canNavigateHeatRooms",
+                    {"heatFrames": 150},
+                    {"obstaclesCleared": ["D"]}
+                  ]
+                },
                 {
                   "name": "Tank the Damage",
                   "notable": false,
@@ -4993,88 +4975,53 @@
                 {
                   "name": "HeatProof Kill",
                   "notable": false,
-                  "requires": ["h_heatProof"],
-                  "obstacles": [
-                    {
-                      "id": "D",
-                      "requires": [
-                        {"enemyKill":{
-                          "enemies": [
-                            [ "Dessgeega" ],
-                            [ "Dessgeega" ],
-                            [ "Dessgeega", "Dessgeega"]
-                          ]
-                        }}
-                      ],
-                      "additionalObstacles": ["C"],
-                      "note": "Morph Bombs are not excluded here because there are consistent, safe setups for all Dessgeegas from this direction."
-                    }
-                  ]
+                  "requires": [
+                    "h_heatProof",
+                    {"enemyKill":{
+                      "enemies": [
+                        [ "Dessgeega" ], [ "Dessgeega" ],
+                        [ "Dessgeega", "Dessgeega"] ]
+                    }}
+                  ],
+                  "clearsObstacles": ["C","D"],
+                  "devNote": "Bombs are not excluded here because there are consistent, safe setups for all Dessgeegas from this direction."
                 },
                 {
                   "name": "Screw Kill",
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
-                    {"heatFrames": 150}
+                    "ScrewAttack",
+                    {"heatFrames": 300}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "D",
-                      "requires": [
-                        "ScrewAttack",
-                        {"heatFrames": 150}
-                      ],
-                      "additionalObstacles": ["C"]
-                    }
-                  ]
+                  "clearsObstacles": ["C","D"]
                 },
                 {
                   "name": "Supers Kill",
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
-                    {"heatFrames": 150}
+                    {"enemyKill":{
+                      "enemies": [ [ "Dessgeega", "Dessgeega", "Dessgeega", "Dessgeega" ] ],
+                      "explicitWeapons": [ "Super" ]
+                    }},
+                    {"heatFrames": 600}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "D",
-                      "requires": [
-                        {"heatFrames":450},
-                        {"enemyKill":{
-                          "enemies": [
-                            [
-                              "Dessgeega", "Dessgeega", "Dessgeega", "Dessgeega"
-                            ]
-                          ],
-                          "explicitWeapons": [ "Super" ]
-                        }}
-                      ],
-                      "additionalObstacles": ["C"]
-                    }
-                  ]
+                  "clearsObstacles": ["C","D"]
                 },
                 {
-                  "name": "Beam Kill",
+                  "name": "Strong Beam Kill",
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
-                    {"heatFrames": 150}
+                    "Plasma",
+                    {"or": [
+                      "Ice",
+                      "Wave"
+                    ]},
+                    {"heatFrames": 600}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "D",
-                      "requires": [
-                        {"heatFrames":450},
-                        "Plasma",
-                        {"or": [
-                          "Ice",
-                          "Wave"
-                        ]}
-                      ],
-                      "additionalObstacles": ["C"]
-                    }
-                  ]
+                  "clearsObstacles": ["C","D"]
                 }
               ]
             }
@@ -5224,8 +5171,7 @@
         {
           "id": "A",
           "name": "Metal Pirates",
-          "obstacleType": "enemies",
-          "requires": []
+          "obstacleType": "enemies"
         }
       ],
       "enemies": [
@@ -5356,164 +5302,12 @@
                 {
                   "name": "Charge Plasma Kill",
                   "notable": false,
-                  "requires": [],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [
-                        "h_canNavigateHeatRooms",
-                        "Charge",
-                        "Plasma",
-                        {"or": [
-                          {"and": [
-                            {"or": [
-                              "canDodgeWhileShooting",
-                              {"enemyDamage": {
-                                "enemy": "Space Pirate (fighting)",
-                                "type": "contact",
-                                "hits": 2
-                              }}
-                            ]},
-                            {"or":[
-                              "Ice",
-                              "Wave"
-                            ]},
-                            {"heatFrames": 700}
-                          ]},
-                          {"and": [
-                            {"or": [
-                              "canDodgeWhileShooting",
-                              {"enemyDamage": {
-                                "enemy": "Space Pirate (fighting)",
-                                "type": "contact",
-                                "hits": 2
-                              }}
-                            ]},
-                            "Ice",
-                            "Wave",
-                            {"heatFrames": 450}
-                          ]},
-                          {"and": [
-                            {"or": [
-                              "canDodgeWhileShooting",
-                              {"enemyDamage": {
-                                "enemy": "Space Pirate (fighting)",
-                                "type": "contact",
-                                "hits": 2
-                              }}
-                            ]},
-                            {"heatFrames": 950}
-                          ]},
-                          {"and": [
-                            "canXRayWaitForIFrames",
-                            {"heatFrames": 250}
-                          ]}
-                        ]}
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "name": "Charge Spazer Kill",
-                  "notable": false,
-                  "requires": [],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [
-                        "h_canNavigateHeatRooms",
-                        "canDodgeWhileShooting",
-                        "Charge",
-                        "Spazer",
-                        {"or": [
-                          {"heatFrames": 4400},
-                          {"and": [
-                            "Ice",
-                            {"heatFrames": 3000}
-                          ]},
-                          {"and": [
-                            "Wave",
-                            {"heatFrames": 2650}
-                          ]},
-                          {"and": [
-                            "Ice",
-                            "Wave",
-                            {"heatFrames": 1750}
-                          ]}
-                        ]}
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "name": "Plasma Kill",
-                  "notable": false,
-                  "requires": [],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [
-                        "h_canNavigateHeatRooms",
-                        {"or": [
-                          "canDodgeWhileShooting",
-                          {"enemyDamage": {
-                            "enemy": "Space Pirate (fighting)",
-                            "type": "contact",
-                            "hits": 8
-                          }}
-                        ]},
-                        "Plasma",
-                        {"heatFrames": 2000}
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "name": "Slow Kill",
-                  "notable": false,
-                  "requires": [],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [
-                        "h_heatProof",
-                        "canDodgeWhileShooting",
-                        "Charge",
-                        "Wave"
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "name": "Very Slow Kill",
-                  "notable": false,
-                  "requires": [],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [
-                        "h_heatProof",
-                        "canDodgeWhileShooting",
-                        "canBePatient",
-                        {"or": [
-                          "Spazer",
-                          "Charge"
-                        ]}
-                      ]
-                    }
-                  ],
-                  "note": "Uncharged Spazer does half damage.",
-                  "devNote": "This strat is only for uncharged spazer, or charge with or without ice"
-                },
-                {
-                  "name": "Super Kill",
-                  "notable": false,
-                  "requires": [],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [
-                        "h_canNavigateHeatRooms",
+                  "requires": [
+                    "h_canNavigateHeatRooms",
+                    "Charge",
+                    "Plasma",
+                    {"or": [
+                      {"and": [
                         {"or": [
                           "canDodgeWhileShooting",
                           {"enemyDamage": {
@@ -5522,64 +5316,198 @@
                             "hits": 2
                           }}
                         ]},
-                        {"enemyKill":{
-                          "enemies": [
-                            [ "Space Pirate (fighting)", "Space Pirate (fighting)" ]
-                          ],
-                          "explicitWeapons": [ "Super" ]
-                        }},
-                        {"heatFrames": 450}
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "name": "Missile Kill",
-                  "notable": false,
-                  "requires": [],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [
-                        "h_canNavigateHeatRooms",
+                        {"or":[
+                          "Ice",
+                          "Wave"
+                        ]},
+                        {"heatFrames": 700}
+                      ]},
+                      {"and": [
                         {"or": [
                           "canDodgeWhileShooting",
                           {"enemyDamage": {
                             "enemy": "Space Pirate (fighting)",
                             "type": "contact",
-                            "hits": 6
+                            "hits": 2
                           }}
                         ]},
-                        {"enemyKill":{
-                          "enemies": [
-                            [ "Space Pirate (fighting)", "Space Pirate (fighting)" ]
-                          ],
-                          "explicitWeapons": [ "Missile" ]
-                        }},
-                        {"heatFrames": 2700}
-                      ]
-                    }
-                  ]
+                        "Ice",
+                        "Wave",
+                        {"heatFrames": 450}
+                      ]},
+                      {"and": [
+                        {"or": [
+                          "canDodgeWhileShooting",
+                          {"enemyDamage": {
+                            "enemy": "Space Pirate (fighting)",
+                            "type": "contact",
+                            "hits": 2
+                          }}
+                        ]},
+                        {"heatFrames": 950}
+                      ]},
+                      {"and": [
+                        "canXRayWaitForIFrames",
+                        {"heatFrames": 250}
+                      ]}
+                    ]}
+                  ],
+                  "clearsObstacles": ["A"]
+                },
+                {
+                  "name": "Charge Spazer Kill",
+                  "notable": false,
+                  "requires": [
+                    "h_canNavigateHeatRooms",
+                    "canDodgeWhileShooting",
+                    "Charge",
+                    "Spazer",
+                    {"or": [
+                      {"heatFrames": 4400},
+                      {"and": [
+                        "Ice",
+                        {"heatFrames": 3000}
+                      ]},
+                      {"and": [
+                        "Wave",
+                        {"heatFrames": 2650}
+                      ]},
+                      {"and": [
+                        "Ice",
+                        "Wave",
+                        {"heatFrames": 1750}
+                      ]}
+                    ]}
+                  ],
+                  "clearsObstacles": ["A"]
+                },
+                {
+                  "name": "Plasma Kill",
+                  "notable": false,
+                  "requires": [
+                    "h_canNavigateHeatRooms",
+                    {"or": [
+                      "canDodgeWhileShooting",
+                      {"enemyDamage": {
+                        "enemy": "Space Pirate (fighting)",
+                        "type": "contact",
+                        "hits": 8
+                      }}
+                    ]},
+                    "Plasma",
+                    {"heatFrames": 2000}
+                  ],
+                  "clearsObstacles": ["A"]
+                },
+                {
+                  "name": "Slow Kill",
+                  "notable": false,
+                  "requires": [
+                    "h_heatProof",
+                    "canDodgeWhileShooting",
+                    "Charge",
+                    "Wave"
+                  ],
+                  "clearsObstacles": ["A"]
+                },
+                {
+                  "name": "Very Slow Kill",
+                  "notable": false,
+                  "requires": [
+                    "h_heatProof",
+                    "canDodgeWhileShooting",
+                    {"or": [
+                      {"and": [
+                        "Spazer",
+                        "canBeVeryPatient"
+                      ]},
+                      {"and": [
+                        "Charge",
+                        "canBeVeryPatient"
+                      ]},
+                      {"and": [
+                        "Charge",
+                        "Ice",
+                        "canBePatient"
+                      ]}
+                    ]}
+                  ],
+                  "clearsObstacles": ["A"],
+                  "note": "Uncharged Spazer does half damage.",
+                  "devNote": "This strat is only for uncharged spazer or charge with or without ice"
+                },
+                {
+                  "name": "Super Kill",
+                  "notable": false,
+                  "requires": [
+                    "h_canNavigateHeatRooms",
+                    {"or": [
+                      "canDodgeWhileShooting",
+                      {"enemyDamage": {
+                        "enemy": "Space Pirate (fighting)",
+                        "type": "contact",
+                        "hits": 2
+                      }}
+                    ]},
+                    {"enemyKill":{
+                      "enemies": [ [ "Space Pirate (fighting)", "Space Pirate (fighting)" ] ],
+                      "explicitWeapons": [ "Super" ]
+                    }},
+                    {"heatFrames": 450}
+                  ],
+                  "clearsObstacles": ["A"]
+                },
+                {
+                  "name": "Missile Kill",
+                  "notable": false,
+                  "requires": [
+                    "h_canNavigateHeatRooms",
+                    {"or": [
+                      "canDodgeWhileShooting",
+                      {"enemyDamage": {
+                        "enemy": "Space Pirate (fighting)",
+                        "type": "contact",
+                        "hits": 6
+                      }}
+                    ]},
+                    {"enemyKill":{
+                      "enemies": [ [ "Space Pirate (fighting)", "Space Pirate (fighting)" ] ],
+                      "explicitWeapons": [ "Missile" ]
+                    }},
+                    {"heatFrames": 2700}
+                  ],
+                  "clearsObstacles": ["A"]
                 },
                 {
                   "name": "Speed Echoes Kill",
                   "notable": false,
-                  "requires": [],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [
-                        "h_canNavigateHeatRooms",
+                  "requires": [
+                    "h_canNavigateHeatRooms",
+                    "canUseSpeedEchoes",
+                    "canHitbox",
+                    {"heatFrames": 450},
+                    {"canShineCharge": {
+                      "usedTiles": 33,
+                      "openEnd": 2
+                    }},
+                    {"shinespark": {"frames": 18}}
+                  ],
+                  "clearsObstacles": ["A"]
+                },
+                {
+                  "name": "Metal Pirates Farm",
+                  "notable": false,
+                  "requires": [
+                    "h_heatProof",
+                    "canDodgeWhileShooting",
+                    {"or": [
+                      "Plasma",
+                      {"and": [
                         "canUseSpeedEchoes",
-                        "canHitbox",
-                        {"heatFrames": 450},
-                        {"canShineCharge": {
-                          "usedTiles": 33,
-                          "shinesparkFrames": 18,
-                          "openEnd": 2
-                        }}
-                      ]
-                    }
+                        "canHitbox"
+                      ]}
+                    ]},                    
+                    {"refill": ["Energy", "Super"]}
                   ]
                 }
               ]
@@ -6063,6 +5991,38 @@
                 }
               ],
               "devNote": "This node is strictly to farm. It is never worth going to this node without being able to farm."
+            },
+            {
+              "id": 3,
+              "strats": [
+                {
+                  "name": "Zebbo Farm",
+                  "notable": false,
+                  "requires": [
+                    "h_heatProof",
+                    {"refill": ["Energy", "Missile", "Super"]}
+                  ]
+                },
+                {
+                  "name": "Holtz Farm",
+                  "notable": false,
+                  "requires": [
+                    "h_heatProof",
+                    {"or": [
+                      "ScrewAttack",
+                      {"and": [
+                        "Plasma",
+                        "Wave"
+                      ]}
+                    ]},
+                    {"resetRoom": {
+                      "nodes": [1, 2],
+                      "mustStayPut": false
+                    }},
+                    {"refill": ["PowerBomb"]}
+                  ]
+                }
+              ]
             }
           ]
         }
@@ -6322,9 +6282,11 @@
                     "canMidairShinespark",
                     {"canComeInCharged": {
                       "framesRemaining": 15,
-                      "fromNode": 1,
-                      "shinesparkFrames": 57,
-                      "excessShinesparkFrames": 4
+                      "fromNode": 1
+                    }},
+                    {"shinespark": {
+                      "frames": 57,
+                      "excessFrames": 4
                     }},
                     {"heatFrames": 230}
                   ]
@@ -6339,7 +6301,7 @@
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
-                    {"heatFrames": 150}
+                    {"heatFrames": 135}
                   ]
                 }
               ]
@@ -6377,12 +6339,29 @@
                     "canMidairShinespark",
                     {"canComeInCharged": {
                       "framesRemaining": 15,
-                      "fromNode": 2,
-                      "shinesparkFrames": 59,
-                      "excessShinesparkFrames": 5
+                      "fromNode": 2
+                    }},
+                    {"shinespark": {
+                      "frames": 59,
+                      "excessFrames": 5
                     }},
                     {"heatFrames": 190}
                   ]
+                }
+              ]
+            },
+            {
+              "id": 3,
+              "strats": [
+                {
+                  "name": "Tricky Jumps",
+                  "notable": false,
+                  "requires": [
+                    "h_canNavigateHeatRooms",
+                    "canTrickyJump",
+                    {"heatFrames": 215}
+                  ],
+                  "note": "Use the wider platforms to build run speed for jumping farther, faster."
                 }
               ]
             },
@@ -6412,10 +6391,50 @@
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
-                    {"heatFrames": 150}
+                    {"heatFrames": 145}
                   ]
                 }
               ]
+            },
+            {
+              "id": 3,
+              "strats": [
+                {
+                  "name": "Heat-proof Zebbo Farm",
+                  "notable": false,
+                  "requires": [
+                    "h_heatProof",
+                    {"refill": ["Energy", "Missile", "Super"]}
+                  ]
+                },
+                {
+                  "name": "Heat-proof Viola Farm",
+                  "notable": false,
+                  "requires": [
+                    "h_heatProof",
+                    {"resetRoom": {
+                      "nodes": [1],
+                      "mustStayPut": false
+                    }},
+                    {"refill": ["PowerBomb"]}
+                  ]
+                },
+                {
+                  "name": "Very Patient Zebbo and Viola Farm",
+                  "notable": false,
+                  "requires": [
+                    "canPauseAbuse",
+                    "Grapple",
+                    "canBeVeryPatient",
+                    {"resetRoom": {
+                      "nodes": [1],
+                      "mustStayPut": false
+                    }},
+                    {"refill": ["Energy", "Super", "PowerBomb"]}
+                  ]
+                }
+              ],
+              "devNote": "FIXME: Add heat-resistant strats later if there is a use case for them."
             },
             {
               "id": 4,
@@ -6425,7 +6444,11 @@
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
-                    {"heatFrames": 210}
+                    {"or": [
+                      "canTrickyJump",
+                      {"heatFrames": 30}
+                    ]},
+                    {"heatFrames": 180}
                   ]
                 }
               ]
@@ -6443,7 +6466,7 @@
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
-                    {"heatFrames": 80}
+                    {"heatFrames": 60}
                   ]
                 }
               ]
@@ -6460,6 +6483,46 @@
                   ]
                 }
               ]
+            },
+            {
+              "id": 4,
+              "strats": [
+                {
+                  "name": "Heat-proof Zebbo Farm",
+                  "notable": false,
+                  "requires": [
+                    "h_heatProof",
+                    {"refill": ["Energy", "Missile", "Super"]}
+                  ]
+                },
+                {
+                  "name": "Heat-proof Viola Farm",
+                  "notable": false,
+                  "requires": [
+                    "h_heatProof",
+                    {"resetRoom": {
+                      "nodes": [2],
+                      "mustStayPut": false
+                    }},
+                    {"refill": ["PowerBomb"]}
+                  ]
+                },
+                {
+                  "name": "Very Patient Zebbo and Viola Farm",
+                  "notable": false,
+                  "requires": [
+                    "canPauseAbuse",
+                    "Grapple",
+                    "canBeVeryPatient",
+                    {"resetRoom": {
+                      "nodes": [1],
+                      "mustStayPut": false
+                    }},
+                    {"refill": ["Energy", "Super", "PowerBomb"]}
+                  ]
+                }
+              ],
+              "devNote": "FIXME: Add heat-resistant strats later if there is a use case for them."
             }
           ]
         }
@@ -6826,31 +6889,26 @@
                           ]}
                         ]}
                       ]}
-                     ]}
+                    ]},
+                    {"or": [
+                      {"obstaclesCleared": ["C"]},
+                      {"and": [
+                        {"heatFrames": 100},
+                        {"enemyKill":{
+                          "enemies": [ [ "Dessgeega", "Dessgeega", "Dessgeega" ] ],
+                          "explicitWeapons": [ "ScrewAttack" ]
+                        }}
+                      ]},
+                      {"and": [
+                        {"heatFrames": 350},
+                        {"enemyKill":{
+                          "enemies": [ [ "Dessgeega", "Dessgeega", "Dessgeega" ] ],
+                          "explicitWeapons": [ "Plasma", "Super", "Missile" ]
+                        }}
+                      ]}
+                    ]}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "C",
-                      "requires": [
-                        {"or": [
-                          {"and": [
-                            {"heatFrames": 100},
-                            {"enemyKill":{
-                              "enemies": [ [ "Dessgeega", "Dessgeega", "Dessgeega" ] ],
-                              "explicitWeapons": [ "ScrewAttack" ]
-                            }}
-                          ]},
-                          {"and": [
-                            {"heatFrames": 350},
-                            {"enemyKill":{
-                              "enemies": [ [ "Dessgeega", "Dessgeega", "Dessgeega" ] ],
-                              "explicitWeapons": [ "Plasma", "Super", "Missile" ]
-                            }}
-                          ]}
-                        ]}
-                      ]
-                    }
-                  ],
+                  "clearsObstacles": ["C"],
                   "note": "This runway requires killing the Dessgeegas closest to the door, and taking a Multiviola hit if the Multiviola is alive.",
                   "devNote": "This strat doesn't actually clear obstacle E, but since we're leaving the room after it doesn't really matter."
                 }
@@ -7103,24 +7161,10 @@
                     {"heatFrames": 135},
                     {"canComeInCharged": {
                       "fromNode": 1,
-                      "framesRemaining": 180,
-                      "shinesparkFrames": 0
+                      "framesRemaining": 180
                     }}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "E",
-                      "requires": []
-                    },
-                    {
-                      "id": "C",
-                      "requires": []
-                    },
-                    {
-                      "id": "F",
-                      "requires": []
-                    }
-                  ]
+                  "clearsObstacles": ["C","E","F"]
                 },
                 {
                   "name": "Shinespark",
@@ -7130,24 +7174,11 @@
                     {"heatFrames": 160},
                     {"canComeInCharged": {
                       "fromNode": 1,
-                      "framesRemaining": 0,
-                      "shinesparkFrames": 80
-                    }}
+                      "framesRemaining": 0
+                    }},
+                    {"shinespark": {"frames": 80}}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "E",
-                      "requires": []
-                    },
-                    {
-                      "id": "C",
-                      "requires": []
-                    },
-                    {
-                      "id": "F",
-                      "requires": []
-                    }
-                  ],
+                  "clearsObstacles": ["C","E","F"],
                   "note": "More heat frames than shinespark frames because the shinespark bonk takes some time."
                 }
               ],
@@ -7208,8 +7239,7 @@
                       }},
                       {"canComeInCharged": {
                         "fromNode": 1,
-                        "framesRemaining": 180,
-                        "shinesparkFrames": 0
+                        "framesRemaining": 180
                       }}
                     ]}
                   ],
@@ -7236,21 +7266,14 @@
               "id": 4,
               "strats": [
                 {
-                  "name": "Power Bombs",
+                  "name": "Power Bomb",
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
-                    {"heatFrames": 200}
+                    "h_canUsePowerBombs",
+                    {"heatFrames": 250}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [
-                        "h_canUsePowerBombs",
-                        {"heatFrames": 50}
-                      ]
-                    }
-                  ],
+                  "clearsObstacles": ["A"],
                   "note": "Place the power bomb while passing through the shot block gap to save some time."
                 }
               ]
@@ -7259,50 +7282,35 @@
               "id": 5,
               "strats": [
                 {
-                  "name": "Screw",
+                  "name": "Only Left Blocks Broken",
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
                     {"heatFrames": 200},
-                    {"obstaclesNotCleared": ["A"]}
+                    {"obstaclesNotCleared": ["A"]},
+                    {"or": [
+                      "ScrewAttack",
+                      {"and": [
+                        "h_canUseMorphBombs",
+                        {"heatFrames": 50}
+                      ]},
+                      {"obstaclesCleared": ["B"]}
+                    ]}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "B",
-                      "requires": ["ScrewAttack"]
-                    }
-                  ]
+                  "clearsObstacles": ["B"]
                 },
                 {
-                  "name": "Morph Bombs",
+                  "name": "Temporary Blue Bounce onto Crumbles with SpringBall",
                   "notable": false,
-                  "requires": [
-                    "h_canNavigateHeatRooms",
-                    {"heatFrames": 200},
-                    {"obstaclesNotCleared": ["A"]}
-                  ],
-                  "obstacles": [
-                    {
-                      "id": "B",
-                      "requires": [
-                        {"heatFrames": 50},
-                        "h_canUseMorphBombs"
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "name": "Mickey Mouse Temporary Blue onto Crumbles",
-                  "notable": true,
                   "requires": [
                     "h_canNavigateHeatRooms",
                     {"obstaclesNotCleared": ["A"]},
                     "canPrepareForNextRoom",
                     "canChainTemporaryBlue",
+                    "SpringBall",
                     {"canComeInCharged": {
                       "framesRemaining": 180,
                       "fromNode": 2,
-                      "shinesparkFrames": 0,
                       "unusableTiles": 1
                     }},
                     {"adjacentRunway": {
@@ -7310,24 +7318,42 @@
                       "usedTiles": 1,
                       "useFrames": 200
                     }},
-                    {"or": [
-                      "SpringBall",
-                      {"and": [
-                        "canTrickyJump",
-                        "canCrumbleJump"
-                      ]}
-                    ]},
                     {"heatFrames": 300}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "B",
-                      "requires": []
-                    }
-                  ],
+                  "clearsObstacles": ["B"],
                   "note": [
                     "Carry Temporary Blue through the top door of Mickey Mouse to break the left side of the bomb blocks.",
-                    "This can be done with SpringBall or with a tricky crumble jump."
+                    "Morph while falling through the shot block to bounce on the crumble blocks towards the morph tunnel.",
+                    "Then unmorph near the wall to fall straight down with temporary blue, if needed."
+                  ],
+                  "devNote": "You could jump into the room for the initial Temporary Blue and turn around with XRay twice, but this room is heated so that would be costly."
+                },
+                {
+                  "name": "Mickey Mouse Temporary Blue Crumble Jump without SpringBall",
+                  "notable": true,
+                  "requires": [
+                    "h_canNavigateHeatRooms",
+                    {"obstaclesNotCleared": ["A"]},
+                    "canPrepareForNextRoom",
+                    "canChainTemporaryBlue",
+                    "canTrickyJump",
+                    "canCrumbleJump",
+                    {"canComeInCharged": {
+                      "framesRemaining": 180,
+                      "fromNode": 2,
+                      "unusableTiles": 1
+                    }},
+                    {"adjacentRunway": {
+                      "fromNode": 2,
+                      "usedTiles": 1,
+                      "useFrames": 200
+                    }},
+                    {"heatFrames": 300}
+                  ],
+                  "clearsObstacles": ["B"],
+                  "note": [
+                    "Carry Temporary Blue through the top door of Mickey Mouse to break the left side of the bomb blocks.",
+                    "There is a small frame window where Samus can soft unmorph on the crumble blocks and jump again while retaining temporary blue."
                   ],
                   "devNote": "You could jump into the room for the initial Temporary Blue and turn around with XRay twice, but this room is heated so that would be costly."
                 }
@@ -7366,17 +7392,16 @@
                   "requires": [
                     "h_canNavigateHeatRooms",
                     {"heatFrames": 200},
-                    "SpaceJump"
-                  ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [
+                    "SpaceJump",
+                    {"or": [
+                      {"and": [
                         "h_canUsePowerBombs",
                         {"heatFrames": 120}
-                      ]
-                    }
-                  ]
+                      ]},
+                      {"obstaclesCleared": ["A"]}
+                    ]}
+                  ],
+                  "clearsObstacles": ["A"]
                 },
                 {
                   "name": "HiJump",
@@ -7385,17 +7410,16 @@
                     "h_canNavigateHeatRooms",
                     "HiJump",
                     "canCrumbleJump",
-                    {"heatFrames": 200}
-                  ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [
+                    {"heatFrames": 200},
+                    {"or": [
+                      {"and": [
                         "h_canUsePowerBombs",
                         {"heatFrames": 120}
-                      ]
-                    }
+                      ]},
+                      {"obstaclesCleared": ["A"]}
+                    ]}
                   ],
+                  "clearsObstacles": ["A"],
                   "note": "Requires one jump off a crumble block"
                 },
                 {
@@ -7405,17 +7429,16 @@
                     "h_canNavigateHeatRooms",
                     "HiJump",
                     "h_canUseSpringBall",
-                    {"heatFrames": 150}
-                  ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [
+                    {"heatFrames": 150},
+                    {"or": [
+                      {"and": [
                         "h_canUsePowerBombs",
                         {"heatFrames": 120}
-                      ]
-                    }
+                      ]},
+                      {"obstaclesCleared": ["A"]}
+                    ]}
                   ],
+                  "clearsObstacles": ["A"],
                   "note": "Use SpringBall to just bounce on the crumble blocks."
                 },
                 {
@@ -7438,17 +7461,16 @@
                         "canSpringwall",
                         "canPreciseWalljump"
                       ]}
-                    ]}
-                  ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [
+                    ]},
+                    {"or": [
+                      {"and": [
                         "h_canUsePowerBombs",
                         {"heatFrames": 120}
-                      ]
-                    }
+                      ]},
+                      {"obstaclesCleared": ["A"]}
+                    ]}
                   ],
+                  "clearsObstacles": ["A"],
                   "note": [
                     "This is possible by jumping on the crumble blocks into a mid-air spring ball jump, or by avoiding them.",
                     "The crumbles can be avoided by starting with either an air ball, a 3 tile high mid-air morph, or a low spring wall.",
@@ -7463,17 +7485,16 @@
                     "canCrumbleJump",
                     "canTrickyDashJump",
                     "canPreciseWalljump",
-                    {"heatFrames": 250}
-                  ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [
+                    {"heatFrames": 250},
+                    {"or": [
+                      {"and": [
                         "h_canUsePowerBombs",
                         {"heatFrames": 120}
-                      ]
-                    }
+                      ]},
+                      {"obstaclesCleared": ["A"]}
+                    ]}
                   ],
+                  "clearsObstacles": ["A"],
                   "note": [
                     "Spinjump off a crumble block with just a tiny amount of run speed.",
                     "That gives just enough height to be able to walljump out."
@@ -7492,17 +7513,16 @@
                       "canBombAboveIBJ",
                       {"ammo": {"type": "PowerBomb","count":1}}
                     ]},
-                    {"heatFrames": 500}
-                  ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [
+                    {"heatFrames": 500},
+                    {"or": [
+                      {"and": [
                         "h_canUsePowerBombs",
                         {"heatFrames": 120}
-                      ]
-                    }
+                      ]},
+                      {"obstaclesCleared": ["A"]}
+                    ]}
                   ],
+                  "clearsObstacles": ["A"],
                   "note": [
                     "Jump and Mid-air morph off a crumble block to begin the IBJ.",
                     "The shot block respawns quickly so it's pretty unforgiving on the IBJ executions.",
@@ -7522,17 +7542,16 @@
                       "canBombAboveIBJ",
                       {"ammo": {"type": "PowerBomb","count":1}}
                     ]},
-                    {"heatFrames": 500}
-                  ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [
+                    {"heatFrames": 500},
+                    {"or": [
+                      {"and": [
                         "h_canUsePowerBombs",
                         {"heatFrames": 120}
-                      ]
-                    }
+                      ]},
+                      {"obstaclesCleared": ["A"]}
+                    ]}
                   ],
+                  "clearsObstacles": ["A"],
                   "note": [
                     "Shoot the block before starting or in mid-air, then use spring ball to bounce on the crumb blocks and start an IBJ.",
                     "The shot block respawns quickly so it's pretty unforgiving on the IBJ executions.",
@@ -7558,15 +7577,10 @@
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
-                    "Morph",
+                    "h_canUsePowerBombs",
                     {"heatFrames": 150}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": ["h_canUsePowerBombs"]
-                    }
-                  ]
+                  "clearsObstacles": ["A"]
                 },
                 {
                   "name": "Power Bomb the Left Blocks for Later",
@@ -7574,15 +7588,10 @@
                   "requires": [
                     {"obstaclesNotCleared": ["A"]},
                     "h_canNavigateHeatRooms",
-                    "Morph",
+                    "h_canUsePowerBombs",
                     {"heatFrames": 150}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "B",
-                      "requires": ["h_canUsePowerBombs"]
-                    }
-                  ],
+                  "clearsObstacles": ["B"],
                   "note": "Position the Power Bomb far enough left to only partially clear the bomb blocks.",
                   "devNote": "This is possible when ice clipping with the multiviola."
                 },
@@ -7591,15 +7600,10 @@
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
-                    "Morph",
+                    "h_canUseMorphBombs",
                     {"heatFrames": 150}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "B",
-                      "requires": ["h_canUseMorphBombs"]
-                    }
-                  ]
+                  "clearsObstacles": ["B"]
                 }
               ]
             },
@@ -7615,24 +7619,29 @@
                   ]
                 },
                 {
-                  "name": "Morph Bombs",
+                  "name": "Bombs",
                   "notable": false,
-                  "requires": [{"obstaclesNotCleared": ["A"]}],
-                  "obstacles": [
-                    {
-                      "id": "B",
-                      "requires": [
-                        {"heatFrames": 100},
-                        "h_canUseMorphBombs"
-                      ]
-                    }
-                  ]
+                  "requires": [
+                    {"obstaclesNotCleared": ["A"]},
+                    "h_canUseMorphBombs",
+                    {"heatFrames": 100}
+                  ],
+                  "clearsObstacles": ["B"]
                 }
               ]
             },
             {
               "id": 6,
               "strats": [
+                {
+                  "name": "Already Killed",
+                  "notable": false,
+                  "requires": [
+                    "h_canNavigateHeatRooms",
+                    {"obstaclesCleared": ["D"]},
+                    {"heatFrames": 450}
+                  ]
+                },
                 {
                   "name": "Tank the Damage",
                   "notable": false,
@@ -7649,13 +7658,8 @@
                 {
                   "name": "HeatProof Kill",
                   "notable": false,
-                  "requires": ["h_heatProof"],
-                  "obstacles": [
-                    {
-                      "id": "D",
-                      "requires": []
-                    }
-                  ],
+                  "requires": [ "h_heatProof" ],
+                  "clearsObstacles": ["D"],
                   "note": [
                     "Considered killable with Power Beam without taking damage.",
                     "Dodge the middle single Multiviola when it jumps up."
@@ -7666,73 +7670,55 @@
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
+                    "ScrewAttack",
                     {"heatFrames": 450}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "D",
-                      "requires": [
-                        "ScrewAttack"
-                      ]
-                    }
-                  ]
+                  "clearsObstacles": ["D"]
                 },
                 {
                   "name": "Strong Beam Kill",
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
+                    {"or": [
+                      {"and": [
+                        "Wave",
+                        "Plasma"
+                      ]},
+                      {"and": [
+                        "Plasma",
+                        {"heatFrames": 300}
+                      ]},
+                      {"and": [
+                        "Wave",
+                        "Ice",
+                        "Spazer",
+                        {"heatFrames": 300}
+                      ]},
+                      {"and": [
+                        "Wave",
+                        {"heatFrames": 900}
+                      ]}
+                    ]},
                     {"heatFrames": 450}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "D",
-                      "requires": [
-                        {"or": [
-                          {"and": [
-                            "Wave",
-                            "Plasma"
-                          ]},
-                          {"and": [
-                            "Plasma",
-                            {"heatFrames": 300}
-                          ]},
-                          {"and": [
-                            "Wave",
-                            "Ice",
-                            "Spazer",
-                            {"heatFrames": 300}
-                          ]},
-                          {"and": [
-                            "Wave",
-                            {"heatFrames": 900}
-                          ]}
-                        ]}
-                      ]
-                    }
-                  ]
+                  "clearsObstacles": ["D"]
                 },
                 {
                   "name": "Power Bomb Kill",
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
+                    {"enemyKill":{
+                      "enemies": [
+                        [ "Multiviola", "Multiviola" ],
+                        [ "Multiviola", "Multiviola", "Multiviola" ]
+                      ],
+                      "explicitWeapons": [ "PowerBomb" ]
+                    }},
                     {"heatFrames": 500}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "D",
-                      "requires": [
-                        {"enemyKill":{
-                          "enemies": [
-                            [ "Multiviola", "Multiviola" ],
-                            [ "Multiviola", "Multiviola", "Multiviola" ]
-                          ],
-                          "explicitWeapons": [ "PowerBomb" ]
-                        }}
-                      ]
-                    }
-                  ]
+                  "clearsObstacles": ["D"]
                 }
               ],
               "note": "Options are to tank the damage or kill the Multiviolas. This is one-way because the way back requires setting up the ice clip."
@@ -7794,27 +7780,18 @@
                   "requires": [
                     "h_heatProof",
                     "h_canJumpIntoCrystalFlashClip",
-                    "Grapple"
+                    "Grapple",
+                    {"or": [
+                      {"obstaclesCleared": ["D"]},
+                      {"obstaclesCleared": ["F"]},
+                      {"enemyDamage": {
+                        "enemy": "Multiviola",
+                        "type": "contact",
+                        "hits": 2
+                      }}
+                    ]}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": []
-                    },
-                    {
-                      "id": "D",
-                      "requires": [
-                        {"or": [
-                          {"obstaclesCleared": ["F"]},
-                          {"enemyDamage": {
-                            "enemy": "Multiviola",
-                            "type": "contact",
-                            "hits": 2
-                          }}
-                        ]}
-                      ]
-                    }
-                  ],
+                  "clearsObstacles": ["A","D"],
                   "note": "Menu to Grappling Beam before the crystal flash ends and mash shoot while holding down to be forced on top of the solid block.",
                   "devNote": [
                     "It is considered free to kill the Multiviolas with Power Beam while heatproof, and heatproof is required for the CF clip.",
@@ -7826,6 +7803,15 @@
             {
               "id": 7,
               "strats": [
+                {
+                  "name": "Already Killed",
+                  "notable": false,
+                  "requires": [
+                    "h_canNavigateHeatRooms",
+                    {"obstaclesCleared": ["F"]},
+                    {"heatFrames": 150}
+                  ]
+                },
                 {
                   "name": "Tank the Damage",
                   "notable": false,
@@ -7844,102 +7830,77 @@
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
+                    {"enemyKill":{
+                      "enemies": [[ "Dessgeega", "Dessgeega" ]],
+                      "excludedWeapons": [ "Bombs", "PseudoScrew" ]
+                    }},
                     {"heatFrames": 3000}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "F",
-                      "requires": [
-                        {"enemyKill":{
-                          "enemies": [[ "Dessgeega", "Dessgeega" ]],
-                          "excludedWeapons": [ "Bombs", "PseudoScrew" ]
-                        }}
-                      ]
-                    }
-                  ],
-                  "devNote": "Morph Bombs excluded because there's no safe setup."
+                  "clearsObstacles": ["F"],
+                  "devNote": "Bombs excluded because there's no safe setup."
                 },
                 {
                   "name": "Beam Kill",
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
+                    {"or":[
+                      {"and": [
+                        "Plasma",
+                        {"heatFrames": 250}
+                      ]},
+                      {"and": [
+                        "Ice",
+                        "Wave",
+                        "Spazer",
+                        {"heatFrames": 600}
+                      ]}
+                    ]},
                     {"heatFrames": 150}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "F",
-                      "requires": [
-                        {"or":[
-                          {"and": [
-                            "Plasma",
-                            {"heatFrames": 250}
-                          ]},
-                          {"and": [
-                            "Ice",
-                            "Wave",
-                            "Spazer",
-                            {"heatFrames": 600}
-                          ]}
-                        ]}
-                      ]
-                    }
-                  ]
+                  "clearsObstacles": ["F"]
                 },
                 {
                   "name": "Screw Kill",
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
-                    {"heatFrames": 150}
+                    "ScrewAttack",
+                    {"heatFrames": 200}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "F",
-                      "requires": [
-                        "ScrewAttack",
-                        {"heatFrames": 50}
-                      ]
-                    }
-                  ]
+                  "clearsObstacles": ["F"]
                 },
                 {
                   "name": "Ammo Kill",
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
+                    {"or": [
+                      {"and": [
+                        {"enemyKill":{
+                          "enemies": [[ "Dessgeega", "Dessgeega" ]],
+                          "explicitWeapons": [ "Missile" ]
+                        }},
+                        {"heatFrames": 420}
+                      ]},
+                      {"and": [
+                        {"enemyKill":{
+                          "enemies": [[ "Dessgeega", "Dessgeega" ]],
+                          "explicitWeapons": [ "Super" ]
+                        }},
+                        {"heatFrames": 250}
+                      ]},
+                      {"and": [
+                        {"enemyKill":{
+                          "enemies": [[ "Dessgeega", "Dessgeega" ]],
+                          "explicitWeapons": [ "PowerBomb" ]
+                        }},
+                        {"heatFrames": 350}
+                      ]}
+                    ]},
                     {"heatFrames": 150}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "F",
-                      "requires": [
-                        {"or": [
-                          {"and": [
-                            {"enemyKill":{
-                              "enemies": [[ "Dessgeega", "Dessgeega" ]],
-                              "explicitWeapons": [ "Missile" ]
-                            }},
-                            {"heatFrames": 420}
-                          ]},
-                          {"and": [
-                            {"enemyKill":{
-                              "enemies": [[ "Dessgeega", "Dessgeega" ]],
-                              "explicitWeapons": [ "Super" ]
-                            }},
-                            {"heatFrames": 250}
-                          ]},
-                          {"and": [
-                            {"enemyKill":{
-                              "enemies": [[ "Dessgeega", "Dessgeega" ]],
-                              "explicitWeapons": [ "PowerBomb" ]
-                            }},
-                            {"heatFrames": 350}
-                          ]}
-                        ]}
-                      ]
-                    }
-                  ]
+                  "clearsObstacles": ["F"]
                 }
               ],
               "devNote": "The Dessgeegas can be assumed to be fought from above, going 4->6->7."
@@ -7962,21 +7923,11 @@
                     ]},
                     {"canShineCharge": {
                       "usedTiles": 23,
-                      "shinesparkFrames": 0,
                       "openEnd": 2
                     }},
                     {"heatFrames":200}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "C",
-                      "requires": []
-                    },
-                    {
-                      "id": "E",
-                      "requires": []
-                    }
-                  ],
+                  "clearsObstacles": ["C","E"],
                   "note": "Taking damage off a Dessgeega at the far right, coming in from the top, allows you to charge a blue suit and get through to the door."
                 }
               ]
@@ -7989,56 +7940,47 @@
                   "notable": true,
                   "requires": [
                     "h_heatProof",
-                    "canUseFrozenEnemies",
+                    "canTrickyUseFrozenEnemies",
+                    {"or": [
+                      "canCameraManip",
+                      "canDodgeWhileShooting"
+                    ]},
                     {"obstaclesNotCleared": ["E"]},
                     {"enemyDamage": {
                       "enemy": "Multiviola",
                       "type": "contact",
                       "hits": 5
-                    }}
+                    }},
+                    {"or": [
+                      {"enemyKill":{
+                        "enemies": [ ["Dessgeega"], ["Dessgeega"], ["Dessgeega"] ],
+                        "explicitWeapons": [
+                          "Plasma",
+                          "ScrewAttack",
+                          "Charge+Ice+Wave",
+                          "Ice+Wave+Spazer",
+                          "Missile",
+                          "Super"
+                        ]
+                      }},
+                      {"obstaclesCleared": ["C"]}
+                    ]},
+                    {"or": [
+                      {"enemyKill":{
+                        "enemies": [["Dessgeega","Dessgeega"]],
+                        "explicitWeapons": [
+                          "Plasma",
+                          "ScrewAttack",
+                          "Charge+Ice+Wave",
+                          "Ice+Wave+Spazer",
+                          "Missile",
+                          "Super"
+                        ]
+                      }},
+                      {"obstaclesCleared": ["F"]}
+                    ]}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "C",
-                      "requires": [
-                        {"enemyKill":{
-                          "enemies": [
-                            ["Dessgeega"],
-                            ["Dessgeega"],
-                            ["Dessgeega"]
-                          ],
-                          "explicitWeapons": [
-                            "Plasma",
-                            "ScrewAttack",
-                            "Charge+Ice+Wave",
-                            "Ice+Wave+Spazer",
-                            "Missile",
-                            "Super"
-                          ]
-                        }}
-                      ]
-                    },
-                    {
-                      "id": "F",
-                      "requires": [
-                        {"enemyKill":{
-                          "enemies": [["Dessgeega","Dessgeega"]],
-                          "explicitWeapons": [
-                            "Plasma",
-                            "ScrewAttack",
-                            "Charge+Ice+Wave",
-                            "Ice+Wave+Spazer",
-                            "Missile",
-                            "Super"
-                          ]
-                        }}
-                      ]
-                    },
-                    {
-                      "id": "D",
-                      "requires": []
-                    }
-                  ],
+                  "clearsObstacles": ["C","D","F"],
                   "reusableRoomwideNotable": "Mickey Mouse Viola Ice Clip",
                   "note": [
                     "Guide the bottom-right MultiViola to the upper section of the room.",
@@ -8067,6 +8009,15 @@
               "id": 8,
               "strats": [
                 {
+                  "name": "Already Killed",
+                  "notable": false,
+                  "requires": [
+                    "h_canNavigateHeatRooms",
+                    {"obstaclesCleared": ["C"]},
+                    {"heatFrames": 200}
+                  ]
+                },
+                {
                   "name": "Tank the Damage",
                   "notable": false,
                   "requires": [
@@ -8084,48 +8035,33 @@
                   "notable": false,
                   "requires": [
                     "h_heatProof",
-                    {"obstaclesCleared": ["F"]}
-                  ],
-                  "obstacles": [
-                    {
-                      "id": "C",
-                      "requires": [
+                    {"obstaclesCleared": ["F"]},
+                    {"or": [
+                      {"and": [
                         "canDodgeWhileShooting",
                         {"enemyKill":{
-                          "enemies": [
-                            ["Dessgeega"],
-                            ["Dessgeega"],
-                            ["Dessgeega"]
-                          ],
+                          "enemies": [ ["Dessgeega"], ["Dessgeega"], ["Dessgeega"] ],
                           "excludedWeapons": [ "Bombs", "PseudoScrew" ]
                         }}
-                      ]
-                    },
-                    {
-                      "id": "E",
-                      "requires": [
-                        {"or":[
-                          {"enemyKill":{
-                            "enemies": [
-                              ["Multiviola"],
-                              ["Multiviola"]
-                            ],
-                            "excludedWeapons": [ "Bombs", "PowerBeam" ]
-                          }},
-                          {"enemyDamage": {
-                            "enemy": "Multiviola",
-                            "type": "contact",
-                            "hits": 2
-                          }}
-                        ]}
-                      ],
-                      "note": [
-                        "Some weapons are very slow and require use of the safe spot in the bottom right Multiviola cage.",
-                        "Pretty much any weapon but PowerBeam and Morph Bombs can kill the Multiviolas in time to not take a hit."
-                      ],
-                      "devNote": "Morph Bombs are excluded because there is no safe setup."
-                    }
-                  ]
+                      ]},
+                      {"obstaclesCleared": ["C"]}
+                    ]},
+                    {"or": [
+                      {"enemyKill":{
+                        "enemies": [ ["Multiviola"], ["Multiviola"] ],
+                        "excludedWeapons": [ "Bombs", "PowerBeam" ]
+                      }},
+                      {"enemyDamage": {
+                        "enemy": "Multiviola",
+                        "type": "contact",
+                        "hits": 2
+                      }},
+                      {"obstaclesCleared": ["E"]}
+                    ]}
+                  ],
+                  "clearsObstacles": ["C","E"],
+                  "note": "Some weapons are very slow at killing the Multiviolas and require use of the safe spot in the bottom right Multiviola cage.",
+                  "devNote": "Bombs are excluded because there is no safe setup."
                 },
                 {
                   "name": "Wave Plasma Kill",
@@ -8133,19 +8069,11 @@
                   "requires": [
                     "h_canNavigateHeatRooms",
                     {"obstaclesCleared": ["F"]},
-                    {"heatFrames": 200}
+                    "Plasma",
+                    "Wave",
+                    {"heatFrames": 400}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "C",
-                      "requires": [
-                        "Plasma",
-                        "Wave",
-                        {"heatFrames": 200}
-                      ],
-                      "additionalObstacles": ["E"]
-                    }
-                  ]
+                  "clearsObstacles": ["C","E"]
                 },
                 {
                   "name": "Plasma Kill",
@@ -8153,18 +8081,10 @@
                   "requires": [
                     "h_canNavigateHeatRooms",
                     {"obstaclesCleared": ["F"]},
-                    {"heatFrames": 200}
+                    "Plasma",
+                    {"heatFrames": 500}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "C",
-                      "requires": [
-                        "Plasma",
-                        {"heatFrames": 300}
-                      ],
-                      "additionalObstacles": ["E"]
-                    }
-                  ]
+                  "clearsObstacles": ["C","E"]
                 },
                 {
                   "name": "Missiles Kill",
@@ -8172,33 +8092,26 @@
                   "requires": [
                     "h_canNavigateHeatRooms",
                     {"obstaclesCleared": ["F"]},
-                    {"heatFrames": 200}
-                  ],
-                  "obstacles": [
-                    {
-                      "id": "C",
-                      "requires": [
+                    {"heatFrames": 200},
+                    {"or": [
+                      {"and": [
                         {"enemyKill":{
-                          "enemies": [
-                            [ "Dessgeega", "Dessgeega", "Dessgeega" ]
-                          ],
+                          "enemies": [ [ "Dessgeega", "Dessgeega", "Dessgeega" ] ],
                           "explicitWeapons": [ "Missile" ]
                         }},
                         {"heatFrames": 300}
-                      ]
-                    },
-                    {
-                      "id": "E",
-                      "requires": [
-                        {"enemyKill":{
-                          "enemies": [
-                            [ "Multiviola", "Multiviola" ]
-                          ],
-                          "explicitWeapons": [ "Missile" ]
-                        }}
-                      ]
-                    }
-                  ]
+                      ]},
+                      {"obstaclesCleared": ["C"]}
+                    ]},
+                    {"or": [
+                      {"enemyKill":{
+                        "enemies": [ [ "Multiviola", "Multiviola" ] ],
+                        "explicitWeapons": [ "Missile" ]
+                      }},
+                      {"obstaclesCleared": ["E"]}
+                    ]}
+                  ],
+                  "clearsObstacles": ["C","E"]
                 },
                 {
                   "name": "Supers Kill",
@@ -8206,57 +8119,51 @@
                   "requires": [
                     "h_canNavigateHeatRooms",
                     {"obstaclesCleared": ["F"]},
-                    {"heatFrames": 200}
-                  ],
-                  "obstacles": [
-                    {
-                      "id": "C",
-                      "requires": [
+                    {"heatFrames": 200},
+                    {"or": [
+                      {"and": [
                         {"enemyKill":{
-                          "enemies": [
-                            [ "Dessgeega", "Dessgeega", "Dessgeega" ]
-                          ],
+                          "enemies": [ [ "Dessgeega", "Dessgeega", "Dessgeega" ] ],
                           "explicitWeapons": [ "Super" ]
                         }},
                         {"heatFrames": 200}
-                      ]
-                    },
-                    {
-                      "id": "E",
-                      "requires": [
-                        {"enemyKill":{
-                          "enemies": [
-                            [ "Multiviola", "Multiviola" ]
-                          ],
-                          "explicitWeapons": [ "Super" ]
-                        }}
-                      ]
-                    }
-                  ]
+                      ]},
+                      {"obstaclesCleared": ["C"]}
+                    ]},
+                    {"or": [
+                      {"enemyKill":{
+                        "enemies": [ [ "Multiviola", "Multiviola" ] ],
+                        "explicitWeapons": [ "Super" ]
+                      }},
+                      {"obstaclesCleared": ["E"]}
+                    ]}
+                  ],
+                  "clearsObstacles": ["C","E"]
                 },
                 {
                   "name": "Screw Kill",
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
-                    {"heatFrames": 200}
+                    "ScrewAttack",
+                    {"heatFrames": 320}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "C",
-                      "requires": [
-                        "ScrewAttack",
-                        {"heatFrames": 120}
-                      ],
-                      "additionalObstacles": ["E"]
-                    }
-                  ]
+                  "clearsObstacles": ["C","E"]
                 }
               ]
             },
             {
               "id": 6,
               "strats": [
+                {
+                  "name": "Already Killed",
+                  "notable": false,
+                  "requires": [
+                    "h_canNavigateHeatRooms",
+                    {"obstaclesCleared": ["F"]},
+                    {"heatFrames": 100}
+                  ]
+                },
                 {
                   "name": "Tank the Damage",
                   "notable": false,
@@ -8276,17 +8183,10 @@
                   "requires": [
                     "h_canNavigateHeatRooms",
                     {"obstaclesCleared": ["C"]},
-                    {"heatFrames": 100}
+                    "Plasma",
+                    {"heatFrames": 400}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "F",
-                      "requires": [
-                        "Plasma",
-                        {"heatFrames": 300}
-                      ]
-                    }
-                  ]
+                  "clearsObstacles": ["F"]
                 },
                 {
                   "name": "Beam Combo Kill",
@@ -8294,20 +8194,13 @@
                   "requires": [
                     "h_canNavigateHeatRooms",
                     {"obstaclesCleared": ["C"]},
-                    {"heatFrames": 100}
+                    "Charge",
+                    "Ice",
+                    "Wave",
+                    "Spazer",
+                    {"heatFrames": 550}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "F",
-                      "requires": [
-                        "Charge",
-                        "Ice",
-                        "Wave",
-                        "Spazer",
-                        {"heatFrames": 450}
-                      ]
-                    }
-                  ]
+                  "clearsObstacles": ["F"]
                 },
                 {
                   "name": "Supers Kill",
@@ -8315,39 +8208,23 @@
                   "requires": [
                     "h_canNavigateHeatRooms",
                     {"obstaclesCleared": ["C"]},
-                    {"heatFrames": 100}
+                    {"enemyKill":{
+                      "enemies": [ [ "Dessgeega", "Dessgeega" ] ],
+                      "explicitWeapons": [ "Super" ]
+                    }},
+                    {"heatFrames": 200}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "F",
-                      "requires": [
-                        {"enemyKill":{
-                          "enemies": [
-                            [ "Dessgeega", "Dessgeega" ]
-                          ],
-                          "explicitWeapons": [ "Super" ]
-                        }},
-                        {"heatFrames": 100}
-                      ]
-                    }
-                  ]
+                  "clearsObstacles": ["F"]
                 },
                 {
                   "name": "Screw Kill",
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
-                    {"heatFrames": 100}
+                    "ScrewAttack",
+                    {"heatFrames": 160}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "F",
-                      "requires": [
-                        "ScrewAttack",
-                        {"heatFrames": 60}
-                      ]
-                    }
-                  ]
+                  "clearsObstacles": ["F"]
                 },
                 {
                   "name": "Missiles Kill",
@@ -8355,22 +8232,13 @@
                   "requires": [
                     "h_canNavigateHeatRooms",
                     {"obstaclesCleared": ["C"]},
-                    {"heatFrames": 100}
+                    {"enemyKill":{
+                      "enemies": [ [ "Dessgeega", "Dessgeega" ] ],
+                      "explicitWeapons": [ "Missile" ]
+                    }},
+                    {"heatFrames": 400}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "F",
-                      "requires": [
-                        {"enemyKill":{
-                          "enemies": [
-                            [ "Dessgeega", "Dessgeega" ]
-                          ],
-                          "explicitWeapons": [ "Missile" ]
-                        }},
-                        {"heatFrames": 300}
-                      ]
-                    }
-                  ]
+                  "clearsObstacles": ["F"]
                 }
               ],
               "devNote": "No heatproof or slow kill strats because it's less damage to run to the safe spot above 6 and kill them from there"
@@ -8394,6 +8262,15 @@
               "id": 7,
               "strats": [
                 {
+                  "name": "Already Killed",
+                  "notable": false,
+                  "requires": [
+                    "h_canNavigateHeatRooms",
+                    {"obstaclesCleared": ["C","E"]},
+                    {"heatFrames": 180}
+                  ]
+                },
+                {
                   "name": "Tank the Damage",
                   "notable": false,
                   "requires": [
@@ -8411,35 +8288,20 @@
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
-                    {"heatFrames": 180}
+                    "Plasma",
+                    {"heatFrames": 380}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "C",
-                      "requires": [
-                        {"heatFrames": 200},
-                        "Plasma"
-                      ],
-                      "additionalObstacles": ["E"]
-                    }
-                  ]
+                  "clearsObstacles": ["C","E"]
                 },
                 {
                   "name": "Plasma Kill Sparing Multiviolas",
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
-                    {"heatFrames": 180}
+                    "Plasma",
+                    {"heatFrames": 480}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "C",
-                      "requires": [
-                        {"heatFrames": 300},
-                        "Plasma"
-                      ]
-                    }
-                  ],
+                  "clearsObstacles": ["C"],
                   "note": [
                     "Sparing the Multiviolas is required to perform an ice clip further in.",
                     "However, it requires going slower."
@@ -8450,69 +8312,39 @@
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
-                    {"heatFrames": 180}
+                    "Charge",
+                    "Ice",
+                    "Wave",
+                    "Spazer",
+                    {"heatFrames": 1080}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "C",
-                      "requires": [
-                        "Charge",
-                        "Ice",
-                        "Wave",
-                        "Spazer",
-                        {"heatFrames": 900}
-                      ]
-                    }
-                  ]
+                  "clearsObstacles": ["C"]
                 },
                 {
                   "name": "Missiles Kill",
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
-                    {"heatFrames": 180}
+                    {"enemyKill":{
+                      "enemies": [ [ "Dessgeega", "Dessgeega", "Dessgeega", "Multiviola", "Multiviola" ] ],
+                      "explicitWeapons": [ "Missile" ]
+                    }},
+                    {"heatFrames": 480}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "C",
-                      "requires": [
-                        {"heatFrames": 300},
-                        {"enemyKill":{
-                          "enemies": [
-                            [
-                              "Dessgeega","Dessgeega","Dessgeega","Multiviola","Multiviola"
-                            ]
-                          ],
-                          "explicitWeapons": [ "Missile" ]
-                        }}
-                      ],
-                      "additionalObstacles": ["E"]
-                    }
-                  ]
+                  "clearsObstacles": ["C","E"]
                 },
                 {
                   "name": "Missiles Kill Sparing Multiviolas",
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
-                    {"heatFrames": 180}
+                    {"enemyKill":{
+                      "enemies": [ [ "Dessgeega", "Dessgeega", "Dessgeega" ] ],
+                      "explicitWeapons": [ "Missile" ]
+                    }},
+                    {"heatFrames": 540}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "C",
-                      "requires": [
-                        {"heatFrames": 360},
-                        {"enemyKill":{
-                          "enemies": [
-                            [
-                              "Dessgeega","Dessgeega","Dessgeega"
-                            ]
-                          ],
-                          "explicitWeapons": [ "Missile" ]
-                        }}
-                      ]
-                    }
-                  ],
+                  "clearsObstacles": ["C"],
                   "note": [
                     "Sparing the Multiviolas is required to perform an ice clip further in.",
                     "However, it requires going slower."
@@ -8523,49 +8355,26 @@
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
-                    {"heatFrames": 180}
+                    {"enemyKill":{
+                      "enemies": [ [ "Dessgeega", "Dessgeega", "Dessgeega", "Multiviola", "Multiviola" ] ],
+                      "explicitWeapons": [ "Super" ]
+                    }},
+                    {"heatFrames": 380}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "C",
-                      "requires": [
-                        {"heatFrames": 200},
-                        {"enemyKill":{
-                          "enemies": [
-                            [
-                              "Dessgeega","Dessgeega","Dessgeega","Multiviola","Multiviola"
-                            ]
-                          ],
-                          "explicitWeapons": [ "Super" ]
-                        }}
-                      ],
-                      "additionalObstacles": ["E"]
-                    }
-                  ]
+                  "clearsObstacles": ["C","E"]
                 },
                 {
                   "name": "Supers Kill Sparing Multiviolas",
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
-                    {"heatFrames": 180}
+                    {"enemyKill":{
+                      "enemies": [ [ "Dessgeega", "Dessgeega", "Dessgeega" ] ],
+                      "explicitWeapons": [ "Super" ]
+                    }},
+                    {"heatFrames": 380}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "C",
-                      "requires": [
-                        {"heatFrames": 200},
-                        {"enemyKill":{
-                          "enemies": [
-                            [
-                              "Dessgeega","Dessgeega","Dessgeega"
-                            ]
-                          ],
-                          "explicitWeapons": [ "Super" ]
-                        }}
-                      ]
-                    }
-                  ],
+                  "clearsObstacles": ["C"],
                   "note": [
                     "Sparing the Multiviolas is required to perform an ice clip further in.",
                     "However, it requires going slower."
@@ -8576,17 +8385,10 @@
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
-                    {"heatFrames": 180}
+                    "ScrewAttack",
+                    {"heatFrames": 230}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "C",
-                      "requires": [
-                        "ScrewAttack",
-                        {"heatFrames": 50}
-                      ]
-                    }
-                  ],
+                  "clearsObstacles": ["C"],
                   "devNote": "You can't catch the Multiviolas to kill them with Screw without reaching node 6."
                 }
               ],
@@ -8600,30 +8402,15 @@
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
+                    "Plasma",
+                    "canHitbox",
                     {"canShineCharge": {
                       "usedTiles": 33,
-                      "openEnd": 2,
-                      "shinesparkFrames": 0
+                      "openEnd": 2
                     }},
                     {"heatFrames": 145}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "E",
-                      "requires": []
-                    },
-                    {
-                      "id": "C",
-                      "requires": [
-                        "Plasma",
-                        "canHitbox"
-                      ]
-                    },
-                    {
-                      "id": "F",
-                      "requires": []
-                    }
-                  ],
+                  "clearsObstacles": ["C","E","F"],
                   "note": [
                     "Time Plasma shots so that Samus can run through the first two Dessgeegas and build Speedbooster echoes.",
                     "Shooting into the floor can give more control over the enemy iframes."
@@ -8708,14 +8495,13 @@
                       "enemy": "Multiviola",
                       "type": "contact",
                       "hits": 1
-                    }}
+                    }},
+                    {"or": [
+                      "h_canUsePowerBombs",
+                      {"obstaclesCleared": ["A"]}
+                    ]}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": ["h_canUsePowerBombs"]
-                    }
-                  ],
+                  "clearsObstacles": ["A"],
                   "reusableRoomwideNotable": "Mickey Mouse Viola Ice Clip",
                   "note": [
                     "Ice Clip through the crumble blocks using a Multiviola from the bottom of the room and then Crumble Jump to clip through the bomb blocks.",
@@ -8756,12 +8542,7 @@
                     "ScrewAttack",
                     {"obstaclesNotCleared": ["A"]}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "B",
-                      "requires": ["ScrewAttack"]
-                    }
-                  ],
+                  "clearsObstacles": ["B"],
                   "reusableRoomwideNotable": "Mickey Mouse Viola Ice Clip",
                   "note": [
                     "Ice Clip through the crumble blocks using a Multiviola from the bottom of the room and then Crumble Jump to clip through the bomb blocks.",
@@ -8771,7 +8552,7 @@
                   ]
                 },
                 {
-                  "name": "Mickey Mouse Multiviola Clip (Morph Bombs)",
+                  "name": "Mickey Mouse Multiviola Clip (Bombs)",
                   "notable": true,
                   "requires": [
                     "h_heatProof",
@@ -8782,20 +8563,14 @@
                       "type": "contact",
                       "hits": 1
                     }},
-                    {"obstaclesNotCleared": ["A"]}
+                    {"obstaclesNotCleared": ["A"]},
+                    "h_canUseMorphBombs",
+                    {"or": [
+                      "h_canUseSpringBall",
+                      "can3HighMidAirMorph"
+                    ]}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "B",
-                      "requires": [
-                        "h_canUseMorphBombs",
-                        {"or": [
-                          "h_canUseSpringBall",
-                          "can3HighMidAirMorph"
-                        ]}
-                      ]
-                    }
-                  ],
+                  "clearsObstacles": ["B"],
                   "reusableRoomwideNotable": "Mickey Mouse Viola Ice Clip",
                   "note": [
                     "Ice Clip through the crumble blocks using a Multiviola from the bottom of the room and then Crumble Jump to clip through the bomb blocks.",
@@ -8875,18 +8650,11 @@
                 {
                   "name": "Base",
                   "notable": false,
-                  "requires": [],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [
-                        {"enemyKill":{
-                          "enemies": [
-                            [ "Fune" ]
-                          ]
-                        }}
-                      ]
-                    }
+                  "requires": [
+                    {"or": [
+                      {"enemyKill":{ "enemies": [ [ "Fune" ] ] }},
+                      {"obstaclesCleared": ["A"]}
+                    ]}
                   ]
                 }
               ],
@@ -9039,6 +8807,30 @@
           "from": 2,
           "to": [
             {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Fireflea Farm",
+                  "notable": false,
+                  "requires": [
+                    {"or": [
+                      "SpaceJump",
+                      "canPreciseWalljump",
+                      {"and": [
+                        "HiJump",
+                        {"or": [
+                          "canWalljump",
+                          "SpeedBooster"
+                        ]}
+                      ]}
+                    ]},
+                    "h_canUsePowerBombs",
+                    {"refill": ["Energy", "PowerBomb"]}
+                  ]
+                }
+              ]
+            },
+            {
               "id": 3,
               "strats": [
                 {
@@ -9100,13 +8892,18 @@
               "id": 6,
               "strats": [
                 {
+                  "name": "Fune Already Killed",
+                  "notable": false,
+                  "requires": [ {"obstaclesCleared": ["A"]} ]
+                },
+                {
                   "name": "Spring Ball",
                   "notable": false,
                   "requires": ["h_canUseSpringBall"],
                   "note": "Use SpringBall to get up and over the Fune."
                 },
                 {
-                  "name": "Morph Bombs",
+                  "name": "Bombs",
                   "notable": false,
                   "requires": [
                     "h_canUseMorphBombs",
@@ -9119,7 +8916,7 @@
                         ]}
                       ]},
                       {"and": [
-                        "canDamageBoost",
+                        "canNeutralDamageBoost",
                         {"enemyDamage": {
                           "enemy": "Fune",
                           "type": "fireball",
@@ -9135,7 +8932,7 @@
                   "notable": true,
                   "requires": [
                     "h_canThreeTileJumpMorph",
-                    "canDamageBoost",
+                    "canNeutralDamageBoost",
                     "canTrickyJump",
                     {"enemyDamage": {
                       "enemy": "Fune",
@@ -9165,19 +8962,8 @@
                 {
                   "name": "Kill the Fune",
                   "notable": false,
-                  "requires": [],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [
-                        {"enemyKill":{
-                          "enemies": [
-                            [ "Fune" ]
-                          ]
-                        }}
-                      ]
-                    }
-                  ]
+                  "requires": [ {"enemyKill":{ "enemies": [ [ "Fune" ] ] }} ],
+                  "clearsObstacles": ["A"]
                 }
               ]
             }
@@ -9418,7 +9204,7 @@
                   "notable": false,
                   "requires": [
                     "HiJump",
-                    "canDamageBoost",
+                    "canHorizontalDamageBoost",
                     "canTrickyJump",
                     "canCrouchJump",
                     {"enemyDamage": {
@@ -9446,7 +9232,7 @@
                   "requires": [
                     "canStaggeredWalljump",
                     "canCarefulJump",
-                    "canDamageBoost",
+                    "canHorizontalDamageBoost",
                     {"enemyDamage": {
                       "enemy": "Fireflea",
                       "type": "contact",
@@ -9479,33 +9265,27 @@
               "id": 2,
               "strats": [
                 {
+                  "name": "Fune Already Killed",
+                  "notable": false,
+                  "requires": [ {"obstaclesCleared": ["A"]} ]
+                },
+                {
                   "name": "Spring Ball",
                   "notable": false,
                   "requires": ["h_canUseSpringBall"],
                   "note": "Use SpringBall to get up and over the Fune.  Jump when slightly away from the Fune."
                 },
                 {
-                  "name": "Morph Bombs",
+                  "name": "Bombs",
                   "notable": false,
                   "requires": ["h_canUseMorphBombs"],
-                  "note": "Use a Morph Bomb to get up and over the Fune."
+                  "note": "Use a Bomb to get up and over the Fune."
                 },
                 {
                   "name": "Kill the Fune",
                   "notable": false,
-                  "requires": [],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [
-                        {"enemyKill":{
-                          "enemies": [
-                            [ "Fune" ]
-                          ]
-                        }}
-                      ]
-                    }
-                  ]
+                  "requires": [ {"enemyKill":{ "enemies": [ [ "Fune" ] ] }} ],
+                  "clearsObstacles": ["A"]
                 },
                 {
                   "name": "R Jump Over the Fune",
@@ -9673,7 +9453,6 @@
             {
               "usedTiles": 27,
               "framesRemaining": 0,
-              "shinesparkFrames": 35,
               "strats": [
                 {
                   "name": "Pre Open Door",
@@ -9696,7 +9475,8 @@
                       ]}
                     ]},
                     "canShinechargeMovement",
-                    {"heatFrames": 1240}
+                    {"heatFrames": 1240},
+                    {"shinespark": {"frames": 35}}
                   ],
                   "note": [
                     "Open the door to be able to spark out later.",
@@ -9971,7 +9751,6 @@
                     {"canComeInCharged": {
                       "framesRemaining": 180,
                       "fromNode": 3,
-                      "shinesparkFrames": 0,
                       "unusableTiles": 1
                     }},
                     {"heatFrames": 60}
@@ -10044,7 +9823,7 @@
                   ]
                 },
                 {
-                  "name": "Morph Bombs",
+                  "name": "Bombs",
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
@@ -10296,13 +10075,12 @@
                   "requires": [
                     "h_canNavigateHeatRooms",
                     "h_canUseSpringBall",
+                    "canSpeedball",
                     "canLateralMidAirMorph",
-                    "canCarefulJump",
                     {"canShineCharge": {
                       "usedTiles": 26,
                       "gentleDownTiles": 2,
-                      "openEnd": 1,
-                      "shinesparkFrames": 0
+                      "openEnd": 1
                     }},
                     {"heatFrames": 160}
                   ],
@@ -10310,7 +10088,7 @@
                   "note": "Jump and Morph with a speedball to enter the morph tunnel and then use SpringBall to break the bomb blocks."
                 }
               ],
-              "devNote": "This one-way link represents only the Hotarubi Special. Anything else should go 6-> 4-> 5."
+              "devNote": "This one-way link represents only the Maze Air Speedball. Anything else should go 6-> 4-> 5."
             },
             {
               "id": 7,
@@ -10621,6 +10399,27 @@
                   ]
                 }
               ]
+            },
+            {
+              "id": 7,
+              "strats": [
+                {
+                  "name": "Alcoon Farm",
+                  "notable": false,
+                  "requires": [
+                    "h_heatProof",
+                    {"or": [
+                      "canDodgeWhileShooting",
+                      "ScrewAttack",                      
+                      "Wave",
+                      "Ice",
+                      "Spazer",
+                      "Plasma"
+                    ]},
+                    {"refill": ["PowerBomb"]}
+                  ]
+                }
+              ]
             }
           ]
         }
@@ -10869,19 +10668,47 @@
           "dropRequires": ["h_heatProof"]
         }
       ],
-      "reusableRoomwideNotable": [
-        {
-          "name": "Dodge the Three Musketeers",
-          "note": "Read the movements of the Kihunters and jump over or roll under them as appropriate."
-        }
-      ],
       "links": [
         {
           "from": 1,
           "to": [
             {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Red Kihunter Farm",
+                  "notable": false,
+                  "requires": [
+                    "h_heatProof",
+                    {"or": [
+                      "ScrewAttack",
+                      {"and": [
+                        "Plasma",
+                        "Wave",
+                        "Ice"
+                      ]}
+                    ]},
+                    {"resetRoom": {
+                      "nodes": [1],
+                      "mustStayPut": false
+                    }},
+                    {"refill": ["Energy", "Missile", "Super"]}
+                  ]
+                }
+              ]
+            },
+            {
               "id": 4,
               "strats": [
+                {
+                  "name": "Kihunters Already Killed",
+                  "notable": false,
+                  "requires": [
+                    "h_canNavigateHeatRooms",
+                    {"heatFrames": 400},
+                    {"obstaclesCleared": ["A"]}
+                  ]
+                },
                 {
                   "name": "Tank the Damage",
                   "notable": false,
@@ -10897,25 +10724,6 @@
                   "note": "Wait for the first KiHunter to pass and then run through the remaining two."
                 },
                 {
-                  "name": "HeatProof Kill",
-                  "notable": false,
-                  "requires": ["h_heatProof"],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [
-                        {"enemyKill":{
-                          "enemies": [
-                            [
-                              "Kihunter (red)","Kihunter (red)","Kihunter (red)"
-                            ]
-                          ]
-                        }}
-                      ]
-                    }
-                  ]
-                },
-                {
                   "name": "Hitbox the Kihunters",
                   "notable": false,
                   "requires": [
@@ -10925,7 +10733,7 @@
                   ]
                 },
                 {
-                  "name": "Dodge the Three Musketeers (Going Down)",
+                  "name": "Dodge the Three Musketeers Going Down",
                   "notable": true,
                   "requires": [
                     "h_canNavigateHeatRooms",
@@ -10933,7 +10741,6 @@
                     "Morph",
                     {"heatFrames": 540}
                   ],
-                  "reusableRoomwideNotable": "Dodge the Three Musketeers",
                   "note": [
                     "Wait for the top one to pass by.",
                     "Jump down when the lower two are by the left wall and jump over them when they swoop."
@@ -10944,24 +10751,18 @@
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
+                    "ScrewAttack",
+                    {"or": [
+                      {"heatFrames": 100},
+                      {"and": [
+                        "canCarefulJump",
+                        {"heatFrames": 50}
+                      ]},
+                      "canTrickyJump"
+                    ]},
                     {"heatFrames": 330}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [
-                        "ScrewAttack",
-                        {"or": [
-                          {"heatFrames": 100},
-                          {"and": [
-                            "canCarefulJump",
-                            {"heatFrames": 50}
-                          ]},
-                          "canTrickyJump"
-                        ]}
-                      ]
-                    }
-                  ],
+                  "clearsObstacles": ["A"],
                   "note": "By moving quickly, the KiHunters will be in favourable positions.  Otherwise wait until it is safe to continue."
                 },
                 {
@@ -10969,24 +10770,17 @@
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
-                    {"heatFrames": 400}
+                    "Charge",
+                    "Plasma",
+                    "Ice",
+                    "Wave",
+                    {"or": [
+                      {"heatFrames": 360},
+                      "canTrickyJump"
+                    ]},
+                    {"heatFrames": 520}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [
-                        "Charge",
-                        "Plasma",
-                        "Ice",
-                        "Wave",
-                        {"or": [
-                          {"heatFrames": 360},
-                          "canTrickyJump"
-                        ]},
-                        {"heatFrames": 120}
-                      ]
-                    }
-                  ], 
+                  "clearsObstacles": ["A"], 
                   "note": [
                     "Shooting straight down can hit the KiHunter below.",
                     "Jumping before shooting down can even double hit, instantly killing them."
@@ -10997,22 +10791,15 @@
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
-                    {"heatFrames": 400}
+                    "Plasma",
+                    "Wave",
+                    {"or": [
+                      "canDodgeWhileShooting",
+                      {"heatFrames": 30}
+                    ]},
+                    {"heatFrames": 790}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [
-                        "Plasma",
-                        "Wave",
-                        {"or": [
-                          "canDodgeWhileShooting",
-                          {"heatFrames": 30}
-                        ]},
-                        {"heatFrames": 390}
-                      ]
-                    }
-                  ],
+                  "clearsObstacles": ["A"],
                   "note": "The top KiHunter can be ignored."
                 },
                 {
@@ -11020,24 +10807,17 @@
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
-                    {"heatFrames": 420}
+                    "Plasma",
+                    {"or": [
+                      "canDodgeWhileShooting",
+                      {"and": [
+                        "Charge",
+                        {"heatFrames": 1800}
+                      ]}
+                    ]},
+                    {"heatFrames": 1320}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [
-                        "Plasma",
-                        {"or": [
-                          "canDodgeWhileShooting",
-                          {"and": [
-                            "Charge",
-                            {"heatFrames": 1800}
-                          ]}
-                        ]},
-                        {"heatFrames": 900}
-                      ]
-                    }
-                  ],
+                  "clearsObstacles": ["A"],
                   "note": "Jump to the previous level when the enemy gets close, or fight entirely from safety."
                 },
                 {
@@ -11045,31 +10825,24 @@
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
-                    {"heatFrames": 420}
-                  ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [
+                    {"enemyKill":{
+                      "enemies": [["Kihunter (red)","Kihunter (red)"]],
+                      "explicitWeapons": ["Super"]
+                    }},
+                    {"or": [
+                      "canDodgeWhileShooting",
+                      {"and": [
+                        "canCarefulJump",
                         {"enemyKill":{
-                          "enemies": [["Kihunter (red)","Kihunter (red)"]],
+                          "enemies": [["Kihunter (red)"]],
                           "explicitWeapons": ["Super"]
                         }},
-                        {"or": [
-                          "canDodgeWhileShooting",
-                          {"and": [
-                            "canCarefulJump",
-                            {"enemyKill":{
-                              "enemies": [["Kihunter (red)"]],
-                              "explicitWeapons": ["Super"]
-                            }},
-                            {"heatFrames": 960}
-                          ]}
-                        ]},
-                        {"heatFrames": 270}
-                      ]
-                    }
+                        {"heatFrames": 960}
+                      ]}
+                    ]},
+                    {"heatFrames": 690}
                   ],
+                  "clearsObstacles": ["A"],
                   "note": [
                     "Jump to the previous level when the enemy gets close, or fight entirely from safety.",
                     "Two supers can hit per cycle when shooting from above."
@@ -11081,20 +10854,23 @@
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
-                    {"heatFrames": 400}
+                    "Spazer",
+                    "Ice",
+                    "Wave",
+                    {"heatFrames": 1210}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [
-                        {"heatFrames": 810},
-                        "Spazer",
-                        "Ice",
-                        "Wave"
-                      ]
-                    }
-                  ],
+                  "clearsObstacles": ["A"],
                   "note": "Shooting rapidly at an angle is faster than jumping and firing down."
+                },
+                {
+                  "name": "Slow HeatProof Kill",
+                  "notable": false,
+                  "requires": [
+                    "h_heatProof",
+                    "canBePatient",
+                    {"enemyKill":{ "enemies": [ [ "Kihunter (red)", "Kihunter (red)", "Kihunter (red)" ] ] }}
+                  ],
+                  "clearsObstacles": ["A"]
                 }
               ]
             }
@@ -11244,19 +11020,14 @@
                     "canTrickyJump",
                     {"heatFrames": 600}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": []
-                    }
-                  ],
+                  "clearsObstacles": ["A"],
                   "note": [
                     "Wait for the Kihunters to move away from where Samus will jump up.",
                     "This may mean Hitboxing through the middle KiHunter multiple times."
                   ]
                 },
                 {
-                  "name": "Dodge the 3 Musketeers (Going Up)",
+                  "name": "Dodge the 3 Musketeers Going Up",
                   "notable": true,
                   "requires": [
                     "h_canNavigateHeatRooms",
@@ -11274,13 +11045,7 @@
                     ]},
                     {"heatFrames": 540}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": []
-                    }
-                  ],
-                  "reusableRoomwideNotable": "Dodge the Three Musketeers",
+                  "clearsObstacles": ["A"],
                   "note": [
                     "Read the movements of the Kihunters and jump over or roll under them as appropriate.",
                     "Changing platforms is the hardest part: ",
@@ -11318,12 +11083,7 @@
                       "hits": 3
                     }}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": []
-                    }
-                  ]
+                  "clearsObstacles": ["A"]
                 },
                 {
                   "name": "Partial Kihunter Dodge",
@@ -11337,7 +11097,7 @@
                     "canTrickyJump",
                     {"or": [
                       {"and": [
-                        "canDamageBoost",
+                        "canHorizontalDamageBoost",
                         "canHitbox",
                         {"enemyDamage": {
                           "enemy": "Kihunter (red)",
@@ -11352,50 +11112,8 @@
                       }}
                     ]}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": []
-                    }
-                  ],
+                  "clearsObstacles": ["A"],
                   "note": "Jump over the first Kihunter and attempt to either use IFrames to pass through the top Kihunter, or dodge it if possible."
-                },
-                {
-                  "name": "HeatProof Kill",
-                  "notable": false,
-                  "requires": [
-                    "h_heatProof",
-                    {"or":[
-                      "h_canCrouchJumpDownGrab",
-                      "canWalljump",
-                      "HiJump",
-                      "canSpringBallJumpMidAir",
-                      "SpaceJump",
-                      "h_canIBJ",
-                      {"and": [
-                        "h_canSpringBallBombJump",
-                        {"or": [
-                          "Bombs",
-                          {"ammo": {"type": "PowerBomb","count": 2}}
-                        ]}
-                      ]}
-                    ]}
-                  ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [
-                        {"enemyKill":{ "enemies": [ [ "Kihunter (red)", "Kihunter (red)", "Kihunter (red)" ] ] }}
-                      ]
-                    }
-                  ],
-                  "note": [
-                    "Shoot them from below.",
-                    "It is possible for the KiHunters to fall through the gaps in the side, but is unlikely.",
-                    "Jumping may lower the camera position making it harder to shoot the KiHunters.",
-                    "But once it is lowered, jump to make them active and vulnerable to damage."
-                  ],
-                  "devNote": "SpringBallBombJump uses 3 powerbombs total."
                 },
                 {
                   "name": "Screw Kill",
@@ -11438,20 +11156,22 @@
                         }}
                       ]}
                     ]},
-                    {"heatFrames": 400}
+                    {"heatFrames": 500}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [{"heatFrames": 100}]
-                    }
-                  ]
+                  "clearsObstacles": ["A"]
                 },
                 {
                   "name": "Ice Wave Plasma Kill",
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
+                    "Ice",
+                    "Wave",
+                    "Plasma",
+                    {"or": [
+                      "Charge",
+                      {"heatFrames": 240}
+                    ]},
                     {"or":[
                       "h_canCrouchJumpDownGrab",
                       "canWalljump",
@@ -11474,23 +11194,9 @@
                         {"heatFrames": 250}
                       ]}
                     ]},
-                    {"heatFrames": 400}
+                    {"heatFrames": 550}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [
-                        "Ice",
-                        "Wave",
-                        "Plasma",
-                        {"or": [
-                           "Charge",
-                           {"heatFrames": 240}
-                         ]},
-                        {"heatFrames": 150}
-                      ]
-                    }
-                  ],
+                  "clearsObstacles": ["A"],
                   "note": [
                     "Firing upwards has a good chance of hitting multiple Kihunters.",
                     "And charge shot double hits will instantly kill a Kihunter."
@@ -11501,6 +11207,8 @@
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
+                    "Wave",
+                    "Plasma",
                     {"or":[
                       "h_canCrouchJumpDownGrab",
                       "canWalljump",
@@ -11523,24 +11231,20 @@
                         {"heatFrames": 250}
                       ]}
                     ]},
-                    {"heatFrames": 400}
+                    {"heatFrames": 940}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [
-                        "Wave",
-                        "Plasma",
-                        {"heatFrames": 540}
-                      ]
-                    }
-                  ]
+                  "clearsObstacles": ["A"]
                 },
                 {
                   "name": "Plasma Kill",
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
+                    "Plasma",
+                    {"or": [
+                      "canCarefulJump",
+                      {"heatFrames": 100}
+                    ]},
                     {"or":[
                       "h_canCrouchJumpDownGrab",
                       "canWalljump",
@@ -11563,21 +11267,9 @@
                         {"heatFrames": 250}
                       ]}
                     ]},
-                    {"heatFrames": 400}
+                    {"heatFrames": 1360}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [
-                        "Plasma",
-                        {"or": [
-                          "canCarefulJump",
-                          {"heatFrames": 100}
-                        ]},
-                        {"heatFrames": 960}
-                      ]
-                    }
-                  ],
+                  "clearsObstacles": ["A"],
                   "note": "Fire up from below and try not to jump too high as that will put the camera in a bad position.",
                   "devNote": "FIXME IBJ strats could be added with heat frames."
                 },
@@ -11586,6 +11278,14 @@
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
+                    {"enemyKill":{
+                      "enemies": [ [ "Kihunter (red)", "Kihunter (red)", "Kihunter (red)" ] ],
+                      "explicitWeapons": [ "Super" ]
+                    }},
+                    {"or": [
+                      "canCarefulJump",
+                      {"heatFrames": 210}
+                    ]},
                     {"or":[
                       "h_canCrouchJumpDownGrab",
                       "canWalljump",
@@ -11608,28 +11308,9 @@
                         {"heatFrames": 250}
                       ]}
                     ]},
-                    {"heatFrames": 400}
+                    {"heatFrames": 1300}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [
-                        {"enemyKill":{
-                          "enemies": [
-                            [
-                              "Kihunter (red)","Kihunter (red)","Kihunter (red)"
-                            ]
-                          ],
-                          "explicitWeapons": [ "Super" ]
-                        }},
-                        {"or": [
-                          "canCarefulJump",
-                          {"heatFrames": 210}
-                        ]},
-                        {"heatFrames": 900}
-                      ]
-                    }
-                  ],
+                  "clearsObstacles": ["A"],
                   "note": "Fire up from below and try not to jump too high as that will put the camera in a bad position."
                 },
                 {
@@ -11637,6 +11318,14 @@
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
+                    "Ice",
+                    "Wave",
+                    "Spazer",
+                    {"or": [
+                      "Charge",
+                      "canCarefulJump",
+                      "h_heatProof"
+                    ]},
                     {"or":[
                       "h_canCrouchJumpDownGrab",
                       "canWalljump",
@@ -11659,26 +11348,43 @@
                         {"heatFrames": 250}
                       ]}
                     ]},
-                    {"heatFrames": 400}
+                    {"heatFrames": 1520}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [
-                        "Ice",
-                        "Wave",
-                        "Spazer",
-                        {"or": [
-                          "Charge",
-                          "canCarefulJump",
-                          "h_heatProof"
-                        ]},
-                        {"heatFrames": 1120}
-                      ]
-                    }
-                  ],
+                  "clearsObstacles": ["A"],
                   "note": "Fire up from below and try not to jump too high as that will out the camera in a bad position.",
                   "devNote": "FIXME IBJ strats could be added with heat frames."
+                },
+                {
+                  "name": "Slow HeatProof Kill",
+                  "notable": false,
+                  "requires": [
+                    "h_heatProof",
+                    "canBePatient",
+                    {"enemyKill":{ "enemies": [ [ "Kihunter (red)", "Kihunter (red)", "Kihunter (red)" ] ] }},
+                    {"or":[
+                      "h_canCrouchJumpDownGrab",
+                      "canWalljump",
+                      "HiJump",
+                      "canSpringBallJumpMidAir",
+                      "SpaceJump",
+                      "h_canIBJ",
+                      {"and": [
+                        "h_canSpringBallBombJump",
+                        {"or": [
+                          "Bombs",
+                          {"ammo": {"type": "PowerBomb","count": 2}}
+                        ]}
+                      ]}
+                    ]}
+                  ],
+                  "clearsObstacles": ["A"],
+                  "note": [
+                    "Shoot them from below.",
+                    "It is possible for the KiHunters to fall through the gaps in the side, but is unlikely.",
+                    "Jumping may lower the camera position making it harder to shoot the KiHunters.",
+                    "But once it is lowered, jump to make them active and vulnerable to damage."
+                  ],
+                  "devNote": "SpringBallBombJump uses 3 powerbombs total."
                 }
               ]
             },
@@ -11751,7 +11457,7 @@
                   ]
                 },
                 {
-                  "name": "Morph Bombs",
+                  "name": "Bombs",
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",

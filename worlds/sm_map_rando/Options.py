@@ -49,6 +49,13 @@ class ResourceMultiplier(Range):
     range_end = 3
     default = 1
 
+class GateGlitchLeniency(Range):
+    """Expected failed attempts to get a successful gate glitch"""
+    display_name = "Gate Glitch Leniency"
+    range_start = 0
+    range_end = 100
+    default = 14
+
 class EscapeTimerMultiplier(Range):
     """Leniency factor on escape timer"""
     display_name = "Escape timer multiplier"
@@ -97,6 +104,14 @@ class SaveAnimals(Toggle):
     """Take into account extra time needed in the escape"""
     display_name = "Save the animals"
 
+class EarlySave(Toggle):
+    """
+    This option ensures that a save station will be accessible early in the game,
+    no later than during the second logical progression step. This has an effect 
+    only when using Random start location.
+    """
+    display_name = "Guaranteed early save station"
+
 class QualityOfLife(Toggle):
     """
     These options help provide a smoother, more intuitive, and less tedious game experience.
@@ -116,6 +131,10 @@ class Objectives(Choice):
     - Bosses: Defeat Kraid, Phantoon, Draygon, and Ridley.
     - Minibosses: Defeat Spore Spawn, Crocomire, Botwoon, and Golden Torizo.
     - Metroids: Defeat all the Metroids in the four Metroid rooms.
+    - Chozos: Defeat Bomb Torizo and Golden Torizo, and activate Bowling Alley and Acid Chozo statues.
+      Note that Phantoon must be defeated before the Bowling Alley statue can be activated.
+    - Pirates: Defeat the enemies in Pit Room, Baby Kraid Room, Plasma Room, and Metal Pirates Room.
+      Note that Morph and Missiles must be collected before the enemies spawn in Pit Room.
 
     In every case, the way to beat the game is to escape after defeating Mother Brain. Objective rooms are marked with X's on the map.
     """
@@ -123,6 +142,26 @@ class Objectives(Choice):
     option_Bosses = 0
     option_Minibosses = 1
     option_Metroids = 2
+    option_Chozos = 3
+    option_Pirates = 4
+    default = 0
+
+class DoorsMode(Choice):
+    """
+    This setting determines the types of non-gray doors that exist in the game:
+
+    - Blue: All doors are blue, except for gray doors.
+    - Ammo: Red, green, and yellow doors are randomly mixed in.
+
+    Gray doors are unaffected by this setting and always exist in the same set of rooms: boss/miniboss 
+    rooms and the four Pirates rooms (Pit Room, Baby Kraid Room, Plasma Room, and Metal Pirates Room).
+
+    For ammo doors, both sides of the door will have the same color and share a lock, so that unlocking
+    one side of the door also unlocks the other.
+    """
+    display_name = "Doors"
+    option_Blue = 0
+    option_Ammo = 1
     default = 0
 
 class SupersDouble(Toggle):
@@ -336,6 +375,15 @@ class DisableWalljump(Toggle):
     """
     display_name = "Disable wall jumps"
 
+class MomentumConservation(Toggle):
+    """
+    If enabled, Samus' horizontal momentum is conserved when landing from a spin jump while holding run and forward.
+
+    Note: The randomizer logic does not take this setting into account. Therefore, even when it is enabled, 
+    the game will not require it to be used, and it may create sequence break opportunities.
+    """
+    display_name = "Momentum conservation"
+
 class MapsRevealed(Toggle):
     """
     When enabled, all maps are fully revealed from the beginning of the game, without needing to activate the map stations.
@@ -358,6 +406,7 @@ smmr_options: typing.Dict[str, type(Option)] = {
     "strats": Strats,
     "shinespark_tiles": ShinesparkTiles,
     "resource_multiplier": ResourceMultiplier,
+    "gate_glitch_leniency": GateGlitchLeniency,
     "escape_timer_multiplier": EscapeTimerMultiplier,
     "randomized_start": RandomizedStart,
     "phantoon_proficiency": PhantoonProficiency,
@@ -365,8 +414,10 @@ smmr_options: typing.Dict[str, type(Option)] = {
     "ridley_proficiency": RidleyProficiency,
     "botwoon_proficiency": BotwoonProficiency,
     "save_animals": SaveAnimals,
+    "early_save": EarlySave,
     "quality_of_life": QualityOfLife,
     "objectives": Objectives,
+    "doors_mode": DoorsMode,
     #"filler_items": String,
     "supers_double": SupersDouble,
     "mother_brain_short": MotherBrainShort,
@@ -384,6 +435,7 @@ smmr_options: typing.Dict[str, type(Option)] = {
     "fast_pause_menu": FastPauseMenu,
     "respin": Respin,
     "infinite_space_jump": InfiniteSpaceJump,
+    "momentum_conservation": MomentumConservation,
     "disable_walljump": DisableWalljump,
     "maps_revealed": MapsRevealed,
     "vanilla_map": VanillaMap,

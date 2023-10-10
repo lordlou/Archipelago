@@ -163,7 +163,7 @@
                   "notable": true,
                   "requires": [
                     "canDodgeWhileShooting",
-                    "canBePatient",
+                    "canBeVeryPatient",
                     {"or": [
                       {"ammo": { "type": "Missile", "count": 2 }},
                       {"ammo": { "type": "Super", "count": 2 }}
@@ -385,9 +385,9 @@
                   "requires": [
                     {"canShineCharge": {
                       "usedTiles": 33,
-                      "shinesparkFrames": 50,
                       "openEnd": 2
-                    }}
+                    }},
+                    {"shinespark": {"frames": 50}}
                   ]
                 },
                 {
@@ -688,33 +688,39 @@
                   "notable": false,
                   "requires": [
                     {"or":[
-                      {"canComeInCharged": {
-                        "fromNode": 2,
-                        "inRoomPath": [2, 5],
-                        "framesRemaining": 0,
-                        "shinesparkFrames": 25
-                      }},
-                      {"canComeInCharged": {
-                        "fromNode": 3,
-                        "inRoomPath": [3, 5],
-                        "framesRemaining": 50,
-                        "shinesparkFrames": 25
-                      }},
-                      {"canComeInCharged": {
-                        "fromNode": 4,
-                        "inRoomPath": [4, 5],
-                        "framesRemaining": 0,
-                        "shinesparkFrames": 45
-                      }}
+                      {"and": [
+                        {"canComeInCharged": {
+                          "fromNode": 2,
+                          "inRoomPath": [2, 5],
+                          "framesRemaining": 0
+                        }},
+                        {"shinespark": {"frames": 25}}
+                      ]},
+                      {"and": [
+                        {"canComeInCharged": {
+                          "fromNode": 3,
+                          "inRoomPath": [3, 5],
+                          "framesRemaining": 50
+                        }},
+                        {"shinespark": {"frames": 25}}
+                      ]},
+                      {"and": [
+                        {"canComeInCharged": {
+                          "fromNode": 4,
+                          "inRoomPath": [4, 5],
+                          "framesRemaining": 0
+                        }},
+                        {"shinespark": {"frames": 45}}
+                      ]}
                     ]}
                   ]
                 },
                 {
-                  "name": "Post Crocomire Farming Room Dboost",
+                  "name": "Post Crocomire Farming Room Damage Boost",
                   "notable": true,
                   "requires": [
                     "canTrickyJump",
-                    "canDamageBoost",
+                    "canHorizontalDamageBoost",
                     {"enemyDamage": {
                       "enemy": "Gamet",
                       "type": "contact",
@@ -781,6 +787,18 @@
                   "note": [
                     "Jump into an IBJ from the moving platform (Kamer).",
                     "Although it is possible to do it without jumping, by starting next to the Gamet farm, it is harder and more obscure."
+                  ]
+                }
+              ]
+            },
+            {
+              "id": 5,
+              "strats": [
+                {
+                  "name": "Gamet Farm",
+                  "notable": false,
+                  "requires": [
+                    {"refill": ["Energy", "Missile", "Super", "PowerBomb"]}
                   ]
                 }
               ]
@@ -970,6 +988,22 @@
               "rightPosition": 3.5,
               "requires": []
             }
+          ],
+          "leaveWithGModeSetup": [
+            {
+              "strats": [
+                {
+                  "name": "Frozen Viola",
+                  "notable": false,
+                  "requires": [
+                    "canTrickyUseFrozenEnemies",
+                    {"ammo": {"type": "Super", "count": 1}},
+                    "h_canUseSpringBall"
+                  ],
+                  "note": "Knock a Viola off of its platform and keep it on camera as it climbs to the top of the room."
+                }
+              ]
+            }
           ]
         }
       ],
@@ -1030,6 +1064,22 @@
                   "name": "Base",
                   "notable": false,
                   "requires": []
+                }
+              ]
+            },
+            {
+              "id": 3,
+              "strats": [
+                {
+                  "name": "Viola Farm",
+                  "notable": false,
+                  "requires": [
+                    {"resetRoom": {
+                      "nodes": [2, 3],
+                      "mustStayPut": false
+                    }},
+                    {"refill": ["PowerBomb"]}
+                  ]
                 }
               ]
             },
@@ -1188,6 +1238,18 @@
                   "requires": [ "Morph" ]
                 }
               ]
+            },
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Gamet Farm",
+                  "notable": false,
+                  "requires": [
+                    {"refill": ["Energy", "Missile", "Super", "PowerBomb"]}
+                  ]
+                }
+              ]
             }
           ]
         }
@@ -1253,7 +1315,7 @@
               "height": 7,
               "leftPosition": -6.5,
               "rightPosition": -1.5,
-              "requires": [{"obstaclesNotCleared": ["A"]}],
+              "requires": [ {"obstaclesNotCleared": ["A"]} ],
               "devNote": [
                 "With HiJump this can be used coming up Main Street, the bottom left of Mt. Everest, and Pseudo Plasma Spark Room.",
                 "We could add other Power Bomb block platforms too (e.g. the lower ones, and on the right side), but they don't yet appear to have any application."
@@ -1265,7 +1327,7 @@
               "height": 9,
               "leftPosition": -23,
               "rightPosition": 22,
-              "requires": [{"obstaclesCleared": ["A"]}]
+              "requires": [ {"obstaclesCleared": ["A"]} ]
             },
             {
               "name": "Platform with Speed Blocks Broken",
@@ -1319,13 +1381,13 @@
                 {
                   "name": "Break Power Bomb Blocks",
                   "notable": false,
-                  "requires": [],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": ["h_canUsePowerBombs"]
-                    }
-                  ]
+                  "requires": [
+                    {"or": [
+                      "h_canUsePowerBombs",
+                      {"obstaclesCleared": ["A"]}
+                    ]}
+                  ],
+                  "clearsObstacles": ["A"]
                 }
               ]
             }
@@ -1415,9 +1477,9 @@
                     "canMidairShinespark",
                     {"canComeInCharged": {
                       "fromNode": 1,
-                      "framesRemaining": 150,
-                      "shinesparkFrames": 40
-                    }}
+                      "framesRemaining": 150
+                    }},
+                    {"shinespark": {"frames": 40}}
                   ],
                   "note" : "Doesn't need hjb. Takes two walljumps, and must do the shinespark at the apex."
                 },
@@ -1442,8 +1504,7 @@
                   "requires": [
                     {"canComeInCharged": {
                       "fromNode": 1,
-                      "framesRemaining": 180,
-                      "shinesparkFrames": 0
+                      "framesRemaining": 180
                     }},
                     "canBlueSpaceJump"
                   ],
@@ -1467,68 +1528,72 @@
           "from": 2,
           "to": [
             {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Mella Farm",
+                  "notable": false,
+                  "requires": [
+                    {"or": [
+                      "canDodgeWhileShooting",
+                      "ScrewAttack",
+                      "Ice",
+                      "Wave",
+                      "Spazer",
+                      "Plasma"
+                    ]},
+                    {"resetRoom": {
+                      "nodes": [2],
+                      "mustStayPut": false
+                    }},
+                    {"refill": ["Energy", "Missile"]}
+                  ],
+                  "note": "Shoot the Mellas when they first begin to come on screen, and they will not move."
+                }
+              ]
+            },
+            {
               "id": 4,
               "strats": [
                 {
                   "name": "Base",
                   "notable": false,
-                  "requires": [],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": ["h_canUsePowerBombs"]
-                    },
-                    {
-                      "id": "B",
-                      "requires": ["SpeedBooster"]
-                    }
-                  ]
+                  "requires": [ {"obstaclesCleared": ["B"]} ]
                 },
                 {
-                  "name": "Base with Broken Obstacle",
+                  "name": "Broken Power Bomb Blocks",
                   "notable": false,
-                  "requires": [ {"obstaclesCleared": ["B"]} ],
-                  "devNote": [
-                    "This exists to guarantee going back is free after the speed blocks have been broken.",
-                    "None of the other strats can work as a proper substitute.",
-                    "The base strat requires obstacle A.",
-                    "The shinespark strat may not be possible.",
-                    "The stutter-3 is notable and could be turned off."
-                  ]
+                  "requires": [
+                    "SpeedBooster",
+                    {"or": [
+                      "h_canUsePowerBombs",
+                      {"obstaclesCleared": ["A"]}
+                    ]}
+                  ],
+                  "clearsObstacles": ["A","B"]
                 },
                 {
                   "name": "Shinespark",
                   "notable": false,
-                  "requires": [],
-                  "obstacles": [
-                    {
-                      "id": "B",
-                      "requires": [
-                        {"canComeInCharged": {
-                          "fromNode": 2,
-                          "framesRemaining": 100,
-                          "shinesparkFrames": 120
-                        }}
-                      ]
-                    }
-                  ]
+                  "requires": [
+                    {"canComeInCharged": {
+                      "fromNode": 2,
+                      "framesRemaining": 100
+                    }},
+                    {"shinespark": {"frames": 120}}
+                  ],
+                  "clearsObstacles": ["B"]
                 },
                 {
-                  "name": "PCJR Stutter-3",
+                  "name": "Shinecharge",
                   "notable": false,
-                  "requires": [],
-                  "obstacles": [
-                    {
-                      "id": "B",
-                      "requires": [
-                        {"canShineCharge": {
-                          "usedTiles": 17,
-                          "shinesparkFrames": 0,
-                          "openEnd": 0
-                        }}
-                      ]
-                    }
+                  "requires": [
+                    {"canShineCharge": {
+                      "usedTiles": 17,
+                      "openEnd": 0
+                    }}
                   ],
+                  "clearsObstacles": ["B"],
                   "note": "Commonly known as a stutter-3, this is also doable as a 4-tap."
                 }
               ]
@@ -1591,9 +1656,9 @@
                     "canMidairShinespark",
                     {"canShineCharge": {
                       "usedTiles": 32,
-                      "shinesparkFrames": 90,
                       "openEnd": 1
-                    }}
+                    }},
+                    {"shinespark": {"frames": 90}}
                   ],
                   "note": "Fire off the shinespark at the apex of two consecutive walljumps.",
                   "devNote": "You can have a 'max' length runway available here if you break the PB blocks, but we won't duplicate strats for that right now."
@@ -1606,9 +1671,9 @@
                     "canMidairShinespark",
                     {"canShineCharge": {
                       "usedTiles": 32,
-                      "shinesparkFrames": 52,
                       "openEnd": 1
-                    }}
+                    }},
+                    {"shinespark": {"frames": 52}}
                   ],
                   "note": "Charge a spark to the right, then come back, run and jump, and do a horizontal spark at the apex.",
                   "devNote": "You can have a 'max' length runway available here if you break the PB blocks, but we won't duplicate strats for that right now."
@@ -1624,13 +1689,14 @@
                 {
                   "name": "Long Run Speedjump",
                   "notable": false,
-                  "requires": ["SpeedBooster"],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [ "h_canUsePowerBombs" ]
-                    }
-                  ]
+                  "requires": [
+                    "SpeedBooster",
+                    {"or": [
+                      "h_canUsePowerBombs",
+                      {"obstaclesCleared": ["A"]}
+                    ]}
+                  ],
+                  "clearsObstacles": ["A"]
                 }
               ]
             },
@@ -1654,9 +1720,9 @@
                   "requires": [
                     {"canShineCharge": {
                       "usedTiles": 32,
-                      "shinesparkFrames": 40,
                       "openEnd": 1
-                    }}
+                    }},
+                    {"shinespark": {"frames": 40}}
                   ],
                   "devNote": "You can have a capped length runway available here if you break the PB blocks, but we won't duplicate strats for that right now."
                 },
@@ -1804,7 +1870,7 @@
                   "requires": [
                     "canUseFrozenEnemies",
                     "canManipulateMellas",
-                    "canBePatient",
+                    "canBeVeryPatient",
                     "canConsecutiveWalljump",
                     {"or":[
                       {"obstaclesCleared": ["B"]},
@@ -1844,21 +1910,16 @@
                 {
                   "name": "PCJR Acid Shinespark",
                   "notable": true,
-                  "requires": [],
-                  "obstacles": [
-                    {
-                      "id": "B",
-                      "requires": [
-                        "Gravity",
-                        {"canShineCharge": {
-                          "usedTiles": 33,
-                          "shinesparkFrames":35,
-                          "openEnd": 2
-                        }},
-                        {"acidFrames": 140}
-                      ]
-                    }
+                  "requires": [
+                    "Gravity",
+                    {"canShineCharge": {
+                      "usedTiles": 33,
+                      "openEnd": 2
+                    }},
+                    {"acidFrames": 140},
+                    {"shinespark": {"frames": 35}}
                   ],
+                  "clearsObstacles": ["B"],
                   "note": "Gravity makes it possible to charge a spark in the acid in order to break the speed blocks."
                 }
               ]
@@ -1993,16 +2054,16 @@
                     {"canComeInCharged": {
                       "fromNode": 2,
                       "inRoomPath": [2, 3],
-                      "framesRemaining": 20,
-                      "shinesparkFrames": 40
-                    }}
+                      "framesRemaining": 20
+                    }},
+                    {"shinespark": {"frames": 40}}
                   ]
                 },
                 {
-                  "name": "XRay Climb",
+                  "name": "X-Ray Climb",
                   "notable": false,
                   "requires": [
-                    "canLeftFacingDoorXRayClimb",
+                    "h_canRightDoorXRayClimb",
                     {"resetRoom": {
                       "nodes": [2],
                       "mustStayPut": false
@@ -2016,7 +2077,7 @@
                         "useFrames": 200
                       }},
                       {"and": [
-                        "canSubmergedLeftFacingDoorXRayClimb",
+                        "h_canRightDoorXRayClimbFromWater",
                         {"adjacentRunway": {
                           "fromNode": 2,
                           "usedTiles": 0.5,
@@ -2026,7 +2087,8 @@
                         }}
                       ]}
                     ]}
-                  ]
+                  ],
+                  "note": "Climb up 2 screens."
                 }
               ]
             },
@@ -2246,9 +2308,9 @@
                   "requires": [
                     {"canComeInCharged": {
                       "fromNode": 1,
-                      "framesRemaining": 120,
-                      "shinesparkFrames": 30
-                    }}
+                      "framesRemaining": 120
+                    }},
+                    {"shinespark": {"frames": 30}}
                   ]
                 },
                 {
@@ -2336,13 +2398,13 @@
                 {
                   "name": "Base",
                   "notable": false,
-                  "requires": [],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [ "h_canGreenGateGlitch" ]
-                    }
-                  ]
+                  "requires": [
+                    {"or": [
+                      "h_canGreenGateGlitch",
+                      {"obstaclesCleared": ["A"]}
+                    ]}
+                  ],
+                  "clearsObstacles": ["A"]
                 }
               ],
               "usableComingIn": false,
@@ -2398,6 +2460,18 @@
           "from": 1,
           "to": [
             {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Gamet Farm",
+                  "notable": false,
+                  "requires": [
+                    {"refill": ["Energy", "Missile", "Super", "PowerBomb"]}
+                  ]
+                }
+              ]
+            },
+            {
               "id": 3,
               "strats": [
                 {
@@ -2406,9 +2480,11 @@
                   "requires": [
                     {"canComeInCharged": {
                       "fromNode": 1,
-                      "framesRemaining": 0,
-                      "shinesparkFrames": 56,
-                      "excessShinesparkFrames": 1
+                      "framesRemaining": 0
+                    }},
+                    {"shinespark": {
+                      "frames": 56,
+                      "excessFrames": 1
                     }}
                   ]
                 },
@@ -2428,7 +2504,7 @@
                   "requires": [
                     "h_canNavigateUnderwater",
                     "canCarefulJump",
-                    "canContinuousDboost",
+                    "canHorizontalDamageBoost",
                     {"enemyDamage": {
                       "enemy": "Gamet",
                       "type": "contact",
@@ -2533,7 +2609,7 @@
                   "notable": false,
                   "requires": [
                     "h_canNavigateUnderwater",
-                    "canDamageBoost",
+                    "canHorizontalDamageBoost",
                     "canCarefulJump",
                     {"enemyDamage": {
                       "enemy": "Gamet",
@@ -2572,15 +2648,15 @@
               "id": 3,
               "strats": [
                 {
-                  "name": "GGG",
+                  "name": "Base",
                   "notable": false,
-                  "requires": [],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [ "h_canGreenGateGlitch" ]
-                    }
-                  ]
+                  "requires": [
+                    {"or": [
+                      "h_canGreenGateGlitch",
+                      {"obstaclesCleared": ["A"]}
+                    ]}
+                  ],
+                  "clearsObstacles": ["A"]
                 }
               ]
             }
@@ -2595,13 +2671,13 @@
                 {
                   "name": "Base",
                   "notable": false,
-                  "requires": [],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [ "h_canOpenGreenDoors" ]
-                    }
-                  ]
+                  "requires": [
+                    {"or": [
+                      {"ammo": { "type": "Super", "count": 1 }},
+                      {"obstaclesCleared": ["A"]}
+                    ]}
+                  ],
+                  "clearsObstacles": ["A"]
                 }
               ]
             },
@@ -2611,7 +2687,7 @@
                 {
                   "name": "Base",
                   "notable": false,
-                  "requires": [{"obstaclesCleared": ["A"]}]
+                  "requires": [ {"obstaclesCleared": ["A"]} ]
                 },
                 {
                   "name": "Avoid Puyo",

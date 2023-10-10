@@ -39,7 +39,6 @@
             {
               "usedTiles": 33,
               "framesRemaining": 0,
-              "shinesparkFrames": 10,
               "openEnd": 2,
               "strats": [
                 {
@@ -52,7 +51,8 @@
                     {"or": [
                       "canWalljump",
                       "SpaceJump"
-                    ]}
+                    ]},
+                    {"shinespark": {"frames": 10}}
                   ],
                   "note": "Kill the enemies, break the shot block, then use the bottom to charge a spark. Quickly climb up before the block respawns, and spark through the left door."
                 }
@@ -89,7 +89,6 @@
             {
               "usedTiles": 33,
               "framesRemaining": 0,
-              "shinesparkFrames": 10,
               "openEnd": 2,
               "strats": [
                 {
@@ -98,7 +97,8 @@
                   "requires": [
                     "HiJump",
                     "h_heatProof",
-                    "canShinechargeMovementComplex"
+                    "canShinechargeMovementComplex",
+                    {"shinespark": {"frames": 10}}
                   ],
                   "note": "Kill the enemies and use the bottom to charge a spark. Quickly climb then spark through the right door."
                 }
@@ -225,7 +225,7 @@
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
-                    "canDamageBoost",
+                    "canNeutralDamageBoost",
                     "Morph",
                     {"enemyDamage": {"enemy": "Sova", "hits": 1, "type": "contact"}},
                     {"or": [
@@ -263,6 +263,7 @@
                     "h_canNavigateHeatRooms",
                     "canUseFrozenEnemies",
                     "canTrickyJump",
+                    "canCameraManip",
                     {"heatFrames": 1100}
                   ],
                   "note": [
@@ -295,18 +296,37 @@
                     "h_canNavigateHeatRooms",
                     "canInsaneWalljump",
                     "Morph",
-                    "canDamageBoost",
+                    "canNeutralDamageBoost",
                     {"enemyDamage": {"enemy": "Sova","hits": 1,"type": "contact"}},
                     {"heatFrames": 1050}
                   ],
                   "note": [
                     "Use a very well timed and precise walljump into morph to hit the global Sova so that the damage bonks Samus up to the door ledge.",
                     "Aim for the lowest part of slope looking wall tile, where it does not look possible to make contact with a walljump, and fully delay the jump.",
-                    "To try again, the Sova loops to the left side wall.  Or a Super can knock it off the wall to climb the right side again."
+                    "To try again, the Sova loops to the left side wall. Or a Super can knock it off the wall to climb the right side again."
                   ]
                 }
               ],
               "note": "This link goes straight from 3 to 2 because waiting for the Sova is the same time, regardless of how quickly you can travel through the other nodes"
+            },
+            {
+              "id": 3,
+              "strats": [
+                {
+                  "name": "Sova Farm",
+                  "notable": false,
+                  "requires": [
+                    "h_heatProof",
+                    {"or": [
+                      "canWalljump",
+                      "SpaceJump",
+                      "h_canUseSpringBall"
+                    ]},
+                    {"refill": ["Energy", "Missile", "Super"]}
+                  ],
+                  "note": "You can stay on the left part of the room to avoid interacting with the Sm. Desgeegas."
+                }
+              ]
             },
             {
               "id": 4,
@@ -335,12 +355,7 @@
                   "requires": [
                     "h_canNavigateHeatRooms",
                     {"enemyKill":{
-                      "enemies": [
-                        [
-                          "Sm. Dessgeega",
-                          "Sm. Dessgeega"
-                        ]
-                      ],
+                      "enemies": [ [ "Sm. Dessgeega", "Sm. Dessgeega" ] ],
                       "explicitWeapons": [ "Missile", "Super" ]
                     }},
                     {"heatFrames": 100}
@@ -410,13 +425,16 @@
                     "h_canNavigateHeatRooms",
                     {"canShineCharge": {
                       "usedTiles": 33,
-                      "shinesparkFrames": 22,
-                      "openEnd": 2,
-                      "excessShinesparkFrames": 3
-                     }},
-                    {"heatFrames": 500}
+                      "openEnd": 2
+                    }},
+                    {"heatFrames": 500},
+                    {"shinespark": {
+                      "frames": 22,
+                      "excessFrames": 3
+                    }}
                   ],
-                  "note": "Jump and shoot the block, then quickly run away and back to charge the shinespark and shine through before the block respawns."
+                  "note": "Jump and shoot the block, then quickly run away and back to charge the shinespark and shine through before the block respawns.",
+                  "devNote": ["FIXME: Some of the heatFrames should come after the shinespark"]
                 },
                 {
                   "name": "Shinespark With Plasma",
@@ -426,17 +444,20 @@
                     "Plasma",
                     {"canShineCharge": {
                       "usedTiles": 33,
-                      "shinesparkFrames": 22,
-                      "openEnd": 2,
-                      "excessShinesparkFrames": 3
-                     }},
-                    {"heatFrames": 250}
+                      "openEnd": 2
+                    }},
+                    {"heatFrames": 250},
+                    {"shinespark": {
+                      "frames": 22,
+                      "excessFrames": 3
+                    }}
                   ],
                   "note": [
                     "With plasma, it is possible to shoot the block from the ground and immediately shinespark.",
                     "Other beams will disappear off-screen before Samus has moved up enough.",
                     "A charge shot can be used instead, as it moves a bit slower, but there is a relatively small window."
-                  ]
+                  ],
+                  "devNote": ["FIXME: Some of the heatFrames should come after the shinespark"]
                 },
                 {
                   "name": "Cathedral Entrance Hero Shot Shinespark",
@@ -446,16 +467,19 @@
                     "canHeroShot",
                     {"canShineCharge": {
                       "usedTiles": 33,
-                      "shinesparkFrames": 22,
-                      "openEnd": 2,
-                      "excessShinesparkFrames": 3
-                     }},
-                    {"heatFrames": 250}
+                      "openEnd": 2
+                    }},
+                    {"heatFrames": 250},
+                    {"shinespark": {
+                      "frames": 22,
+                      "excessFrames": 3
+                    }}
                   ],
                   "note": [
                     "It is possible to shoot upwards from the ground then immediately as the shot is leaving the screen, press up and jump to shinespark without delay.",
                     "A Charge shot can help, as it slows down the shot."
-                  ]
+                  ],
+                  "devNote": ["FIXME: Some of the heatFrames should come after the shinespark"]
                 },
                 {
                   "name": "Cathedral Entrance Speedjump (Right to Left)",
@@ -486,12 +510,15 @@
                     "canShinechargeMovement",
                     {"canShineCharge": {
                       "usedTiles": 33,
-                      "shinesparkFrames": 16,
-                      "openEnd": 2,
-                      "excessShinesparkFrames": 4
-                     }},
-                    {"heatFrames": 380}
-                  ]
+                      "openEnd": 2
+                    }},
+                    {"heatFrames": 380},
+                    {"shinespark": {
+                      "frames": 16,
+                      "excessFrames": 4
+                    }}
+                  ],
+                  "devNote": ["FIXME: Some of the heatFrames should come after the shinespark"]
                 },
                 {
                   "name": "Cathedral Entrance Speedjump (Left to Right)",
@@ -624,12 +651,7 @@
                   "requires": [
                     "h_canNavigateHeatRooms",
                     {"enemyKill":{
-                      "enemies": [
-                        [
-                          "Sm. Dessgeega",
-                          "Sm. Dessgeega"
-                        ]
-                      ],
+                      "enemies": [ [ "Sm. Dessgeega", "Sm. Dessgeega" ] ],
                       "explicitWeapons": [ "Missile", "Super" ]
                     }},
                     {"heatFrames": 100}
@@ -856,29 +878,6 @@
                       }},
                       {"obstaclesCleared": ["A"]}
                     ]}
-                  ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [
-                        {"enemyKill":{
-                          "enemies": [ ["Geruta"] ],
-                          "explicitWeapons": [
-                            "Super",
-                            "Missile",
-                            "PowerBomb",
-                            "ScrewAttack",
-                            "Plasma",
-                            "Ice+Spazer",
-                            "Ice+Wave",
-                            "Wave+Spazer",
-                            "Charge+Wave",
-                            "Charge+Spazer",
-                            "PseudoScrew"
-                          ]
-                        }}
-                      ]
-                    }
                   ]
                 }
               ]
@@ -919,7 +918,7 @@
               "id": 3,
               "strats": [
                 {
-                  "name": "Base",
+                  "name": "Kill the Geruta",
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
@@ -933,36 +932,63 @@
                       ]}
                     ]},
                     {"or": [
-                      {"enemyDamage": {
-                        "enemy": "Geruta",
-                        "type": "contact",
-                        "hits": 1
-                      }},
-                      {"obstaclesCleared": ["A"]}
+                      {"obstaclesCleared": ["A"]},
+                      {"enemyKill":{
+                        "enemies": [ ["Geruta"] ],
+                        "explicitWeapons": [
+                          "Super",
+                          "Missile",
+                          "PowerBomb",
+                          "ScrewAttack",
+                          "Plasma",
+                          "Ice+Spazer",
+                          "Ice+Wave",
+                          "Wave+Spazer",
+                          "Charge+Wave",
+                          "Charge+Spazer",
+                          "PseudoScrew"
+                        ]
+                      }}
                     ]}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [
-                        {"enemyKill":{
-                          "enemies": [ ["Geruta"] ],
-                          "explicitWeapons": [
-                            "Super",
-                            "Missile",
-                            "PowerBomb",
-                            "ScrewAttack",
-                            "Plasma",
-                            "Ice+Spazer",
-                            "Ice+Wave",
-                            "Wave+Spazer",
-                            "Charge+Wave",
-                            "Charge+Spazer",
-                            "PseudoScrew"
-                          ]
-                        }}
-                      ]
-                    }
+                  "clearsObstacles": ["A"]
+                },
+                {
+                  "name": "Tank the Geruta",
+                  "notable": false,
+                  "requires": [
+                    "h_canNavigateHeatRooms",
+                    "Morph",
+                    {"heatFrames": 350},
+                    {"or": [
+                      {"lavaFrames": 70},
+                      {"and": [
+                        "Gravity",
+                        {"lavaFrames": 36}
+                      ]}
+                    ]},
+                    {"enemyDamage": {
+                      "enemy": "Geruta",
+                      "type": "contact",
+                      "hits": 1
+                    }}
+                  ]
+                }
+              ]
+            },
+            {
+              "id": 4,
+              "strats": [
+                {
+                  "name": "Sova Farm",
+                  "notable": false,
+                  "requires": [
+                    {"resetRoom": {
+                      "nodes": [1, 2],
+                      "mustStayPut": false
+                    }},
+                    "h_heatProof",
+                    {"refill": ["Energy", "Missile", "Super"]}
                   ]
                 }
               ]
@@ -1069,6 +1095,23 @@
           "from": 1,
           "to": [
             {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Sova Farm",
+                  "notable": false,
+                  "requires": [
+                    "h_heatProof",
+                    {"resetRoom": {
+                      "nodes": [1, 2],
+                      "mustStayPut": false
+                    }},
+                    {"refill": ["Energy", "Missile", "Super"]}
+                  ]
+                }
+              ]
+            },
+            {
               "id": 2,
               "strats": [
                 {
@@ -1128,11 +1171,10 @@
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
-                    "canMockball",
+                    "canSpeedball",
                     "canSlowShortCharge",
                     {"canComeInCharged": {
                       "framesRemaining": 180,
-                      "shinesparkFrames": 0,
                       "fromNode": 1,
                       "unusableTiles": 5
                     }},
@@ -1147,11 +1189,13 @@
                     "canMidairShinespark",
                     {"canComeInCharged": {
                       "framesRemaining": 15,
-                      "fromNode": 2,
-                      "shinesparkFrames": 95,
-                      "excessShinesparkFrames": 5
+                      "fromNode": 2
                     }},
-                    {"heatFrames": 195}
+                    {"heatFrames": 195},
+                    {"shinespark": {
+                      "frames": 95,
+                      "excessFrames": 5
+                    }}
                   ],
                   "note": [
                     "Spark in line with the top of the door.",
@@ -1194,11 +1238,13 @@
                     "canMidairShinespark",
                     {"canComeInCharged": {
                       "framesRemaining": 15,
-                      "fromNode": 2,
-                      "shinesparkFrames": 95,
-                      "excessShinesparkFrames": 3
+                      "fromNode": 2
                     }},
-                    {"heatFrames": 195}
+                    {"heatFrames": 195},
+                    {"shinespark": {
+                      "frames": 95,
+                      "excessFrames": 3
+                    }}
                   ],
                   "note": [
                     "Spark in line with the top of the door.",
@@ -1338,6 +1384,34 @@
         {
           "from": 1,
           "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Beetom Farm",
+                  "notable": false,
+                  "requires": [
+                    {"resetRoom": {
+                      "nodes": [1],
+                      "mustStayPut": false
+                    }},
+                    {"or": [
+                      "ScrewAttack",
+                      "SpeedBooster",
+                      {"and": [
+                        "Ice",
+                        "h_canUseMorphBombs"
+                      ]}
+                    ]},
+                    {"refill": ["PowerBomb"]}
+                  ],
+                  "devNote": [
+                    "FIXME: Resetting the room with door node 2 would also be possible.",
+                    "FIXME: Using a Missile, Super, or Power Bomb at the start could be added to the logic to get the first Power Bombs to use for further farming, but this needs a way to express that we're not in health-bomb energy range."
+                  ]
+                }
+              ]
+            },
             {
               "id": 2,
               "strats": [
@@ -1562,16 +1636,13 @@
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
-                    {"heatFrames": 120}
+                    {"heatFrames": 120},
+                    {"or": [
+                      {"heatFrames": 30},
+                      {"obstaclesCleared": ["A"]}
+                    ]}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [
-                        {"heatFrames": 30}
-                      ]
-                    }
-                  ]
+                  "clearsObstacles": ["A"]
                 }
               ]
             }
@@ -1632,7 +1703,7 @@
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
-                    {"heatFrames": 100}
+                    {"heatFrames": 35}
                   ]
                 }
               ]
@@ -1650,33 +1721,26 @@
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
-                    {"heatFrames": 120}
-                  ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [
+                    {"heatFrames": 120},
+                    {"or": [
+                      {"and": [
                         {"heatFrames": 30},
                         "Wave"
-                      ]
-                    }
-                  ]
+                      ]},
+                      {"obstaclesCleared": ["A"]}
+                    ]}
+                  ],
+                  "clearsObstacles": ["A"]
                 },
                 {
                   "name": "Gate Glitch",
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
-                    {"heatFrames": 120}
+                    {"heatFrames": 120},
+                    "h_canHeatedBlueGateGlitch"
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [
-                        "h_canHeatedBlueGateGlitch"
-                      ]
-                    }
-                  ]
+                  "clearsObstacles": ["A"]
                 }
               ]
             },
@@ -1722,6 +1786,22 @@
                     "h_canNavigateHeatRooms",
                     "canUseFrozenEnemies",
                     {"heatFrames": 250}
+                  ]
+                }
+              ]
+            },
+            {
+              "id": 5,
+              "strats": [
+                {
+                  "name": "Gamet Farm",
+                  "notable": false,
+                  "requires": [
+                    {"or": [
+                      "canPauseAbuse",
+                      {"heatFrames": 50}
+                    ]},
+                    {"refill": ["Energy", "Missile", "Super", "PowerBomb"]}
                   ]
                 }
               ]
@@ -1980,7 +2060,7 @@
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
-                    {"heatFrames": 50}
+                    {"heatFrames": 10}
                   ]
                 }
               ]
@@ -1999,6 +2079,22 @@
                   "requires": [
                     "h_canNavigateHeatRooms",
                     {"heatFrames": 50}
+                  ]
+                }
+              ]
+            },
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Gamet Farm",
+                  "notable": false,
+                  "requires": [
+                    {"or": [
+                      "canPauseAbuse",
+                      {"heatFrames": 50}
+                    ]},
+                    {"refill": ["Energy", "Missile", "Super", "PowerBomb"]}
                   ]
                 }
               ]
@@ -2102,12 +2198,7 @@
                 {
                   "name": "Base",
                   "notable": false,
-                  "requires": [
-                    {"resetRoom":{
-                      "nodes": [1, 2, 3, 4, 5, 6, 7],
-                      "obstaclesToAvoid": ["A"]
-                    }}
-                  ]
+                  "requires": [ {"obstaclesNotCleared": ["A"]} ]
                 }
               ],
               "openEnd": 0
@@ -2223,12 +2314,6 @@
           "name": "Power Bomb Blocks",
           "obstacleType": "inanimate",
           "note": "The Power Bomb blocks above the bottom doors"
-        },
-        {
-          "id": "B",
-          "name": "Morph Maze",
-          "obstacleType": "inanimate",
-          "note": "The bomb blocks in the Morph maze above the bottom doors"
         }
       ],
       "enemies": [
@@ -2296,7 +2381,7 @@
                   "name": "Bubble Mountain Damage Boost (Left to Right)",
                   "notable": true,
                   "requires": [
-                    "canDamageBoost",
+                    "canHorizontalDamageBoost",
                     {"enemyDamage": {
                       "enemy": "Waver",
                       "hits": 1,
@@ -2312,10 +2397,12 @@
                   "requires": [
                     {"canComeInCharged":{
                       "fromNode": 1,
-                      "framesRemaining": 0,
-                      "shinesparkFrames": 42,
-                      "excessShinesparkFrames": 22
-                     }}
+                      "framesRemaining": 0
+                    }},
+                    {"shinespark": {
+                      "frames": 42,
+                      "excessFrames": 22
+                    }}
                   ]
                 }
               ],
@@ -2343,7 +2430,7 @@
                   "name": "Bubble Mountain X-Ray Climb (Top-Mid to Top)",
                   "notable": false,
                   "requires": [
-                    "canRightFacingDoorXRayClimb",
+                    "h_canLeftDoorXRayClimb",
                     {"resetRoom": {
                       "nodes": [2],
                       "mustStayPut": true
@@ -2354,7 +2441,8 @@
                       "overrideRunwayRequirements": true,
                       "useFrames": 200
                     }}
-                  ]
+                  ],
+                  "note": "Climb up 1 screen."
                 }
               ],
               "note": "This link is only for the X-Ray climb, which skips the junction altogether."
@@ -2381,7 +2469,7 @@
                   "name": "Bubble Mountain X-Ray Climb (Bot-Mid to Top)",
                   "notable": false,
                   "requires": [
-                    "canRightFacingDoorXRayClimb",
+                    "h_canLeftDoorXRayClimb",
                     {"resetRoom": {
                       "nodes": [3],
                       "mustStayPut": true
@@ -2392,7 +2480,8 @@
                       "overrideRunwayRequirements": true,
                       "useFrames": 200
                     }}
-                  ]
+                  ],
+                  "note": "Climb up 2 screens."
                 }
               ],
               "note": "This link is only for the X-Ray climb, which skips the junction altogether."
@@ -2429,7 +2518,7 @@
                   "name": "Bubble Mountain X-Ray Climb (Bottom)",
                   "notable": false,
                   "requires": [
-                    "canRightFacingDoorXRayClimb",
+                    "h_canLeftDoorXRayClimb",
                     {"resetRoom": {
                       "nodes": [4],
                       "mustStayPut": true
@@ -2440,7 +2529,8 @@
                       "overrideRunwayRequirements": true,
                       "useFrames": 200
                     }}
-                  ]
+                  ],
+                  "note": "Climb up 1 screen."
                 }
               ],
               "note": "This link is only for the X-Ray climb, which skips the junction altogether."
@@ -2464,28 +2554,20 @@
               "id": 9,
               "strats": [
                 {
-                  "name": "Break Power Bomb Blocks",
+                  "name": "Power Bomb Blocks",
                   "notable": false,
-                  "requires": [],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": ["h_canUsePowerBombs"],
-                      "additionalObstacles": ["B"]
-                    }
-                  ]
+                  "requires": [
+                    {"or": [
+                      "h_canUsePowerBombs",
+                      {"obstaclesCleared": ["A"]}
+                    ]}
+                  ],
+                  "clearsObstacles": ["A"]
                 },
                 {
                   "name": "Morph Maze",
                   "notable": false,
-                  "requires": ["Morph"],
-                  "obstacles": [
-                    {
-                      "id": "B",
-                      "requires": ["h_canUseMorphBombs"]
-                    }
-                  ],
-                  "devNote": "B could also be broken with Power Bombs, but that's made redundant by the PB Blocks strat."
+                  "requires": [ "h_canUseMorphBombs" ]
                 },
                 {
                   "name": "Bubble Mountain Ice Clip",
@@ -2535,9 +2617,11 @@
                   "requires": [
                     {"canComeInCharged":{
                       "fromNode": 7,
-                      "framesRemaining": 0,
-                      "shinesparkFrames": 41,
-                      "excessShinesparkFrames": 2
+                      "framesRemaining": 0
+                    }},
+                    {"shinespark": {
+                      "frames": 41,
+                      "excessFrames": 2
                     }}
                   ],
                   "devNote": "Ending the spark earlier takes a hit from the Waver"
@@ -2550,9 +2634,11 @@
                     "canCarefulJump",
                     {"canComeInCharged": {
                       "framesRemaining": 100,
-                      "fromNode": 7,
-                      "shinesparkFrames": 30,
-                      "excessShinesparkFrames": 6
+                      "fromNode": 7
+                    }},
+                    {"shinespark": {
+                      "frames": 30,
+                      "excessFrames": 6
                     }},
                     {"or": [
                       "canMidairShinespark",
@@ -2582,9 +2668,11 @@
                     {"canComeInCharged":{
                       "fromNode": 6,
                       "inRoomPath": [6, 7],
-                      "framesRemaining": 120,
-                      "shinesparkFrames": 30,
-                      "excessShinesparkFrames": 6
+                      "framesRemaining": 120
+                    }},
+                    {"shinespark": {
+                      "frames": 30,
+                      "excessFrames": 6
                     }}
                   ]
                 },
@@ -2592,7 +2680,7 @@
                   "name": "Bubble Mountain Damage Boost (Right to Left)",
                   "notable": true,
                   "requires": [
-                    "canDamageBoost",
+                    "canHorizontalDamageBoost",
                     {"enemyDamage": {
                       "enemy": "Waver",
                       "hits": 1,
@@ -2612,6 +2700,22 @@
                   "name": "Base",
                   "notable": false,
                   "requires": []
+                }
+              ]
+            },
+            {
+              "id": 7,
+              "strats": [
+                {
+                  "name": "Cacatac and Waver Farm",
+                  "notable": false,
+                  "requires": [
+                    {"resetRoom": {
+                      "nodes": [6, 7],
+                      "mustStayPut": false
+                    }},
+                    {"refill": ["Energy", "Missile", "Super"]}
+                  ]
                 }
               ]
             },
@@ -2694,22 +2798,28 @@
                   "notable": false,
                   "requires": [
                     {"or": [
-                      {"canComeInCharged":{
-                        "fromNode": 2,
-                        "inRoomPath": [2, 9],
-                        "framesRemaining": 50,
-                        "shinesparkFrames": 27,
-                        "excessShinesparkFrames": 5
-                       }},
+                      {"and": [
+                        {"canComeInCharged":{
+                          "fromNode": 2,
+                          "inRoomPath": [2, 9],
+                          "framesRemaining": 50
+                        }},
+                        {"shinespark": {
+                          "frames": 27,
+                          "excessFrames": 5
+                        }}
+                      ]},
                       {"and": [
                         "canShinechargeMovement",
                         "canMidairShinespark",
                         {"canComeInCharged": {
                           "fromNode": 2,
                           "inRoomPath": [2,9],
-                          "framesRemaining": 25,
-                          "shinesparkFrames": 19,
-                          "excessShinesparkFrames": 5
+                          "framesRemaining": 25
+                        }},
+                        {"shinespark": {
+                          "frames": 19,
+                          "excessFrames": 5
                         }}
                       ]},
                       {"and": [
@@ -2718,10 +2828,12 @@
                         {"canComeInCharged":{
                           "fromNode": 3,
                           "inRoomPath": [3, 9],
-                          "framesRemaining": 35,
-                          "shinesparkFrames": 35,
-                          "excessShinesparkFrames": 0
-                         }}
+                          "framesRemaining": 35
+                        }},
+                        {"shinespark": {
+                          "frames": 35,
+                          "excessFrames": 0
+                        }}
                       ]}
                     ]}
                   ]
@@ -2757,28 +2869,20 @@
               "id": 5,
               "strats": [
                 {
-                  "name": "Break Power Bomb Blocks",
+                  "name": "Power Bomb Blocks",
                   "notable": false,
-                  "requires": [],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": ["h_canUsePowerBombs"],
-                      "additionalObstacles": ["B"]
-                    }
-                  ]
+                  "requires": [
+                    {"or": [
+                      "h_canUsePowerBombs",
+                      {"obstaclesCleared": ["A"]}
+                    ]}
+                  ],
+                  "clearsObstacles": ["A"]
                 },
                 {
                   "name": "Morph Maze",
                   "notable": false,
-                  "requires": ["Morph"],
-                  "obstacles": [
-                    {
-                      "id": "B",
-                      "requires": ["h_canUseMorphBombs"]
-                    }
-                  ],
-                  "devNote": "B could also be broken with Power Bombs, but that's made redundant by the PB Blocks strat."
+                  "requires": [ "h_canUseMorphBombs" ]
                 }
               ]
             },
@@ -2817,22 +2921,28 @@
                   "notable": false,
                   "requires": [
                     {"or":[
-                      {"canComeInCharged":{
-                        "fromNode": 2,
-                        "inRoomPath": [2, 9],
-                        "framesRemaining": 5,
-                        "shinesparkFrames": 22,
-                        "excessShinesparkFrames": 2
-                       }},
+                      {"and": [
+                        {"canComeInCharged":{
+                          "fromNode": 2,
+                          "inRoomPath": [2, 9],
+                          "framesRemaining": 5
+                        }},
+                        {"shinespark": {
+                          "frames": 22,
+                          "excessFrames": 2
+                        }}
+                      ]},
                       {"and": [
                         "canShinechargeMovementComplex",
                         "canMidairShinespark",
-                        {"canComeInCharged":{
+                        {"canComeInCharged": {
                           "fromNode": 3,
                           "inRoomPath": [3, 9],
-                          "framesRemaining": 100,
-                          "shinesparkFrames": 26,
-                          "excessShinesparkFrames": 3
+                          "framesRemaining": 100
+                        }},
+                        {"shinespark": {
+                          "frames": 26,
+                          "excessFrames": 3
                         }}
                       ]}
                     ]}
@@ -3104,28 +3214,169 @@
           "groupName": "Norfair Reserve Dragons",
           "enemyName": "Dragon",
           "quantity": 3,
-          "homeNodes": [ 4 ],
+          "betweenNodes": [ 1, 4 ],
           "dropRequires": [
             "h_heatProof",
             {"or": [
-              "Gravity",
+              "h_lavaProof",
               "Grapple"
             ]}
           ]
         },
         {
           "id": "e2",
-          "groupName": "Norfair Reserve Sovas",
+          "groupName": "Norfair Reserve Missile Sova",
           "enemyName": "Sova",
-          "quantity": 3,
+          "quantity": 1,
           "homeNodes": [ 4 ],
           "dropRequires": ["h_heatProof"]
+        },
+        {
+          "id": "e3",
+          "groupName": "Norfair Reserve Right Sovas",
+          "enemyName": "Sova",
+          "quantity": 2,
+          "betweenNodes": [ 1, 4 ],
+          "dropRequires": ["h_heatProof"]
+        }
+      ],
+      "obstacles": [
+        {
+          "id": "A",
+          "name": "Lava Dragons",
+          "obstacleType": "enemies"
         }
       ],
       "links": [
         {
           "from": 1,
           "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Sova Farm",
+                  "notable": false,
+                  "requires": [
+                    "h_heatProof",
+                    {"or": [
+                      "h_lavaProof",
+                      "canCarefulJump"
+                    ]},
+                    "Plasma",
+                    {"refill": ["Energy", "Missile"]}
+                  ]
+                }
+              ]
+            },
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "SpaceJump",
+                  "notable": false,
+                  "requires": [
+                    "h_canNavigateHeatRooms",
+                    "SpaceJump",
+                    {"or": [
+                      {"heatFrames": 199},
+                      {"and": [
+                        {"adjacentRunway": {
+                          "fromNode": 1,
+                          "usedTiles": 2,
+                          "physics": ["normal"]
+                        }},
+                        {"heatFrames": 140}
+                      ]}
+                    ]}
+                  ]
+                },
+                {
+                  "name": "Space Screw Dragon Kill",
+                  "notable": false,
+                  "requires": [
+                    "h_canNavigateHeatRooms",
+                    "SpaceJump",
+                    "ScrewAttack",
+                    "canTrickyJump",
+                    {"heatFrames": 199}
+                  ],
+                  "clearsObstacles": ["A"],
+                  "note": "Clear the Dragons while moving towards the items with Space Jump and Screw Attack to make for a faster exit later."
+                },
+                {
+                  "name": "Shinespark",
+                  "notable": false,
+                  "requires": [
+                    "h_canNavigateHeatRooms",
+                    "canMidairShinespark",
+                    {"canComeInCharged": {
+                      "framesRemaining": 15,
+                      "fromNode": 1
+                    }},
+                    {"shinespark": {
+                      "frames": 38,
+                      "excessFrames": 1
+                    }},
+                    {"heatFrames": 160}
+                  ]
+                }
+              ]
+            },
+            {
+              "id": 3,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [
+                    "h_lavaProof",
+                    {"or": [
+                      "h_heatProof",
+                      {"and": [
+                        {"obstaclesCleared": ["A"]},
+                        {"heatFrames": 100}
+                      ]}
+                    ]}
+                  ]
+                },
+                {
+                  "name": "Lava Proof",
+                  "notable": false,
+                  "requires": [
+                    "h_canNavigateHeatRooms",
+                    "h_lavaProof",
+                    {"or":[
+                      {"and":[
+                        {"enemyKill": {
+                          "enemies": [
+                            ["Dragon", "Dragon"],
+                            ["Dragon"]
+                          ],
+                          "explicitWeapons": ["Missile"]
+                        }},
+                        {"heatFrames": 280}
+                      ]},
+                      {"and":[
+                        {"enemyKill": {
+                          "enemies": [
+                            ["Dragon", "Dragon"],
+                            ["Dragon"]
+                          ],
+                          "explicitWeapons": [
+                            "Super",
+                            "Plasma",
+                            "ScrewAttack"
+                          ]
+                        }},
+                        {"heatFrames": 230}
+                      ]}
+                    ]}
+                  ],
+                  "clearsObstacles": ["A"]
+                }
+              ]
+            },
             {
               "id": 4,
               "strats": [
@@ -3134,7 +3385,78 @@
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
-                    {"heatFrames": 300}
+                    {"or": [
+                      "canTrickyJump",
+                      {"and": [
+                        "ScrewAttack",
+                        "canCarefulJump",
+                        {"heatFrames": 60}
+                      ]},
+                      {"and": [
+                        {"obstaclesCleared": ["A"]},
+                        {"heatFrames": 60}
+                      ]}
+                    ]},
+                    {"heatFrames": 230}
+                  ]
+                },
+                {
+                  "name": "SpaceJump",
+                  "notable": false,
+                  "requires": [
+                    "h_canNavigateHeatRooms",
+                    "SpaceJump",
+                    {"heatFrames": 180}
+                  ]
+                },
+                {
+                  "name": "Kill the Dragons",
+                  "notable": false,
+                  "requires": [
+                    "h_canNavigateHeatRooms",
+                    {"or": [
+                      {"ammo": {"type": "Super", "count": 3}},
+                      "Plasma",
+                      "Ice"
+                    ]},
+                    {"heatFrames": 570}
+                  ],
+                  "clearsObstacles": ["A"],
+                  "devNote": "Ice can move through the room more quickly but must spend time refreezing the dragons."
+                },
+                {
+                  "name": "Avoid Dragon Fireballs",
+                  "notable": false,
+                  "requires": [
+                    "h_canNavigateHeatRooms",
+                    "canDodgeWhileShooting",
+                    {"heatFrames": 840}
+                  ],
+                  "note": [
+                    "Clear the Sovas while standing in a safe spot from the Dragon Fireballs.",
+                    "Bring each Dragon on screen one at a time so that there are fewer projectiles to avoid."
+                  ]
+                },
+                {
+                  "name": "Avoid and Power Bomb the Dragons",
+                  "notable": false,
+                  "requires": [
+                    "h_canNavigateHeatRooms",
+                    "canDodgeWhileShooting",
+                    {"enemyKill": {
+                      "enemies": [
+                        ["Dragon"],
+                        ["Dragon", "Dragon"]
+                      ],
+                      "explicitWeapons": ["PowerBomb"]
+                    }},
+                    {"heatFrames": 840}
+                  ],
+                  "clearsObstacles": ["A"],
+                  "note": [
+                    "Bring each Dragon on screen one at a time so that there are fewer projectiles to avoid.",
+                    "Place one Power Bomb on the right side to clear the right Dragon and Sovas.",
+                    "Then use a second Power Bomb after waiting for the middle Dragon to finishing firing."
                   ]
                 }
               ]
@@ -3145,6 +3467,20 @@
           "from": 2,
           "to": [
             {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "SpaceJump",
+                  "notable": false,
+                  "requires": [
+                    "h_canNavigateHeatRooms",
+                    "SpaceJump",
+                    {"heatFrames": 210}
+                  ]
+                }
+              ]
+            },
+            {
               "id": 4,
               "strats": [
                 {
@@ -3152,7 +3488,7 @@
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
-                    {"heatFrames": 100}
+                    {"heatFrames": 90}
                   ]
                 }
               ]
@@ -3162,6 +3498,99 @@
         {
           "from": 3,
           "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [
+                    "h_lavaProof",
+                    {"or": [
+                      "h_heatProof",
+                      {"and": [
+                        {"obstaclesCleared": ["A"]},
+                        {"heatFrames": 130}
+                      ]}
+                    ]}
+                  ]
+                },
+                {
+                  "name": "Lava Proof",
+                  "notable": false,
+                  "requires": [
+                    "h_canNavigateHeatRooms",
+                    "h_lavaProof",
+                    {"or":[
+                      {"and":[
+                        {"enemyKill": {
+                          "enemies": [
+                            ["Dragon", "Dragon"],
+                            ["Dragon"]
+                          ],
+                          "explicitWeapons": ["Missile"]
+                        }},
+                        {"heatFrames": 310}
+                      ]},
+                      {"and":[
+                        {"enemyKill": {
+                          "enemies": [
+                            ["Dragon", "Dragon"],
+                            ["Dragon"]
+                          ],
+                          "explicitWeapons": [
+                            "Super",
+                            "Plasma",
+                            "ScrewAttack"
+                          ]
+                        }},
+                        {"heatFrames": 260}
+                      ]}
+                    ]}
+                  ],
+                  "clearsObstacles": ["A"]
+                }
+              ]
+            },
+            {
+              "id": 2,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [
+                    "h_canNavigateHeatRooms",
+                    {"heatFrames": 70},
+                    {"or": [
+                      {"and": [
+                        {"or": [
+                          "canPreciseWalljump",
+                          {"and": [
+                            "HiJump",
+                            "canWalljump"
+                          ]}
+                        ]},
+                        {"lavaFrames": 30}
+                      ]},
+                      {"and": [
+                        "Gravity",
+                        {"lavaFrames": 20}
+                      ]}
+                    ]}
+                  ]
+                },
+                {
+                  "name": "SpringBall Jump",
+                  "notable": false,
+                  "requires": [
+                    "h_canNavigateHeatRooms",
+                    "canSpringBallJumpMidAir",
+                    {"heatFrames": 80},
+                    {"lavaFrames": 25}
+                  ]
+                }
+              ]
+            },
             {
               "id": 4,
               "strats": [
@@ -3173,19 +3602,49 @@
                     {"heatFrames": 50},
                     {"or": [
                       {"and": [
-                        {"or": [
-                          "HiJump",
-                          "canPreciseWalljump"
-                        ]},
+                        "canWalljump",
+                        {"lavaFrames": 30}
+                      ]},
+                      {"and": [
+                        "HiJump",
                         {"lavaFrames": 30}
                       ]},
                       {"and": [
                         "Gravity",
                         {"lavaFrames": 20}
                       ]},
-                      {"lavaFrames": 80}
+                      {"and": [
+                        "canUseFrozenEnemies",
+                        {"obstaclesNotCleared": ["A"]},
+                        {"lavaFrames": 30}
+                      ]},
+                      {"and": [
+                        {"heatFrames": 190},
+                        {"lavaFrames": 65}
+                      ]}
                     ]}
                   ]
+                },
+                {
+                  "name": "SpringBall Jump",
+                  "notable": false,
+                  "requires": [
+                    "h_canNavigateHeatRooms",
+                    "canSpringBallJumpMidAir",
+                    {"heatFrames": 80},
+                    {"lavaFrames": 25}
+                  ]
+                },
+                {
+                  "name": "Frozen Sova Platform",
+                  "notable": false,
+                  "requires": [
+                    "h_canNavigateHeatRooms",
+                    "canTrickyUseFrozenEnemies",
+                    {"heatFrames": 30}
+                  ],
+                  "note": "Use Ice to freeze the Sova in a position where Samus can collect the item without falling into the lava.",
+                  "devNote": "The cost comes from setting up the freeze.  Collecting the item and returning to 4 will be instantaneous."
                 }
               ]
             }
@@ -3202,8 +3661,39 @@
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
-                    {"heatFrames": 300}
+                    {"or": [
+                      "canTrickyJump",
+                      "SpaceJump",
+                      {"and": [
+                        "ScrewAttack",
+                        "canCarefulJump"
+                      ]},
+                      {"and": [
+                        {"obstaclesCleared": ["A"]},
+                        {"or": [
+                          "canCarefulJump",
+                          {"heatFrames": 90}
+                        ]}
+                      ]}
+                    ]},
+                    {"heatFrames": 210}
                   ]
+                },
+                {
+                  "name": "Kill the Dragons",
+                  "notable": false,
+                  "requires": [
+                    "h_canNavigateHeatRooms",
+                    {"or": [
+                      {"ammo": {"type": "Missile", "count":9}}, 
+                      {"ammo": {"type": "Super", "count": 3}},
+                      "Plasma",
+                      "Ice"
+                    ]},
+                    {"heatFrames": 570}
+                  ],
+                  "clearsObstacles": ["A"],
+                  "devNote": "Ice can move through the room more quickly but must spend time refreezing the dragons."
                 }
               ]
             },
@@ -3215,7 +3705,7 @@
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
-                    {"heatFrames": 100}
+                    {"heatFrames": 60}
                   ]
                 }
               ]
@@ -3345,13 +3835,23 @@
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
-                      {"or": [
-                        "canWalljump",
-                        "HiJump",
-                        "SpaceJump",
-                        "canUseFrozenEnemies"
-                      ]},
+                    {"or": [
+                      "canWalljump",
+                      "HiJump",
+                      "SpaceJump",
+                      "canTrickyUseFrozenEnemies",
+                      "canSpringBallJumpMidAir"
+                    ]},
                     {"heatFrames": 350}
+                  ]
+                },
+                {
+                  "name": "Precise Walljump",
+                  "notable": false,
+                  "requires": [
+                    "h_canNavigateHeatRooms",
+                    "canPreciseWalljump",
+                    {"heatFrames": 220}
                   ]
                 }
               ]
@@ -3369,7 +3869,18 @@
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
-                    {"heatFrames": 250}
+                    {"or": [
+                      {"heatFrames": 230},
+                      {"and": [
+                        "canHorizontalDamageBoost",
+                        {"heatFrames": 160},
+                        {"enemyDamage": {
+                          "enemy": "Skree",
+                          "type": "contact",
+                          "hits": 1
+                        }}
+                      ]}
+                    ]}
                   ]
                 }
               ]
@@ -3382,7 +3893,11 @@
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
-                    {"heatFrames": 50}
+                    {"heatFrames": 10}
+                  ],
+                  "devNote": [
+                    "Heat frames here are artifically lower to allow using canPauseAbuse on the farm.",
+                    "This is compensated for by extra heat frames on the farm itself as an alternative to canPauseAbuse."
                   ]
                 }
               ]
@@ -3404,6 +3919,22 @@
                   ]
                 }
               ]
+            },
+            {
+              "id": 3,
+              "strats": [
+                {
+                  "name": "Gamet Farm",
+                  "notable": false,
+                  "requires": [
+                    {"or": [
+                      "canPauseAbuse",
+                      {"heatFrames": 50}
+                    ]},
+                    {"refill": ["Energy", "Missile", "Super", "PowerBomb"]}
+                  ]
+                }
+              ]              
             }
           ]
         }
@@ -3558,6 +4089,26 @@
         {
           "from": 1,
           "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Geruta Farm",
+                  "notable": false,
+                  "requires": [
+                    "h_heatProof",
+                    {"or": [
+                      "ScrewAttack",
+                      "Ice",
+                      "Spazer",
+                      "Wave",
+                      "Plasma"
+                    ]},
+                    {"refill": ["Energy", "Missile", "Super"]}
+                  ]
+                }
+              ]
+            },
             {
               "id": 2,
               "strats": [
@@ -4157,7 +4708,7 @@
                   ]
                 },
                 {
-                  "name": "Morph Bomb",
+                  "name": "Bombs",
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
@@ -4221,6 +4772,36 @@
                     {"heatFrames": 150}
                   ]
                 }
+              ]
+            },
+            {
+              "id": 6,
+              "strats": [
+                {
+                  "name": "Alcoon and Multiviola Farm",
+                  "notable": false,
+                  "requires": [
+                    "h_heatProof",
+                    {"or": [
+                      "canDodgeWhileShooting",
+                      "ScrewAttack",
+                      "Wave",
+                      "Ice",
+                      "Spazer",
+                      "Plasma"
+                    ]},
+                    {"or": [
+                      "canWalljump",
+                      "HiJump",
+                      "h_canCrouchJumpDownGrab"
+                    ]},
+                    {"resetRoom": {
+                      "nodes": [1, 2, 3, 4],
+                      "mustStayPut": false
+                    }},
+                    {"refill": ["Missile", "PowerBomb"]}
+                  ]
+                }                
               ]
             }
           ]
@@ -4406,7 +4987,6 @@
             {
               "usedTiles": 33,
               "framesRemaining": 0,
-              "shinesparkFrames": 5,
               "openEnd": 2,
               "strats": [
                 {
@@ -4417,7 +4997,8 @@
                     "h_canXMode",
                     "canWalljump",
                     {"spikeHits": 3},
-                    {"heatFrames": 540}
+                    {"heatFrames": 540},
+                    {"shinespark": {"frames": 5}}
                   ],
                   "note": "Jump into the spikes and try to bounce on the crumble blocks moving towards the door."
                 }
@@ -4505,6 +5086,16 @@
           "dropRequires": ["h_heatProof"]
         }
       ],
+      "reusableRoomwideNotable": [
+        {
+          "name": "Double Chamber Walljump Climb Using the Kamer",
+          "note": [
+            "Wall jump up the left wall and then on the moving platform (Kamer) while avoiding the Fune's fireball.",
+            "The Kamers will temporarily move down if Samus is below them, so it is best to walk under the first Kamer before climbing the wall.",
+            "It is possible to freeze or kill the Fune with a Super or Power Bomb to make things easier."
+          ]
+        }
+      ],
       "links": [
         {
           "from": 1,
@@ -4532,12 +5123,7 @@
                     "h_canNavigateHeatRooms",
                     {"heatFrames": 250}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": []
-                    }
-                  ]
+                  "clearsObstacles": ["A"]
                 }
               ]
             }
@@ -4550,19 +5136,83 @@
               "id": 1,
               "strats": [
                 {
-                  "name": "Walljump",
+                  "name": "Double Chamber Walljump Climb Using the Kamer",
+                  "notable": true,
+                  "requires": [
+                    "h_canNavigateHeatRooms",
+                    "canPreciseWalljump",
+                    "canConsecutiveWalljump",
+                    "canUseEnemies",
+                    {"or":[
+                      {"heatFrames": 560},
+                      {"and":[
+                        "canCarefulJump",
+                        {"heatFrames": 360}
+                      ]},
+                      {"and":[
+                        "canTrickyJump",
+                        {"heatFrames": 240}
+                      ]},
+                      {"and":[
+                        {"or":[
+                          "canUseFrozenEnemies",
+                          {"ammo": { "type": "Super", "count": 1 }}
+                        ]},
+                        {"heatFrames": 432}
+                      ]},
+                      {"and":[
+                        {"ammo": {"type": "PowerBomb","count": 1}},
+                        {"heatFrames": 456}
+                      ]}
+                    ]}
+                  ],
+                  "reusableRoomwideNotable": "Double Chamber Walljump Climb Using the Kamer",
+                  "note": [
+                    "Wall jump up the left wall and then on the moving platform (Kamer) while avoiding the Fune's fireball.",
+                    "The Kamers will temporarily move down if Samus is below them, so it is best to walk under the first Kamer before climbing the wall.",
+                    "It is possible to freeze or kill the Fune with a Super or Power Bomb to make things easier."
+                  ]
+                },
+                {
+                  "name": "Double Chamber Walljump Climb Using the Kamer with HiJump",
+                  "notable": true,
+                  "requires": [
+                    "h_canNavigateHeatRooms",
+                    "HiJump",
+                    "canUseEnemies",
+                    "canWalljump",
+                    {"or":[
+                      {"heatFrames": 360},
+                      {"and":[
+                        "canCarefulJump",
+                        {"heatFrames": 250}
+                      ]}
+                    ]}
+                  ],
+                  "reusableRoomwideNotable": "Double Chamber Walljump Climb Using the Kamer",
+                  "note": [
+                    "Wall jump up the left wall and then on the moving platform (Kamer) while avoiding the Fune's fireball.",
+                    "The Kamers will temporarily move down if Samus is below them, so it is best to walk under the first Kamer before climbing the wall."
+                  ]
+                },
+                {
+                  "name": "Delayed Walljump",
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
-                    {"or":[
-                      "canConsecutiveWalljump",
-                      {"and": [
-                        "HiJump",
-                        "canWalljump"
+                    "canDelayedWalljump",
+                    "canConsecutiveWalljump",
+                    "canTrickyJump",
+                    "canUseEnemies",
+                    {"or": [
+                      {"heatFrames": 190},
+                      {"and": [   
+                        "canPrepareForNextRoom",
+                        {"heatFrames": 120}
                       ]}
-                    ]},
-                    {"heatFrames": 250}
-                  ]
+                    ]}
+                  ],
+                  "note": "Wall jump up the left wall, perform a delayed wall jump on the Fune to reach the door."
                 },
                 {
                   "name": "Space Jump",
@@ -4591,11 +5241,13 @@
                       "usedTiles": 28,
                       "gentleUpTiles": 3,
                       "gentleDownTiles": 3,
-                      "shinesparkFrames": 27,
-                      "openEnd": 0,
-                      "excessShinesparkFrames": 4
-                     }},
-                    {"heatFrames": 450}
+                      "openEnd": 0
+                    }},
+                    {"heatFrames": 450},
+                    {"shinespark": {
+                      "frames": 27,
+                      "excessFrames": 4
+                    }}
                   ]
                 },
                 {
@@ -4605,11 +5257,13 @@
                     "h_canNavigateHeatRooms",
                     {"canComeInCharged":{
                       "fromNode": 2,
-                      "framesRemaining": 40,
-                      "shinesparkFrames": 27,
-                      "excessShinesparkFrames": 4
-                     }},
-                    {"heatFrames": 200}
+                      "framesRemaining": 40
+                    }},
+                    {"heatFrames": 200},
+                    {"shinespark": {
+                      "frames": 27,
+                      "excessFrames": 4
+                    }}
                   ]
                 },
                 {
@@ -4704,21 +5358,29 @@
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
+                    {"heatFrames": 140},
                     {"or": [
-                      {"canComeInCharged": {
-                        "framesRemaining": 180,
-                        "fromNode": 3,
-                        "shinesparkFrames": 45,
-                        "excessShinesparkFrames": 14
-                      }},
-                      {"canComeInCharged": {
-                        "framesRemaining": 0,
-                        "fromNode": 3,
-                        "shinesparkFrames": 51,
-                        "excessShinesparkFrames": 14
-                      }}
-                     ]},
-                    {"heatFrames": 140}
+                      {"and": [
+                        {"canComeInCharged": {
+                          "framesRemaining": 180,
+                          "fromNode": 3
+                        }},
+                        {"shinespark": {
+                          "frames": 45,
+                          "excessFrames": 14
+                        }}
+                      ]},
+                      {"and": [
+                        {"canComeInCharged": {
+                          "framesRemaining": 0,
+                          "fromNode": 3
+                        }},
+                        {"shinespark": {
+                          "frames": 51,
+                          "excessFrames": 14
+                        }}
+                      ]}
+                    ]}
                   ]
                 },
                 {
@@ -4748,7 +5410,6 @@
                     {
                       "name": "Crumble Fall",
                       "leadsToNode": 5,
-                      "clearsPreviousNode": true,
                       "note": "Falls down into node 5 with no possiblity of quick crumble escape."
                     }
                   ],
@@ -4767,12 +5428,14 @@
                     "canMidairShinespark",
                     {"canShineCharge": {
                       "usedTiles": 33,
-                      "openEnd": 2,
-                      "shinesparkFrames": 12,
-                      "excessShinesparkFrames": 4
+                      "openEnd": 2
                     }},
                     {"spikeHits": 2},
-                    {"heatFrames": 400}
+                    {"heatFrames": 400},
+                    {"shinespark": {
+                      "frames": 12,
+                      "excessFrames": 4
+                    }}
                   ],
                   "note": "A short hop from the door can bounce on the crumbles.  Just be careful of being pushed back onto the crumble blocks by the spikes."
                 },
@@ -4825,33 +5488,26 @@
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
-                    {"heatFrames": 250}
-                  ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [
+                    {"heatFrames": 250},
+                    {"or": [
+                      {"and": [
                         "Wave",
                         {"heatFrames": 100}
-                      ]
-                    }
-                  ]
+                      ]},
+                      {"obstaclesCleared": ["A"]}
+                    ]}
+                  ],
+                  "clearsObstacles": ["A"]
                 },
                 {
                   "name": "Gate Glitch",
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
-                    {"heatFrames": 250}
+                    {"heatFrames": 250},
+                    "h_canHeatedBlueGateGlitch"
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [
-                        "h_canHeatedBlueGateGlitch"
-                      ]
-                    }
-                  ]
+                  "clearsObstacles": ["A"]
                 }
               ]
             },
@@ -4933,11 +5589,13 @@
                       "usedTiles": 28,
                       "gentleUpTiles": 3,
                       "gentleDownTiles": 3,
-                      "openEnd": 0,
-                      "shinesparkFrames": 52,
-                      "excessShinesparkFrames": 6
+                      "openEnd": 0
                     }},
-                    {"heatFrames": 420}
+                    {"heatFrames": 420},
+                    {"shinespark": {
+                      "frames": 52,
+                      "excessFrames": 6
+                    }}
                   ],
                   "note": [
                     "Charge a spark along the bottom of Double Chamber and use it to spark to the right side door.",
@@ -4975,6 +5633,25 @@
                     "Morph",
                     {"heatFrames": 200}
                   ]
+                }
+              ]
+            },
+            {
+              "id": 5,
+              "strats": [
+                {
+                  "name": "Kago Farm",
+                  "notable": false,
+                  "requires": [
+                    "h_heatProof",
+                    "Morph",
+                    {"resetRoom": {
+                      "nodes": [2],
+                      "mustStayPut": false
+                    }},
+                    {"refill": ["Energy", "Missile", "Super", "PowerBomb"]}
+                  ],
+                  "devNote": "FIXME: Other nodes could be used to reset the room, with additional requirements."
                 }
               ]
             }
@@ -5134,7 +5811,7 @@
           "name": "Spiky Acid Snake Frozen Platforms",
           "note": [
             "While crossing the Spiky Lava, land on frozen Yapping Maws to reduce the number of spike hits needed.",
-            "Delay the damageboost from the spikes slightly in order to rise above the lava before moving."
+            "Delay the damage boost from the spikes slightly in order to rise above the lava before moving."
           ]
         }
       ],
@@ -5174,7 +5851,7 @@
                     {"or": [
                       {"and": [
                         "canIframeSpikeJump",
-                        "canDamageBoost"
+                        "canHorizontalDamageBoost"
                       ]},
                       {"and": [
                         {"spikeHits": 4},
@@ -5183,7 +5860,7 @@
                       ]}
                     ]}
                   ],
-                  "note": "Damageboosts can be used to save energy - delay the damageboost from the spikes slightly in order to rise above the lava before moving."
+                  "note": "Damage boosts can be used to save energy - delay the damage boost from the spikes slightly in order to rise above the lava before moving."
                 },
                 {
                   "name": "Tank the Damage with Gravity",
@@ -5211,10 +5888,10 @@
                     "h_canNavigateHeatRooms",
                     {"canComeInCharged": {
                       "fromNode": 1,
-                      "framesRemaining": 0,
-                      "shinesparkFrames": 76
+                      "framesRemaining": 0
                     }},
-                    {"heatFrames": 200}
+                    {"heatFrames": 200},
+                    {"shinespark": {"frames": 76}}
                   ]
                 },
                 {
@@ -5226,7 +5903,7 @@
                     "canTrickyUseFrozenEnemies",
                     "canTrickyJump",
                     {"or": [
-                      "canDamageBoost",
+                      "canHorizontalDamageBoost",
                       {"and": [
                         {"spikeHits": 2},
                         {"lavaFrames": 30},
@@ -5244,7 +5921,7 @@
                     "Damage boost towards then freeze the Leftmost enemy as it extends.",
                     "Morph and unmorph while above the middle Yapping Maw to land on it just above the lava line.",
                     "Ignore the rightmost Yapping Maw.",
-                    "Delay the damageboost from the spikes slightly in order to rise above the lava before moving."
+                    "Delay the damage boost from the spikes slightly in order to rise above the lava before moving."
                   ]
                 }
               ]
@@ -5286,7 +5963,7 @@
                     {"or": [
                       {"and": [
                         "canIframeSpikeJump",
-                        "canDamageBoost"
+                        "canHorizontalDamageBoost"
                       ]},
                       {"and": [
                         {"spikeHits": 4},
@@ -5295,7 +5972,7 @@
                       ]}
                     ]}
                   ],
-                  "note": "Damageboosts can be used to save energy - delay the damageboost from the spikes slightly in order to rise above the lava before moving."
+                  "note": "Damage boosts can be used to save energy - delay the damage boost from the spikes slightly in order to rise above the lava before moving."
                 },
                 {
                   "name": "Tank the Damage with Gravity",
@@ -5323,10 +6000,10 @@
                     "h_canNavigateHeatRooms",
                     {"canComeInCharged": {
                       "fromNode": 2,
-                      "framesRemaining": 0,
-                      "shinesparkFrames": 76
+                      "framesRemaining": 0
                     }},
-                    {"heatFrames": 200}
+                    {"heatFrames": 200},
+                    {"shinespark": {"frames": 76}}
                   ]
                 },
                 {
@@ -5338,7 +6015,7 @@
                     "canTrickyUseFrozenEnemies",
                     "canTrickyJump",
                     {"or": [
-                      "canDamageBoost",
+                      "canHorizontalDamageBoost",
                       {"and": [
                         {"spikeHits": 1},
                         {"lavaFrames": 20},
@@ -5356,7 +6033,7 @@
                     "Morph and unmorph while above the rightmost Yapping Maw to land on it just above the lava line.",
                     "Ignore the second Yapping Maw.",
                     "Freeze the Leftmost enemy as it extends.",
-                    "Delay the damageboost from the spikes slightly in order to rise above the lava before moving."
+                    "Delay the damage boost from the spikes slightly in order to rise above the lava before moving."
                   ]
                 }
               ]
@@ -5508,12 +6185,6 @@
         },
         {
           "id": 5,
-          "name": "Kronic Boost Room Top Junction",
-          "nodeType": "junction",
-          "nodeSubType": "junction"
-        },
-        {
-          "id": 6,
           "name": "Kronic Boost Room Middle Junction",
           "nodeType": "junction",
           "nodeSubType": "junction"
@@ -5540,7 +6211,7 @@
           "groupName": "Kronic Boost Room Top Viola",
           "enemyName": "Viola",
           "quantity": 1,
-          "homeNodes": [ 5 ],
+          "homeNodes": [ 1, 4 ],
           "dropRequires": ["h_heatProof"]
         }
       ],
@@ -5549,6 +6220,19 @@
           "from": 1,
           "to": [
             {
+              "id": 4,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [
+                    "h_canNavigateHeatRooms",
+                    {"heatFrames": 100}
+                  ]
+                }
+              ]
+            },
+            {
               "id": 5,
               "strats": [
                 {
@@ -5556,7 +6240,7 @@
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
-                    {"heatFrames": 75}
+                    {"heatFrames": 110}
                   ]
                 }
               ]
@@ -5567,7 +6251,7 @@
           "from": 2,
           "to": [
             {
-              "id": 6,
+              "id": 3,
               "strats": [
                 {
                   "name": "Base",
@@ -5575,16 +6259,34 @@
                   "requires": [
                     "h_canNavigateHeatRooms",
                     "Morph",
-                    {"heatFrames": 200}
+                    {"heatFrames": 225},
+                    {"or": [
+                      {"heatFrames": 10},
+                      "canMockball",
+                      {"obstaclesCleared": ["A"]}
+                    ]}
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [
-                        {"heatFrames": 50}
-                      ]
-                    }
-                  ]
+                  "clearsObstacles": ["A"]
+                }
+              ]
+            },
+            {
+              "id": 5,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [
+                    "h_canNavigateHeatRooms",
+                    "Morph",
+                    {"heatFrames": 165},
+                    {"or": [
+                      {"heatFrames": 10},
+                      "canMockball",
+                      {"obstaclesCleared": ["A"]}
+                    ]}
+                  ],
+                  "clearsObstacles": ["A"]
                 }
               ]
             }
@@ -5594,14 +6296,65 @@
           "from": 3,
           "to": [
             {
-              "id": 6,
+              "id": 2,
               "strats": [
                 {
                   "name": "Base",
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
-                    {"heatFrames": 220}
+                    "Morph",
+                    {"heatFrames": 260},
+                    {"or": [
+                      {"and": [
+                        "Wave",
+                        {"heatFrames": 30}
+                      ]},
+                      {"obstaclesCleared": ["A"]}
+                    ]}
+                  ],
+                  "clearsObstacles": ["A"]
+                },
+                {
+                  "name": "Gate Glitch",
+                  "notable": false,
+                  "requires": [
+                    "h_canNavigateHeatRooms",
+                    "Morph",
+                    {"heatFrames": 260},
+                    "h_canHeatedBlueGateGlitch"
+                  ],
+                  "clearsObstacles": ["A"]
+                }
+              ]
+            },
+            {
+              "id": 3,
+              "strats": [
+                {
+                  "name": "Viola Farm",
+                  "notable": false,
+                  "requires": [
+                    "h_heatProof",
+                    {"resetRoom": {
+                      "nodes": [1, 3, 4],
+                      "mustStayPut": false
+                    }},
+                    {"refill": ["PowerBomb"]}
+                  ],
+                  "devNote": "FIXME: Resetting the room using door node 2 would also be possible if the obstacle is cleared."
+                }
+              ]
+            },
+            {
+              "id": 5,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [
+                    "h_canNavigateHeatRooms",
+                    {"heatFrames": 130}
                   ]
                 }
               ]
@@ -5612,6 +6365,19 @@
           "from": 4,
           "to": [
             {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Base",
+                  "notable": false,
+                  "requires": [
+                    "h_canNavigateHeatRooms",
+                    {"heatFrames": 100}
+                  ]
+                }
+              ]
+            },
+            {
               "id": 5,
               "strats": [
                 {
@@ -5619,7 +6385,7 @@
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
-                    {"heatFrames": 25}
+                    {"heatFrames": 100}
                   ]
                 }
               ]
@@ -5637,42 +6403,11 @@
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
-                    {"heatFrames": 75}
+                    {"heatFrames": 150}
                   ]
                 }
               ]
             },
-            {
-              "id": 4,
-              "strats": [
-                {
-                  "name": "Base",
-                  "notable": false,
-                  "requires": [
-                    "h_canNavigateHeatRooms",
-                    {"heatFrames": 25}
-                  ]
-                }
-              ]
-            },
-            {
-              "id": 6,
-              "strats": [
-                {
-                  "name": "Base",
-                  "notable": false,
-                  "requires": [
-                    "h_canNavigateHeatRooms",
-                    {"heatFrames": 160}
-                  ]
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "from": 6,
-          "to": [
             {
               "id": 2,
               "strats": [
@@ -5682,17 +6417,16 @@
                   "requires": [
                     "h_canNavigateHeatRooms",
                     "Morph",
-                    {"heatFrames": 150}
-                  ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [
+                    {"heatFrames": 150},
+                    {"or": [
+                      {"and": [
                         "Wave",
                         {"heatFrames": 30}
-                      ]
-                    }
-                  ]
+                      ]},
+                      {"obstaclesCleared": ["A"]}
+                    ]}
+                  ],
+                  "clearsObstacles": ["A"]
                 },
                 {
                   "name": "Gate Glitch",
@@ -5700,16 +6434,10 @@
                   "requires": [
                     "h_canNavigateHeatRooms",
                     "Morph",
-                    {"heatFrames": 150}
+                    {"heatFrames": 150},
+                    "h_canHeatedBlueGateGlitch"
                   ],
-                  "obstacles": [
-                    {
-                      "id": "A",
-                      "requires": [
-                        "h_canHeatedBlueGateGlitch"
-                      ]
-                    }
-                  ]
+                  "clearsObstacles": ["A"]
                 }
               ]
             },
@@ -5721,13 +6449,13 @@
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
-                    {"heatFrames": 140}
+                    {"heatFrames": 130}
                   ]
                 }
               ]
             },
             {
-              "id": 5,
+              "id": 4,
               "strats": [
                 {
                   "name": "Base",
@@ -5832,6 +6560,19 @@
         {
           "from": 1,
           "to": [
+            {
+              "id": 1,
+              "strats": [
+                {
+                  "name": "Magdollite Farm",
+                  "notable": false,
+                  "requires": [
+                    "h_heatProof",
+                    {"refill": ["Energy", "Missile"]}
+                  ]
+                }
+              ]
+            },
             {
               "id": 2,
               "strats": [
@@ -6032,12 +6773,12 @@
                       "h_lavaProof",
                       "canSuitlessLavaDive"
                     ]},
-                    "canDamageBoost",
+                    "canHorizontalDamageBoost",
                     {"canComeInCharged":{
                       "fromNode": 2,
-                      "framesRemaining": 180,
-                      "shinesparkFrames": 33
+                      "framesRemaining": 180
                     }},
+                    {"shinespark": {"frames": 33}},
                     {"heatFrames": 420},
                     {"lavaFrames": 175},
                     {"enemyDamage": {
@@ -6048,7 +6789,7 @@
                   ],
                   "note": [
                     "Store the shinespark on the last possible pixels of runway.",
-                    "Quickly drop to the nearby namihe and damageboost using its flame.",
+                    "Quickly drop to the nearby namihe and damage boost using its flame.",
                     "Hold the damage boost until just before being below the above platform and spark upwards"
                   ]
                 },
@@ -6134,6 +6875,7 @@
                     "h_canDoubleBombJump",
                     "Plasma",
                     "Ice",
+                    "canCameraManip",
                     {"heatFrames": 1530},
                     {"lavaFrames": 1350}
                   ],
@@ -6168,6 +6910,7 @@
                     "HiJump",
                     "canDoubleSpringBallJumpMidAir",
                     "canUseEnemies",
+                    "canCameraManip",
                     {"heatFrames": 1050},
                     {"lavaFrames": 850}
                   ],
@@ -6240,6 +6983,7 @@
                     "canBounceBall",
                     "canFastWalljumpClimb",
                     "canUseEnemies",
+                    "canCameraManip",
                     {"adjacentRunway": {
                       "fromNode": 2,
                       "usedTiles": 4,
@@ -6270,6 +7014,7 @@
                     "canStaggeredWalljump",
                     "canFastWalljumpClimb",
                     "canUseEnemies",
+                    "canCameraManip",
                     {"adjacentRunway": {
                       "fromNode": 2,
                       "usedTiles": 4,
@@ -6416,14 +7161,18 @@
                     "Gravity",
                     "Morph",
                     {"or":[
-                      "canMockball",
-                      {"lavaFrames": 10}
+                      {"and": [
+                        "canMockball",
+                        "canCarefulJump",
+                        {"lavaFrames": 60}
+                      ]},
+                      {"lavaFrames": 100}
                     ]},
                     {"or":[
-                      {"lavaFrames": 215},
+                      {"lavaFrames": 150},
                       {"and":[
                         "SpaceJump",
-                        {"lavaFrames": 145}
+                        {"lavaFrames": 60}
                       ]}
                     ]}
                   ]
@@ -6434,11 +7183,25 @@
                   "requires": [
                     "canSuitlessLavaDive",
                     "Morph",
-                    {"lavaFrames": 450}
+                    {"or": [
+                      {"and": [
+                        "canCarefulJump",
+                        "canMockball",
+                        {"lavaFrames": 180}
+                      ]},
+                      {"lavaFrames": 220}
+                    ]},
+                    {"or": [
+                      {"and": [
+                        "canSpaceJumpWaterBounce",
+                        {"lavaFrames": 120}
+                      ]},
+                      {"lavaFrames": 150}
+                    ]}
                   ]
                 }
               ],
-              "note": "Is a heatroom when entering from bottom but not when entering from top."
+              "note": "The room is heated when entering from bottom but not when entering from top."
             }
           ]
         },
@@ -6454,7 +7217,25 @@
                   "requires": [
                     "h_canNavigateHeatRooms",
                     "Morph",
-                    {"heatFrames": 650}
+                    {"or": [
+                      "canMockball",
+                      {"heatFrames": 25}
+                    ]},
+                    {"heatFrames": 480}
+                  ]
+                },
+                {
+                  "name": "SpaceJump",
+                  "notable": false,
+                  "requires": [
+                    "h_canNavigateHeatRooms",
+                    "Morph",
+                    "SpaceJump",
+                    {"or": [
+                      "canMockball",
+                      {"heatFrames": 25}
+                    ]},
+                    {"heatFrames": 440}
                   ]
                 }
               ]
@@ -6834,6 +7615,30 @@
               "rightPosition": 7,
               "requires": [{"heatFrames": 120}]
             }
+          ],
+          "leaveWithGModeSetup": [
+            {
+              "strats": [
+                {
+                  "name": "Frozen Gammets",
+                  "notable": false,
+                  "requires": [
+                    "h_heatProof",
+                    "canUpwardGModeSetup",
+                    "canTrickyUseFrozenEnemies",
+                    "Morph"
+                  ],
+                  "note": [
+                    "Freeze the stack of Gammets together a few times to try and raise them as high as possible.",
+                    "Run with them to the door and freeze the top two such that Samus can stand on the lower and take damage from the higher Gammet when it unfreezes."
+                  ],
+                  "devNote": [
+                    "Landing on the Gammet with an aim down, or spin, wasn't working.  So require Morph.",
+                    "Would be notable but its a GMode strat."
+                  ]
+                }
+              ]
+            }
           ]
         },
         {
@@ -6893,7 +7698,7 @@
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
-                    {"heatFrames": 80}
+                    {"heatFrames": 70}
                   ]
                 }
               ]
@@ -7000,6 +7805,22 @@
                   "requires": [
                     "h_canNavigateHeatRooms",
                     {"heatFrames": 210}
+                  ]
+                }
+              ]
+            },
+            {
+              "id": 4,
+              "strats": [
+                {
+                  "name": "Gamet Farm",
+                  "notable": false,
+                  "requires": [
+                    {"or": [
+                      "canPauseAbuse",
+                      {"heatFrames": 60}
+                    ]},
+                    {"refill": ["Energy", "Missile", "Super", "PowerBomb"]}
                   ]
                 }
               ]
@@ -7323,6 +8144,18 @@
                   "requires": []
                 }
               ]
+            },
+            {
+              "id": 3,
+              "strats": [
+                {
+                  "name": "Refill",
+                  "notable": false,
+                  "requires": [
+                    "h_useEnergyRefillStation"
+                  ]
+                }
+              ]
             }
           ]
         }
@@ -7399,7 +8232,57 @@
           "name": "Elevator to Lower Norfair",
           "nodeType": "door",
           "nodeSubType": "elevator",
-          "nodeAddress": "0x00196f6"
+          "nodeAddress": "0x00196f6",
+          "canLeaveCharged": [
+            {
+              "framesRemaining": 130,
+              "usedTiles": 33,
+              "strats": [
+                {
+                  "name": "Come In Charged (From Left)",
+                  "notable": false,
+                  "requires": [
+                    "h_canNavigateHeatRooms",
+                    {"canComeInCharged": {
+                      "framesRemaining": 180,
+                      "fromNode": 1
+                    }},
+                    {"heatFrames": 140}
+                  ]
+                },
+                {
+                  "name": "Come In Charged (From Right)",
+                  "notable": false,
+                  "requires": [
+                    "h_canNavigateHeatRooms",
+                    {"canComeInCharged": {
+                      "framesRemaining": 180,
+                      "fromNode": 2
+                    }},
+                    {"heatFrames": 140}
+                  ]
+                }
+              ],
+              "openEnd": 0
+            },
+            {
+              "framesRemaining": 130,
+              "usedTiles": 14,
+              "strats": [
+                {
+                  "name": "In-Room Shortcharge",
+                  "notable": false,
+                  "requires": [
+                    "h_canNavigateHeatRooms",
+                    {"doorUnlockedAtNode": 1},
+                    {"doorUnlockedAtNode": 2},
+                    {"heatFrames": 240}
+                  ]
+                }
+              ],
+              "openEnd": 0
+            }
+          ]
         }
       ],
       "enemies": [],
@@ -7415,8 +8298,9 @@
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
-                    {"heatFrames": 50}
-                  ]
+                    {"heatFrames": 30}
+                  ],
+                  "devNote": "60 frames to cross the room, but 40 to and from the elevator, so the other 10 frames are listed in 3->4."
                 }
               ]
             }
@@ -7433,8 +8317,9 @@
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
-                    {"heatFrames": 50}
-                  ]
+                    {"heatFrames": 30}
+                  ],
+                  "devNote": "60 frames to cross the room, but 40 to and from the elevator, so the other 10 frames are listed in 3->4."
                 }
               ]
             }
@@ -7451,8 +8336,9 @@
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
-                    {"heatFrames": 50}
-                  ]
+                    {"heatFrames": 30}
+                  ],
+                  "devNote": "60 frames to cross the room, but 40 to and from the elevator, so the other 10 frames are listed in 4->3."
                 }
               ]
             },
@@ -7464,8 +8350,9 @@
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
-                    {"heatFrames": 50}
-                  ]
+                    {"heatFrames": 30}
+                  ],
+                  "devNote": "60 frames to cross the room, but 40 to and from the elevator, so the other 10 frames are listed in 4->3."
                 }
               ]
             },
@@ -7477,11 +8364,13 @@
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
-                    {"heatFrames": 235}
+                    "h_LowerNorfairElevatorDownwardFrames",
+                    {"heatFrames": 10}
                   ]
                 }
               ],
-              "note": "This link exists because of how Samus takes heatdamage while riding the elevator."
+              "note": "This link exists because of how Samus takes heatdamage while riding the elevator.",
+              "devNote": "The extra heat frames are included because it is faster to run through the room than 2x the value it would tak to run half way."
             }
           ]
         },
@@ -7496,11 +8385,13 @@
                   "notable": false,
                   "requires": [
                     "h_canNavigateHeatRooms",
-                    {"heatFrames": 215}
+                    "h_LowerNorfairElevatorUpwardFrames",
+                    {"heatFrames": 10}
                   ]
                 }
               ],
-              "note": "This link exists because of how Samus takes heatdamage while riding the elevator."
+              "note": "This link exists because of how Samus takes heatdamage while riding the elevator.",
+              "devNote": "The extra heat frames are included because it is faster to run through the room than 2x the value it would tak to run half way."
             }
           ]
         }

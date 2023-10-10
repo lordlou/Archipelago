@@ -8,7 +8,14 @@
         {
           "name": "canBePatient",
           "requires": [],
-          "note": "Executing a strat that requires waiting or doing the same thing over and over again for over 3 minutes, even with good execution."
+          "note": "Executing a strat that requires waiting or doing the same thing over and over again for a substantial amount of time, potentially more than 1.5 minutes, even with good execution.",
+          "extensionTechs": [
+            {
+                "name": "canBeVeryPatient",
+                "requires": ["canBePatient"],
+                "note": "Executing a strat that requires waiting or doing the same thing over and over again for a long time, potentially more than 3 minutes, even with good execution."
+            }
+          ]
         },
         {
           "name": "canPrepareForNextRoom",
@@ -63,7 +70,8 @@
                 {
                   "name": "canSpaceJumpWaterEscape",
                   "requires": [ "canSpaceJumpWaterBounce" ],
-                  "note": "Converting Space Jump Water Bouncing into regular space jumps without Gravity. Typically requires HiJump."
+                  "note": "Using HiJump to escape the waterline during a Space Jump Water Bounce.",
+                  "devNote": "Escaping tidal water without HiJump could be added as a more advanced tech."
                 }
               ]
             }
@@ -78,6 +86,12 @@
             "Disabling HiJump will give more time to perform a mid-air morph.",
             "Disabling Gravity will allow Samus to float farther in water, or jump slower for a mid-air morph.",
             "Beams may need to be disabled to control how enemies are killed (i.e. Remove plasma for canUseFrozenEnemies, or remove ice to effeciently use heat room farm points)."
+          ],
+          "devNote": [
+            "Note that this tech is not applied requiring the item to be not collected with canRiskPermanentLossOfAccess, as this is a low-level tech.",
+            "Instead, it is just listed with alternate options where more items can execute the strat without disabling equipment.",
+            "In the logic, this is not applied to switching off beams, as that is usually intuitive enough for players even without this tech.",
+            "FIXME: It is also not applied to Speedbooster jumps, as that would require a lot of changes to a lot of rooms."
           ]
         },
         {
@@ -87,7 +101,8 @@
             "The ability to control Samus while under the effects of sand physics.",
             "This includes the ability to perform a clean jump from the top of sand,",
             "to platform while impeded by sandfalls, and to escape from a sand floor in water with Gravity.",
-            "This also allows using a sandfall to escape a sand floor with HiJump, and using Bombs to escape a 1-tile deep sand pit.",
+            "This also allows using a sandfall to escape a sand floor with HiJump, and using Bombs to escape a 1-tile deep sand pit,",
+            "and to cross on top of sand with no items, by spin jumping from the surface and canceling spin before landing.",
             "This does not include simply falling through sand or touching a negligible sandfall or using Spring Ball to avoid interacting with the sand."
           ],
           "extensionTechs": [
@@ -166,16 +181,14 @@
                   ]
                 },
                 {
-                  "name": "canFrozenEnemyMoonfall",
-                  "requires": [
-                    "canMoonfall",
-                    "canTrickyUseFrozenEnemies"
-                  ],
+                  "name": "canEnemyStuckMoonfall",
+                  "requires": ["canMoonfall"],
                   "note": [
-                    "The ability to freeze two enemies the appropriate vertical distance apart so that Samus can Moonfall and become 'trapped' between them.",
+                    "The ability to use two enemies spaced the appropriate vertical distance apart so that Samus can Moonfall and become 'trapped' between them.",
                     "The uncapped fall speed will continue increasing while 'trapped'.",
                     "After enough time has passed, Samus can escape with enough fall speed to clip through a solid floor tile.",
-                    "It may be necessary to change Samus' hitbox while falling to clip through the solid tile."
+                    "It may be necessary to change Samus' hitbox while falling to clip through the solid tile.",
+                    "This is most commonly performed with the help of Ice Beam but can work with non damaging enemies such as snails."
                   ]
                 }
               ]
@@ -214,7 +227,8 @@
                   "name": "can2HighWallMidAirMorph",
                   "requires": [
                     "canPreciseWalljump",
-                    "canWallJumpInstantMorph"
+                    "canWallJumpInstantMorph",
+                    "canDisableEquipment"
                   ],
                   "note" : [
                     "Getting up a 2-tile-high jump in a morph passage by mid-air morphing off of a wall jump. This is easier from an opposite wall.",
@@ -225,12 +239,21 @@
             },
             {
               "name": "can3HighMidAirMorph",
-              "requires": [ "canMidAirMorph" ],
-              "note" : "A mid-air morph that has to be done within an elevation difference of 3 tiles (with a ceiling removing any extra room). It's a lot more precise than with more room."
+              "requires": [
+                "canMidAirMorph",
+                "canDisableEquipment"
+              ],
+              "note" : [
+                "A mid-air morph that has to be done within an elevation difference of 3 tiles (with a ceiling removing any extra room).",
+                "It's a lot more precise than with more room. Turn off HiJump before attempting this."
+              ]
             },
             {
               "name": "canRJump",
-              "requires": [ "canMidAirMorph" ],
+              "requires": [
+                "canMidAirMorph",
+                "canDisableEquipment"
+              ],
               "note": [
                 "A technique for mid-air morphing over a two tile wall in air physics, or a one tile wall in water physics.",
                 "The key point is that pausing can be used to morph much faster than double pressing down.",
@@ -273,6 +296,21 @@
           "note": [
             "Maintaining running speed while morphed, by holding jump and down (to crouch) during a lateral jump, then morphing as Samus hits the ground while holding jump and transition from holding down to holding forward.",
             "Sometimes referred to as a Machball."
+          ],
+          "extensionTechs": [
+            {
+              "name": "canSpeedball",
+              "requires": [
+                "canMockball",
+                "SpeedBooster",
+                "canCarefulJump"
+              ],
+              "note": [
+                "Maintain the SpeedBooster effect while rolling as a Morph Ball in order to destroy bomb blocks in Morph tunnels.",
+                "A Speedball involves performing a Mockball at faster speeds and additionally it will help to be able to perform short jumps to reduce the amount of space needed.",
+                "A Speedball can also be used with SpringBall as a way to jump with temporary blue state while maintaining Samus' momentum."
+              ]
+            }
           ]
         },
         {
@@ -353,6 +391,23 @@
                 "Using Grapple to propel Samus upwards, then continuously morphing/unmorphing/jumping in mid-air to climb upwards.",
                 "This is much more lenient with HiJump."
               ]
+            },
+            {
+              "name": "canBombGrappleJump",
+              "requires": [
+                "canUseGrapple",
+                "canMidAirMorph",
+                "Bombs",
+                "canUseEnemies",
+                "canTrickyJump"
+              ],
+              "note": [
+                "Simultaneously use Grapple Beam to kill an enemy and detonate a bomb on Samus to gain the ability to jump for one frame.",
+                "By jumping first and performing this trick in the air, Samus gets a second jump.",
+                "This is most useful underwater to reach higher ledges.",
+                "This trick is effectively double frame perfect and kills the enemy requiring either a room reset, or a respawning enemy."
+              ],
+              "devNote": "Bombs is a leniency as the trick has a high chance of failure."
             }
           ]
         }
@@ -427,6 +482,18 @@
           ],
           "extensionTechs": [
             {
+              "name": "canTrickySpringBallJump",
+              "requires": [ "canSpringBallJumpMidAir" ],
+              "note": [
+                "A precise, mid-air spring ball jump. This includes those with a relatively tight pause, jump, and morph, in order to spring ball jump just above shallow water.",
+                "And those which require the jump input to be pressed near the peak of the jump, which cannot be done by buffering the jump out of the pause menu.",
+                "To do this, pause as early as possible before jumping and morphing in order to have as much visibility as possible after equipping Spring Ball to time the second jump.",
+                "This can also be used out of a Spring Wall or from a spin jump, in order to gain more horizontal distance before triggering the second jump.",
+                "This, along with a crouch jump, is also needed in order to perform a maximum height spring ball jump.",
+                "Maximum height jumps primarily have underwater applications, as it enables Samus to barely make it up 7 tiles vertically."
+              ]
+            },
+            {
               "name": "canSpringwall",
               "requires": [
                 "canSpringBallJumpMidAir",
@@ -439,12 +506,25 @@
             },
             {
               "name": "canDoubleSpringBallJumpMidAir",
-              "requires": [ "canSpringBallJumpMidAir" ],
+              "requires": [ "canTrickySpringBallJump" ],
               "note": [
                 "Using a mid-air Spring Ball jump twice during a single jump to gain even more height.",
                 "This consists of a tight variant of mid-air Spring Ball jump, then turning off Spring Ball, then a second mid-air Spring Ball jump all while still climbing upwards.",
                 "This is typically used underwater with HiJump, but it is technically possible in lava without HiJump or to perform more than two Spring Ball jumps in acid."
               ]
+            },
+            {
+              "name": "canUnderwaterBombIntoSpringBallJump",
+              "requires": [ 
+                "canTrickySpringBallJump",
+                "h_canJumpIntoIBJ"
+              ],
+              "note": [
+                "Use the tiny amount of height gain from an underwater Bomb explosion to re-equip Springball and perform a Springball jump.",
+                "This is most often used to get a second SpringBall jump when underwater without HiJump.",
+                "Bombs are required since Power Bombs will prevent pausing."
+              ],
+              "devNote": "Similar to an underwater walljump into springballjump, but that has no applications yet since double springballjump is easier for similar requirements."
             }
           ]
         },
@@ -603,7 +683,8 @@
           "note": [
             "Infinite Bomb Jump (IBJ) uses consecutive bomb jumps to gain height indefinitely. To start and continue an IBJ, place a bomb as the previous one is exploding.",
             "The vertical speed with which Samus moves is controlled by how high or how low each bomb is placed relative to the previous one.",
-            "The speed of the IBJ ranges from moving fairly fast with high bombs, to no movement or even losing height with low bomb placements."
+            "The speed of the IBJ ranges from moving fairly fast with high bombs, to no movement or even losing height with low bomb placements.",
+            "It is possible to place a single Power Bomb while climbing during an IBJ, and then switch back to Bombs to continuing the climb without falling."
           ],
           "extensionTechs": [
             {
@@ -630,8 +711,19 @@
             },
             {
               "name": "canSandIBJ",
-              "requires": [ "h_canJumpIntoIBJ" ],
-              "note": "The ability to start an IBJ off a jump on sand. It requires precise rapid inputs and can be pretty obnoxious to execute."
+              "requires": [ 
+                "h_canJumpIntoIBJ",
+                "canPlayInSand"
+              ],
+              "note": [
+                "The ability to start an IBJ from sand.",
+                "Jumping from the top of sand into an IBJ takes more precision than a standard jump into IBJ.",
+                "Escaping a shallow sand fall does not require this tech, but there is a section of Maridia's West Sand Hall which would use a Sand IBJ."
+              ],
+              "devNote": [
+                "Escaping a shallow sandfall with bombs falls under canPlayInSand.",
+                "The Sandfall IBJ in West Sandhall for the bounce is specific to one section of one room because the sand depth is different there."
+              ]
             },
             {
               "name": "canDoubleBombJump",
@@ -661,18 +753,6 @@
           ],
           "note": "From a submerged platform, setting up a single bomb jump above the water line to propel Samus up and out of the water.",
           "devNote": "It's recommended to apply a number of tries as leniency here for the PBs version."
-        },
-        {
-          "name": "canBombJumpOnSand",
-          "requires": [ 
-            "canPlayInSand", 
-            "h_canBombThings"
-          ],
-          "note": [
-            "The ability to bomb jump while dealing with the sinking effect of sand physics.",
-            "This is done by placing the bomb on or above the top of the sand line and then jumping again to land on the bomb explosion,",
-            "or by rising out of the sand using Bombs inside of a sandfall to then land on the bomb that is at the sand line."
-          ]
         }
       ]
     },
@@ -703,15 +783,20 @@
               ]
             },
             {
-              "name": "canDamageBoost",
+              "name": "canNeutralDamageBoost",
               "requires": [ "canUseEnemies" ],
-              "note": "Using the knockback from taking enemy damage to assist Samus in her movement.",
-              "devNote": "FIXME This could use a better description",
+              "note": "Using the small vertical knockback from taking enemy damage, while not holding any directional inputs, to assist Samus in her movement.",
               "extensionTechs": [
                 {
-                  "name": "canContinuousDboost",
-                  "requires": [ "canDamageBoost" ],
-                  "note": "A tech that involves multiple damage boosts with precise timing. No room for missing one of them."
+                  "name": "canHorizontalDamageBoost",
+                  "requires": [ "canNeutralDamageBoost" ],
+                  "note": [
+                    "Using the knockback from taking enemy damage to give Samus a large movement boost by holding the jump and backwards buttons.",
+                    "By changing the timing of the directional input, the way that Samus is knocked back can be changed and has situational uses.",
+                    "Holding forward will knock Samus backwards and down.",
+                    "Holding jump but delaying the back button delays the horizontal damage boost to gain some neutral boost first.",
+                    "Very quickly releasing back and pressing forward will give a forward boost."
+                  ]
                 }
               ]
             },
@@ -816,7 +901,10 @@
             },
             {
               "name": "canBabyMetroidAvoid",
-              "requires": [],
+              "requires": [
+                "canTrickyJump",
+                "canDodgeWhileShooting"
+              ],
               "note": [
                 "The ability to skip the Baby Metroid health drain.",
                 "The Baby Metroid skip has three parts: The first jump, repeated jumps over the baby while clearing the vines, and the final jump into the transition.",
@@ -1109,38 +1197,27 @@
               "name": "canXRayClimb",
               "requires": [ "canXRayStandUp" ],
               "note": [
-                "All-purpose tech for X-Ray climbing by repeatedly using X-Ray's forced standup trick to climb up through walls.",
-                "This tech is uncoupled from different setups that place Samus in a position to do this and only refers to the actual climbing portion."
+                "Repeatedly using X-Ray's forced standup trick to climb up through in-bound walls.",
+                "This requires Samus to be partially clipped into the wall to begin climbing, which is often set up by getting stuck in a closing door.",
+                "The simplest setup is getting stuck in a right facing door in order to climb the left wall of a room.",
+                "To do this, enter this room from the room to the left with a stationary spinjump moving away to touch the transition with momentum that will get you stuck in the destination door.",
+                "X-Ray climbs can also be setup by allowing solid blocks to reform on Samus, or by clipping into a wall by some other means."
               ],
               "extensionTechs": [
                 {
-                  "name": "canRightFacingDoorXRayClimb",
-                  "requires": [
-                    "canXRayClimb",
-                    "canStationarySpinJump"
-                  ],
+                  "name": "canRightSideDoorStuck",
+                  "requires": [ "canStationarySpinJump" ],
                   "note": [
-                    "Enter the partner door (which faces left in the adjacent room) with a stationary spinjump moving away to touch the transition with momentum that will get you stuck in the destination door.",
-                    "That destination door is right-facing in the room where the X-Ray climb happens.",
-                    "Then use the X-Ray's forced standup trick to climb up through in-bound walls."
-                  ]
-                },
-                {
-                  "name": "canLeftFacingDoorXRayClimb",
-                  "requires": [
-                    "canXRayClimb",
-                    "canStationarySpinJump"
-                  ],
-                  "note": [
-                    "Though using the same techs, the setup is a bit different for left-facing doors.",
-                    "It requires a dashing stationary spinjump into a doorcheck, then holding down as Samus arrives in the other room.",
-                    "Then use normal X-Ray climbing."
+                    "Getting stuck in a right side (left facing) door.",
+                    "Starting from the room to the right, perform a dashing stationary spinjump into a doorcheck.",
+                    "Then,  as Samus arrives in the desired room, hold down to automatically fall forward into the closing door.",
+                    "This requires the doorway in the room to the right to not be underwater. This is typically used to start an X-Ray Climb."
                   ],
                   "extensionTechs": [
                     {
-                      "name": "canSubmergedLeftFacingDoorXRayClimb",
+                      "name": "canRightSideDoorStuckFromWater",
                       "requires": [
-                        "canLeftFacingDoorXRayClimb",
+                        "canRightSideDoorStuck",
                         "canTrickyJump"
                       ],
                       "note": [
@@ -1189,7 +1266,8 @@
               "requires": [ "canEnterRMode" ],
               "note": [
                 "Ability to enter G-mode starting with low reserve energy.",
-                "Have 4 or fewer energy in reserves (set to Auto), take damage while going through a door, use X-Ray while entering the next room, and release X-Ray before reserves have finished filling (a 4-frame window when starting with 4 reserve energy)."
+                "Have 4 or fewer energy in reserves (set to Auto), take damage while going through a door, use X-Ray while entering the next room, and release X-Ray before reserves have finished filling (a 4-frame window when starting with 4 reserve energy).",
+                "This can be used for many things, including overloading PLMs to move through solid tiles, setting up a deep doorstuck, and triggering Artificial Morph if canArtificialMorph is enabled."
               ],
               "extensionTechs": [
                 {
@@ -1220,6 +1298,17 @@
                 "Ability to setup an R-mode or G-mode through a downward door.",
                 "Samus needs to be in a standing or walking position with no vertical speed on the first frame in the next room, while taking damage through the transition.",
                 "This is typically done using quicksand, clipping into the floor, or using a thawing frozen wall crawler."
+              ]
+            },
+            {
+              "name": "canUpwardGModeSetup",
+              "requires": [ "canEnterRMode" ],
+              "note": [
+                "Ability to setup an R-mode or G-mode through an upward door.",
+                "Samus needs to be in a standing or walking position with no vertical speed on the first frame in the next room, while taking damage through the transition.",
+                "This is typically done by using an enemy as a platform beneath the door and instantly standing up by pressing forward while crouched.",
+                "Getting Samus into the crouch position can usually be down by spinjumping (beneath the transition tiles) then aiming down to stand on the enemy.",
+                "Unmorphing when on top of the enemy will also put Samus in a crouch."
               ]
             }
           ]
@@ -1342,6 +1431,14 @@
             "Most enemes become inactive while off camera, and most projectiles cease to exist.",
             "This can be done by jumping in place; changing Samus' hitbox with aim down will scroll the camera lower.",
             "By running back and forth the camera will scroll horizontally; Moonwalk can be used to camera scroll without travelling as far."
+          ]
+        },
+        {
+          "name": "canPauseAbuse",
+          "requires": [],
+          "note": [
+            "The ability to pause in order to avoid death while reaching 0 energy.",
+            "Energy must be obtained before the unpause fade-in finishes."
           ]
         }
       ]

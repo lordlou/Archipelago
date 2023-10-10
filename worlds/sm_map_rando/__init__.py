@@ -24,9 +24,12 @@ from .Options import smmr_options
 from .Rom import get_base_rom_path, get_sm_symbols, openFile, SMMR_ROM_MAX_PLAYERID, SMMR_ROM_PLAYERDATA_COUNT, SMMapRandoDeltaPatch 
 from .ips import IPS_Patch
 from .Client import SMMRSNIClient
+from importlib.metadata import version
+
+print("pysmmaprando version: " + version("pysmmaprando"))
 
 try:
-    from pysmmaprando import create_gamedata, APRandomizer, APCollectionState, patch_rom, Options
+    from pysmmaprando import create_gamedata, APRandomizer, APCollectionState, patch_rom, Options, LocalState
 
 # required for APWorld distribution outside official AP releases as stated at https://docs.python.org/3/library/zipimport.html:
 # ZIP import of dynamic modules (.pyd, .so) is disallowed.
@@ -56,7 +59,7 @@ except ImportError:
             z = zipfile.ZipFile(io.BytesIO(r.content))
             z.extractall(f"{os.path.dirname(sys.executable)}/lib")
             
-    from pysmmaprando import create_gamedata, APRandomizer, APCollectionState, patch_rom, Options
+    from pysmmaprando import create_gamedata, APRandomizer, APCollectionState, patch_rom, Options, LocalState
 
 class ByteEdit(TypedDict):
     sym: Dict[str, Any]
@@ -164,6 +167,7 @@ class SMMapRandoWorld(World):
                           list(self.multiworld.strats[self.player].value),
                           self.multiworld.shinespark_tiles[self.player].value,
                           self.multiworld.resource_multiplier[self.player].value,
+                          self.multiworld.gate_glitch_leniency[self.player].value,
                           self.multiworld.phantoon_proficiency[self.player].value,
                           self.multiworld.draygon_proficiency[self.player].value,
                           self.multiworld.ridley_proficiency[self.player].value,
@@ -171,7 +175,9 @@ class SMMapRandoWorld(World):
                           self.multiworld.escape_timer_multiplier[self.player].value,
                           self.multiworld.randomized_start[self.player].value == 1,
                           self.multiworld.save_animals[self.player].value == 1,
+                          self.multiworld.early_save[self.player].value == 1,
                           self.multiworld.objectives[self.player].value,
+                          self.multiworld.doors_mode[self.player].value,
                           "", #filler_items
                           self.multiworld.supers_double[self.player].value == 1,
                           self.multiworld.mother_brain_short[self.player].value == 1,
@@ -189,6 +195,7 @@ class SMMapRandoWorld(World):
                           self.multiworld.fast_pause_menu[self.player].value == 1,
                           self.multiworld.respin[self.player].value == 1,
                           self.multiworld.infinite_space_jump[self.player].value == 1,
+                          self.multiworld.momentum_conservation[self.player].value == 1,
                           self.multiworld.disable_walljump[self.player].value == 1,
                           self.multiworld.maps_revealed[self.player].value == 1,
                           self.multiworld.vanilla_map[self.player].value == 1,
@@ -199,6 +206,7 @@ class SMMapRandoWorld(World):
                           )
         self.map_rando = APRandomizer(SMMapRandoWorld.gamedata, options, self.multiworld.random.randint(1, sys.maxsize)) # self.multiworld.seed // 10)
         self.update_reachability = 0
+        self.debug = False
 
         self.multiworld.state.smmrcs[self.player] = APCollectionState(self.multiworld.worlds[self.player].map_rando)
         #self.multiworld.local_early_items[self.player]['Morph'] = 1
@@ -259,7 +267,7 @@ class SMMapRandoWorld(World):
         self.flag_id_to_region_dict = [SMMapRandoWorld.flag_location_names.get(flag, None) for flag in self.map_rando.randomizer.game_data.flag_isv]
 
         #create entrances
-        """
+        #"""
         links_infos = self.map_rando.get_links_infos()
         for (link_from, link_to), link_map in links_infos.items():
             src_region = regions[link_from]
@@ -279,7 +287,7 @@ class SMMapRandoWorld(World):
                 srcDestEntrance = SMMREntrance(self.player, src_region.name + "->" + dest_region.name, src_region)
                 src_region.exits.append(srcDestEntrance)
                 srcDestEntrance.connect(dest_region)  
-        """
+        #"""
         self.multiworld.regions += [self.create_region(self.multiworld, self.player, 'Menu', -1, None, ['StartAP'])]
 
         #victory_entrance = self.multiworld.get_entrance("Ship->Escape Zebes", self.player)
@@ -422,7 +430,7 @@ class SMMapRandoWorld(World):
                                               "data", "SMBasepatch_prebuilt", "multiworld-basepatch.ips"))))
         symbols = get_sm_symbols("/".join((os.path.dirname(self.__file__),
                                               "data", "SMBasepatch_prebuilt", "sm-basepatch-symbols.json")))
-        
+
         # gather all player ids and names relevant to this rom, then write player name and player id data tables
         playerIdSet: Set[int] = {0}  # 0 is for "Archipelago" server
         for itemLoc in self.multiworld.get_locations():
@@ -745,7 +753,7 @@ class SMMRRegion(Region):
             local_world = self.multiworld.worlds[self.player]
             rrp = state.reachable_regions[self.player]
             state.stale[self.player] = False
-            (bi_reachability, f_reachability, r_reachability) = local_world.map_rando.update_reachability(state.smmrcs[self.player].randomization_state)
+            (bi_reachability, f_reachability, r_reachability, f_traverse, r_traverse) = local_world.map_rando.update_reachability(state.smmrcs[self.player].randomization_state, local_world.debug)
             local_world.update_reachability += 1
             for i, region in enumerate(bi_reachability):
                 #if f_reachability[i] and local_world.events_connections.get(local_world.region_map_reverse[i], None) != None:
@@ -761,9 +769,11 @@ class SMMRRegion(Region):
                     if (event_src != None):
                         for event in event_src:
                             rrp.add(local_world.region_dict[local_world.flag_id_to_region_dict[event] + local_world.vertex_cnt])
-                #if (f_reachability[i]):
-                #    f_regions.add(local_world.region_dict[i])
-                #if (r_reachability[i]):
-                #    r_regions.add(local_world.region_dict[i])
+                if (f_reachability[i]):
+                    f_regions.add(local_world.region_dict[i])
+                if (r_reachability[i]):
+                    r_regions.add(local_world.region_dict[i])
             #state.update_reachable_regions(self.player)
+            if local_world.debug:
+                local_world.debug = False
         return self in state.reachable_regions[self.player]
