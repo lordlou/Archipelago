@@ -325,13 +325,26 @@ class SMMapRandoWorld(World):
             self.multiworld.get_location(flag_name, self.player).address = None 
         
     def set_rules(self):
+        chozo_regions = [   
+                            self.multiworld.get_region("Bowling Statue", self.player), 
+                            self.multiworld.get_region("Bomb Torizo (unlocked)", self.player)
+                        ]
+        pirates_regions = [ 
+                            self.multiworld.get_region("Pit Room Left Door (to Climb) (unlocked)", self.player),
+                            self.multiworld.get_region("Baby Kraid Left Door (to Kihunters) (unlocked)", self.player),
+                            self.multiworld.get_region("Plasma Room Door (to Plasma Tutorial) (unlocked)", self.player),
+                            self.multiworld.get_region("Metal Pirates Room Left Door (to Plowerhouse) (unlocked)", self.player)
+                          ]
         goals = [
-                    ["f_DefeatedKraid", "f_DefeatedPhantoon", "f_DefeatedDraygon", "f_DefeatedRidley"],
-                    ["f_DefeatedBotwoon", "f_DefeatedCrocomire", "f_DefeatedSporeSpawn", "f_DefeatedGoldenTorizo"],
-                    ["f_KilledMetroidRoom1", "f_KilledMetroidRoom2", "f_KilledMetroidRoom3", "f_KilledMetroidRoom4"]
+                    lambda state: state.has_all(["f_DefeatedKraid", "f_DefeatedPhantoon", "f_DefeatedDraygon", "f_DefeatedRidley"], self.player),
+                    lambda state: state.has_all(["f_DefeatedBotwoon", "f_DefeatedCrocomire", "f_DefeatedSporeSpawn", "f_DefeatedGoldenTorizo"], self.player),
+                    lambda state: state.has_all(["f_KilledMetroidRoom1", "f_KilledMetroidRoom2", "f_KilledMetroidRoom3", "f_KilledMetroidRoom4"], self.player),
+                    lambda state: state.has_all(["f_UsedAcidChozoStatue", "f_DefeatedGoldenTorizo", "Morph", "f_DefeatedPhantoon"], self.player) \
+                        and all(state.can_reach(region) for region in chozo_regions),
+                    lambda state: state.has_all(["Morph", "Missile"], self.player) and all(state.can_reach(region) for region in pirates_regions)
                 ]
-
-        self.multiworld.completion_condition[self.player] = lambda state: state.has_all(goals[self.multiworld.objectives[self.player].value], self.player) #'f_BeatSuperMetroid'
+        
+        self.multiworld.completion_condition[self.player] = goals[self.multiworld.objectives[self.player].value]
 
     def collect(self, state: CollectionState, item: Item) -> bool:
         if (item.code != None): # - items_start_id < len(self.gamedata.item_isv)):
