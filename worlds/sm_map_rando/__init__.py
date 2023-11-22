@@ -198,13 +198,19 @@ class SMMapRandoWorld(World):
                           self.multiworld.momentum_conservation[self.player].value == 1,
                           self.multiworld.disable_walljump[self.player].value == 1,
                           self.multiworld.maps_revealed[self.player].value == 1,
-                          self.multiworld.vanilla_map[self.player].value == 1,
+                          self.multiworld.map_layout[self.player].value,
                           False, #ultra_low_qol
                           "", #skill_assumptions_preset
                           "", #item_progression_preset
                           2, #quality_of_life_preset
                           )
-        self.map_rando = APRandomizer(SMMapRandoWorld.gamedata, options, self.multiworld.random.randint(1, sys.maxsize)) # self.multiworld.seed // 10)
+        for tries in range(5):
+            try:
+                self.map_rando = APRandomizer(SMMapRandoWorld.gamedata, options, self.multiworld.random.randint(1, sys.maxsize)) # self.multiworld.seed // 10)
+                break
+            except:
+                continue
+
         self.update_reachability = 0
         self.debug = False
 

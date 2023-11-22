@@ -391,11 +391,18 @@ class MapsRevealed(Toggle):
     display_name = "Maps revealed from start"
 
 
-class VanillaMap(Toggle):
+class MapLayout(Choice):
     """
-    If enabled, replace randomization of rooms and use the vanilla map layout instead.
+    This setting affects how the rooms are arranged on the map:
+
+        - Vanilla: The rooms are arranged as they are in the vanilla game, i.e. there is no map randomization.
+        - Tame: The rooms are arranged in a random but relatively friendly way: one-ways tend to have short return paths that loop back around.
+        - Wild: The rooms are arranged in a more random and less friendly way: there will often be one-ways with only long return paths.
     """
-    display_name = "Vanilla Map"
+    display_name = "Map Layout"
+    option_Vanilla = 0
+    option_Tame = 1
+    option_Wild = 2
 
 
 smmr_options: typing.Dict[str, type(Option)] = {
@@ -438,5 +445,5 @@ smmr_options: typing.Dict[str, type(Option)] = {
     "momentum_conservation": MomentumConservation,
     "disable_walljump": DisableWalljump,
     "maps_revealed": MapsRevealed,
-    "vanilla_map": VanillaMap,
+    "map_layout": MapLayout,
     }
