@@ -20,20 +20,26 @@ from worlds.generic.Rules import set_rule, add_rule, add_item_rule
 
 logger = logging.getLogger("Super Metroid Map Rando")
 
-from .Options import smmr_options
 from .Rom import get_base_rom_path, get_sm_symbols, openFile, SMMR_ROM_MAX_PLAYERID, SMMR_ROM_PLAYERDATA_COUNT, SMMapRandoDeltaPatch 
 from .ips import IPS_Patch
 from .Client import SMMRSNIClient
 from importlib.metadata import version
 
+required_pysmmaprando_version = "0.87.1"
+
+class WrongVersionError(Exception):
+    pass
+
 print("pysmmaprando version: " + version("pysmmaprando"))
 
 try:
-    from pysmmaprando import create_gamedata, APRandomizer, APCollectionState, patch_rom, Options, LocalState
+    if version("pysmmaprando") != required_pysmmaprando_version:
+        raise WrongVersionError
+    from pysmmaprando import create_gamedata, APRandomizer, APCollectionState, patch_rom, Options as Pysmmr_options
 
 # required for APWorld distribution outside official AP releases as stated at https://docs.python.org/3/library/zipimport.html:
 # ZIP import of dynamic modules (.pyd, .so) is disallowed.
-except ImportError:
+except (ImportError, WrongVersionError) as e:
     python_version = f"cp{sys.version_info.major}{sys.version_info.minor}"
     if sys.platform.startswith('win'):
         abi_version = "none-win_amd64"
@@ -45,7 +51,7 @@ except ImportError:
             abi_version = f"{python_version}-macosx_10_7_{platform.machine()}"
         else:
             abi_version = f"{python_version}-macosx_10_9_x86_64.macosx_11_0_arm64.macosx_10_9_universal2"
-    map_rando_lib_file = f'https://github.com/lordlou/MapRandomizer/releases/download/v0.1.0/pysmmaprando-0.1.0-{python_version}-{abi_version}.whl'
+    map_rando_lib_file = f'https://github.com/lordlou/MapRandomizer/releases/download/v{required_pysmmaprando_version}/pysmmaprando-{required_pysmmaprando_version}-{python_version}-{abi_version}.whl'
     import Utils
     if not Utils.is_frozen():
         import subprocess
@@ -59,7 +65,20 @@ except ImportError:
             z = zipfile.ZipFile(io.BytesIO(r.content))
             z.extractall(f"{os.path.dirname(sys.executable)}/lib")
             
-    from pysmmaprando import create_gamedata, APRandomizer, APCollectionState, patch_rom, Options, LocalState
+    from pysmmaprando import create_gamedata, APRandomizer, APCollectionState, patch_rom, Options as Pysmmr_options
+
+def GetAPWorldPath():
+    filename = sys.modules[__name__].__file__
+    apworldExt = ".apworld"
+    game = "sm_map_rando/"
+    if apworldExt in filename:
+        return filename[:filename.index(apworldExt) + len(apworldExt)]
+    else:
+        return None
+
+map_rando_game_data = create_gamedata(GetAPWorldPath())
+
+from .Options import smmr_options
 
 class ByteEdit(TypedDict):
     sym: Dict[str, Any]
@@ -105,15 +124,6 @@ location_address_to_id = {}
 with openFile("/".join((os.path.dirname(__file__), "data", "loc_address_to_id.json")), "r") as stream:
     location_address_to_id = json.load(stream)
 
-def GetAPWorldPath():
-    filename = sys.modules[__name__].__file__
-    apworldExt = ".apworld"
-    game = "sm_map_rando/"
-    if apworldExt in filename:
-        return filename[:filename.index(apworldExt) + len(apworldExt)]
-    else:
-        return None
-
 class SMMapRandoWorld(World):
     """
     After planet Zebes exploded, Mother Brain put it back together again but arranged it differently this time.
@@ -126,7 +136,7 @@ class SMMapRandoWorld(World):
     data_version = 0
     option_definitions = smmr_options
 
-    gamedata = create_gamedata(GetAPWorldPath())
+    gamedata = map_rando_game_data
 
     item_name_to_id = {item_name: items_start_id + idx for idx, item_name in enumerate(itertools.chain(gamedata.item_isv, gamedata.flag_isv))}
     location_name_to_id = {loc_name: locations_start_id + 
@@ -162,17 +172,17 @@ class SMMapRandoWorld(World):
     """
 
     def generate_early(self):
-        options = Options(self.multiworld.preset[self.player].value,
+        options = Pysmmr_options(self.multiworld.preset[self.player].value,
                           list(self.multiworld.techs[self.player].value),
                           list(self.multiworld.strats[self.player].value),
                           self.multiworld.shinespark_tiles[self.player].value,
-                          self.multiworld.resource_multiplier[self.player].value,
+                          self.multiworld.resource_multiplier[self.player].value / 100,
                           self.multiworld.gate_glitch_leniency[self.player].value,
-                          self.multiworld.phantoon_proficiency[self.player].value,
-                          self.multiworld.draygon_proficiency[self.player].value,
-                          self.multiworld.ridley_proficiency[self.player].value,
-                          self.multiworld.botwoon_proficiency[self.player].value,
-                          self.multiworld.escape_timer_multiplier[self.player].value,
+                          self.multiworld.phantoon_proficiency[self.player].value / 100,
+                          self.multiworld.draygon_proficiency[self.player].value / 100,
+                          self.multiworld.ridley_proficiency[self.player].value / 100,
+                          self.multiworld.botwoon_proficiency[self.player].value / 100,
+                          self.multiworld.escape_timer_multiplier[self.player].value / 100,
                           self.multiworld.randomized_start[self.player].value == 1,
                           self.multiworld.save_animals[self.player].value == 1,
                           self.multiworld.early_save[self.player].value == 1,
@@ -180,7 +190,7 @@ class SMMapRandoWorld(World):
                           self.multiworld.doors_mode[self.player].value,
                           "", #filler_items
                           self.multiworld.supers_double[self.player].value == 1,
-                          self.multiworld.mother_brain_short[self.player].value == 1,
+                          self.multiworld.mother_brain[self.player].value,
                           self.multiworld.escape_enemies_cleared[self.player].value == 1,
                           self.multiworld.escape_refill[self.player].value == 1,
                           self.multiworld.escape_movement_items[self.player].value == 1,
@@ -199,10 +209,10 @@ class SMMapRandoWorld(World):
                           self.multiworld.disable_walljump[self.player].value == 1,
                           self.multiworld.maps_revealed[self.player].value == 1,
                           self.multiworld.map_layout[self.player].value,
-                          False, #ultra_low_qol
+                          self.multiworld.ultra_low_qol[self.player].value == 1,
                           "", #skill_assumptions_preset
                           "", #item_progression_preset
-                          2, #quality_of_life_preset
+                          self.multiworld.quality_of_life[self.player].value,
                           )
         for tries in range(5):
             try:

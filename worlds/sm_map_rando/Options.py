@@ -1,5 +1,6 @@
 import typing
 from Options import Choice, OptionSet, Range, OptionDict, OptionList, Option, Toggle, DefaultOnToggle
+from . import map_rando_game_data
 
 class DeathLink(Choice):
     """When DeathLink is enabled and someone dies, you will die. With survive reserve tanks can save you."""
@@ -16,7 +17,10 @@ class RemoteItems(Toggle):
     display_name = "Remote Items"  
 
 class Preset(Choice):
-    """Skill assumptions determine which tricks the randomizer assumes the player is able to perform."""
+    """
+    Skill assumptions determine which tricks the randomizer assumes the player is able to perform.
+    Use "Custom" to specify your own Techs, Strats, Leniencies and Boss Proficiencies.
+    """
     display_name = "Preset"
     option_Easy = 0
     option_Medium = 1
@@ -30,10 +34,12 @@ class Preset(Choice):
 class Techs(OptionSet):
     "Custom list of techs used when Preset is set to Custom"
     display_name = "Techs"
+    valid_keys = frozenset(map_rando_game_data.tech_isv)
 
 class Strats(OptionSet):
     "Custom list of strats used when Preset is set to Custom"
     display_name = "Strats"
+    valid_keys = frozenset(map_rando_game_data.notable_strat_isv)
 
 class ShinesparkTiles(Range):
     """Smaller values assume ability to short-charge over shorter distances."""
@@ -43,11 +49,11 @@ class ShinesparkTiles(Range):
     default = 26
 
 class ResourceMultiplier(Range):
-    """Leniency factor on assumed energy & ammo usage."""
+    """Leniency factor on assumed energy & ammo usage, between 1 and 300"""
     display_name = "Resource multiplier"
     range_start = 1
-    range_end = 3
-    default = 1
+    range_end = 300
+    default = 100
 
 class GateGlitchLeniency(Range):
     """Expected failed attempts to get a successful gate glitch"""
@@ -57,11 +63,11 @@ class GateGlitchLeniency(Range):
     default = 14
 
 class EscapeTimerMultiplier(Range):
-    """Leniency factor on escape timer"""
+    """Leniency factor on escape timer, between 1 and 300"""
     display_name = "Escape timer multiplier"
     range_start = 1
-    range_end = 3
-    default = 1
+    range_end = 300
+    default = 100
 
 class RandomizedStart(Toggle):
     """
@@ -112,17 +118,59 @@ class EarlySave(Toggle):
     """
     display_name = "Guaranteed early save station"
 
-class QualityOfLife(Toggle):
+class UltraLowQol(Toggle):
+    """
+    This disables many quality-of-life changes that are normally built into the randomizer, including:
+
+    - Faster cutscenes (e.g., involving Baby Metroid, Mother Brain, save & refill stations)
+    - Refill stations giving Supers and Power Bombs in addition to Missiles
+    - The auto-save before the escape sequence
+    - Patching out major glitches: Spacetime beam, GT code, and out-of-bounds (death trigger)
+    - Removal of item fanfares
+    - Fast decompression (for quicker room loading)
+    - Camera fix when entering Kraid's, Crocomire's, or Spore Spawn's room
+    - Graphical fixes when exiting boss rooms
+    - Graphical fix to Bomb Torizo statue crumble animation
+
+    This setting also automatically disables all other quality-of-life options. For AP, 
+    enabling any quality-of-life option DOESNT causes this setting to be automatically disabled.
+
+    This setting is not recommended for most players, but it is an option for those wanting the game to 
+    feel and behave as vanilla as possible. If enabled, expect to encounter a significant amount of graphical glitches.
+
+    Note: If this setting is enabled, the logic will take into account that refill stations no longer give Supers and Power Bombs.
+    """
+    display_name = "Ultra-low quality of life"
+
+class QualityOfLife(Choice):
     """
     These options help provide a smoother, more intuitive, and less tedious game experience.
     Players wanting a full experience of exploration may want to disable some of these options.
     Three presets are provided:
 
-    - Off: All quality-of-life options are turned off.
-    - ON: Quality-of-life options are turned to their generally recommended settings (mostly on).
-    - MAX: All quality-of-life options are turned on to their highest settings.
+    - Off: All quality-of-life options are turned off. This is for players who want a full experience
+        of exploration, with a similar feel to the original game. This may involve a lot of wandering around and backtracking 
+        to figure out where to go. Map stations are harder to find and provide minimal assistance as all item dots look the same.
+    - Low: Many quality-of-life options are turned off, restoring some unintuitive but potentially
+        interesting vanilla game behavior: some items do not spawn until defeating Phantoon or waking the planet, 
+        Acid Chozo statue requires Space Jump to use it, and completing the escape may require collecting certain items 
+        and/or carefully managing energy in the Mother Brain fight. Map stations are somewhat less powerful because all ammo and 
+        tank items appear as small dots the same as Missiles.
+    - Default: Quality-of-life options are turned to their generally recommended settings (mostly on).
+        Map stations are very useful, with different item dot shapes to distinguish three tiers of items: Missiles, other 
+        ammo/tank items, and unique items.
+    - Max: All quality-of-life options are turned on to their highest settings. This includes 
+        respin, lenient Space Jump, and momentum conservation to more easily control Samus, and an extra-fast Mother Brain fight
+        that completely skips the second and third phases.
+    - Custom: Uses your specified quality of life options, defaulting to "Default" Quality-of-life values if not specified.
     """
     display_name = "Quality-of-life options"
+    option_Off = 0
+    option_Low = 1
+    option_Default = 2
+    option_Max = 3
+    option_Custom = 4
+    default = 2
 
 class Objectives(Choice):
     """
@@ -138,7 +186,7 @@ class Objectives(Choice):
 
     In every case, the way to beat the game is to escape after defeating Mother Brain. Objective rooms are marked with X's on the map.
     """
-    display_name = "Remote Items"
+    display_name = "Objective"
     option_Bosses = 0
     option_Minibosses = 1
     option_Metroids = 2
@@ -174,7 +222,7 @@ class SupersDouble(Toggle):
     """
     display_name = "Supers double"
 
-class MotherBrainShort(Toggle):
+class MotherBrain(Choice):
     """
     This option affects the length of the Mother Brain fight, affecting only phases 2 and 3:
 
@@ -187,6 +235,10 @@ class MotherBrainShort(Toggle):
     skipped where the refill would normally happen. However, Samus will always collect Hyper Beam.
     """
     display_name = "Mother brain short"
+    option_Vanilla = 0
+    option_Short = 1
+    option_Skip = 2
+    default = 1
 
 class EscapeEnemiesCleared(Toggle):
     """
@@ -422,12 +474,13 @@ smmr_options: typing.Dict[str, type(Option)] = {
     "botwoon_proficiency": BotwoonProficiency,
     "save_animals": SaveAnimals,
     "early_save": EarlySave,
+    "ultra_low_qol": UltraLowQol,
     "quality_of_life": QualityOfLife,
     "objectives": Objectives,
     "doors_mode": DoorsMode,
     #"filler_items": String,
     "supers_double": SupersDouble,
-    "mother_brain_short": MotherBrainShort,
+    "mother_brain": MotherBrain,
     "escape_enemies_cleared": EscapeEnemiesCleared,
     "escape_refill": EscapeRefill,
     "escape_movement_items": EscapeMovementItems,
