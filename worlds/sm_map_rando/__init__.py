@@ -23,14 +23,12 @@ logger = logging.getLogger("Super Metroid Map Rando")
 from .Rom import get_base_rom_path, get_sm_symbols, openFile, SMMR_ROM_MAX_PLAYERID, SMMR_ROM_PLAYERDATA_COUNT, SMMapRandoDeltaPatch 
 from .ips import IPS_Patch
 from .Client import SMMRSNIClient
-from importlib.metadata import version
+from importlib.metadata import version, PackageNotFoundError
 
 required_pysmmaprando_version = "0.87.1"
 
 class WrongVersionError(Exception):
     pass
-
-print("pysmmaprando version: " + version("pysmmaprando"))
 
 try:
     if version("pysmmaprando") != required_pysmmaprando_version:
@@ -39,7 +37,7 @@ try:
 
 # required for APWorld distribution outside official AP releases as stated at https://docs.python.org/3/library/zipimport.html:
 # ZIP import of dynamic modules (.pyd, .so) is disallowed.
-except (ImportError, WrongVersionError) as e:
+except (ImportError, WrongVersionError, PackageNotFoundError) as e:
     python_version = f"cp{sys.version_info.major}{sys.version_info.minor}"
     if sys.platform.startswith('win'):
         abi_version = "none-win_amd64"
