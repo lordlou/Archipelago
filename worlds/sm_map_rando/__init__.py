@@ -183,7 +183,7 @@ class SMMapRandoWorld(World):
                           self.multiworld.botwoon_proficiency[self.player].value / 100,
                           self.multiworld.escape_timer_multiplier[self.player].value / 100,
                           self.multiworld.randomized_start[self.player].value == 1,
-                          self.multiworld.save_animals[self.player].value == 1,
+                          self.multiworld.save_animals[self.player].value,
                           self.multiworld.early_save[self.player].value == 1,
                           self.multiworld.objectives[self.player].value,
                           self.multiworld.doors_mode[self.player].value,
@@ -354,6 +354,7 @@ class SMMapRandoWorld(World):
                             self.multiworld.get_region("Metal Pirates Room Left Door (unlocked)", self.player)
                           ]
         goals = [
+                    lambda state: state.can_reach(self.multiworld.get_region("Mother Brain Room Mother Brain (Phases 2 and 3)", self.player)),
                     lambda state: state.has_all(["f_DefeatedKraid", "f_DefeatedPhantoon", "f_DefeatedDraygon", "f_DefeatedRidley"], self.player),
                     lambda state: state.has_all(["f_DefeatedBotwoon", "f_DefeatedCrocomire", "f_DefeatedSporeSpawn", "f_DefeatedGoldenTorizo"], self.player),
                     lambda state: state.has_all(["f_KilledMetroidRoom1", "f_KilledMetroidRoom2", "f_KilledMetroidRoom3", "f_KilledMetroidRoom4"], self.player),

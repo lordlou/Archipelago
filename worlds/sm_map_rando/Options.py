@@ -113,9 +113,19 @@ class BotwoonProficiency(Range):
     range_end = 100
     default = 0
 
-class SaveAnimals(Toggle):
-    """Take into account extra time needed in the escape"""
+class SaveAnimals(Choice):
+    """
+    This setting affects whether saving the animals (Etecoons and Dachora) will be possible and/or required in the escape:
+
+    - No: Saving the animals might not be possible to do.
+    - Maybe: Extra escape time is given, making it possible but not required to save the animals.
+    - Yes: Extra escape time is given, and the player is required to save the animals.
+    """
     display_name = "Save the animals"
+    option_No = 0
+    option_Maybe = 1
+    option_Yes = 2
+    default = 0
 
 class EarlySave(Toggle):
     """
@@ -183,6 +193,7 @@ class Objectives(Choice):
     """
     This setting determines the conditions needed to open the way to Mother Brain:
 
+    - None: The way is already open from the start of the game.
     - Bosses: Defeat Kraid, Phantoon, Draygon, and Ridley.
     - Minibosses: Defeat Spore Spawn, Crocomire, Botwoon, and Golden Torizo.
     - Metroids: Defeat all the Metroids in the four Metroid rooms.
@@ -194,12 +205,13 @@ class Objectives(Choice):
     In every case, the way to beat the game is to escape after defeating Mother Brain. Objective rooms are marked with X's on the map.
     """
     display_name = "Objective"
-    option_Bosses = 0
-    option_Minibosses = 1
-    option_Metroids = 2
-    option_Chozos = 3
-    option_Pirates = 4
-    default = 0
+    option_None = 0
+    option_Bosses = 1
+    option_Minibosses = 2
+    option_Metroids = 3
+    option_Chozos = 4
+    option_Pirates = 5
+    default = 1
 
 class DoorsMode(Choice):
     """
