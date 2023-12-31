@@ -62,6 +62,13 @@ class GateGlitchLeniency(Range):
     range_end = 100
     default = 14
 
+class DoorStuckLeniency(Range):
+    """Expected failed attempts to get door stuck for X-ray climbing"""
+    display_name = "Door Stuck Leniency"
+    range_start = 0
+    range_end = 100
+    default = 2
+
 class EscapeTimerMultiplier(Range):
     """Leniency factor on escape timer, between 1 and 300"""
     display_name = "Escape timer multiplier"
@@ -212,6 +219,20 @@ class DoorsMode(Choice):
     option_Ammo = 1
     default = 0
 
+
+class AreaAssignment(Choice):
+    """
+    Each map is partitioned into six connected regions, which are assigned to in-game areas in different ways depending on this setting:
+
+    - Standard: Landing Site is always in Crateria. The other areas are assigned based on their size (in number of map tiles), 
+                in order from largest to smallest: Norfair, Brinstar, Maridia, Tourian, Wrecked Ship.
+    - Randomized: The areas are assigned randomly. In particular, Landing Site can be in any area.
+    """
+    display_name = "Area Assignment"
+    option_Standard = 0
+    option_Randomized = 1
+    default = 0
+
 class SupersDouble(Toggle):
     """
     If enabled, Supers will deal double damage to Mother Brain, applying to all three phases of the fight.
@@ -352,6 +373,15 @@ class AllItemsSpawn(Toggle):
     """
     display_name = "All items spawn"
 
+class BuffedDrops(Toggle):
+    """
+    If enabled, then certain enemy drops are improved:
+
+    - Small energy drops give 10 energy.
+    - Respawning enemies drop Power Bombs at double the normal rate.
+    """
+    display_name = "Enemy drops are buffed"
+
 class AcidChozo(Toggle):
     """
     In the vanilla game, the statue in Acid Chozo Statue Room will not activate (to lower the acid) 
@@ -415,17 +445,41 @@ class InfiniteSpaceJump(Toggle):
     """
     display_name = "Lenient Space Jump"
 
-class DisableWalljump(Toggle):
+class Walljump(Choice):
     """
-    This removes the ability to wall jump from the game.
+    This affects how the wall jump ability works in the game.
 
-    This setting is taken into account in the logic: even if "canWalljump" tech is enabled, the game logic 
-    will be overridden to not assume an ability to wall jump.
+    - Vanilla: Wall jumping behaves like in the vanilla game.
+    - Collectible: A special new "WallJump" item is added to the game (replacing one "Missile" pack), 
+                    and wall jumping is only possible after collecting this item.
+    - Disabled: The ability to wall jump is removed from the game.
 
-    With this setting you can still get a wall-jump check, but pressing jump during the check will 
-    not actually trigger a wall jump.
+    This setting is taken into account in the logic. Selections other than "Vanilla" may significantly increase 
+    the difficulty of the game, by requiring the player to know how to perform many tricks to avoid wall jumping 
+    (using frozen enemies, Speed Booster, Bombs, etc.), depending on the Skill Assumption settings.
+
+    Regardless of this setting, it is always possible to get a wall-jump check (the pose that Samus makes when 
+    moving away from a nearby wall), even if pressing jump during the check will not trigger a wall jump.
     """
-    display_name = "Disable wall jumps"
+    display_name = "Wall jumps"
+    option_Vanilla = 0
+    option_Collectible = 1
+    option_Disabled = 2
+    default = 0
+
+class ETankRefill(Choice):
+    """
+    This option affects the refill that E-Tanks give when collected:
+
+    - Disabled: E-Tanks do not provide an energy refill.
+    - Vanilla: E-Tanks behave as in the vanilla game, refilling regular energy but not reserve energy.
+    - Full: E-Tanks also refill reserves, on top of regular energy.
+    """
+    display_name = "E-Tank refill"
+    option_Disabled = 0
+    option_Vanilla = 1
+    option_Full = 2
+    default = 1
 
 class MomentumConservation(Toggle):
     """
@@ -466,6 +520,7 @@ smmr_options: typing.Dict[str, type(Option)] = {
     "shinespark_tiles": ShinesparkTiles,
     "resource_multiplier": ResourceMultiplier,
     "gate_glitch_leniency": GateGlitchLeniency,
+    "door_stuck_leniency": DoorStuckLeniency,
     "escape_timer_multiplier": EscapeTimerMultiplier,
     "randomized_start": RandomizedStart,
     "phantoon_proficiency": PhantoonProficiency,
@@ -478,6 +533,7 @@ smmr_options: typing.Dict[str, type(Option)] = {
     "quality_of_life": QualityOfLife,
     "objectives": Objectives,
     "doors_mode": DoorsMode,
+    "area_assignment": AreaAssignment,
     #"filler_items": String,
     "supers_double": SupersDouble,
     "mother_brain": MotherBrain,
@@ -489,6 +545,7 @@ smmr_options: typing.Dict[str, type(Option)] = {
     "item_markers": ItemMarkers,
     "item_dots_disappear": ItemDotsDisappear,
     "all_items_spawn": AllItemsSpawn,
+    "buffed_drops": BuffedDrops,
     "acid_chozo": AcidChozo,
     "fast_elevators": FastElevators,
     "fast_doors": FastDoors,
@@ -496,7 +553,8 @@ smmr_options: typing.Dict[str, type(Option)] = {
     "respin": Respin,
     "infinite_space_jump": InfiniteSpaceJump,
     "momentum_conservation": MomentumConservation,
-    "disable_walljump": DisableWalljump,
+    "wall_jump": Walljump,
+    "etank_refill": ETankRefill,
     "maps_revealed": MapsRevealed,
     "map_layout": MapLayout,
     }

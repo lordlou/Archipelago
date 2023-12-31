@@ -25,7 +25,7 @@ from .ips import IPS_Patch
 from .Client import SMMRSNIClient
 from importlib.metadata import version, PackageNotFoundError
 
-required_pysmmaprando_version = "0.87.1"
+required_pysmmaprando_version = "0.103.1"
 
 class WrongVersionError(Exception):
     pass
@@ -176,6 +176,7 @@ class SMMapRandoWorld(World):
                           self.multiworld.shinespark_tiles[self.player].value,
                           self.multiworld.resource_multiplier[self.player].value / 100,
                           self.multiworld.gate_glitch_leniency[self.player].value,
+                          self.multiworld.door_stuck_leniency[self.player].value,
                           self.multiworld.phantoon_proficiency[self.player].value / 100,
                           self.multiworld.draygon_proficiency[self.player].value / 100,
                           self.multiworld.ridley_proficiency[self.player].value / 100,
@@ -186,6 +187,7 @@ class SMMapRandoWorld(World):
                           self.multiworld.early_save[self.player].value == 1,
                           self.multiworld.objectives[self.player].value,
                           self.multiworld.doors_mode[self.player].value,
+                          self.multiworld.area_assignment[self.player].value == 1,
                           "", #filler_items
                           self.multiworld.supers_double[self.player].value == 1,
                           self.multiworld.mother_brain[self.player].value,
@@ -197,6 +199,7 @@ class SMMapRandoWorld(World):
                           self.multiworld.item_markers[self.player].value,
                           self.multiworld.item_dots_disappear[self.player].value == 1,
                           self.multiworld.all_items_spawn[self.player].value == 1,
+                          self.multiworld.buffed_drops[self.player].value == 1,
                           self.multiworld.acid_chozo[self.player].value == 1,
                           self.multiworld.fast_elevators[self.player].value == 1,
                           self.multiworld.fast_doors[self.player].value == 1,
@@ -204,7 +207,8 @@ class SMMapRandoWorld(World):
                           self.multiworld.respin[self.player].value == 1,
                           self.multiworld.infinite_space_jump[self.player].value == 1,
                           self.multiworld.momentum_conservation[self.player].value == 1,
-                          self.multiworld.disable_walljump[self.player].value == 1,
+                          self.multiworld.wall_jump[self.player].value,
+                          self.multiworld.etank_refill[self.player].value,
                           self.multiworld.maps_revealed[self.player].value == 1,
                           self.multiworld.map_layout[self.player].value,
                           self.multiworld.ultra_low_qol[self.player].value == 1,
@@ -308,7 +312,7 @@ class SMMapRandoWorld(World):
         #add_rule(victory_entrance, lambda state: state.has('f_ZebesSetAblaze', self.player))
 
         startAP = self.multiworld.get_entrance('StartAP', self.player)
-        startAP.connect(self.multiworld.get_region("Ship", self.player))   
+        startAP.connect(self.multiworld.get_region("Landing Site Ship", self.player))   
 
     def create_items(self):
         self.startItems = [variaItem for item in self.multiworld.precollected_items[self.player] for variaItem in self.item_name_to_id.keys() if variaItem == item.name]
@@ -340,14 +344,14 @@ class SMMapRandoWorld(World):
         
     def set_rules(self):
         chozo_regions = [   
-                            self.multiworld.get_region("Bowling Statue", self.player), 
-                            self.multiworld.get_region("Bomb Torizo (unlocked)", self.player)
+                            self.multiworld.get_region("Bowling Alley Bowling Chozo Statue", self.player), 
+                            self.multiworld.get_region("Bomb Torizo Room Bomb Torizo (unlocked)", self.player)
                         ]
         pirates_regions = [ 
-                            self.multiworld.get_region("Pit Room Left Door (to Climb) (unlocked)", self.player),
-                            self.multiworld.get_region("Baby Kraid Left Door (to Kihunters) (unlocked)", self.player),
-                            self.multiworld.get_region("Plasma Room Door (to Plasma Tutorial) (unlocked)", self.player),
-                            self.multiworld.get_region("Metal Pirates Room Left Door (to Plowerhouse) (unlocked)", self.player)
+                            self.multiworld.get_region("Pit Room Left Door (unlocked)", self.player),
+                            self.multiworld.get_region("Baby Kraid Room Left Door (unlocked)", self.player),
+                            self.multiworld.get_region("Plasma Room Top Left Door (unlocked)", self.player),
+                            self.multiworld.get_region("Metal Pirates Room Left Door (unlocked)", self.player)
                           ]
         goals = [
                     lambda state: state.has_all(["f_DefeatedKraid", "f_DefeatedPhantoon", "f_DefeatedDraygon", "f_DefeatedRidley"], self.player),
