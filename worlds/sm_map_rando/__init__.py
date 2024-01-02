@@ -285,7 +285,7 @@ class SMMapRandoWorld(World):
         self.flag_id_to_region_dict = [SMMapRandoWorld.flag_location_names.get(flag, None) for flag in self.map_rando.randomizer.game_data.flag_isv]
 
         #create entrances
-        #"""
+        """
         links_infos = self.map_rando.get_links_infos()
         for (link_from, link_to), link_map in links_infos.items():
             src_region = regions[link_from]
@@ -305,7 +305,7 @@ class SMMapRandoWorld(World):
                 srcDestEntrance = SMMREntrance(self.player, src_region.name + "->" + dest_region.name, src_region)
                 src_region.exits.append(srcDestEntrance)
                 srcDestEntrance.connect(dest_region)  
-        #"""
+        """
         self.multiworld.regions += [self.create_region(self.multiworld, self.player, 'Menu', -1, None, ['StartAP'])]
 
         #victory_entrance = self.multiworld.get_entrance("Ship->Escape Zebes", self.player)
@@ -509,7 +509,7 @@ class SMMapRandoWorld(World):
         multiWorldLocations: List[ByteEdit] = []
         multiWorldItems: List[ByteEdit] = []
         idx = 0
-        vanillaItemTypesCount = 21
+        vanillaItemTypesCount = 22
         for itemLoc in self.multiworld.get_locations():
             if itemLoc.player == self.player and not itemLoc.name.startswith("f_"):
                 # item to place in this SMMR world: write full item data to tables
