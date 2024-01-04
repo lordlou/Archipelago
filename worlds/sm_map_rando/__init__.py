@@ -367,14 +367,14 @@ class SMMapRandoWorld(World):
 
     def collect(self, state: CollectionState, item: Item) -> bool:
         if (item.code != None): # - items_start_id < len(self.gamedata.item_isv)):
-            state.smmrcs[self.player].add_item(item.code - items_start_id)
+            state.smmrcs[self.player].add_item(item.code - items_start_id, self.gamedata)
         else:
             state.smmrcs[self.player].add_flag(SMMapRandoWorld.item_name_to_id[item.name] - items_start_id - len(self.gamedata.item_isv))
         return super(SMMapRandoWorld, self).collect(state, item)
 
     def remove(self, state: CollectionState, item: Item) -> bool:
         if (item.code - items_start_id < len(self.gamedata.item_isv)):
-            state.smmrcs[self.player].remove_item(item.code - items_start_id)
+            state.smmrcs[self.player].remove_item(item.code - items_start_id, self.gamedata)
         else:
             state.smmrcs[self.player].remove_flag(item.code - items_start_id - len(self.gamedata.item_isv))
         return super(SMMapRandoWorld, self).remove(state, item)
