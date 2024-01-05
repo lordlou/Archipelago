@@ -1,5 +1,6 @@
 import typing
-from Options import Choice, OptionSet, Range, OptionDict, OptionList, Option, Toggle, DefaultOnToggle
+from Options import Choice, OptionSet, PerGameCommonOptions, Range, OptionDict, OptionList, Option, Toggle, DefaultOnToggle
+from dataclasses import dataclass
 from . import map_rando_game_data
 
 class DeathLink(Choice):
@@ -523,50 +524,50 @@ class MapLayout(Choice):
     option_Wild = 2
 
 
-smmr_options: typing.Dict[str, type(Option)] = {
-    "remote_items": RemoteItems,
-    "death_link": DeathLink,
-    "preset": Preset,
-    "techs": Techs,
-    "strats": Strats,
-    "shinespark_tiles": ShinesparkTiles,
-    "resource_multiplier": ResourceMultiplier,
-    "gate_glitch_leniency": GateGlitchLeniency,
-    "door_stuck_leniency": DoorStuckLeniency,
-    "escape_timer_multiplier": EscapeTimerMultiplier,
-    "randomized_start": RandomizedStart,
-    "phantoon_proficiency": PhantoonProficiency,
-    "draygon_proficiency": DraygonProficiency,
-    "ridley_proficiency": RidleyProficiency,
-    "botwoon_proficiency": BotwoonProficiency,
-    "save_animals": SaveAnimals,
-    "early_save": EarlySave,
-    "ultra_low_qol": UltraLowQol,
-    "quality_of_life": QualityOfLife,
-    "objectives": Objectives,
-    "doors_mode": DoorsMode,
-    "area_assignment": AreaAssignment,
-    #"filler_items": String,
-    "supers_double": SupersDouble,
-    "mother_brain": MotherBrain,
-    "escape_enemies_cleared": EscapeEnemiesCleared,
-    "escape_refill": EscapeRefill,
-    "escape_movement_items": EscapeMovementItems,
-    "mark_map_stations": MarkMapStations,
-    "transition_letters": TransitionLetters,
-    "item_markers": ItemMarkers,
-    "item_dots_disappear": ItemDotsDisappear,
-    "all_items_spawn": AllItemsSpawn,
-    "buffed_drops": BuffedDrops,
-    "acid_chozo": AcidChozo,
-    "fast_elevators": FastElevators,
-    "fast_doors": FastDoors,
-    "fast_pause_menu": FastPauseMenu,
-    "respin": Respin,
-    "infinite_space_jump": InfiniteSpaceJump,
-    "momentum_conservation": MomentumConservation,
-    "wall_jump": Walljump,
-    "etank_refill": ETankRefill,
-    "maps_revealed": MapsRevealed,
-    "map_layout": MapLayout,
-    }
+@dataclass
+class SMMROptions(PerGameCommonOptions):
+    remote_items: RemoteItems
+    death_link: DeathLink
+    preset: Preset
+    techs: Techs
+    strats: Strats
+    shinespark_tiles: ShinesparkTiles
+    resource_multiplier: ResourceMultiplier
+    gate_glitch_leniency: GateGlitchLeniency
+    door_stuck_leniency: DoorStuckLeniency
+    escape_timer_multiplier: EscapeTimerMultiplier
+    randomized_start: RandomizedStart
+    phantoon_proficiency: PhantoonProficiency
+    draygon_proficiency: DraygonProficiency
+    ridley_proficiency: RidleyProficiency
+    botwoon_proficiency: BotwoonProficiency
+    save_animals: SaveAnimals
+    early_save: EarlySave
+    ultra_low_qol: UltraLowQol
+    quality_of_life: QualityOfLife
+    objectives: Objectives
+    doors_mode: DoorsMode
+    area_assignment: AreaAssignment
+    #"filler_items": String
+    supers_double: SupersDouble
+    mother_brain: MotherBrain
+    escape_enemies_cleared: EscapeEnemiesCleared
+    escape_refill: EscapeRefill
+    escape_movement_items: EscapeMovementItems
+    mark_map_stations: MarkMapStations
+    transition_letters: TransitionLetters
+    item_markers: ItemMarkers
+    item_dots_disappear: ItemDotsDisappear
+    all_items_spawn: AllItemsSpawn
+    buffed_drops: BuffedDrops
+    acid_chozo: AcidChozo
+    fast_elevators: FastElevators
+    fast_doors: FastDoors
+    fast_pause_menu: FastPauseMenu
+    respin: Respin
+    infinite_space_jump: InfiniteSpaceJump
+    momentum_conservation: MomentumConservation
+    wall_jump: Walljump
+    etank_refill: ETankRefill
+    maps_revealed: MapsRevealed
+    map_layout: MapLayout

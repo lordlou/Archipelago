@@ -76,7 +76,7 @@ def GetAPWorldPath():
 
 map_rando_game_data = create_gamedata(GetAPWorldPath())
 
-from .Options import smmr_options
+from .Options import SMMROptions
 
 class ByteEdit(TypedDict):
     sym: Dict[str, Any]
@@ -131,8 +131,9 @@ class SMMapRandoWorld(World):
 
     game: str = "Super Metroid Map Rando"
     topology_present = True
-    data_version = 0
-    option_definitions = smmr_options
+    data_version = 1
+    options_dataclass = SMMROptions
+    options: SMMROptions
 
     gamedata = map_rando_game_data
 
@@ -148,7 +149,7 @@ class SMMapRandoWorld(World):
 
     web = SMMapRandoWeb()
 
-    required_client_version = (0, 2, 6)
+    required_client_version = (0, 4, 4)
 
     def __init__(self, world: MultiWorld, player: int):
         super().__init__(world, player)
@@ -170,51 +171,51 @@ class SMMapRandoWorld(World):
     """
 
     def generate_early(self):
-        options = Pysmmr_options(self.multiworld.preset[self.player].value,
-                          list(self.multiworld.techs[self.player].value),
-                          list(self.multiworld.strats[self.player].value),
-                          self.multiworld.shinespark_tiles[self.player].value,
-                          self.multiworld.resource_multiplier[self.player].value / 100,
-                          self.multiworld.gate_glitch_leniency[self.player].value,
-                          self.multiworld.door_stuck_leniency[self.player].value,
-                          self.multiworld.phantoon_proficiency[self.player].value / 100,
-                          self.multiworld.draygon_proficiency[self.player].value / 100,
-                          self.multiworld.ridley_proficiency[self.player].value / 100,
-                          self.multiworld.botwoon_proficiency[self.player].value / 100,
-                          self.multiworld.escape_timer_multiplier[self.player].value / 100,
-                          self.multiworld.randomized_start[self.player].value == 1,
-                          self.multiworld.save_animals[self.player].value,
-                          self.multiworld.early_save[self.player].value == 1,
-                          self.multiworld.objectives[self.player].value,
-                          self.multiworld.doors_mode[self.player].value,
-                          self.multiworld.area_assignment[self.player].value == 1,
+        options = Pysmmr_options(self.options.preset.value,
+                          list(self.options.techs.value),
+                          list(self.options.strats.value),
+                          self.options.shinespark_tiles.value,
+                          self.options.resource_multiplier.value / 100,
+                          self.options.gate_glitch_leniency.value,
+                          self.options.door_stuck_leniency.value,
+                          self.options.phantoon_proficiency.value / 100,
+                          self.options.draygon_proficiency.value / 100,
+                          self.options.ridley_proficiency.value / 100,
+                          self.options.botwoon_proficiency.value / 100,
+                          self.options.escape_timer_multiplier.value / 100,
+                          self.options.randomized_start.value == 1,
+                          self.options.save_animals.value,
+                          self.options.early_save.value == 1,
+                          self.options.objectives.value,
+                          self.options.doors_mode.value,
+                          self.options.area_assignment.value == 1,
                           "", #filler_items
-                          self.multiworld.supers_double[self.player].value == 1,
-                          self.multiworld.mother_brain[self.player].value,
-                          self.multiworld.escape_enemies_cleared[self.player].value == 1,
-                          self.multiworld.escape_refill[self.player].value == 1,
-                          self.multiworld.escape_movement_items[self.player].value == 1,
-                          self.multiworld.mark_map_stations[self.player].value == 1,
-                          self.multiworld.transition_letters[self.player].value == 1,
-                          self.multiworld.item_markers[self.player].value,
-                          self.multiworld.item_dots_disappear[self.player].value == 1,
-                          self.multiworld.all_items_spawn[self.player].value == 1,
-                          self.multiworld.buffed_drops[self.player].value == 1,
-                          self.multiworld.acid_chozo[self.player].value == 1,
-                          self.multiworld.fast_elevators[self.player].value == 1,
-                          self.multiworld.fast_doors[self.player].value == 1,
-                          self.multiworld.fast_pause_menu[self.player].value == 1,
-                          self.multiworld.respin[self.player].value == 1,
-                          self.multiworld.infinite_space_jump[self.player].value == 1,
-                          self.multiworld.momentum_conservation[self.player].value == 1,
-                          self.multiworld.wall_jump[self.player].value,
-                          self.multiworld.etank_refill[self.player].value,
-                          self.multiworld.maps_revealed[self.player].value == 1,
-                          self.multiworld.map_layout[self.player].value,
-                          self.multiworld.ultra_low_qol[self.player].value == 1,
+                          self.options.supers_double.value == 1,
+                          self.options.mother_brain.value,
+                          self.options.escape_enemies_cleared.value == 1,
+                          self.options.escape_refill.value == 1,
+                          self.options.escape_movement_items.value == 1,
+                          self.options.mark_map_stations.value == 1,
+                          self.options.transition_letters.value == 1,
+                          self.options.item_markers.value,
+                          self.options.item_dots_disappear.value == 1,
+                          self.options.all_items_spawn.value == 1,
+                          self.options.buffed_drops.value == 1,
+                          self.options.acid_chozo.value == 1,
+                          self.options.fast_elevators.value == 1,
+                          self.options.fast_doors.value == 1,
+                          self.options.fast_pause_menu.value == 1,
+                          self.options.respin.value == 1,
+                          self.options.infinite_space_jump.value == 1,
+                          self.options.momentum_conservation.value == 1,
+                          self.options.wall_jump.value,
+                          self.options.etank_refill.value,
+                          self.options.maps_revealed.value == 1,
+                          self.options.map_layout.value,
+                          self.options.ultra_low_qol.value == 1,
                           "", #skill_assumptions_preset
                           "", #item_progression_preset
-                          self.multiworld.quality_of_life[self.player].value,
+                          self.options.quality_of_life.value,
                           )
         for tries in range(5):
             try:
@@ -363,7 +364,7 @@ class SMMapRandoWorld(World):
                     lambda state: state.has_all(["Morph", "Missile"], self.player) and all(state.can_reach(region) for region in pirates_regions)
                 ]
         
-        self.multiworld.completion_condition[self.player] = goals[self.multiworld.objectives[self.player].value]
+        self.multiworld.completion_condition[self.player] = goals[self.options.objectives.value]
 
     def collect(self, state: CollectionState, item: Item) -> bool:
         if (item.code != None): # - items_start_id < len(self.gamedata.item_isv)):
@@ -564,12 +565,12 @@ class SMMapRandoWorld(World):
         deathLink: List[ByteEdit] = [{
             "sym": symbols["config_deathlink"],
             "offset": 0,
-            "values": [self.multiworld.death_link[self.player].value]
+            "values": [self.options.death_link.value]
         }]
         remoteItem: List[ByteEdit] = [{
             "sym": symbols["config_remote_items"],
             "offset": 0,
-            "values": self.getWordArray(0b001 + (0b010 if self.multiworld.remote_items[self.player] else 0b000))
+            "values": self.getWordArray(0b001 + (0b010 if self.options.remote_items else 0b000))
         }]
         ownPlayerId: List[ByteEdit] = [{
             "sym": symbols["config_player_id"],
