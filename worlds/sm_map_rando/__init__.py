@@ -602,7 +602,7 @@ class SMMapRandoWorld(World):
         # set rom name
         # 21 bytes
         from Main import __version__
-        self.romName = bytearray(f'MR{__version__.replace(".", "")[0:3]}_{self.player}_{self.multiworld.seed:13}', 'utf8')[:21]
+        self.romName = bytearray(f'SMMR{__version__.replace(".", "")[0:3]}{required_pysmmaprando_version.replace(".", "")}{self.player}{self.multiworld.seed:8}', 'utf8')[:21]
         self.romName.extend([0] * (21 - len(self.romName)))
         self.rom_name = self.romName
         # clients should read from 0x7FC0, the location of the rom title in the SNES header.
