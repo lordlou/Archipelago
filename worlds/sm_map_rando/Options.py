@@ -123,9 +123,11 @@ class SaveAnimals(Choice):
     - Yes: Extra escape time is given, and the player is required to save the animals.
     """
     display_name = "Save the animals"
-    option_No = 0
+    option_Off = 0
+    alias_No = 0
     option_Maybe = 1
-    option_Yes = 2
+    option_On = 2
+    alias_Yes = 2
     default = 0
 
 class EarlySave(Toggle):

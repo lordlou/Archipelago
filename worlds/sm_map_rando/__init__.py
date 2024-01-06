@@ -147,6 +147,14 @@ class SMMapRandoWorld(World):
     
     flag_location_names = {name: i for i, name in enumerate(gamedata.get_flag_location_names())}
 
+    locations_idx_range_to_area = {
+        12 : "Crateria",
+        48 : "Brinstar",
+        80 : "Norfair",
+        135 : "Wrecked Ship",
+        154 : "Maridia"
+    }
+
     web = SMMapRandoWeb()
 
     required_client_version = (0, 4, 4)
@@ -355,7 +363,7 @@ class SMMapRandoWorld(World):
                             self.multiworld.get_region("Metal Pirates Room Left Door (unlocked)", self.player)
                           ]
         goals = [
-                    lambda state: state.can_reach(self.multiworld.get_region("Mother Brain Room Mother Brain (Phases 2 and 3)", self.player)),
+                    lambda state: state.can_reach(self.multiworld.get_region("Mother Brain Room Right Door", self.player)),
                     lambda state: state.has_all(["f_DefeatedKraid", "f_DefeatedPhantoon", "f_DefeatedDraygon", "f_DefeatedRidley"], self.player),
                     lambda state: state.has_all(["f_DefeatedBotwoon", "f_DefeatedCrocomire", "f_DefeatedSporeSpawn", "f_DefeatedGoldenTorizo"], self.player),
                     lambda state: state.has_all(["f_KilledMetroidRoom1", "f_KilledMetroidRoom2", "f_KilledMetroidRoom3", "f_KilledMetroidRoom4"], self.player),
@@ -365,6 +373,12 @@ class SMMapRandoWorld(World):
                 ]
         
         self.multiworld.completion_condition[self.player] = goals[self.options.objectives.value]
+
+    def post_fill(self):
+        spheres: List[Location] = getattr(self.multiworld, "_smmr_spheres", None)
+        if spheres is None:
+            spheres = list(self.multiworld.get_spheres())
+            setattr(self.multiworld, "_smmr_spheres", spheres)
 
     def collect(self, state: CollectionState, item: Item) -> bool:
         if (item.code != None): # - items_start_id < len(self.gamedata.item_isv)):
@@ -450,10 +464,25 @@ class SMMapRandoWorld(World):
         return data
         
     def generate_output(self, output_directory: str):
+        def get_area_name(loc_idx: int):
+            for idx, area_name in SMMapRandoWorld.locations_idx_range_to_area.items():
+                if loc_idx <= idx:
+                    return area_name
+            return ""
+
         sorted_item_locs = list(self.locations.values())
         items = [(itemLoc.item.code if isinstance(itemLoc.item, SMMRItem) else (self.item_name_to_id['ArchipelagoProgItem'] if itemLoc.item.classification == ItemClassification.progression else self.item_name_to_id['ArchipelagoItem'])) - items_start_id for itemLoc in sorted_item_locs if itemLoc.address is not None]
+        spheres: List[Location] = getattr(self.multiworld, "_smmr_spheres", None)
+        summary =   [   (
+                            sphere_idx, 
+                            loc.item.name, 
+                            get_area_name(SMMapRandoWorld.location_name_to_id[loc.name] - locations_start_id) if loc.player == self.player else 
+                            self.multiworld.get_player_name(loc.player) + " world" #+ itemloc.loc.name
+                        ) 
+                    for sphere_idx, sphere in enumerate(spheres) for loc in sphere if loc.item.player == self.player and not loc.item.name.startswith("f_")
+                    ]
 
-        patched_rom_bytes = patch_rom(get_base_rom_path(), self.map_rando, items, self.multiworld.state.smmrcs[self.player].randomization_state)
+        patched_rom_bytes = patch_rom(get_base_rom_path(), self.map_rando, items, self.multiworld.state.smmrcs[self.player].randomization_state, summary)
         #patched_rom_bytes = None
         #with open(get_base_rom_path(), "rb") as stream:
         #    patched_rom_bytes = stream.read()
