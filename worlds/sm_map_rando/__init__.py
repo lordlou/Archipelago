@@ -25,7 +25,7 @@ from .ips import IPS_Patch
 from .Client import SMMRSNIClient
 from importlib.metadata import version, PackageNotFoundError
 
-required_pysmmaprando_version = "0.103.1"
+required_pysmmaprando_version = "0.111.1"
 
 class WrongVersionError(Exception):
     pass
@@ -183,6 +183,8 @@ class SMMapRandoWorld(World):
                           list(self.options.techs.value),
                           list(self.options.strats.value),
                           self.options.shinespark_tiles.value,
+                          self.options.heated_shinespark_tiles.value,
+                          self.options.shinecharge_leniency_frames.value,
                           self.options.resource_multiplier.value / 100,
                           self.options.gate_glitch_leniency.value,
                           self.options.door_stuck_leniency.value,
@@ -190,8 +192,9 @@ class SMMapRandoWorld(World):
                           self.options.draygon_proficiency.value / 100,
                           self.options.ridley_proficiency.value / 100,
                           self.options.botwoon_proficiency.value / 100,
+                          self.options.mother_brain_proficiency.value / 100,
                           self.options.escape_timer_multiplier.value / 100,
-                          self.options.randomized_start.value == 1,
+                          self.options.start_location_mode.value,
                           self.options.save_animals.value,
                           self.options.early_save.value == 1,
                           self.options.objectives.value,
@@ -204,6 +207,7 @@ class SMMapRandoWorld(World):
                           self.options.escape_refill.value == 1,
                           self.options.escape_movement_items.value == 1,
                           self.options.mark_map_stations.value == 1,
+                          self.options.room_outline_revealed.value == 1,
                           self.options.transition_letters.value == 1,
                           self.options.item_markers.value,
                           self.options.item_dots_disappear.value == 1,
@@ -218,8 +222,9 @@ class SMMapRandoWorld(World):
                           self.options.momentum_conservation.value == 1,
                           self.options.wall_jump.value,
                           self.options.etank_refill.value,
-                          self.options.maps_revealed.value == 1,
+                          self.options.maps_revealed.value,
                           self.options.map_layout.value,
+                          self.options.energy_free_shinesparks.value == 1,
                           self.options.ultra_low_qol.value == 1,
                           "", #skill_assumptions_preset
                           "", #item_progression_preset
@@ -353,7 +358,7 @@ class SMMapRandoWorld(World):
         
     def set_rules(self):
         chozo_regions = [   
-                            self.multiworld.get_region("Bowling Alley Bowling Chozo Statue", self.player), 
+                            self.multiworld.get_region("Bowling Alley Bowling Chozo Statue (unlocked)", self.player), 
                             self.multiworld.get_region("Bomb Torizo Room Bomb Torizo (unlocked)", self.player)
                         ]
         pirates_regions = [ 
@@ -479,7 +484,7 @@ class SMMapRandoWorld(World):
                             get_area_name(SMMapRandoWorld.location_name_to_id[loc.name] - locations_start_id) if loc.player == self.player else 
                             self.multiworld.get_player_name(loc.player) + " world" #+ itemloc.loc.name
                         ) 
-                    for sphere_idx, sphere in enumerate(spheres) for loc in sphere if loc.item.player == self.player and not loc.item.name.startswith("f_")
+                    for sphere_idx, sphere in enumerate(spheres) for loc in sphere if loc.item.player == self.player and not loc.item.name.startswith("f_") and loc.item.name != "Nothing"
                     ]
 
         patched_rom_bytes = patch_rom(get_base_rom_path(), self.map_rando, items, self.multiworld.state.smmrcs[self.player].randomization_state, summary)

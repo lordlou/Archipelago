@@ -43,12 +43,26 @@ class Strats(OptionSet):
     valid_keys = frozenset(map_rando_game_data.notable_strat_isv)
 
 class ShinesparkTiles(Range):
-    """Smaller values assume ability to short-charge over shorter distances."""
+    """Smaller values assume ability to short-charge over shorter distances"""
     display_name = "Shinespark tiles count"
-    range_start = 14
-    range_end = 32
+    range_start = 13
+    range_end = 33
     default = 26
 
+class HeatedShinesparkTiles(Range):
+    """Smaller values assume ability to short-charge over shorter distances"""
+    display_name = "Heated Shinespark tiles count"
+    range_start = 14
+    range_end = 33
+    default = 29
+
+class ShinechargeLeniencyFrames(Range):
+    """Extra time assumed needed to position to activate a shinespark"""
+    display_name = "Heated Shinespark tiles count"
+    range_start = 0
+    range_end = 120
+    default = 90
+    
 class ResourceMultiplier(Range):
     """Leniency factor on assumed energy & ammo usage, between 1 and 300"""
     display_name = "Resource multiplier"
@@ -76,6 +90,18 @@ class EscapeTimerMultiplier(Range):
     range_start = 1
     range_end = 300
     default = 100
+
+class StartLocationMode(Choice):
+    """
+    This setting determines where Samus begins the game:
+    - Ship: Samus begins in Landing Site at the Ship.
+    - RandomRoom: Samus begins in a random room somewhere on Zebes.
+    - Escape: Samus begins in Mother Brain Room at the start of the escape sequence.
+    """
+    display_name = "Start location"
+    option_Ship = 0
+    option_RandomRoom = 1
+    option_Escape = 2
 
 class RandomizedStart(Toggle):
     """
@@ -110,6 +136,13 @@ class RidleyProficiency(Range):
 class BotwoonProficiency(Range):
     """Skill level at the Botwoon fight, between 0 and 100"""
     display_name = "Botwoon proficiency"
+    range_start = 0
+    range_end = 100
+    default = 0
+
+class MotherBrainProficiency(Range):
+    """Skill level at the Mother Brain fight, between 0 and 100"""
+    display_name = "Mother Brain proficiency"
     range_start = 0
     range_end = 100
     default = 0
@@ -338,6 +371,16 @@ class MarkMapStations(Toggle):
     """
     display_name = "Mark map stations"
 
+class RoomOutlineRevealed(Toggle):
+    """
+    If enabled, entering a room causes the outline of the room to be revealed in the pause map. Tiles which have 
+    only been revealed in this way are shown in the pause map with a black interior. Room details such as item dots 
+    or door locks are not shown. This feature is limited to the pause map and has no effect on the HUD mini-map.
+
+    This option can make it easier for players to remember the rooms they have visited and to see how they connect.
+    """
+    display_name = "Room outline revealed on entry"
+
 class TransitionLetters(Toggle):
     """
     This option affects how transitions between areas are marked on the map:
@@ -467,7 +510,6 @@ class Walljump(Choice):
     - Vanilla: Wall jumping behaves like in the vanilla game.
     - Collectible: A special new "WallJump" item is added to the game (replacing one "Missile" pack), 
                     and wall jumping is only possible after collecting this item.
-    - Disabled: The ability to wall jump is removed from the game.
 
     This setting is taken into account in the logic. Selections other than "Vanilla" may significantly increase 
     the difficulty of the game, by requiring the player to know how to perform many tricks to avoid wall jumping 
@@ -479,7 +521,6 @@ class Walljump(Choice):
     display_name = "Wall jumps"
     option_Vanilla = 0
     option_Collectible = 1
-    option_Disabled = 2
     default = 0
 
 class ETankRefill(Choice):
@@ -505,12 +546,19 @@ class MomentumConservation(Toggle):
     """
     display_name = "Momentum conservation"
 
-class MapsRevealed(Toggle):
+class MapsRevealed(Choice):
     """
-    When enabled, all maps are fully revealed from the beginning of the game, without needing to activate the map stations.
+    This setting affects to what extent the map is already revealed when starting the game:
+
+    - Hidden: Maps are not initially revealed. Map stations must be activated in order to reveal the maps.
+    - Partial: Room outlines and area transitions are shown. Details such as item dots or door locks are 
+                not shown. Activating map stations will reveal those details.
+    - Revealed: Maps are revealed, as though all the map stations were already activated.
     """
     display_name = "Maps revealed from start"
-
+    option_Hidden = 0
+    option_Partial = 1
+    option_Revealed = 2
 
 class MapLayout(Choice):
     """
@@ -525,6 +573,14 @@ class MapLayout(Choice):
     option_Tame = 1
     option_Wild = 2
 
+class EnergyFreeShinesparks(Toggle):
+    """
+    If enabled, then shinesparks neither require nor consume energy.
+
+    This setting is taken into account in the logic.
+    """
+    display_name = "Energy-free shinesparks"
+
 
 @dataclass
 class SMMROptions(PerGameCommonOptions):
@@ -534,15 +590,18 @@ class SMMROptions(PerGameCommonOptions):
     techs: Techs
     strats: Strats
     shinespark_tiles: ShinesparkTiles
+    heated_shinespark_tiles: HeatedShinesparkTiles
+    shinecharge_leniency_frames: ShinechargeLeniencyFrames
     resource_multiplier: ResourceMultiplier
     gate_glitch_leniency: GateGlitchLeniency
     door_stuck_leniency: DoorStuckLeniency
     escape_timer_multiplier: EscapeTimerMultiplier
-    randomized_start: RandomizedStart
+    start_location_mode: StartLocationMode
     phantoon_proficiency: PhantoonProficiency
     draygon_proficiency: DraygonProficiency
     ridley_proficiency: RidleyProficiency
     botwoon_proficiency: BotwoonProficiency
+    mother_brain_proficiency: MotherBrainProficiency
     save_animals: SaveAnimals
     early_save: EarlySave
     ultra_low_qol: UltraLowQol
@@ -557,6 +616,7 @@ class SMMROptions(PerGameCommonOptions):
     escape_refill: EscapeRefill
     escape_movement_items: EscapeMovementItems
     mark_map_stations: MarkMapStations
+    room_outline_revealed: RoomOutlineRevealed
     transition_letters: TransitionLetters
     item_markers: ItemMarkers
     item_dots_disappear: ItemDotsDisappear
@@ -573,3 +633,4 @@ class SMMROptions(PerGameCommonOptions):
     etank_refill: ETankRefill
     maps_revealed: MapsRevealed
     map_layout: MapLayout
+    energy_free_shinesparks: EnergyFreeShinesparks
