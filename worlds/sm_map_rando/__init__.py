@@ -131,7 +131,7 @@ class SMMapRandoWorld(World):
 
     game: str = "Super Metroid Map Rando"
     topology_present = True
-    data_version = 1
+    data_version = 0
     options_dataclass = SMMROptions
     options: SMMROptions
 
@@ -154,6 +154,8 @@ class SMMapRandoWorld(World):
         135 : "Wrecked Ship",
         154 : "Maridia"
     }
+
+    nothing_item_id = 22
 
     web = SMMapRandoWeb()
 
@@ -782,7 +784,14 @@ class SMMapRandoWorld(World):
             multidata["connect_names"][new_name] = multidata["connect_names"][self.multiworld.player_name[self.player]]
 
     def fill_slot_data(self): 
-        slot_data = {}      
+        slot_data = {}
+        if not self.multiworld.is_race:
+            locations_nothing = [itemLoc.address - locations_start_id 
+                                for itemLoc in self.locations.values()
+                                if itemLoc.address is not None and itemLoc.player == self.player and itemLoc.item.code == items_start_id + self.nothing_item_id ]
+        
+            slot_data["locations_nothing"] = locations_nothing
+                
         return slot_data
     
     

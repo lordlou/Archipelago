@@ -11,7 +11,7 @@
 83:BA31 :neg_1_7
 83:BA43 :neg_1_8
 80:E18C :pos_1_0
-80:E534 :pos_1_1
+80:E530 :pos_1_1
 84:F5BA :pos_1_2
 84:F5C4 :pos_1_3
 83:BA62 :pos_1_4
@@ -49,11 +49,11 @@ CE:FF02 config_sprite
 80:E5F7 i_item_setup_shared_alwaysloaded
 84:F5C8 i_live_pickup
 80:E491 i_live_pickup_multiworld
-80:E50D i_live_pickup_multiworld_end
-80:E4ED i_live_pickup_multiworld_item_link_item
-80:E4DD i_live_pickup_multiworld_otherplayers_item
-80:E4C9 i_live_pickup_multiworld_own_item
-80:E4D5 i_live_pickup_multiworld_own_item1
+80:E509 i_live_pickup_multiworld_end
+80:E4E9 i_live_pickup_multiworld_item_link_item
+80:E4D9 i_live_pickup_multiworld_otherplayers_item
+80:E4C5 i_live_pickup_multiworld_own_item
+80:E4D1 i_live_pickup_multiworld_own_item1
 80:E4B4 i_live_pickup_multiworld_send_network
 84:F56D i_load_custom_graphics
 84:F588 i_load_custom_graphics_all_items
@@ -101,7 +101,7 @@ CE:FF02 config_sprite
 80:E410 mw_handle_queue_new_remote_item
 80:E43B mw_handle_queue_next
 80:E422 mw_handle_queue_perform_receive
-80:E511 mw_hook_main_game
+80:E50D mw_hook_main_game
 80:E191 mw_init
 80:E1E6 mw_init_continuereset
 80:E26A mw_init_end
@@ -140,7 +140,7 @@ CE:FF02 config_sprite
 84:F4BE p_visible_item_end
 84:F4AB p_visible_item_loop
 84:F4B7 p_visible_item_trigger
-80:E535 patch_load_multiworld
+80:E531 patch_load_multiworld
 84:F5CD perform_item_pickup
 84:F3D6 plm_graphics_entry_offworld_item
 84:F3CC plm_graphics_entry_offworld_progression_item
@@ -164,14 +164,14 @@ CE:FF02 config_sprite
 80:E274 write_repeated_memory_loop
 
 [source files]
-0000 38223720 main.asm
-0001 5a085fc3 ../../common/multiworld.asm
+0000 93fe50b1 main.asm
+0001 d75c0c04 ../../common/multiworld.asm
 0002 0bb1a356 ../../common/itemextras.asm
 0003 0252abff ../../common/items.asm
 0004 dbfcb38d ../../common/startitem.asm
 
 [rom checksum]
-a8349ea2
+e2de0044
 
 [addr-to-line mapping]
 ff:ffff 0000:00000001
@@ -538,61 +538,60 @@ ff:ffff 0000:00000001
 80:e4b2 0001:000002a6
 80:e4b3 0001:000002a7
 80:e4b4 0001:000002aa
-80:e4b8 0001:000002ab
-80:e4bc 0001:000002ad
-80:e4c0 0001:000002ae
-80:e4c2 0001:000002af
-80:e4c5 0001:000002b0
-80:e4c7 0001:000002b2
-80:e4c9 0001:000002b5
-80:e4cd 0001:000002b6
-80:e4d0 0001:000002b7
-80:e4d2 0001:000002b8
-80:e4d5 0001:000002bb
-80:e4d6 0001:000002bc
-80:e4d7 0001:000002bd
-80:e4db 0001:000002be
-80:e4dd 0001:000002c2
-80:e4e1 0001:000002c3
-80:e4e2 0001:000002c4
-80:e4e6 0001:000002c5
-80:e4e7 0001:000002c7
-80:e4eb 0001:000002c8
-80:e4ed 0001:000002cd
-80:e4f1 0001:000002ce
-80:e4f2 0001:000002cf
-80:e4f6 0001:000002d0
-80:e4f7 0001:000002d1
-80:e4fa 0001:000002d2
-80:e4fc 0001:000002d4
-80:e500 0001:000002d6
-80:e501 0001:000002d7
-80:e502 0001:000002d8
-80:e503 0001:000002d9
-80:e507 0001:000002da
-80:e50b 0001:000002db
-80:e50d 0001:000002de
-80:e50e 0001:000002de
-80:e50f 0001:000002de
-80:e510 0001:000002df
-80:e511 0001:000002e3
-80:e515 0001:000002e4
-80:e519 0001:000002e5
-80:e51d 0001:000002e6
-80:e51f 0001:000002e7
-80:e523 0001:000002e8
-80:e526 0001:000002e9
-80:e528 0001:000002ea
-80:e52c 0001:000002eb
-80:e52f 0001:000002ec
-80:e531 0001:000002ed
-80:e534 0001:000002ef
-80:e535 0001:000002f2
-80:e539 0001:000002f4
-80:e53a 0001:000002f5
-80:e53b 0001:000002f6
-80:e53c 0001:000002f7
-80:e53d 0001:000002f8
+80:e4b8 0001:000002ad
+80:e4bc 0001:000002ae
+80:e4be 0001:000002af
+80:e4c1 0001:000002b0
+80:e4c3 0001:000002b2
+80:e4c5 0001:000002b5
+80:e4c9 0001:000002b6
+80:e4cc 0001:000002b7
+80:e4ce 0001:000002b8
+80:e4d1 0001:000002bb
+80:e4d2 0001:000002bc
+80:e4d3 0001:000002bd
+80:e4d7 0001:000002be
+80:e4d9 0001:000002c2
+80:e4dd 0001:000002c3
+80:e4de 0001:000002c4
+80:e4e2 0001:000002c5
+80:e4e3 0001:000002c7
+80:e4e7 0001:000002c8
+80:e4e9 0001:000002cd
+80:e4ed 0001:000002ce
+80:e4ee 0001:000002cf
+80:e4f2 0001:000002d0
+80:e4f3 0001:000002d1
+80:e4f6 0001:000002d2
+80:e4f8 0001:000002d4
+80:e4fc 0001:000002d6
+80:e4fd 0001:000002d7
+80:e4fe 0001:000002d8
+80:e4ff 0001:000002d9
+80:e503 0001:000002da
+80:e507 0001:000002db
+80:e509 0001:000002de
+80:e50a 0001:000002de
+80:e50b 0001:000002de
+80:e50c 0001:000002df
+80:e50d 0001:000002e3
+80:e511 0001:000002e4
+80:e515 0001:000002e5
+80:e519 0001:000002e6
+80:e51b 0001:000002e7
+80:e51f 0001:000002e8
+80:e522 0001:000002e9
+80:e524 0001:000002ea
+80:e528 0001:000002eb
+80:e52b 0001:000002ec
+80:e52d 0001:000002ed
+80:e530 0001:000002ef
+80:e531 0001:000002f2
+80:e535 0001:000002f4
+80:e536 0001:000002f5
+80:e537 0001:000002f6
+80:e538 0001:000002f7
+80:e539 0001:000002f8
 8b:914a 0001:000002fd
 81:80f7 0001:00000300
 81:8027 0001:00000303
