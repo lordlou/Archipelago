@@ -165,13 +165,13 @@ CE:FF02 config_sprite
 
 [source files]
 0000 93fe50b1 main.asm
-0001 d75c0c04 ../../common/multiworld.asm
+0001 a8846d7e ../../common/multiworld.asm
 0002 0bb1a356 ../../common/itemextras.asm
 0003 0252abff ../../common/items.asm
 0004 dbfcb38d ../../common/startitem.asm
 
 [rom checksum]
-e2de0044
+6bf82d60
 
 [addr-to-line mapping]
 ff:ffff 0000:00000001

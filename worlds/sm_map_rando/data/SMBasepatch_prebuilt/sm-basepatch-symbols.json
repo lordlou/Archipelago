@@ -153,6 +153,6 @@
     "ITEM_RAM": "7E:09A2",
     "ReceiveQueueCompletedCount_InRamThatGetsSavedToSaveSlot": "7e:d8ae",
     "varia_seedint_location": "df:ff00",
-    "SETFX": "84:F019",
+    "SETFX": "84:F01C",
     "CollectedItems": "7E:D86E"
 }
