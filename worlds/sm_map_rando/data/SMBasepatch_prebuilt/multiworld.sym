@@ -67,6 +67,7 @@ CE:FF02 config_sprite
 84:F534 i_start_draw_loop_visible_or_chozo
 84:F3F6 i_visible_item
 84:F5A2 i_visible_item_setup
+83:E8F0 locations_nothing
 85:BBB3 message_PlaceholderBig
 85:BB33 message_char_table
 85:BBEA message_hook_tilemap_calc
@@ -171,7 +172,7 @@ CE:FF02 config_sprite
 0004 dbfcb38d ../../common/startitem.asm
 
 [rom checksum]
-6bf82d60
+361019c2
 
 [addr-to-line mapping]
 ff:ffff 0000:00000001

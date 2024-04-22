@@ -546,11 +546,14 @@ class SMMapRandoWorld(World):
         multiWorldLocations: List[ByteEdit] = []
         multiWorldItems: List[ByteEdit] = []
         idx = 0
-        vanillaItemTypesCount = 22
+        vanillaItemTypesCount = 23
+        locations_nothing = bytearray(20)
         for itemLoc in self.multiworld.get_locations():
             if itemLoc.player == self.player and not itemLoc.name.startswith("f_"):
                 # item to place in this SMMR world: write full item data to tables
                 if isinstance(itemLoc.item, SMMRItem) and itemLoc.item.code < items_start_id + vanillaItemTypesCount:
+                    if itemLoc.item.code == items_start_id + self.nothing_item_id:
+                        locations_nothing[(itemLoc.address - locations_start_id)//8] |= 1 << (itemLoc.address % 8)
                     itemId = itemLoc.item.code - items_start_id
                 else:
                     itemId = self.item_name_to_id['ArchipelagoItem'] - items_start_id + idx
@@ -614,6 +617,12 @@ class SMMapRandoWorld(World):
             "values": self.getWordArray(self.player)
         }]
 
+        location_nothing: List[ByteEdit] = [{
+            "sym": symbols["locations_nothing"],
+            "offset": 0,
+            "values": locations_nothing
+        }]
+
         patchDict = {   'MultiWorldLocations': multiWorldLocations,
                         'MultiWorldItems': multiWorldItems,
                         'offworldSprites': offworldSprites,
@@ -621,7 +630,8 @@ class SMMapRandoWorld(World):
                         'remoteItem': remoteItem,
                         'ownPlayerId': ownPlayerId,
                         'playerNameData':  playerNameData,
-                        'playerIdData':  playerIdData}
+                        'playerIdData':  playerIdData,
+                        'location_nothing': location_nothing}
 
         # convert an array of symbolic byte_edit dicts like {"sym": symobj, "offset": 0, "values": [1, 0]}
         # to a single rom patch dict like {0x438c: [1, 0], 0xa4a5: [0, 0, 0]}

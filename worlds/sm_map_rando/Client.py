@@ -41,6 +41,7 @@ SM_ITEM_COLLECTED_BITMASK = [   0b11111111, 0b11111111, 0b11101111, 0b11111111,
                                 0b11011111, 0b11111110, 0b00000001, 0b00000000,
                                 0b00000000, 0b00000000, 0b00000000, 0b00000000,
                                 0b11111111, 0b11111111, 0b11111111, 0b00000101]
+SM_ITEM_NOTHING_BITMASK_PTR = ROM_START + 0x01E8F0
 
 class SMMRSNIClient(SNIClient):
     game = "Super Metroid Map Rando"
@@ -96,8 +97,8 @@ class SMMRSNIClient(SNIClient):
             # not successfully connected to a multiworld server, cannot process the game sending items
             return
         
-        if ctx.slot_data is not None and self.locations_nothing is None:
-            self.locations_nothing = ctx.slot_data["locations_nothing"]
+        #if ctx.slot_data is not None and self.locations_nothing is None:
+        #    self.locations_nothing = ctx.slot_data["locations_nothing"]
 
         gamemode = await snes_read(ctx, WRAM_START + 0x0998, 1)
         if "DeathLink" in ctx.tags and gamemode and ctx.last_death_link + 1 < time.time():
@@ -116,21 +117,12 @@ class SMMRSNIClient(SNIClient):
         from . import items_start_id
         from . import locations_start_id, location_address_to_id
 
-        """
-        locs = [locations_start_id + location_id for location_id in location_address_to_id.values()]
-        if ctx.locations_info == {}:
-            
-            await ctx.send_msgs([{
-                    "cmd": "LocationScouts",
-                    "locations": locs,
-                    "create_as_hint": 0
-                }])
-        """
         message = await snes_read(ctx, SM_ITEM_COLLECTED_PTR, SM_ITEM_COLLECTED_SIZE)
         if message is None:
             return
         clean_message = bytes([b & mask for b, mask in zip(message, SM_ITEM_COLLECTED_BITMASK)])
         if self.sm_map_rando_cached_message != clean_message:
+            message_nothing_location = await snes_read(ctx, SM_ITEM_NOTHING_BITMASK_PTR, SM_ITEM_COLLECTED_SIZE)
             location_unchecked = []
             for location_id in location_address_to_id.values():
                 if locations_start_id + location_id not in ctx.locations_checked:
@@ -138,7 +130,7 @@ class SMMRSNIClient(SNIClient):
             
             for loc in location_unchecked:
                 location_id = locations_start_id + loc
-                if (clean_message[loc//8] & (1 << loc % 8)) and loc not in self.locations_nothing:
+                if (clean_message[loc//8] & (1 << loc % 8)) and (message_nothing_location[loc//8] & (1 << loc % 8)) == 0: #and loc not in self.locations_nothing
                     ctx.locations_checked.add(location_id)
                     location = ctx.location_names[location_id]
                     snes_logger.info(

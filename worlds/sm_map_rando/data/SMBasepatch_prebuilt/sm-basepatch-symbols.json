@@ -49,6 +49,7 @@
     "i_start_draw_loop_visible_or_chozo": "84:F534",
     "i_visible_item": "84:F3F6",
     "i_visible_item_setup": "84:F5A2",
+    "locations_nothing": "83:E8F0",
     "message_PlaceholderBig": "85:BBB3",
     "message_char_table": "85:BB33",
     "message_hook_tilemap_calc": "85:BBEA",
