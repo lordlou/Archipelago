@@ -20,7 +20,7 @@ SRAM_START = 0xE00000
 SM_ROMNAME_START = ROM_START + 0x007FC0
 ROMNAME_SIZE = 0x15
 
-SM_INGAME_MODES = {0x07, 0x09, 0x0b}
+SM_INGAME_MODES = {0x08}
 SM_ENDGAME_MODES = {0x26, 0x27}
 SM_DEATH_MODES = {0x13, 0x14, 0x15, 0x16, 0x17, 0x18, 0x19, 0x1A}
 
@@ -30,6 +30,8 @@ SM_RECV_QUEUE_WCOUNT = SRAM_START + 0x2606
 SM_SEND_QUEUE_START  = SRAM_START + 0x260E
 SM_SEND_QUEUE_RCOUNT = SRAM_START + 0x260A
 SM_SEND_QUEUE_WCOUNT = SRAM_START + 0x260C
+
+SM_RECV_QUEUE_COMPLETED_COUNT = WRAM_START + 0xD8AE
 
 SM_DEATH_LINK_ACTIVE_ADDR = ROM_START + 0x277F04    # 1 byte
 SM_REMOTE_ITEM_FLAG_ADDR = ROM_START + 0x277F06    # 1 byte
@@ -104,11 +106,14 @@ class SMMRSNIClient(SNIClient):
         if "DeathLink" in ctx.tags and gamemode and ctx.last_death_link + 1 < time.time():
             currently_dead = gamemode[0] in SM_DEATH_MODES
             await ctx.handle_deathlink_state(currently_dead)
-        if gamemode is not None and gamemode[0] in SM_ENDGAME_MODES:
-            if not ctx.finished_game:
-                await ctx.send_msgs([{"cmd": "StatusUpdate", "status": ClientStatus.CLIENT_GOAL}])
-                ctx.finished_game = True
-            return
+        if gamemode is not None:
+            if gamemode[0] in SM_ENDGAME_MODES:
+                if not ctx.finished_game:
+                    await ctx.send_msgs([{"cmd": "StatusUpdate", "status": ClientStatus.CLIENT_GOAL}])
+                    ctx.finished_game = True
+                return
+            if gamemode[0] not in SM_INGAME_MODES:
+                return
 
         data = await snes_read(ctx, SM_SEND_QUEUE_RCOUNT, 4)
         if data is None:
@@ -159,13 +164,17 @@ class SMMRSNIClient(SNIClient):
                 f'New Check: {location} ({len(ctx.locations_checked)}/{len(ctx.missing_locations) + len(ctx.checked_locations)})')
             await ctx.send_msgs([{"cmd": 'LocationChecks', "locations": [location_id]}])
         """
-        data = await snes_read(ctx, SM_RECV_QUEUE_WCOUNT, 2)
+        data = await snes_read(ctx, SM_RECV_QUEUE_COMPLETED_COUNT, 2)
         if data is None:
+            return
+        data1 = await snes_read(ctx, SM_RECV_QUEUE_WCOUNT, 2)
+        if data1 is None:
             return
 
         item_out_ptr = data[0] | (data[1] << 8)
+        item_out_ptr1 = data1[0] | (data1[1] << 8)
 
-        if item_out_ptr < len(ctx.items_received):
+        if item_out_ptr < len(ctx.items_received) and item_out_ptr == item_out_ptr1:
             item = ctx.items_received[item_out_ptr]
             item_id = item.item - items_start_id
             if bool(ctx.items_handling & 0b010) or item.location < 0: # item.location < 0 for !getitem to work
