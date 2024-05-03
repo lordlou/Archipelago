@@ -34,6 +34,7 @@ try:
     if version("pysmmaprando") != required_pysmmaprando_version:
         raise WrongVersionError
     from pysmmaprando import create_gamedata, APRandomizer, APCollectionState, patch_rom, Options as Pysmmr_options
+    from pysmmaprando import ControllerButton, ControllerConfig, CustomizeSettings, MusicSettings, PaletteTheme, ShakingSetting, TileTheme
 
 # required for APWorld distribution outside official AP releases as stated at https://docs.python.org/3/library/zipimport.html:
 # ZIP import of dynamic modules (.pyd, .so) is disallowed.
@@ -64,6 +65,7 @@ except (ImportError, WrongVersionError, PackageNotFoundError) as e:
             z.extractall(f"{os.path.dirname(sys.executable)}/lib")
             
     from pysmmaprando import create_gamedata, APRandomizer, APCollectionState, patch_rom, Options as Pysmmr_options
+    from pysmmaprando import ControllerButton, ControllerConfig, CustomizeSettings, MusicSettings, PaletteTheme, ShakingSetting, TileTheme
 
 def GetAPWorldPath():
     filename = sys.modules[__name__].__file__
@@ -488,8 +490,79 @@ class SMMapRandoWorld(World):
                         ) 
                     for sphere_idx, sphere in enumerate(spheres) for loc in sphere if loc.item.player == self.player and not loc.item.name.startswith("f_") and loc.item.name != "Nothing"
                     ]
+        
+        controller_mapping_string = {
+                                        "X": ControllerButton.X, 
+                                        "Y": ControllerButton.Y,  
+                                        "A": ControllerButton.A,  
+                                        "B": ControllerButton.B, 
+                                        "L": ControllerButton.L,  
+                                        "R": ControllerButton.R, 
+                                        "Select": ControllerButton.Select, 
+                                        "Start": ControllerButton.Start, 
+                                        "Up": ControllerButton.Up, 
+                                        "Down": ControllerButton.Down, 
+                                        "Left": ControllerButton.Left, 
+                                        "Right": ControllerButton.Right,
+                                     }
+        controller_mapping_int = {
+                                    int(ControllerButton.X): ControllerButton.X, 
+                                    int(ControllerButton.Y): ControllerButton.Y,  
+                                    int(ControllerButton.A): ControllerButton.A,  
+                                    int(ControllerButton.B): ControllerButton.B, 
+                                    int(ControllerButton.L): ControllerButton.L,  
+                                    int(ControllerButton.R): ControllerButton.R, 
+                                    int(ControllerButton.Select): ControllerButton.Select, 
+                                    int(ControllerButton.Start): ControllerButton.Start, 
+                                    int(ControllerButton.Up): ControllerButton.Up, 
+                                    int(ControllerButton.Down): ControllerButton.Down, 
+                                    int(ControllerButton.Left): ControllerButton.Left, 
+                                    int(ControllerButton.Right): ControllerButton.Right, 
+                                }
+        music_settings_mapping = {
+                                    0: MusicSettings.Vanilla,
+                                    1: MusicSettings.AreaThemed,
+                                    2: MusicSettings.Disabled
+                                  }
+        tile_theme_mapping = { 
+                                0: TileTheme.Vanilla,
+                                1: TileTheme.Scrambled,
+                                2: TileTheme.OuterCrateria,
+                                3: TileTheme.InnerCrateria,
+                                4: TileTheme.GreenBrinstar,
+                                5: TileTheme.UpperNorfair,
+                                6: TileTheme.WreckedShip,
+                                7: TileTheme.WestMaridia,
+                            }
+        shaking_settings_mapping = {
+                                    0: ShakingSetting.Vanilla,
+                                    1: ShakingSetting.Reduced,
+                                    2: ShakingSetting.Disabled
+                                  }
 
-        patched_rom_bytes = patch_rom(get_base_rom_path(), self.map_rando, items, self.multiworld.state.smmrcs[self.player].randomization_state, summary)
+        controller_config = ControllerConfig(
+                controller_mapping_int[self.options.shot.value],
+                controller_mapping_int[self.options.jump.value],
+                controller_mapping_int[self.options.dash.value],
+                controller_mapping_int[self.options.item_select.value],
+                controller_mapping_int[self.options.item_cancel.value],
+                controller_mapping_int[self.options.angle_up.value],
+                controller_mapping_int[self.options.angle_down.value],
+                [controller_mapping_string[button] for button in self.options.spin_lock_buttons.value],
+                [controller_mapping_string[button] for button in self.options.quick_reload_buttons.value],
+                self.options.moonwalk.value == 1)
+        customize_settings = CustomizeSettings(
+                None,
+                (self.options.etank_color_red.value // 8, self.options.etank_color_green.value // 8, self.options.etank_color_blue.value // 8),
+                self.options.reserve_hud_style.value == 1,
+                self.options.vanilla_screw_attack_animation.value == 1,
+                PaletteTheme.Vanilla if self.options.palette_theme.value == 1 else PaletteTheme.AreaThemed,
+                tile_theme_mapping[self.options.tile_theme.value],
+                music_settings_mapping[self.options.music.value],
+                self.options.disable_beeping.value == 1,
+                shaking_settings_mapping[self.options.shaking.value],
+                controller_config)
+        patched_rom_bytes = patch_rom(get_base_rom_path(), self.map_rando, items, self.multiworld.state.smmrcs[self.player].randomization_state, summary, customize_settings)
         #patched_rom_bytes = None
         #with open(get_base_rom_path(), "rb") as stream:
         #    patched_rom_bytes = stream.read()

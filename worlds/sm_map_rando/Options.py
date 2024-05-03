@@ -581,6 +581,185 @@ class EnergyFreeShinesparks(Toggle):
     """
     display_name = "Energy-free shinesparks"
 
+class EtankColorRed(Range):
+    """
+    Use this to make Energy Tanks appear with a different color in the HUD.
+
+    This option has minor side effects on the colors of certain items.
+    """
+    display_name = "Etank red intensity"
+    range_start = 0
+    range_end = 255
+    default = 255
+
+class EtankColorGreen(Range):
+    """
+    Use this to make Energy Tanks appear with a different color in the HUD.
+
+    This option has minor side effects on the colors of certain items.
+    """
+    display_name = "Etank green intensity"
+    range_start = 0
+    range_end = 255
+    default = 0
+
+class EtankColorBlue(Range):
+    """
+    Use this to make Energy Tanks appear with a different color in the HUD.
+
+    This option has minor side effects on the colors of certain items.
+    """
+    display_name = "Etank blue intensity"
+    range_start = 0
+    range_end = 255
+    default = 128
+
+class ReserveHudStyle(Choice):
+    """
+    The setting affects how reserve tanks are displayed on the HUD.
+    - Vanilla: A reserve tank indicator is shown on the HUD only if reserve mode is AUTO, and its color indicates whether reserves have any energy or not.
+    - Revamped: Each reserve tank is indicated with a bar showing how full it is. If reserve mode is AUTO, then the AUTO text also appears, 
+                and its color indicates whether reserves have any energy or not.
+    """
+    display_name = "Reserve tank HUD style"
+    option_Vanilla = 0
+    option_Revamped = 1
+    default = 0
+
+class VanillaScrewAttackAnimation(Choice):
+    """
+    This setting determines how the Screw Attack animation appears:
+    - Vanilla: The Screw Attack animation is always based on the Space Jump animation regardless of whether or not Space Jump is equipped.
+    - Split: Screw Attack without Space Jump equipped is based on the spin-jump animation. Screw Attack with Space Jump equipped is based 
+            on the Space Jump animation.
+    """ 
+    display_name = "Screw Attack animation"
+    option_Vanilla = 0
+    option_Split = 1
+    default = 0
+
+class PaletteTheme(Choice):
+    """
+    This setting controls the palettes for rooms (affecting foregrounds and backgrounds):
+    - Vanilla: Rooms use the palette from the original game.
+    - AreaThemed: Rooms use a palette based on the area in which they appear in the randomized map. This adds variety and can help the 
+                    randomized areas to feel more coherent.
+    """ 
+    display_name = "Room palettes"
+    option_Vanilla = 0
+    option_AreaThemed = 1
+    default = 0
+
+class TileTheme(Choice):
+    """
+    If enabled, the rooms in the game will be retiled using the selected theme. This affects only the graphical appearance of the rooms.
+    Note: This option is still under development and may contain bugs. If you notice any issues, please let us know on the Discord.
+    """ 
+    display_name = "Tile theme"
+    option_None = 0
+    option_Scrambled = 1
+    option_Outer_Crateria = 2
+    option_Inner_Crateria = 3
+    option_Green_Brinstar = 4
+    option_Upper_Norfair = 5
+    option_Wrecked_Ship = 6
+    option_West_Maridia = 7
+    default = 0
+
+class Music(Choice):
+    """
+    This setting determines which music plays in each room:
+    - Vanilla: The same music plays as would in the vanilla game for the given room. On a randomized map this implies that music 
+                will change across most door transitions, which increases the room load times.
+    - AreaThemed: The music is based on the area that the room belongs to on the randomized map, which can help the areas to feel more coherent.
+    - Disabled: Music is disabled, though sound effects still play.
+    """ 
+    display_name = "Music"
+    option_Vanilla = 0
+    option_AreaThemed = 1
+    option_Disabled = 2
+    default = 0
+
+class DisableBeeping(Choice):
+    """
+    This setting affects the low-energy beeping which alerts the player when Samus is at 30 energy or less.
+    - Vanilla: The low-energy beeping behaves as in the vanilla game.
+    - Disabled: The low-energy beeping is disabled.
+    """ 
+    display_name = "Low-energy beeping"
+    option_Vanilla = 0
+    option_Disabled = 1
+    default = 0
+
+class Shaking(Choice):
+    """
+    This setting affects the graphical appearance of screen shaking, e.g., during the escape sequence, bosses, and in rooms where lava or acid rises.
+    - Vanilla: Screen shaking happens as in the vanilla game (which has up to 3-pixel displacements).
+    - Reduced: Screen shaking is capped to 1-pixel displacements.
+    - Disabled: Screen shaking is disabled.
+    """ 
+    display_name = "Screen shaking"
+    option_Vanilla = 0
+    option_Reduced = 1
+    option_Disabled = 2
+    default = 0
+
+class ControllerButton(Choice):
+    option_Default = 0
+    option_Left = 1
+    option_Right = 2
+    option_Up = 3
+    option_Down = 4
+    option_X = 5
+    option_Y = 6
+    option_A = 7
+    option_B = 8
+    option_L = 9
+    option_R = 10
+    option_Select = 11
+    option_Start = 12
+
+class Shot(ControllerButton):
+    display_name = "Shot button"
+    default = 5
+
+class Jump(ControllerButton):
+    display_name = "Jump button"
+    default = 7
+
+class Dash(ControllerButton):
+    display_name = "Dash button"
+    default = 8
+
+class ItemSelect(ControllerButton):
+    display_name = "ItemSelect button"
+    default = 11
+
+class ItemCancel(ControllerButton):
+    display_name = "ItemCancel button"
+    default = 6
+
+class AngleUp(ControllerButton):
+    display_name = "AngleUp button"
+    default = 10
+
+class AngleDown(ControllerButton):
+    display_name = "AngleDown button"
+    default = 9
+
+class SpinLockButtons(OptionSet):
+    display_name = "SpinLock button combination"
+    default = {"L", "R", "Up", "X"}
+    valid_keys = {"X", "Y", "A", "B", "L", "R", "Select", "Start", "Up","Down", "Left", "Right"}
+
+class QuickReloadButtons(OptionSet):
+    display_name = "QuickReload button combination"
+    default = {"L", "R", "Select", "Start"}
+    valid_keys = {"X", "Y", "A", "B", "L", "R", "Select", "Start", "Up","Down", "Left", "Right"}
+
+class Moonwalk(Toggle):
+    display_name = "Moonwalk"
+    default = 0
 
 @dataclass
 class SMMROptions(PerGameCommonOptions):
@@ -634,3 +813,23 @@ class SMMROptions(PerGameCommonOptions):
     maps_revealed: MapsRevealed
     map_layout: MapLayout
     energy_free_shinesparks: EnergyFreeShinesparks
+    etank_color_red: EtankColorRed
+    etank_color_green: EtankColorGreen
+    etank_color_blue: EtankColorBlue
+    reserve_hud_style: ReserveHudStyle
+    vanilla_screw_attack_animation: VanillaScrewAttackAnimation
+    palette_theme: PaletteTheme
+    tile_theme: TileTheme
+    music: Music
+    disable_beeping: DisableBeeping
+    shaking: Shaking
+    shot: Shot
+    jump: Jump
+    dash: Dash
+    item_select: ItemSelect
+    item_cancel: ItemCancel
+    angle_up: AngleUp
+    angle_down: AngleDown
+    spin_lock_buttons: SpinLockButtons
+    quick_reload_buttons: QuickReloadButtons
+    moonwalk: Moonwalk
