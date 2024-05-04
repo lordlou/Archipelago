@@ -23,24 +23,26 @@ class Preset(Choice):
     Use "Custom" to specify your own Techs, Strats, Leniencies and Boss Proficiencies.
     """
     display_name = "Preset"
-    option_Easy = 0
+    option_Basic = 0
     option_Medium = 1
     option_Hard = 2
     option_VeryHard = 3
     option_Expert = 4
-    option_Insane = 5
-    option_Custom = 6
+    option_Extreme = 5
+    option_Insane = 6
+    option_Beyond = 7
+    option_Custom = 8
     default = 2
 
 class Techs(OptionSet):
-    "Custom list of techs used when Preset is set to Custom"
+    "Custom list of techs used when Preset is set to Custom. The list can also contain one of the Preset name to include all its Techs."
     display_name = "Techs"
-    valid_keys = frozenset(map_rando_game_data.tech_isv)
+    valid_keys = frozenset(map_rando_game_data.tech_isv + ["Basic", "Medium", "Hard", "VeryHard", "Expert", "Extreme", "Insane", "Beyond"])
 
 class Strats(OptionSet):
-    "Custom list of strats used when Preset is set to Custom"
+    "Custom list of strats used when Preset is set to Custom. The list can also contain one of the Preset name to include all its Strats."
     display_name = "Strats"
-    valid_keys = frozenset(map_rando_game_data.notable_strat_isv)
+    valid_keys = frozenset(map_rando_game_data.notable_strat_isv + ["Basic", "Medium", "Hard", "VeryHard", "Expert", "Extreme", "Insane", "Beyond"])
 
 class ShinesparkTiles(Range):
     """Smaller values assume ability to short-charge over shorter distances"""
@@ -117,35 +119,35 @@ class PhantoonProficiency(Range):
     display_name = "Phantoon proficiency"
     range_start = 0
     range_end = 100
-    default = 0
+    default = 50
 
 class DraygonProficiency(Range):
     """Skill level at the Draygon fight, between 0 and 100"""
     display_name = "Draygon proficiency"
     range_start = 0
     range_end = 100
-    default = 0
+    default = 50
 
 class RidleyProficiency(Range):
     """Skill level at the Ridley fight, between 0 and 100"""
     display_name = "Ridley proficiency"
     range_start = 0
     range_end = 100
-    default = 0
+    default = 50
 
 class BotwoonProficiency(Range):
     """Skill level at the Botwoon fight, between 0 and 100"""
     display_name = "Botwoon proficiency"
     range_start = 0
     range_end = 100
-    default = 0
+    default = 50
 
 class MotherBrainProficiency(Range):
     """Skill level at the Mother Brain fight, between 0 and 100"""
     display_name = "Mother Brain proficiency"
     range_start = 0
     range_end = 100
-    default = 0
+    default = 50
 
 class SaveAnimals(Choice):
     """
@@ -590,7 +592,7 @@ class EtankColorRed(Range):
     display_name = "Etank red intensity"
     range_start = 0
     range_end = 255
-    default = 255
+    default = 222
 
 class EtankColorGreen(Range):
     """
@@ -601,7 +603,7 @@ class EtankColorGreen(Range):
     display_name = "Etank green intensity"
     range_start = 0
     range_end = 255
-    default = 0
+    default = 56
 
 class EtankColorBlue(Range):
     """
@@ -612,7 +614,7 @@ class EtankColorBlue(Range):
     display_name = "Etank blue intensity"
     range_start = 0
     range_end = 255
-    default = 128
+    default = 148
 
 class ReserveHudStyle(Choice):
     """
@@ -748,11 +750,17 @@ class AngleDown(ControllerButton):
     default = 9
 
 class SpinLockButtons(OptionSet):
+    """
+    Press the combination simultaneously to activate Spin Lock, temporarily preventing up/down inputs from breaking spin. Pressing shot will cancel this mode.
+    """
     display_name = "SpinLock button combination"
     default = {"L", "R", "Up", "X"}
     valid_keys = {"X", "Y", "A", "B", "L", "R", "Select", "Start", "Up","Down", "Left", "Right"}
 
 class QuickReloadButtons(OptionSet):
+    """
+    Press the combination simultaneously to quick reload from the last save. Repeat to cycle through previous saves.
+    """
     display_name = "QuickReload button combination"
     default = {"L", "R", "Select", "Start"}
     valid_keys = {"X", "Y", "A", "B", "L", "R", "Select", "Start", "Up","Down", "Left", "Right"}
