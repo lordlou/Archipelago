@@ -15,10 +15,13 @@ ROM_START = 0x000000
 WRAM_START = 0xF50000
 WRAM_SIZE = 0x20000
 SRAM_START = 0xE00000
-
+#f'SMMR{__version__.replace(".", "")[0:3]}{required_pysmmaprando_version.replace(".", "")
 # SM
 SM_ROMNAME_START = ROM_START + 0x007FC0
 ROMNAME_SIZE = 0x15
+PYSMMR_VERSION_START = SM_ROMNAME_START + len("SMMRXXXY")
+PYSMMR_VERSION_SIZE = 3
+
 
 SM_INGAME_MODES = {0x08}
 SM_ENDGAME_MODES = {0x26, 0x27}
@@ -49,6 +52,7 @@ class SMMRSNIClient(SNIClient):
     game = "Super Metroid Map Rando"
     locations_nothing = None
     sm_map_rando_cached_message = None
+    use_new_comm = None
 
     async def deathlink_kill_player(self, ctx):
         from SNIClient import DeathState, snes_buffered_write, snes_flush_writes, snes_read
@@ -99,8 +103,16 @@ class SMMRSNIClient(SNIClient):
             # not successfully connected to a multiworld server, cannot process the game sending items
             return
         
-        #if ctx.slot_data is not None and self.locations_nothing is None:
-        #    self.locations_nothing = ctx.slot_data["locations_nothing"]
+        if self.use_new_comm is None:
+            pysmmr_version = await snes_read(ctx, PYSMMR_VERSION_START, PYSMMR_VERSION_SIZE)
+            self.use_new_comm = int(pysmmr_version.decode('utf-8')) >= 111
+            if not self.use_new_comm:
+                global SM_RECV_QUEUE_START, SM_RECV_QUEUE_WCOUNT, SM_SEND_QUEUE_START, SM_SEND_QUEUE_RCOUNT, SM_SEND_QUEUE_WCOUNT
+                SM_RECV_QUEUE_START  = SRAM_START + 0x2700
+                SM_RECV_QUEUE_WCOUNT = SRAM_START + 0x2B02
+                SM_SEND_QUEUE_START  = SRAM_START + 0x2C00
+                SM_SEND_QUEUE_RCOUNT = SRAM_START + 0x2B80
+                SM_SEND_QUEUE_WCOUNT = SRAM_START + 0x2B82
 
         gamemode = await snes_read(ctx, WRAM_START + 0x0998, 1)
         if "DeathLink" in ctx.tags and gamemode and ctx.last_death_link + 1 < time.time():
@@ -118,63 +130,66 @@ class SMMRSNIClient(SNIClient):
         data = await snes_read(ctx, SM_SEND_QUEUE_RCOUNT, 4)
         if data is None:
             return
-     
+
         from . import items_start_id
         from . import locations_start_id, location_address_to_id
+        if self.use_new_comm:
+            message = await snes_read(ctx, SM_ITEM_COLLECTED_PTR, SM_ITEM_COLLECTED_SIZE)
+            if message is None:
+                return
+            clean_message = bytes([b & mask for b, mask in zip(message, SM_ITEM_COLLECTED_BITMASK)])
+            if self.sm_map_rando_cached_message != clean_message:
+                message_nothing_location = await snes_read(ctx, SM_ITEM_NOTHING_BITMASK_PTR, SM_ITEM_COLLECTED_SIZE)
+                location_unchecked = []
+                for location_id in location_address_to_id.values():
+                    if locations_start_id + location_id not in ctx.locations_checked:
+                        location_unchecked.append(location_id)
+                
+                for loc in location_unchecked:
+                    location_id = locations_start_id + loc
+                    if (clean_message[loc//8] & (1 << loc % 8)) and (message_nothing_location[loc//8] & (1 << loc % 8)) == 0: #and loc not in self.locations_nothing
+                        ctx.locations_checked.add(location_id)
+                        location = ctx.location_names[location_id]
+                        snes_logger.info(
+                            f'New Check: {location} ({len(ctx.locations_checked)}/{len(ctx.missing_locations) + len(ctx.checked_locations)})')
+                        await ctx.send_msgs([{"cmd": 'LocationChecks', "locations": [location_id]}])
+                        self.sm_map_rando_cached_message = clean_message
+        else:
+            recv_index = data[0] | (data[1] << 8)
+            recv_item = data[2] | (data[3] << 8) # this is actually SM_SEND_QUEUE_WCOUNT
 
-        message = await snes_read(ctx, SM_ITEM_COLLECTED_PTR, SM_ITEM_COLLECTED_SIZE)
-        if message is None:
-            return
-        clean_message = bytes([b & mask for b, mask in zip(message, SM_ITEM_COLLECTED_BITMASK)])
-        if self.sm_map_rando_cached_message != clean_message:
-            message_nothing_location = await snes_read(ctx, SM_ITEM_NOTHING_BITMASK_PTR, SM_ITEM_COLLECTED_SIZE)
-            location_unchecked = []
-            for location_id in location_address_to_id.values():
-                if locations_start_id + location_id not in ctx.locations_checked:
-                    location_unchecked.append(location_id)
-            
-            for loc in location_unchecked:
-                location_id = locations_start_id + loc
-                if (clean_message[loc//8] & (1 << loc % 8)) and (message_nothing_location[loc//8] & (1 << loc % 8)) == 0: #and loc not in self.locations_nothing
-                    ctx.locations_checked.add(location_id)
-                    location = ctx.location_names[location_id]
-                    snes_logger.info(
-                        f'New Check: {location} ({len(ctx.locations_checked)}/{len(ctx.missing_locations) + len(ctx.checked_locations)})')
-                    await ctx.send_msgs([{"cmd": 'LocationChecks', "locations": [location_id]}])
-                    self.sm_map_rando_cached_message = clean_message
+            while (recv_index < recv_item):
+                item_address = recv_index * 8
+                message = await snes_read(ctx, SM_SEND_QUEUE_START + item_address, 8)
+                item_index = (message[4] | (message[5] << 8)) >> 3
 
-        """
-        recv_index = data[0] | (data[1] << 8)
-        recv_item = data[2] | (data[3] << 8) # this is actually SM_SEND_QUEUE_WCOUNT
+                recv_index += 1
+                snes_buffered_write(ctx, SM_SEND_QUEUE_RCOUNT,
+                                    bytes([recv_index & 0xFF, (recv_index >> 8) & 0xFF]))
 
-        while (recv_index < recv_item):
-            message = await snes_read(ctx, SM_SEND_QUEUE_START, 8)
-            item_index = (message[4] | (message[5] << 8)) >> 3
+                from . import locations_start_id
+                location_id = locations_start_id + item_index
 
-            recv_index += 1
-            snes_buffered_write(ctx, SM_SEND_QUEUE_RCOUNT,
-                                bytes([recv_index & 0xFF, (recv_index >> 8) & 0xFF]))
+                ctx.locations_checked.add(location_id)
+                location = ctx.location_names[location_id]
+                snes_logger.info(
+                    f'New Check: {location} ({len(ctx.locations_checked)}/{len(ctx.missing_locations) + len(ctx.checked_locations)})')
+                await ctx.send_msgs([{"cmd": 'LocationChecks', "locations": [location_id]}])
 
-            from . import locations_start_id
-            location_id = locations_start_id + item_index
-
-            ctx.locations_checked.add(location_id)
-            location = ctx.location_names[location_id]
-            snes_logger.info(
-                f'New Check: {location} ({len(ctx.locations_checked)}/{len(ctx.missing_locations) + len(ctx.checked_locations)})')
-            await ctx.send_msgs([{"cmd": 'LocationChecks', "locations": [location_id]}])
-        """
-        data = await snes_read(ctx, SM_RECV_QUEUE_COMPLETED_COUNT, 2)
+        data = await snes_read(ctx, SM_RECV_QUEUE_COMPLETED_COUNT if self.use_new_comm else SM_RECV_QUEUE_WCOUNT, 2)
         if data is None:
             return
-        data1 = await snes_read(ctx, SM_RECV_QUEUE_WCOUNT, 2)
-        if data1 is None:
-            return
+        
+        if self.use_new_comm:
+            data1 = await snes_read(ctx, SM_RECV_QUEUE_WCOUNT, 2)
+            if data1 is None:
+                return
 
         item_out_ptr = data[0] | (data[1] << 8)
-        item_out_ptr1 = data1[0] | (data1[1] << 8)
+        if self.use_new_comm:
+            item_out_ptr1 = data1[0] | (data1[1] << 8)
 
-        if item_out_ptr < len(ctx.items_received) and item_out_ptr == item_out_ptr1:
+        if item_out_ptr < len(ctx.items_received) and (not self.use_new_comm or item_out_ptr == item_out_ptr1):
             item = ctx.items_received[item_out_ptr]
             item_id = item.item - items_start_id
             if bool(ctx.items_handling & 0b010) or item.location < 0: # item.location < 0 for !getitem to work
@@ -183,7 +198,7 @@ class SMMRSNIClient(SNIClient):
                 location_id = 0x00 #backward compat
 
             player_id = item.player if item.player <= SMMR_ROM_MAX_PLAYERID else 0
-            snes_buffered_write(ctx, SM_RECV_QUEUE_START, bytes(
+            snes_buffered_write(ctx, SM_RECV_QUEUE_START + (0 if self.use_new_comm else item_out_ptr * 4), bytes(
                 [player_id & 0xFF, (player_id >> 8) & 0xFF, item_id & 0xFF, location_id & 0xFF]))
             item_out_ptr += 1
             snes_buffered_write(ctx, SM_RECV_QUEUE_WCOUNT,
