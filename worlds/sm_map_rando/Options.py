@@ -399,9 +399,9 @@ class ItemMarkers(Choice):
     This option affects the way that items are drawn on the map (pause menu map and HUD minimap). There are four choices:
 
     - Basic: All items are marked on the map with small dots.
-    - Majors: Unique items, E-Tanks, and Reserve Tanks are marked with large solid dots; other items are marked with small dots.
-    - Uniques: Unique items are marked with large solid dots; other items are marked with small dots.
-    - 3Tiered: Unique items are marked with large solid dots; Supers, Power Bombs, E-Tanks, and Reserve
+    - Majors: Foreign progression items, Unique items, E-Tanks, and Reserve Tanks are marked with large solid dots; other items are marked with small dots.
+    - Uniques: Foreign progression items and Unique items are marked with large solid dots; other items are marked with small dots.
+    - 3Tiered: Foreign progression items and Unique items are marked with large solid dots; Foreign non-progression items, Supers, Power Bombs, E-Tanks, and Reserve
       Tanks are marked with large hollow dots; Missiles are marked with small dots.
     """
     display_name = "Item markers"
