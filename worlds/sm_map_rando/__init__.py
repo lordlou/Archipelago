@@ -910,6 +910,7 @@ class SMMRRegion(Region):
         r_regions = set()
         if state.stale[self.player]:
             local_world = self.multiworld.worlds[self.player]
+            defeated_mother_brain_flag_id = local_world.item_name_to_id["f_DefeatedMotherBrain"] - items_start_id - len(local_world.gamedata.item_isv)
             rrp = state.reachable_regions[self.player]
             state.stale[self.player] = False
             (bi_reachability, f_reachability, r_reachability, f_traverse, r_traverse) = local_world.map_rando.update_reachability(state.smmrcs[self.player].randomization_state, local_world.debug)
@@ -930,6 +931,13 @@ class SMMRRegion(Region):
                             rrp.add(local_world.region_dict[local_world.flag_id_to_region_dict[event] + local_world.vertex_cnt])
                 if (f_reachability[i]):
                     f_regions.add(local_world.region_dict[i])
+                    # special case for f_DefeatedMotherBrain as it cant be reverse reachable
+                    event_src = local_world.events_connections.get(local_world.region_map_reverse[i], None)
+                    if (event_src != None):
+                        for event in event_src:
+                            if event == defeated_mother_brain_flag_id:
+                                rrp.add(local_world.region_dict[local_world.flag_id_to_region_dict[defeated_mother_brain_flag_id] + local_world.vertex_cnt])
+
                 if (r_reachability[i]):
                     r_regions.add(local_world.region_dict[i])
             #state.update_reachable_regions(self.player)

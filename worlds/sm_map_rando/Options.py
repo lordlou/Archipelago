@@ -181,14 +181,13 @@ class UltraLowQol(Toggle):
     - Refill stations giving Supers and Power Bombs in addition to Missiles
     - The auto-save before the escape sequence
     - Patching out major glitches: Spacetime beam, GT code, and out-of-bounds (death trigger)
-    - Removal of item fanfares
     - Fast decompression (for quicker room loading)
     - Camera fix when entering Kraid's, Crocomire's, or Spore Spawn's room
     - Graphical fixes when exiting boss rooms
     - Graphical fix to Bomb Torizo statue crumble animation
 
-    This setting also automatically disables all other quality-of-life options. For AP, 
-    enabling any quality-of-life option DOESNT causes this setting to be automatically disabled.
+    This setting also automatically disables all other quality-of-life options. For AP,
+    enabling any quality-of-life option DOESNT causes this setting to be automatically disabled. Also, item fanfares are always disabled.
 
     This setting is not recommended for most players, but it is an option for those wanting the game to 
     feel and behave as vanilla as possible. If enabled, expect to encounter a significant amount of graphical glitches.
