@@ -7,16 +7,10 @@
 80:E471 :neg_1_3
 85:BAF4 :neg_1_4
 85:BB0F :neg_1_5
-83:BA1F :neg_1_6
-83:BA31 :neg_1_7
-83:BA43 :neg_1_8
 80:E18C :pos_1_0
 80:E528 :pos_1_1
 84:F5BA :pos_1_2
 84:F5C4 :pos_1_3
-83:BA62 :pos_1_4
-83:BA6F :pos_1_5
-83:BA7C :pos_1_6
 80:E38F COLLECTTANK
 84:F530 SOUNDFX_84
 84:F3E6 ammo_loop_table
@@ -154,24 +148,18 @@ CE:FF02 config_sprite
 80:E570 sm_item_graphics
 80:E5A0 sm_item_plm_pickup_sequence_pointers
 80:E2FB sm_save_done_hook
-83:BA1C start_item
-83:BA00 start_item_data_major
-83:BA08 start_item_data_minor
-83:BA18 start_item_data_reserve
-83:BA56 update_graphic
 84:F3E0 v_item
 80:E26F write_repeated_memory
 80:E274 write_repeated_memory_loop
 
 [source files]
-0000 93fe50b1 main.asm
+0000 907c7fa4 main.asm
 0001 c5cde534 ../../common/multiworld.asm
 0002 0bb1a356 ../../common/itemextras.asm
 0003 0252abff ../../common/items.asm
-0004 dbfcb38d ../../common/startitem.asm
 
 [rom checksum]
-e14220d1
+a111ed6e
 
 [addr-to-line mapping]
 ff:ffff 0000:00000001
@@ -817,43 +805,3 @@ ff:ffff 0000:00000001
 84:f5dc 0003:0000014c
 84:f5dd 0003:0000014d
 84:f5de 0003:0000014e
-81:b303 0004:00000003
-81:b307 0004:00000004
-81:b308 0004:00000005
-83:ba1c 0004:00000016
-83:ba1f 0004:00000018
-83:ba23 0004:00000019
-83:ba27 0004:0000001a
-83:ba28 0004:0000001b
-83:ba29 0004:0000001c
-83:ba2c 0004:0000001d
-83:ba2e 0004:0000001e
-83:ba31 0004:00000020
-83:ba35 0004:00000021
-83:ba39 0004:00000022
-83:ba3a 0004:00000023
-83:ba3b 0004:00000024
-83:ba3e 0004:00000025
-83:ba40 0004:00000026
-83:ba43 0004:00000028
-83:ba47 0004:00000029
-83:ba4b 0004:0000002a
-83:ba4c 0004:0000002b
-83:ba4d 0004:0000002c
-83:ba50 0004:0000002d
-83:ba52 0004:0000002e
-83:ba55 0004:00000031
-83:ba56 0004:00000034
-83:ba59 0004:00000035
-83:ba5b 0004:00000036
-83:ba5e 0004:00000037
-83:ba62 0004:00000039
-83:ba66 0004:0000003a
-83:ba69 0004:0000003b
-83:ba6b 0004:0000003c
-83:ba6f 0004:0000003e
-83:ba73 0004:0000003f
-83:ba76 0004:00000040
-83:ba78 0004:00000041
-83:ba7c 0004:00000043
-83:ba80 0004:00000044

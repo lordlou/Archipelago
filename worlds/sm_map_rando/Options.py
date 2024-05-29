@@ -1,7 +1,12 @@
 import typing
-from Options import Choice, OptionSet, PerGameCommonOptions, Range, OptionDict, OptionList, Option, Toggle, DefaultOnToggle
+from Options import Choice, OptionSet, PerGameCommonOptions, Range, OptionDict, OptionList, Option, StartInventoryPool, Toggle, DefaultOnToggle
 from dataclasses import dataclass
 from . import map_rando_game_data
+
+from schema import Schema, And
+
+# schema helpers
+IntRange = lambda low, high: And(int, lambda f: low <= f <= high)
 
 class DeathLink(Choice):
     """When DeathLink is enabled and someone dies, you will die. With survive reserve tanks can save you."""
@@ -43,6 +48,50 @@ class Strats(OptionSet):
     "Custom list of strats used when Preset is set to Custom. The list can also contain one of the Preset name to include all its Strats."
     display_name = "Strats"
     valid_keys = frozenset(map_rando_game_data.notable_strat_isv + ["Basic", "Medium", "Hard", "VeryHard", "Expert", "Extreme", "Insane", "Beyond"])
+
+class ItemPool(Choice):
+    """
+    This setting affects the amount of ammo and tanks which may be placed:
+
+    - Full: 46 Missile packs, 10 Super packs, 10 Power Bomb packs, 14 Energy Tanks, 4 Reserve Tanks
+    - Reduced: 12 Missile packs, 6 Super packs, 6 Power Bomb packs, 3 Energy Tanks, 3 Reserve Tanks
+    - Custom: Use CustomItemPool to specify ammo and tanks
+    
+    Using a reduced amount of ammo and tanks causes some item locations to be missing an item. Regardless of the item pool settings, 
+    extra Energy Tanks may be added to ensure the game is beatable based on selected difficulty settings.
+    """
+    display_name = "Item Pool"
+    option_Full = 0
+    option_Reduced = 1
+    option_Custom = 2
+    default = 0
+
+class CustomItemPool(OptionDict):
+    """
+    This setting is only used when ItemPool is set to Custom. The default is the vanilla amounts.
+    """    
+    display_name = "Custom Item Pool"
+    default = {
+        "Missile": 46,
+        "ETank": 14,
+        "ReserveTank": 4,
+        "Super": 10,
+        "PowerBomb": 10
+    }
+    reduced = {
+        "Missile": 12,
+        "ETank": 3,
+        "ReserveTank": 3,
+        "Super": 6,
+        "PowerBomb": 5
+    }
+    schema = Schema({
+        "Missile": IntRange(2, 46),
+        "ETank": IntRange(2, 14),
+        "ReserveTank": IntRange(1, 4),
+        "Super": IntRange(2, 10),
+        "PowerBomb": IntRange(1, 10)
+    })
 
 class ShinesparkTiles(Range):
     """Smaller values assume ability to short-charge over shorter distances"""
@@ -770,11 +819,14 @@ class Moonwalk(Toggle):
 
 @dataclass
 class SMMROptions(PerGameCommonOptions):
+    start_inventory_from_pool: StartInventoryPool
     remote_items: RemoteItems
     death_link: DeathLink
     preset: Preset
     techs: Techs
     strats: Strats
+    item_pool: ItemPool
+    custom_item_pool: CustomItemPool
     shinespark_tiles: ShinesparkTiles
     heated_shinespark_tiles: HeatedShinesparkTiles
     shinecharge_leniency_frames: ShinechargeLeniencyFrames
