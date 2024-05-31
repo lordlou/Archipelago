@@ -69,6 +69,12 @@ class ItemPool(Choice):
 class CustomItemPool(OptionDict):
     """
     This setting is only used when ItemPool is set to Custom. The default is the vanilla amounts.
+    Values must be in the following range:
+     - Missile between 2 and 46
+     - ETank between 2 and 14
+     - ReserveTank between 1 and 4
+     - Super between 2 and 19
+     - PowerBomb between 2 and 19
     """    
     display_name = "Custom Item Pool"
     default = {
@@ -89,8 +95,8 @@ class CustomItemPool(OptionDict):
         "Missile": IntRange(2, 46),
         "ETank": IntRange(2, 14),
         "ReserveTank": IntRange(1, 4),
-        "Super": IntRange(2, 10),
-        "PowerBomb": IntRange(1, 10)
+        "Super": IntRange(2, 19),
+        "PowerBomb": IntRange(1, 19)
     })
 
 class ShinesparkTiles(Range):
