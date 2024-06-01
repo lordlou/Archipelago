@@ -160,15 +160,6 @@ class StartLocationMode(Choice):
     option_RandomRoom = 1
     option_Escape = 2
 
-class RandomizedStart(Toggle):
-    """
-    This setting determines where Samus begins the game:
-
-    - Ship: Samus begins in Landing Site at the Ship.
-    - Random: Samus begins in a random room somewhere on Zebes.
-    """
-    display_name = "Randomized start location"  
-
 class PhantoonProficiency(Range):
     """Skill level at the Phantoon fight, between 0 and 100"""
     display_name = "Phantoon proficiency"
@@ -628,6 +619,7 @@ class MapLayout(Choice):
     option_Vanilla = 0
     option_Tame = 1
     option_Wild = 2
+    default = 1
 
 class EnergyFreeShinesparks(Toggle):
     """

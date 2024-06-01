@@ -50,6 +50,7 @@ SM_ITEM_NOTHING_BITMASK_PTR = ROM_START + 0x01E8F0
 
 class SMMRSNIClient(SNIClient):
     game = "Super Metroid Map Rando"
+    patch_suffix = [".apsmmr"]
     locations_nothing = None
     sm_map_rando_cached_message = None
     use_new_comm = None
