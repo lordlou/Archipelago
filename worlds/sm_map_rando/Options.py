@@ -159,6 +159,7 @@ class StartLocationMode(Choice):
     option_Ship = 0
     option_RandomRoom = 1
     option_Escape = 2
+    default = 1
 
 class PhantoonProficiency(Range):
     """Skill level at the Phantoon fight, between 0 and 100"""
