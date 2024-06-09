@@ -318,7 +318,7 @@ class SMMapRandoWorld(World):
         #    self.region_dict[region.index] = region
         self.region_dict = regions
 
-        self.multiworld.regions += regions
+        #self.multiworld.regions += regions
 
         self.events_connections = self.map_rando.randomizer.game_data.get_event_vertex_ids()
         (self.region_map, self.region_map_reverse) = self.map_rando.randomizer.game_data.get_regions_map()
@@ -351,8 +351,8 @@ class SMMapRandoWorld(World):
         #victory_entrance = self.multiworld.get_entrance("Ship->Escape Zebes", self.player)
         #add_rule(victory_entrance, lambda state: state.has('f_ZebesSetAblaze', self.player))
 
-        startAP = self.multiworld.get_entrance('StartAP', self.player)
-        startAP.connect(self.multiworld.get_region("Landing Site Ship", self.player))   
+        #startAP = self.multiworld.get_entrance('StartAP', self.player)
+        #startAP.connect(self.multiworld.get_region("Landing Site Ship", self.player))   
 
     def create_items(self):
         self.startItems = [variaItem for item in self.multiworld.precollected_items[self.player] for variaItem in self.item_name_to_id.keys() if variaItem == item.name]
@@ -401,27 +401,14 @@ class SMMapRandoWorld(World):
             self.multiworld.get_location(flag_name, self.player).place_locked_item(item)
             self.multiworld.get_location(flag_name, self.player).address = None 
         
-    def set_rules(self):
-        chozo_regions = [   
-                            self.multiworld.get_region("Bowling Alley Bowling Chozo Statue (unlocked)", self.player), 
-                            self.multiworld.get_region("Bomb Torizo Room Bomb Torizo (unlocked)", self.player)
-                        ]
-        pirates_regions = [ 
-                            self.multiworld.get_region("Pit Room Left Door (unlocked)", self.player),
-                            self.multiworld.get_region("Baby Kraid Room Left Door (unlocked)", self.player),
-                            self.multiworld.get_region("Plasma Room Top Left Door (unlocked)", self.player),
-                            self.multiworld.get_region("Metal Pirates Room Left Door (unlocked)", self.player)
-                          ]
+    def set_rules(self):     
         goals = [
-                    lambda state: state.can_reach(self.multiworld.get_region("Mother Brain Room Right Door", self.player)),
                     lambda state: state.has_all(["f_DefeatedKraid", "f_DefeatedPhantoon", "f_DefeatedDraygon", "f_DefeatedRidley"], self.player),
                     lambda state: state.has_all(["f_DefeatedBotwoon", "f_DefeatedCrocomire", "f_DefeatedSporeSpawn", "f_DefeatedGoldenTorizo"], self.player),
                     lambda state: state.has_all(["f_KilledMetroidRoom1", "f_KilledMetroidRoom2", "f_KilledMetroidRoom3", "f_KilledMetroidRoom4"], self.player),
-                    lambda state: state.has_all(["f_UsedAcidChozoStatue", "f_DefeatedGoldenTorizo", "Morph", "f_DefeatedPhantoon"], self.player) \
-                        and all(state.can_reach(region) for region in chozo_regions),
-                    lambda state: state.has_all(["Morph", "Missile"], self.player) and all(state.can_reach(region) for region in pirates_regions)
-                ]
-        
+                    lambda state: state.has_all(["f_DefeatedBombTorizo", "f_UsedBowlingStatue", "f_UsedAcidChozoStatue", "f_DefeatedGoldenTorizo"], self.player),
+                    lambda state: state.has_all(["f_ClearedPitRoom", "f_ClearedBabyKraidRoom", "f_ClearedPlasmaRoom", "f_ClearedMetalPiratesRoom"], self.player)
+                ]   
         self.multiworld.completion_condition[self.player] = goals[self.options.objectives.value]
 
     def post_fill(self):

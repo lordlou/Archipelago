@@ -769,30 +769,51 @@ class ControllerButton(Choice):
     option_Start = 12
 
 class Shot(ControllerButton):
+    """
+    Shot button
+    """
     display_name = "Shot button"
     default = 5
 
 class Jump(ControllerButton):
+    """
+    Jump button
+    """
     display_name = "Jump button"
     default = 7
 
 class Dash(ControllerButton):
+    """
+    Dash button
+    """
     display_name = "Dash button"
     default = 8
 
 class ItemSelect(ControllerButton):
+    """
+    ItemSelect button
+    """
     display_name = "ItemSelect button"
     default = 11
 
 class ItemCancel(ControllerButton):
+    """
+    ItemCancel button
+    """
     display_name = "ItemCancel button"
     default = 6
 
 class AngleUp(ControllerButton):
+    """
+    AngleUp button
+    """
     display_name = "AngleUp button"
     default = 10
 
 class AngleDown(ControllerButton):
+    """
+    AngleDown button
+    """
     display_name = "AngleDown button"
     default = 9
 
