@@ -47,10 +47,7 @@ except (ImportError, WrongVersionError, PackageNotFoundError) as e:
         abi_version = f"{python_version}-manylinux_2_17_{platform.machine()}.manylinux2014_{platform.machine()}"
     elif sys.platform.startswith('darwin'):
         mac_ver = platform.mac_ver()[0].split('.')
-        if (int(mac_ver[0]) * 10 + int(mac_ver[1]) <= 107):
-            abi_version = f"{python_version}-macosx_10_7_{platform.machine()}"
-        else:
-            abi_version = f"{python_version}-macosx_10_9_x86_64.macosx_11_0_arm64.macosx_10_9_universal2"
+        abi_version = f"{python_version}-macosx_10_12_x86_64.macosx_11_0_arm64.macosx_10_12_universal2"
     map_rando_lib_file = f'https://github.com/lordlou/MapRandomizer/releases/download/v{required_pysmmaprando_version}/pysmmaprando-{required_pysmmaprando_version}-{python_version}-{abi_version}.whl'
     import Utils
     if not Utils.is_frozen():
