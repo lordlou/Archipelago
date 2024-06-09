@@ -346,7 +346,7 @@ class SMMapRandoWorld(World):
                 src_region.exits.append(srcDestEntrance)
                 srcDestEntrance.connect(dest_region)  
         """
-        self.multiworld.regions += [self.create_region(self.multiworld, self.player, 'Menu', -1, None, ['StartAP'])]
+        #self.multiworld.regions += [self.create_region(self.multiworld, self.player, 'Menu', -1, None, ['StartAP'])]
 
         #victory_entrance = self.multiworld.get_entrance("Ship->Escape Zebes", self.player)
         #add_rule(victory_entrance, lambda state: state.has('f_ZebesSetAblaze', self.player))
@@ -360,7 +360,7 @@ class SMMapRandoWorld(World):
         for idx, type_count in enumerate(self.map_rando.randomizer.initial_items_remaining):
             for item_count in range(type_count):
                 minor_count = [
-                    14,# etanks       // 0
+                    14, # etanks       // 0
                     2, # missiles     // 1
                     2, # supers       // 2
                     1, # powerbomb    // 3

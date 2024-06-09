@@ -159,7 +159,7 @@ class StartLocationMode(Choice):
     option_Ship = 0
     option_RandomRoom = 1
     option_Escape = 2
-    default = 1
+    default = 0
 
 class PhantoonProficiency(Range):
     """Skill level at the Phantoon fight, between 0 and 100"""
@@ -620,7 +620,7 @@ class MapLayout(Choice):
     option_Vanilla = 0
     option_Tame = 1
     option_Wild = 2
-    default = 1
+    default = 0
 
 class EnergyFreeShinesparks(Toggle):
     """
@@ -823,7 +823,7 @@ class SpinLockButtons(OptionSet):
     """
     display_name = "SpinLock button combination"
     default = {"L", "R", "Up", "X"}
-    valid_keys = {"X", "Y", "A", "B", "L", "R", "Select", "Start", "Up","Down", "Left", "Right"}
+    valid_keys = {"X", "Y", "A", "B", "L", "R", "Select", "Start", "Up", "Down", "Left", "Right"}
 
 class QuickReloadButtons(OptionSet):
     """
@@ -831,9 +831,12 @@ class QuickReloadButtons(OptionSet):
     """
     display_name = "QuickReload button combination"
     default = {"L", "R", "Select", "Start"}
-    valid_keys = {"X", "Y", "A", "B", "L", "R", "Select", "Start", "Up","Down", "Left", "Right"}
+    valid_keys = {"X", "Y", "A", "B", "L", "R", "Select", "Start", "Up", "Down", "Left", "Right"}
 
 class Moonwalk(Toggle):
+    """
+    Moonwalk
+    """
     display_name = "Moonwalk"
     default = 0
 
