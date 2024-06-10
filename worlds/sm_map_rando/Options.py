@@ -754,11 +754,11 @@ class Shaking(Choice):
     default = 0
 
 class ControllerButton(Choice):
-    option_Default = 0
-    option_Left = 1
-    option_Right = 2
-    option_Up = 3
-    option_Down = 4
+    #option_Default = 0
+    #option_Left = 1
+    #option_Right = 2
+    #option_Up = 3
+    #option_Down = 4
     option_X = 5
     option_Y = 6
     option_A = 7
@@ -767,6 +767,26 @@ class ControllerButton(Choice):
     option_R = 10
     option_Select = 11
     option_Start = 12
+
+    free_controller_button_per_player = {}
+
+    def verify(self, world, player_name: str, plando_options) -> None:
+        if (player_name not in ControllerButton.free_controller_button_per_player.keys()):
+            ControllerButton.free_controller_button_per_player[player_name] = [
+                                                                                ControllerButton.option_X,
+                                                                                ControllerButton.option_Y,
+                                                                                ControllerButton.option_A,
+                                                                                ControllerButton.option_B,
+                                                                                ControllerButton.option_L,
+                                                                                ControllerButton.option_R,
+                                                                                ControllerButton.option_Select,
+                                                                                ControllerButton.option_Start
+                                                                            ]
+        if self.value in ControllerButton.free_controller_button_per_player[player_name]:
+            ControllerButton.free_controller_button_per_player[player_name].remove(self.value)
+            return
+        raise Exception(f"Controller button '{self.value}' is already used. Possible buttons are: \
+                        {ControllerButton.free_controller_button_per_player[player_name]}")
 
 class Shot(ControllerButton):
     """
