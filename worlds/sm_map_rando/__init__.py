@@ -352,7 +352,6 @@ class SMMapRandoWorld(World):
         #startAP.connect(self.multiworld.get_region("Landing Site Ship", self.player))   
 
     def create_items(self):
-        self.startItems = [variaItem for item in self.multiworld.precollected_items[self.player] for variaItem in self.item_name_to_id.keys() if variaItem == item.name]
         pool = []
         for idx, type_count in enumerate(self.map_rando.randomizer.initial_items_remaining):
             for item_count in range(type_count):
@@ -409,6 +408,7 @@ class SMMapRandoWorld(World):
         self.multiworld.completion_condition[self.player] = goals[self.options.objectives.value]
 
     def post_fill(self):
+        self.startItems = [variaItem for item in self.multiworld.precollected_items[self.player] for variaItem in self.item_name_to_id.keys() if variaItem == item.name]
         spheres: List[Location] = getattr(self.multiworld, "_smmr_spheres", None)
         if spheres is None:
             spheres = list(self.multiworld.get_spheres())
