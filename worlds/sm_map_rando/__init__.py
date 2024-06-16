@@ -264,7 +264,7 @@ class SMMapRandoWorld(World):
         self.debug = False
 
         self.multiworld.state.smmrcs[self.player] = APCollectionState(self.multiworld.worlds[self.player].map_rando)
-        #self.multiworld.local_early_items[self.player]['Morph'] = 1
+        self.multiworld.early_items[self.player]['Morph'] = 1
         #self.multiworld.local_early_items[self.player]['Varia'] = 1
         #self.multiworld.local_early_items[self.player]['Gravity'] = 1
 
