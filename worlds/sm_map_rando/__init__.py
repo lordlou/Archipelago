@@ -26,7 +26,7 @@ from .ips import IPS_Patch
 from .Client import SMMRSNIClient
 from importlib.metadata import version, PackageNotFoundError
 
-required_pysmmaprando_version = "0.111.2"
+required_pysmmaprando_version = "0.111.3"
 
 class WrongVersionError(Exception):
     pass
@@ -170,6 +170,7 @@ class SMMapRandoWorld(World):
         super().__init__(world, player)
         self.rom_name_available_event = threading.Event()
         self.locations = {}
+        self.region_area_name = {}
 
     @classmethod
     def stage_assert_generate(cls, multiworld: MultiWorld):
@@ -314,7 +315,7 @@ class SMMapRandoWorld(World):
         #for region in regions:
         #    self.region_dict[region.index] = region
         self.region_dict = regions
-
+        self.region_area_name = self.map_rando.randomizer.ap_get_vertex_area_names()
         #self.multiworld.regions += regions
 
         self.events_connections = self.map_rando.randomizer.game_data.get_event_vertex_ids()
@@ -498,19 +499,13 @@ class SMMapRandoWorld(World):
         return data
         
     def generate_output(self, output_directory: str):
-        def get_area_name(loc_idx: int):
-            for idx, area_name in SMMapRandoWorld.locations_idx_range_to_area.items():
-                if loc_idx <= idx:
-                    return area_name
-            return ""
-
         sorted_item_locs = list(self.locations.values())
         items = [(itemLoc.item.code if isinstance(itemLoc.item, SMMRItem) else (self.item_name_to_id['ArchipelagoProgItem'] if itemLoc.item.classification == ItemClassification.progression else self.item_name_to_id['ArchipelagoItem'])) - items_start_id for itemLoc in sorted_item_locs if itemLoc.address is not None]
         spheres: List[Location] = getattr(self.multiworld, "_smmr_spheres", None)
         summary =   [   (
                             sphere_idx, 
                             loc.item.name, 
-                            get_area_name(SMMapRandoWorld.location_name_to_id[loc.name] - locations_start_id) if loc.player == self.player else 
+                            self.region_area_name[loc.parent_region.index] if loc.player == self.player else 
                             self.multiworld.get_player_name(loc.player) + " world" #+ itemloc.loc.name
                         ) 
                     for sphere_idx, sphere in enumerate(spheres) for loc in sphere if loc.item.player == self.player and not loc.item.name.startswith("f_") and loc.item.name != "Nothing"
@@ -900,6 +895,14 @@ class SMMapRandoWorld(World):
             slot_data["locations_nothing"] = locations_nothing
                 
         return slot_data
+    
+    def extend_hint_information(self, hint_data: Dict[int, Dict[int, str]]):
+        player_hint_data = {}
+        vertices = self.map_rando.randomizer.game_data.vertex_isv
+        for (loc_name, location) in self.locations.items():
+            if not loc_name.startswith("f_"):
+                player_hint_data[location.address] = self.region_area_name[location.parent_region.index]
+        hint_data[self.player] = player_hint_data
     
     
 class SMMRLocation(Location):
