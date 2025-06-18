@@ -5,9 +5,12 @@
   "area": "Norfair",
   "subarea": "Upper",
   "subsubarea": "East",
-  "playable": true,
   "roomAddress": "0x7ACF0",
   "roomEnvironments": [{"heated": true}],
+  "mapTileMask": [
+    [1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+  ],
   "nodes": [
     {
       "id": 1,
@@ -15,7 +18,12 @@
       "nodeType": "door",
       "nodeSubType": "blue",
       "nodeAddress": "0x00195a6",
-      "doorEnvironments": [{"physics": "air"}]
+      "doorOrientation": "left",
+      "doorEnvironments": [{"physics": "air"}],
+      "mapTileMask": [
+        [2, 2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 2, 2, 2, 1, 1, 1, 1, 1, 1]
+      ]
     },
     {
       "id": 2,
@@ -23,26 +31,16 @@
       "nodeType": "door",
       "nodeSubType": "red",
       "nodeAddress": "0x00195b2",
+      "doorOrientation": "right",
       "doorEnvironments": [
         {
           "physics": "air",
           "note": "This can be lava when entering from node 2, but it's still possible to have air physics"
         }
       ],
-      "locks": [
-        {
-          "name": "Speed Booster Hall Red Lock (to Speed Booster)",
-          "lockType": "coloredDoor",
-          "unlockStrats": [
-            {
-              "name": "Base",
-              "notable": false,
-              "requires": [
-                "h_canOpenRedDoors"
-              ]
-            }
-          ]
-        }
+      "mapTileMask": [
+        [1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 1, 1, 1, 2, 2, 2, 2, 2, 2]
       ]
     },
     {
@@ -51,7 +49,11 @@
       "nodeType": "item",
       "nodeSubType": "hidden",
       "nodeItem": "Missile",
-      "nodeAddress": "0x78C74"
+      "nodeAddress": "0x78C74",
+      "mapTileMask": [
+        [1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 2]
+      ]
     }
   ],
   "obstacles": [
@@ -67,17 +69,14 @@
       "groupName": "Speed Booster Hall Metarees",
       "enemyName": "Metaree",
       "quantity": 2,
-      "homeNodes": [1],
-      "dropRequires": ["h_heatProof"]
+      "homeNodes": [1]
     },
     {
       "id": "e2",
       "groupName": "Speed Booster Hall Gerutas",
       "enemyName": "Geruta",
       "quantity": 3,
-      "betweenNodes": [1, 2],
-      "dropRequires": ["Gravity", "h_heatProof"],
-      "devNote": "Accessible without Gravity going left to right but not right to left with speedbooster. Letting it slide"
+      "betweenNodes": [1, 2]
     }
   ],
   "links": [
@@ -85,7 +84,8 @@
       "from": 1,
       "to": [
         {"id": 1},
-        {"id": 2}
+        {"id": 2},
+        {"id": 3}
       ]
     },
     {
@@ -105,6 +105,7 @@
   ],
   "strats": [
     {
+      "id": 1,
       "link": [1, 1],
       "name": "Leave with Runway",
       "requires": [],
@@ -116,10 +117,14 @@
       }
     },
     {
+      "id": 2,
       "link": [1, 1],
       "name": "Geruta Farm",
       "requires": [
         "h_heatProof",
+        {"resetRoom": {
+          "nodes": [1]
+        }},
         {"or": [
           "ScrewAttack",
           "Ice",
@@ -127,32 +132,62 @@
           "Wave",
           "Plasma"
         ]},
-        {"refill": ["Energy", "Missile", "Super"]}
-      ]
+        {"partialRefill": {"type": "Energy", "limit": 140}},
+        {"partialRefill": {"type": "Missile", "limit": 10}}
+      ],
+      "resetsObstacles": ["A"]
     },
     {
+      "id": 3,
       "link": [1, 1],
       "name": "Crystal Flash",
       "requires": [
-        "h_canHeatedCrystalFlash"
+        "h_heatedCrystalFlash"
       ],
+      "flashSuitChecked": true,
       "devNote": [
         "FIXME: A Crystal Flash at node 2 could be added to logic, but would have to take into account the lava rising (if entering from the right door, with Speedbooster collected, without the lava having finished rising before)."
       ]
     },
     {
+      "id": 29,
+      "link": [1, 1],
+      "name": "G-Mode Setup - Get Hit By Geruta",
+      "requires": [
+        {"heatFrames": 2100},
+        {"or": [
+          "h_heatProof",
+          "canTrickyJump",
+          "canCrumbleJump"
+        ]}
+      ],
+      "exitCondition": {
+        "leaveWithGModeSetup": {}
+      },
+      "flashSuitChecked": true,
+      "note": [
+        "Free the Geruta and lure it to this door.",
+        "To speed it up, it helps to prevent breaking most of the crumbles (no more than two consecutive) so the Geruta doesn't get stuck."
+      ]
+    },
+    {
+      "id": 4,
       "link": [1, 2],
       "name": "Base",
       "requires": [
         {"obstaclesNotCleared": ["A"]},
         {"heatFrames": 650}
       ],
-      "clearsObstacles": ["A"],
       "unlocksDoors": [
-        {"types": ["missiles"], "requires": [{"heatFrames": 20}]}
-      ]
+        {
+          "types": ["missiles"],
+          "requires": [{"heatFrames": 20}]
+        }
+      ],
+      "clearsObstacles": ["A"]
     },
     {
+      "id": 5,
       "link": [1, 2],
       "name": "Leave with Runway",
       "requires": [
@@ -165,14 +200,20 @@
           "openEnd": 1
         }
       },
-      "clearsObstacles": ["A"],
       "unlocksDoors": [
-        {"types": ["missiles"], "requires": [{"heatFrames": 50}]},
+        {
+          "types": ["missiles"],
+          "requires": [{"heatFrames": 50}]
+        },
         {"types": ["super"], "requires": []},
-        {"types": ["powerbomb"], "requires": [{"heatFrames": 110}]}
+        {
+          "types": ["powerbomb"],
+          "requires": [{"heatFrames": 110}]
+        }
       ]
     },
     {
+      "id": 6,
       "link": [1, 2],
       "name": "Crumble Bridges Broken",
       "requires": [
@@ -182,6 +223,7 @@
       "devNote": "There is no reason to logically run back through the room this way."
     },
     {
+      "id": 7,
       "link": [1, 2],
       "name": "Speed Run",
       "requires": [
@@ -192,28 +234,26 @@
       "clearsObstacles": ["A"]
     },
     {
+      "id": 8,
       "link": [1, 2],
       "name": "Speed Run and Leave Shinecharged",
       "requires": [
         {"obstaclesNotCleared": ["A"]},
-        {"canShineCharge": {
-          "usedTiles": 33,
-          "openEnd": 2
-        }},
-        {"heatFrames": 360}
+        "h_shinechargeMaxRunway",
+        {"heatFrames": 360},
+        {"shineChargeFrames": 35}
       ],
       "exitCondition": {
-        "leaveShinecharged": {
-          "framesRemaining": 145
-        }
+        "leaveShinecharged": {}
       },
-      "clearsObstacles": ["A"],
       "unlocksDoors": [
         {"types": ["super"], "requires": []},
         {"types": ["missiles", "powerbomb"], "requires": ["never"]}
-      ]
+      ],
+      "flashSuitChecked": true
     },
     {
+      "id": 9,
       "link": [1, 2],
       "name": "Speed Run and Leave Running",
       "requires": [
@@ -228,7 +268,6 @@
           "openEnd": 1
         }
       },
-      "clearsObstacles": ["A"],
       "unlocksDoors": [
         {"types": ["super"], "requires": []},
         {"types": ["missiles", "powerbomb"], "requires": ["never"]}
@@ -236,6 +275,7 @@
       "note": "Shoot from the middle of the second set of crumble blocks from the left."
     },
     {
+      "id": 10,
       "link": [1, 2],
       "name": "Transition with Stored Fall Speed",
       "entranceCondition": {
@@ -260,9 +300,11 @@
       "unlocksDoors": [
         {"types": ["missiles", "super"], "requires": []},
         {"types": ["powerbomb"], "requires": ["never"]}
-      ]
+      ],
+      "flashSuitChecked": true
     },
     {
+      "id": 11,
       "link": [1, 2],
       "name": "Transition with Stored Fall Speed (more speed)",
       "entranceCondition": {
@@ -287,21 +329,85 @@
       "unlocksDoors": [
         {"types": ["missiles", "super"], "requires": []},
         {"types": ["powerbomb"], "requires": ["never"]}
+      ],
+      "flashSuitChecked": true
+    },
+    {
+      "id": 30,
+      "link": [1, 2],
+      "name": "G-Mode Setup - Get Hit By Geruta",
+      "requires": [
+        {"heatFrames": 2200},
+        {"or": [
+          "h_heatProof",
+          "canTrickyJump",
+          "canCrumbleJump"
+        ]}
+      ],
+      "exitCondition": {
+        "leaveWithGModeSetup": {}
+      },
+      "unlocksDoors": [
+        {"types": ["missiles", "super"], "requires": []},
+        {"types": ["powerbomb"], "requires": ["h_heatProof"]}
+      ],
+      "flashSuitChecked": true,
+      "note": [
+        "Free the Geruta and lure it to this door.",
+        "To speed it up, it helps to prevent breaking most of the crumbles (no more than two consecutive) so the Geruta doesn't get stuck."
       ]
     },
     {
+      "id": 33,
+      "link": [1, 2],
+      "name": "G-Mode",
+      "entranceCondition": {
+        "comeInWithGMode": {
+          "mode": "any",
+          "morphed": false
+        }
+      },
+      "requires": [
+        "h_heatedGModeOpenDifferentDoor"
+      ],
+      "clearsObstacles": ["A"],
+      "flashSuitChecked": true
+    },
+    {
+      "id": 34,
+      "link": [1, 3],
+      "name": "G-Mode",
+      "entranceCondition": {
+        "comeInWithGMode": {
+          "mode": "any",
+          "morphed": false
+        }
+      },
+      "requires": [
+        "h_heatedGMode",
+        {"heatFrames": 19}
+      ],
+      "clearsObstacles": ["A"],
+      "flashSuitChecked": true
+    },
+    {
+      "id": 12,
       "link": [2, 1],
       "name": "Base",
       "requires": [
         {"obstaclesNotCleared": ["A"]},
         {"heatFrames": 650}
       ],
-      "clearsObstacles": ["A"],
       "unlocksDoors": [
-        {"types": ["missiles"], "requires": [{"heatFrames": 20}]}
-      ]
+        {
+          "types": ["missiles"],
+          "requires": [{"heatFrames": 20}]
+        }
+      ],
+      "clearsObstacles": ["A"]
     },
     {
+      "id": 13,
       "link": [2, 1],
       "name": "Crumble Bridges Broken",
       "requires": [
@@ -332,11 +438,15 @@
         ]}
       ],
       "unlocksDoors": [
-        {"types": ["missiles"], "requires": [{"heatFrames": 20}]}
+        {
+          "types": ["missiles"],
+          "requires": [{"heatFrames": 20}]
+        }
       ],
       "devNote": "This can be used for collecting the item without needing to reset the room."
     },
     {
+      "id": 14,
       "link": [2, 1],
       "name": "Leave with Runway",
       "requires": [
@@ -349,14 +459,20 @@
           "openEnd": 1
         }
       },
-      "clearsObstacles": ["A"],
       "unlocksDoors": [
-        {"types": ["missiles"], "requires": [{"heatFrames": 50}]},
+        {
+          "types": ["missiles"],
+          "requires": [{"heatFrames": 50}]
+        },
         {"types": ["super"], "requires": []},
-        {"types": ["powerbomb"], "requires": [{"heatFrames": 110}]}
+        {
+          "types": ["powerbomb"],
+          "requires": [{"heatFrames": 110}]
+        }
       ]
     },
     {
+      "id": 15,
       "link": [2, 1],
       "name": "Speed Run",
       "requires": [
@@ -367,28 +483,26 @@
       "clearsObstacles": ["A"]
     },
     {
+      "id": 16,
       "link": [2, 1],
       "name": "Speed Run and Leave Shinecharged",
       "requires": [
         {"obstaclesNotCleared": ["A"]},
-        {"canShineCharge": {
-          "usedTiles": 33,
-          "openEnd": 2
-        }},
-        {"heatFrames": 360}
+        "h_shinechargeMaxRunway",
+        {"heatFrames": 360},
+        {"shineChargeFrames": 35}
       ],
       "exitCondition": {
-        "leaveShinecharged": {
-          "framesRemaining": 145
-        }
+        "leaveShinecharged": {}
       },
-      "clearsObstacles": ["A"],
       "unlocksDoors": [
         {"types": ["super"], "requires": []},
         {"types": ["missiles", "powerbomb"], "requires": ["never"]}
-      ]
+      ],
+      "flashSuitChecked": true
     },
     {
+      "id": 17,
       "link": [2, 1],
       "name": "Speed Run and Leave Running",
       "requires": [
@@ -403,7 +517,6 @@
           "openEnd": 1
         }
       },
-      "clearsObstacles": ["A"],
       "unlocksDoors": [
         {"types": ["super"], "requires": []},
         {"types": ["missiles", "powerbomb"], "requires": ["never"]}
@@ -411,16 +524,14 @@
       "note": "Shoot while climbing the highest ramp for the shot to open the door."
     },
     {
+      "id": 18,
       "link": [2, 1],
       "name": "Return Shinespark",
       "requires": [
         {"obstaclesCleared": ["A"]},
         "canShinechargeMovementComplex",
         "canHorizontalShinespark",
-        {"canShineCharge": {
-          "usedTiles": 33,
-          "openEnd": 2
-        }},
+        "h_shinechargeMaxRunway",
         {"heatFrames": 335},
         {"shinespark": {"frames": 221}}
       ],
@@ -431,6 +542,7 @@
       ]
     },
     {
+      "id": 19,
       "link": [2, 1],
       "name": "Grapple Teleport",
       "entranceCondition": {
@@ -443,6 +555,80 @@
       ]
     },
     {
+      "id": 20,
+      "link": [2, 1],
+      "name": "Grapple Teleport Door Lock Skip",
+      "entranceCondition": {
+        "comeInWithGrappleTeleport": {
+          "blockPositions": [[3, 12], [3, 13]]
+        }
+      },
+      "requires": [],
+      "bypassesDoorShell": true
+    },
+    {
+      "id": 21,
+      "link": [2, 1],
+      "name": "Carry Grapple Teleport (Top Position)",
+      "entranceCondition": {
+        "comeInWithGrappleTeleport": {
+          "blockPositions": [[3, 12]]
+        }
+      },
+      "requires": [],
+      "exitCondition": {
+        "leaveWithGrappleTeleport": {
+          "blockPositions": [[3, 12]]
+        }
+      },
+      "bypassesDoorShell": true
+    },
+    {
+      "id": 22,
+      "link": [2, 1],
+      "name": "Carry Grapple Teleport (Bottom Position)",
+      "entranceCondition": {
+        "comeInWithGrappleTeleport": {
+          "blockPositions": [[3, 13]]
+        }
+      },
+      "requires": [],
+      "exitCondition": {
+        "leaveWithGrappleTeleport": {
+          "blockPositions": [[3, 13]]
+        }
+      },
+      "bypassesDoorShell": true
+    },
+    {
+      "id": 23,
+      "link": [2, 1],
+      "name": "Grapple Teleport X-Ray Climb",
+      "entranceCondition": {
+        "comeInWithGrappleTeleport": {
+          "blockPositions": [[2, 18], [2, 19], [2, 28], [2, 29]]
+        }
+      },
+      "requires": [
+        "canXRayClimb",
+        {"heatFrames": 1600},
+        {"lavaFrames": 1600}
+      ],
+      "bypassesDoorShell": true,
+      "flashSuitChecked": true,
+      "note": [
+        "Exit the previous room with Samus in a standing pose (while grappled).",
+        "After teleporting, press right to release Grapple while staying standing (not being forced into a crouch).",
+        "Then X-ray climb to get up to the door transition, without needing to open the door."
+      ],
+      "devNote": [
+        "FIXME: Add a way to model the flag that gets set in this room after outrunning the lava, with SpeedBooster collected.",
+        "That would be a way to avoid the lavaFrames.",
+        "We also could have a canRiskPermanentLossOfAccess version based on not having SpeedBooster."
+      ]
+    },
+    {
+      "id": 24,
       "link": [2, 1],
       "name": "Transition with Stored Fall Speed",
       "entranceCondition": {
@@ -467,9 +653,11 @@
       "unlocksDoors": [
         {"types": ["missiles", "super"], "requires": []},
         {"types": ["powerbomb"], "requires": ["never"]}
-      ]
+      ],
+      "flashSuitChecked": true
     },
     {
+      "id": 25,
       "link": [2, 1],
       "name": "Transition with Stored Fall Speed (more speed)",
       "entranceCondition": {
@@ -494,9 +682,51 @@
       "unlocksDoors": [
         {"types": ["missiles", "super"], "requires": []},
         {"types": ["powerbomb"], "requires": ["never"]}
+      ],
+      "flashSuitChecked": true
+    },
+    {
+      "id": 31,
+      "link": [2, 1],
+      "name": "G-Mode Setup - Get Hit By Geruta",
+      "requires": [
+        {"heatFrames": 2250},
+        {"or": [
+          "h_heatProof",
+          "canTrickyJump",
+          "canCrumbleJump"
+        ]}
+      ],
+      "exitCondition": {
+        "leaveWithGModeSetup": {}
+      },
+      "unlocksDoors": [
+        {"types": ["missiles", "super"], "requires": []},
+        {"types": ["powerbomb"], "requires": ["h_heatProof"]}
+      ],
+      "flashSuitChecked": true,
+      "note": [
+        "Free the Geruta and lure it to this door.",
+        "To speed it up, it helps to prevent breaking most of the crumbles (no more than two consecutive) so the Geruta doesn't get stuck."
       ]
     },
     {
+      "id": 35,
+      "link": [2, 1],
+      "name": "G-Mode",
+      "entranceCondition": {
+        "comeInWithGMode": {
+          "mode": "any",
+          "morphed": false
+        }
+      },
+      "requires": [
+        "h_heatedGModeOpenDifferentDoor"
+      ],
+      "flashSuitChecked": true
+    },
+    {
+      "id": 26,
       "link": [2, 2],
       "name": "Leave with Runway",
       "requires": [],
@@ -508,6 +738,28 @@
       }
     },
     {
+      "id": 32,
+      "link": [2, 2],
+      "name": "G-Mode Setup - Get Hit By Geruta",
+      "requires": [
+        {"heatFrames": 2500},
+        {"or": [
+          "h_heatProof",
+          "canTrickyJump",
+          "canCrumbleJump"
+        ]}
+      ],
+      "exitCondition": {
+        "leaveWithGModeSetup": {}
+      },
+      "flashSuitChecked": true,
+      "note": [
+        "Free the Geruta and lure it to this door.",
+        "To speed it up, it helps to prevent breaking most of the crumbles (no more than two consecutive) so the Geruta doesn't get stuck."
+      ]
+    },
+    {
+      "id": 27,
       "link": [2, 3],
       "name": "Base",
       "requires": [
@@ -515,11 +767,31 @@
       ]
     },
     {
+      "id": 36,
+      "link": [2, 3],
+      "name": "G-Mode",
+      "entranceCondition": {
+        "comeInWithGMode": {
+          "mode": "any",
+          "morphed": false
+        }
+      },
+      "requires": [
+        "h_heatedGMode",
+        {"heatFrames": 19}
+      ],
+      "flashSuitChecked": true
+    },
+    {
+      "id": 28,
       "link": [3, 2],
       "name": "Base",
       "requires": [
         {"heatFrames": 25}
       ]
     }
-  ]
+  ],
+  "notables": [],
+  "nextStratId": 37,
+  "nextNotableId": 1
 }

@@ -4,9 +4,12 @@
   "name": "Red Brinstar Fireflea Room",
   "area": "Brinstar",
   "subarea": "Red",
-  "playable": true,
   "roomAddress": "0x7A293",
   "roomEnvironments": [{"heated": false}],
+  "mapTileMask": [
+    [1, 1, 1, 1, 1, 1, 1, 1],
+    [1, 1, 0, 0, 1, 1, 0, 0]
+  ],
   "nodes": [
     {
       "id": 1,
@@ -14,21 +17,11 @@
       "nodeType": "door",
       "nodeSubType": "red",
       "nodeAddress": "0x001905a",
+      "doorOrientation": "left",
       "doorEnvironments": [{"physics": "air"}],
-      "locks": [
-        {
-          "name": "Red Firefleas Red Lock (to X-Ray)",
-          "lockType": "coloredDoor",
-          "unlockStrats": [
-            {
-              "name": "Base",
-              "notable": false,
-              "requires": [
-                "h_canOpenRedDoors"
-              ]
-            }
-          ]
-        }
+      "mapTileMask": [
+        [2, 2, 2, 2, 1, 1, 1, 1],
+        [1, 1, 0, 0, 1, 1, 0, 0]
       ]
     },
     {
@@ -37,19 +30,39 @@
       "nodeType": "door",
       "nodeSubType": "blue",
       "nodeAddress": "0x0019066",
-      "doorEnvironments": [{"physics": "air"}]
+      "doorOrientation": "right",
+      "doorEnvironments": [{"physics": "air"}],
+      "mapTileMask": [
+        [1, 1, 1, 1, 2, 2, 2, 2],
+        [1, 1, 0, 0, 2, 2, 0, 0]
+      ]
     },
     {
       "id": 3,
       "name": "Safe Block in the Middle of the Room",
       "nodeType": "junction",
-      "nodeSubType": "junction"
+      "nodeSubType": "junction",
+      "mapTileMask": [
+        [1, 1, 1, 2, 1, 1, 1, 1],
+        [1, 1, 0, 0, 1, 1, 0, 0]
+      ]
     },
     {
       "id": 4,
       "name": "Small Ledge Below Left Door",
       "nodeType": "junction",
-      "nodeSubType": "junction"
+      "nodeSubType": "junction",
+      "mapTileMask": [
+        [1, 1, 1, 1, 1, 1, 1, 1],
+        [2, 2, 0, 0, 1, 1, 0, 0]
+      ]
+    }
+  ],
+  "obstacles": [
+    {
+      "id": "A",
+      "name": "Left Door Open",
+      "obstacleType": "inanimate"
     }
   ],
   "enemies": [
@@ -65,8 +78,7 @@
       "groupName": "Red Brinstar Fireflea Room Left Yapping Maws",
       "enemyName": "Yapping Maw",
       "quantity": 2,
-      "betweenNodes": [1, 2],
-      "dropRequires": ["never"]
+      "betweenNodes": [1, 2]
     },
     {
       "id": "e3",
@@ -81,19 +93,6 @@
       "enemyName": "Fireflea",
       "quantity": 5,
       "homeNodes": [2]
-    }
-  ],
-  "obstacles": [
-    {
-      "id": "A",
-      "name": "Left Door Open",
-      "obstacleType": "inanimate"
-    }
-  ],
-  "reusableRoomwideNotable": [
-    {
-      "name": "Red Brinstar Firefleas Ceiling Bomb Jump",
-      "note": "This is a very long ceiling bomb jump."
     }
   ],
   "links": [
@@ -128,6 +127,7 @@
   ],
   "strats": [
     {
+      "id": 1,
       "link": [1, 1],
       "name": "Open the Door",
       "requires": [
@@ -136,6 +136,7 @@
       "clearsObstacles": ["A"]
     },
     {
+      "id": 2,
       "link": [1, 1],
       "name": "Leave With Runway",
       "requires": [],
@@ -147,26 +148,42 @@
       }
     },
     {
+      "id": 62,
+      "link": [1, 1],
+      "name": "Leave With Grapple Swing",
+      "requires": [],
+      "exitCondition": {
+        "leaveWithGrappleSwing": {
+          "blocks": [
+            {
+              "position": [7, 3],
+              "obstructions": [[6, 10]],
+              "note": "Third closest Grapple block"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 3,
       "link": [1, 1],
       "name": "Leave with Spark (X-Mode)",
       "requires": [
-        "h_canXMode",
+        "canXMode",
         "h_XModeSpikeHit",
         "h_XModeSpikeHit",
-        "canIframeSpikeJump",
+        "canUseIFrames",
         {"or": [
           "SpaceJump",
           "h_XModeSpikeHit"
         ]},
-        {"canShineCharge": {
-          "usedTiles": 33,
-          "openEnd": 2
-        }},
+        "h_shinechargeMaxRunway",
         {"shinespark": {"frames": 50}}
       ],
       "exitCondition": {
         "leaveWithSpark": {}
       },
+      "flashSuitChecked": true,
       "note": [
         "Use the Spikes in the center of the room to build a Shinespark with X-Mode.",
         "There are sections of the room where using more complex movement can be used to save a Spike hit when X-Moding."
@@ -174,36 +191,38 @@
       "devNote": "Two spike hits are expected per attempt (with any additional leniency hits being multiplied by this amount)."
     },
     {
+      "id": 4,
       "link": [1, 1],
       "name": "Crystal Flash",
       "requires": [
-        "h_canCrystalFlash"
-      ]
+        "h_CrystalFlash"
+      ],
+      "flashSuitChecked": true
     },
     {
+      "id": 5,
       "link": [1, 1],
       "name": "G-Mode Setup - Get Hit By Waver",
-      "notable": false,
       "requires": [],
       "exitCondition": {
         "leaveWithGModeSetup": {}
       },
+      "flashSuitChecked": true,
       "note": "It takes 30 seconds after room entry to get hit by a Waver. It is the second Waver that comes nearby."
     },
     {
+      "id": 6,
       "link": [1, 1],
       "name": "G-Mode Regain Mobility",
       "requires": [
-        {"enemyDamage": {
-          "enemy": "Waver",
-          "type": "contact",
-          "hits": 1
-        }}
+        {"enemyDamage": {"enemy": "Waver", "type": "contact", "hits": 1}}
       ],
       "gModeRegainMobility": {},
+      "flashSuitChecked": true,
       "note": "Wait 30 seconds for a Waver to come and hit Samus. It is the second Waver that will hit her."
     },
     {
+      "id": 7,
       "link": [1, 1],
       "name": "Leave With Grapple Teleport",
       "requires": [
@@ -224,6 +243,7 @@
       ]
     },
     {
+      "id": 8,
       "link": [1, 2],
       "name": "Base",
       "requires": [
@@ -234,16 +254,14 @@
       ]
     },
     {
+      "id": 9,
       "link": [1, 2],
       "name": "Shinespark (Come In With Spark)",
       "entranceCondition": {
         "comeInWithSpark": {}
       },
       "requires": [
-        {"shinespark": {
-          "frames": 146,
-          "excessFrames": 60
-        }}
+        {"shinespark": {"frames": 146, "excessFrames": 60}}
       ],
       "note": "Enter the door high to avoid a frame perfect spike hit.",
       "devNote": [
@@ -252,6 +270,7 @@
       ]
     },
     {
+      "id": 10,
       "link": [1, 2],
       "name": "Shinespark (Come In Shinecharging)",
       "entranceCondition": {
@@ -262,44 +281,42 @@
       },
       "requires": [
         "canHorizontalShinespark",
-        {"or":[
-          {"shinespark": {
-            "frames": 142,
-            "excessFrames": 60
-          }},
-          {"and":[
+        {"or": [
+          {"shinespark": {"frames": 142, "excessFrames": 60}},
+          {"and": [
             "canShinechargeMovement",
             "canMidairShinespark",
-            {"shinespark": {
-              "frames": 134,
-              "excessFrames": 60
-            }}
+            {"shinespark": {"frames": 134, "excessFrames": 60}}
           ]}
         ]}
       ],
       "devNote": "FIXME: Could be doable tankless if the shinecharge happened in the previous room and then Samus ran out with more speed."
     },
     {
+      "id": 11,
+      "link": [1, 2],
+      "name": "Use Flash Suit",
+      "requires": [
+        "canHorizontalShinespark",
+        {"useFlashSuit": {}},
+        {"shinespark": {"frames": 132, "excessFrames": 60}}
+      ],
+      "flashSuitChecked": true
+    },
+    {
+      "id": 12,
       "link": [1, 2],
       "name": "X-Ray Exit Damage Boost",
-      "notable": true,
       "requires": [
+        {"notable": "X-Ray Exit Damage Boost"},
         "canHorizontalDamageBoost",
-        {"enemyDamage": {
-          "enemy": "Waver",
-          "type": "contact",
-          "hits": 2
-        }},
+        {"enemyDamage": {"enemy": "Waver", "type": "contact", "hits": 2}},
         {"or": [
           {"and": [
-            "canIframeSpikeJump",
+            "canUseIFrames",
             "canTrickyJump"
           ]},
-          {"enemyDamage": {
-            "enemy": "Waver",
-            "type": "contact",
-            "hits": 3
-          }}
+          {"enemyDamage": {"enemy": "Waver", "type": "contact", "hits": 3}}
         ]}
       ],
       "note": [
@@ -309,36 +326,36 @@
       ]
     },
     {
+      "id": 13,
       "link": [1, 2],
       "name": "X-Ray Exit Spike Floor",
       "requires": [
         {"spikeHits": 4},
         {"or": [
-          "canIframeSpikeJump",
+          "canUseIFrames",
           {"spikeHits": 3}
         ]}
       ],
       "note": "This strat is simply running and jumping across the spikes."
     },
     {
+      "id": 14,
       "link": [1, 2],
-      "name": "Red Brinstar Firefleas Ceiling Bomb Jump",
-      "notable": true,
+      "name": "Long Ceiling Bomb Jump",
       "requires": [
-        "h_canCeilingBombJump",
+        {"notable": "Long Ceiling Bomb Jump"},
         "canLongCeilingBombJump",
         "canBeVeryPatient"
       ],
-      "reusableRoomwideNotable": "Red Brinstar Firefleas Ceiling Bomb Jump",
       "note": [
         "This is a very long ceiling bomb jump.",
         "Wait for the Wavers to come and kill them before crossing the room."
       ]
     },
     {
+      "id": 15,
       "link": [1, 2],
-      "name": "Red Brinstar Firefleas Ceiling Bomb Jump (Artificial Morph)",
-      "notable": true,
+      "name": "G-Mode Morph Long Ceiling Bomb Jump",
       "entranceCondition": {
         "comeInWithGMode": {
           "mode": "any",
@@ -346,18 +363,39 @@
         }
       },
       "requires": [
-        "h_canArtificialMorphCeilingBombJump",
-        "canLongCeilingBombJump",
+        {"notable": "Long Ceiling Bomb Jump"},
+        "h_artificialMorphLongCeilingBombJump",
         "canBeVeryPatient",
-        "canInsaneJump"
+        "canTrickyGMode"
       ],
-      "reusableRoomwideNotable": "Red Brinstar Firefleas Ceiling Bomb Jump",
+      "flashSuitChecked": true,
       "note": [
         "This is a very long ceiling bomb jump.",
         "Crossing the room with artificial morph is particularly difficult without a good way to kill the Wavers."
       ]
     },
     {
+      "id": 16,
+      "link": [1, 2],
+      "name": "Come in Getting Blue Speed, Leave With Temporary Blue (Space Jump)",
+      "entranceCondition": {
+        "comeInGettingBlueSpeed": {
+          "length": 5,
+          "openEnd": 1
+        }
+      },
+      "requires": [
+        "SpaceJump",
+        "canChainTemporaryBlue"
+      ],
+      "exitCondition": {
+        "leaveWithTemporaryBlue": {}
+      },
+      "unlocksDoors": [{"types": ["ammo"], "requires": []}],
+      "note": "Use Space Jump to carry blue speed all the way across the room."
+    },
+    {
+      "id": 17,
       "link": [2, 1],
       "name": "Base",
       "requires": [
@@ -368,6 +406,7 @@
       ]
     },
     {
+      "id": 18,
       "link": [2, 1],
       "name": "Shinespark (Come in With Spark)",
       "entranceCondition": {
@@ -378,6 +417,7 @@
       ]
     },
     {
+      "id": 19,
       "link": [2, 1],
       "name": "Shinespark (Come in Shinecharging)",
       "entranceCondition": {
@@ -395,30 +435,26 @@
       ]
     },
     {
+      "id": 20,
       "link": [2, 1],
       "name": "Shinespark (In-Room Runway)",
       "requires": [
         "canMidairShinespark",
         "canShinechargeMovementComplex",
-        {"canShineCharge": {
-          "usedTiles": 13,
-          "openEnd": 0
-        }},
+        {"canShineCharge": {"usedTiles": 13, "openEnd": 0}},
         {"shinespark": {"frames": 107, "excessFrames": 6}}
       ],
       "note": "Use the really small runway in the pit in the middle of the room."
     },
     {
+      "id": 21,
       "link": [2, 1],
       "name": "Leave With Spark (In-Room Runway)",
       "requires": [
         {"obstaclesCleared": ["A"]},
         "canMidairShinespark",
         "canShinechargeMovementComplex",
-        {"canShineCharge": {
-          "usedTiles": 13,
-          "openEnd": 0
-        }},
+        {"canShineCharge": {"usedTiles": 13, "openEnd": 0}},
         {"shinespark": {"frames": 107}}
       ],
       "exitCondition": {
@@ -429,18 +465,17 @@
       "devNote": "Unlocking the door is free since obstacle A being cleared implies it was already unlocked earlier if needed."
     },
     {
+      "id": 22,
       "link": [2, 1],
       "name": "Shinespark (X-Mode)",
       "requires": [
         "canMidairShinespark",
-        "h_canXMode",
+        "canXMode",
         {"spikeHits": 2},
-        {"canShineCharge": {
-          "usedTiles": 33,
-          "openEnd": 2
-        }},
+        "h_shinechargeMaxRunway",
         {"shinespark": {"frames": 146, "excessFrames": 6}}
       ],
+      "flashSuitChecked": true,
       "note": [
         "Jump from the runway near the right door to bounce onto spikes for X-Mode.",
         "Store a spark in X-Mode and use that to shinepark across the room.",
@@ -449,17 +484,15 @@
       "devNote": "Omitting leniency spikeHits, since the firefleas provide an opportunity to farm after a failed attempt."
     },
     {
+      "id": 23,
       "link": [2, 1],
       "name": "Leave With Spark (X-Mode)",
       "requires": [
         {"obstaclesCleared": ["A"]},
         "canMidairShinespark",
-        "h_canXMode",
-        {"spikeHits": 1},
-        {"canShineCharge": {
-          "usedTiles": 33,
-          "openEnd": 2
-        }},
+        "canXMode",
+        {"spikeHits": 2},
+        "h_shinechargeMaxRunway",
         {"or": [
           {"shinespark": {"frames": 146}},
           {"and": [
@@ -472,6 +505,7 @@
         "leaveWithSpark": {}
       },
       "unlocksDoors": [{"types": ["ammo"], "requires": [], "useImplicitRequires": false}],
+      "flashSuitChecked": true,
       "note": [
         "Jump from the runway near the right door to bounce onto spikes for X-Mode.",
         "Store a spark in X-Mode and use that to shinepark across the room.",
@@ -484,15 +518,15 @@
       ]
     },
     {
+      "id": 24,
       "link": [2, 1],
       "name": "X-Ray Access Ice Bridge",
-      "notable": true,
       "requires": [
         "canTrickyUseFrozenEnemies",
-        "canCarefulJump",
+        "canTrickyDodgeEnemies",
         {"spikeHits": 3},
         {"or": [
-          "canIframeSpikeJump",
+          "canUseIFrames",
           {"spikeHits": 3}
         ]}
       ],
@@ -503,17 +537,14 @@
       ]
     },
     {
+      "id": 25,
       "link": [2, 1],
       "name": "X-Ray Access Damage Boost",
-      "notable": true,
       "requires": [
+        {"notable": "X-Ray Access Damage Boost"},
         "canHorizontalDamageBoost",
         "canTrickyJump",
-        {"enemyDamage": {
-          "enemy": "Waver",
-          "type": "contact",
-          "hits": 6
-        }}
+        {"enemyDamage": {"enemy": "Waver", "type": "contact", "hits": 6}}
       ],
       "note": [
         "A precise strat that involves crossing both gaps by dboosting off Wavers.",
@@ -521,6 +552,18 @@
       ]
     },
     {
+      "id": 26,
+      "link": [2, 1],
+      "name": "Use Flash Suit",
+      "requires": [
+        "canHorizontalShinespark",
+        {"useFlashSuit": {}},
+        {"shinespark": {"frames": 99, "excessFrames": 5}}
+      ],
+      "flashSuitChecked": true
+    },
+    {
+      "id": 27,
       "link": [2, 1],
       "name": "Grapple Teleport",
       "entranceCondition": {
@@ -531,21 +574,69 @@
       "requires": []
     },
     {
+      "id": 28,
       "link": [2, 1],
-      "name": "Red Brinstar Firefleas Ceiling Bomb Jump",
-      "notable": true,
+      "name": "Grapple Teleport Door Lock Skip",
+      "entranceCondition": {
+        "comeInWithGrappleTeleport": {
+          "blockPositions": [[3, 12]]
+        }
+      },
+      "requires": [],
+      "bypassesDoorShell": true
+    },
+    {
+      "id": 29,
+      "link": [2, 1],
+      "name": "Carry Grapple Teleport (Top Position)",
+      "entranceCondition": {
+        "comeInWithGrappleTeleport": {
+          "blockPositions": [[3, 12]]
+        }
+      },
+      "requires": [],
+      "exitCondition": {
+        "leaveWithGrappleTeleport": {
+          "blockPositions": [[3, 12]]
+        }
+      },
+      "bypassesDoorShell": true
+    },
+    {
+      "id": 30,
+      "link": [2, 1],
+      "name": "Grapple Teleport X-Ray Climb",
+      "entranceCondition": {
+        "comeInWithGrappleTeleport": {
+          "blockPositions": [[2, 18], [2, 19], [2, 28], [2, 29]]
+        }
+      },
       "requires": [
-        "h_canCeilingBombJump",
+        "canXRayClimb"
+      ],
+      "bypassesDoorShell": true,
+      "flashSuitChecked": true,
+      "note": [
+        "Exit the previous room with Samus in a standing pose (while grappled).",
+        "After teleporting, press right to release Grapple while staying standing (not being forced into a crouch).",
+        "Then X-ray climb to get up to the door transition, without needing to open the door."
+      ]
+    },
+    {
+      "id": 31,
+      "link": [2, 1],
+      "name": "Long Ceiling Bomb Jump",
+      "requires": [
+        {"notable": "Long Ceiling Bomb Jump"},
         "canLongCeilingBombJump",
         "canBeVeryPatient"
       ],
-      "reusableRoomwideNotable": "Red Brinstar Firefleas Ceiling Bomb Jump",
       "note": "This is a very long ceiling bomb jump. Kill the Wavers before crossing the room."
     },
     {
+      "id": 32,
       "link": [2, 1],
-      "name": "Red Brinstar Firefleas Ceiling Bomb Jump (Artificial Morph)",
-      "notable": true,
+      "name": "G-Mode Morph Long Ceiling Bomb Jump",
       "entranceCondition": {
         "comeInWithGMode": {
           "mode": "any",
@@ -553,14 +644,14 @@
         }
       },
       "requires": [
-        "h_canArtificialMorphBombHorizontally",
-        "h_canArtificialMorphIBJ",
-        "h_canArtificialMorphCeilingBombJump",
-        "canLongCeilingBombJump",
+        {"notable": "Long Ceiling Bomb Jump"},
+        "h_artificialMorphBombHorizontally",
+        "h_artificialMorphIBJ",
+        "h_artificialMorphLongCeilingBombJump",
         "canBeVeryPatient",
-        "canInsaneJump"
+        "canTrickyGMode"
       ],
-      "reusableRoomwideNotable": "Red Brinstar Firefleas Ceiling Bomb Jump",
+      "flashSuitChecked": true,
       "note": [
         "This is a very long ceiling bomb jump.",
         "Crossing the room with artificial morph is particularly difficult without a good way to kill the Wavers.",
@@ -568,18 +659,46 @@
       ]
     },
     {
+      "id": 33,
+      "link": [2, 1],
+      "name": "Come in Getting Blue Speed, Leave With Temporary Blue (Space Jump)",
+      "entranceCondition": {
+        "comeInGettingBlueSpeed": {
+          "length": 4,
+          "openEnd": 1
+        }
+      },
+      "requires": [
+        "SpaceJump",
+        "canChainTemporaryBlue"
+      ],
+      "exitCondition": {
+        "leaveWithTemporaryBlue": {}
+      },
+      "unlocksDoors": [{"types": ["ammo"], "requires": []}],
+      "note": "Use Space Jump to carry blue speed all the way across the room."
+    },
+    {
+      "id": 34,
       "link": [2, 2],
       "name": "Fireflea Farm",
       "requires": [
         {"resetRoom": {
-          "nodes": [2],
-          "mustStayPut": false
+          "nodes": [2]
         }},
-        {"refill": ["Energy", "PowerBomb"]}
+        {"refill": ["PowerBomb"]},
+        {"or": [
+          {"and": [
+            "canDodgeWhileShooting",
+            {"refill": ["Energy"]}
+          ]},
+          {"partialRefill": {"type": "Energy", "limit": 260}}
+        ]}
       ],
       "resetsObstacles": ["A"]
     },
     {
+      "id": 35,
       "link": [2, 2],
       "name": "Leave With Runway",
       "requires": [],
@@ -591,15 +710,13 @@
       }
     },
     {
+      "id": 36,
       "link": [2, 2],
       "name": "Leave With Spark (In-Room Runway)",
       "requires": [
         "canShinechargeMovementComplex",
         "canMidairShinespark",
-        {"canShineCharge": {
-          "usedTiles": 13,
-          "openEnd": 0
-        }},
+        {"canShineCharge": {"usedTiles": 13, "openEnd": 0}},
         {"shinespark": {"frames": 50}}
       ],
       "exitCondition": {
@@ -608,64 +725,146 @@
       "note": "Requires opening the door, then going to the pit in the middle of the room to use the really small runway."
     },
     {
+      "id": 37,
       "link": [2, 2],
       "name": "Leave Shinecharged (X-Mode)",
       "requires": [
-        "h_canXMode",
+        "canXMode",
         "h_XModeSpikeHit",
         "h_XModeSpikeHit",
-        {"canShineCharge": {
-          "usedTiles": 33,
-          "openEnd": 2
-        }},
-        "canShinechargeMovement"
+        "h_shinechargeMaxRunway",
+        "canShinechargeMovement",
+        {"shineChargeFrames": 140}
       ],
       "exitCondition": {
-        "leaveShinecharged": {
-          "framesRemaining": 40
-        }
+        "leaveShinecharged": {}
       },
-      "note": [
-        "Store a spark in X-Mode and use that to leave with a shinecharge."
-      ]
+      "flashSuitChecked": true,
+      "note": ["Store a spark in X-Mode and use that to leave with a shinecharge."]
     },
     {
+      "id": 38,
+      "link": [2, 2],
+      "name": "Leave Spinning (Space Jump)",
+      "requires": [
+        "SpaceJump",
+        "canTrickyJump"
+      ],
+      "exitCondition": {
+        "leaveSpinning": {
+          "remoteRunway": {
+            "length": 5,
+            "openEnd": 1
+          }
+        }
+      },
+      "note": "Space Jump all the way across the room from the left platform.",
+      "devNote": "Another runway tile could be added if the door at node 1 is unlocked"
+    },
+    {
+      "id": 39,
+      "link": [2, 2],
+      "name": "Leave With Mockball (Space Jump)",
+      "requires": [
+        "SpaceJump",
+        "canTrickyJump"
+      ],
+      "exitCondition": {
+        "leaveWithMockball": {
+          "remoteRunway": {
+            "length": 5,
+            "openEnd": 1
+          },
+          "landingRunway": {
+            "length": 5,
+            "openEnd": 1
+          }
+        }
+      },
+      "note": "Space Jump all the way across the room from the left platform.",
+      "devNote": "Another runway tile could be added if the door at node 1 is unlocked"
+    },
+    {
+      "id": 40,
+      "link": [2, 2],
+      "name": "Leave With Spring Ball Bounce (Space Jump)",
+      "requires": [
+        "SpaceJump",
+        "canTrickyJump"
+      ],
+      "exitCondition": {
+        "leaveWithSpringBallBounce": {
+          "remoteRunway": {
+            "length": 5,
+            "openEnd": 1
+          },
+          "landingRunway": {
+            "length": 5,
+            "openEnd": 1
+          },
+          "movementType": "uncontrolled"
+        }
+      },
+      "note": "Space Jump all the way across the room from the left platform.",
+      "devNote": "Another runway tile could be added if the door at node 1 is unlocked"
+    },
+    {
+      "id": 41,
+      "link": [2, 2],
+      "name": "Leave Space Jumping",
+      "requires": [
+        "canTrickyJump"
+      ],
+      "exitCondition": {
+        "leaveSpaceJumping": {
+          "remoteRunway": {
+            "length": 5,
+            "openEnd": 1
+          }
+        }
+      },
+      "note": "Space Jump all the way across the room from the left platform.",
+      "devNote": "Another runway tile could be added if the door at node 1 is unlocked"
+    },
+    {
+      "id": 42,
       "link": [2, 2],
       "name": "Crystal Flash",
       "requires": [
-        "h_canCrystalFlash"
-      ]
+        "h_CrystalFlash"
+      ],
+      "flashSuitChecked": true
     },
     {
+      "id": 43,
       "link": [2, 2],
       "name": "G-Mode Setup - Get Hit By Waver",
-      "notable": false,
       "requires": [
         "canBePatient"
       ],
       "exitCondition": {
         "leaveWithGModeSetup": {}
       },
+      "flashSuitChecked": true,
       "note": "It takes 90 seconds after room entry to get hit by a Waver. It is the second Waver that comes nearby."
     },
     {
+      "id": 44,
       "link": [2, 2],
       "name": "G-Mode Regain Mobility",
       "requires": [
-        {"enemyDamage": {
-          "enemy": "Waver",
-          "type": "contact",
-          "hits": 1
-        }}
+        {"enemyDamage": {"enemy": "Waver", "type": "contact", "hits": 1}}
       ],
       "gModeRegainMobility": {},
+      "flashSuitChecked": true,
       "note": "Wait 40 seconds for a Waver to come and hit Samus."
     },
     {
+      "id": 45,
       "link": [2, 3],
       "name": "IBJ",
       "requires": [
-        "h_canIBJ",
+        "canLongIBJ",
         {"spikeHits": 1},
         {"or": [
           "canBombHorizontally",
@@ -674,13 +873,14 @@
       ]
     },
     {
+      "id": 46,
       "link": [2, 3],
       "name": "Tricky Springball Jump",
       "requires": [
         {"or": [
-          "h_canTrickySpringwall",
+          "h_trickySpringwall",
           {"and": [
-            "h_canMaxHeightSpringBallJump",
+            "h_maxHeightSpringBallJump",
             "canNeutralDamageBoost"
           ]}
         ]},
@@ -688,6 +888,7 @@
       ]
     },
     {
+      "id": 47,
       "link": [2, 3],
       "name": "HiJump and Speedbooster",
       "requires": [
@@ -697,6 +898,7 @@
       ]
     },
     {
+      "id": 48,
       "link": [2, 3],
       "name": "HiJump Spring Ball",
       "requires": [
@@ -706,6 +908,7 @@
       ]
     },
     {
+      "id": 49,
       "link": [2, 3],
       "name": "Ice and HiJump",
       "requires": [
@@ -721,29 +924,27 @@
       "note": "Use the Fireflea when it moves to the right to cross the first gap."
     },
     {
+      "id": 50,
       "link": [2, 3],
       "name": "HiJump and Wall Jump",
       "requires": [
         "HiJump",
         "canPreciseWalljump",
-        "canIframeSpikeJump",
+        "canUseIFrames",
         {"spikeHits": 2}
       ],
       "note": "Jump from on top of the lower spikes, wall jump on the overhang, and land on the upper spikes."
     },
     {
+      "id": 51,
       "link": [2, 3],
       "name": "Damage Boost",
       "requires": [
         "canTrickyJump",
-        {"enemyDamage": {
-          "enemy": "Waver",
-          "type": "contact",
-          "hits": 1
-        }},
+        {"enemyDamage": {"enemy": "Waver", "type": "contact", "hits": 1}},
         "canHorizontalDamageBoost",
         {"or": [
-          "canIframeSpikeJump",
+          "canUseIFrames",
           {"spikeHits": 1}
         ]}
       ],
@@ -754,20 +955,22 @@
       ]
     },
     {
+      "id": 52,
       "link": [3, 4],
       "name": "Base",
       "requires": [
-        {"spikeHits": 4}
+        {"spikeHits": 5}
       ]
     },
     {
+      "id": 53,
       "link": [3, 4],
       "name": "Spike Run",
       "requires": [
-        "canIframeSpikeJump",
+        "canUseIFrames",
         {"or": [
           {"and": [
-            "canTrickyJump",
+            "canInsaneJump",
             {"spikeHits": 2}
           ]},
           {"spikeHits": 3}
@@ -775,6 +978,22 @@
       ]
     },
     {
+      "id": 54,
+      "link": [3, 4],
+      "name": "Spike Damage Boost",
+      "requires": [
+        "canHorizontalDamageBoost",
+        {"or": [
+          {"and": [
+            "canInsaneJump",
+            {"spikeHits": 2}
+          ]},
+          {"spikeHits": 3}
+        ]}
+      ]
+    },
+    {
+      "id": 55,
       "link": [4, 1],
       "name": "Ice and HiJump",
       "requires": [
@@ -785,46 +1004,81 @@
       "note": "Freeze the Waver that gets stuck in the left pit as high as possible in order to avoid a wall jump."
     },
     {
+      "id": 56,
       "link": [4, 1],
       "name": "Spike IBJ",
       "requires": [
-        "h_IBJFromSpikes"
+        "h_IBJFromSpikes",
+        "canLongIBJ"
       ]
     },
     {
+      "id": 57,
       "link": [4, 1],
       "name": "X-Ray Access Springwall",
       "requires": [
-        "canSpringwall",
-        {"spikeHits": 1}
+        "h_SpringwallOverSpikes",
+        {"or": [
+          {"spikeHits": 1},
+          "canInsaneJump"
+        ]}
       ]
     },
     {
+      "id": 58,
       "link": [4, 1],
       "name": "X-Ray Access Tricky SpringBall Jump",
-      "notable": true,
       "requires": [
+        {"notable": "X-Ray Access Tricky SpringBall Jump"},
+        "canTrickyJump",
         "canTrickySpringBallJump",
-        "canSpringFling"
+        {"or": [
+          "canLateralMidAirMorph",
+          "can4HighMidAirMorph"
+        ]}
       ],
       "note": [
-        "Jump from the safe spot on the spikey stairs and use the momentum change from equipping SpringBall to move closer to the door's platform.",
-        "Then SpringBall jump to reach the door."
-      ]
+        "Spring Ball jump from the safe spot on the spikey stairs. Moving over far enough left before the peak of the jump is the trickiest part of the jump.",
+        "There are multiple things which can help get further left:",
+        "Perform a lateral morph to maintain Samus' horizontal momentum.",
+        "Morphing and pausing quickly, then delay the Spring Ball jump until after getting a horizontal boost from equipping Spring Ball.",
+        "Start with a short run and spin jump to move over more before morphing."
+      ],
+      "detailNote": "It is possible to unequip Spring Ball to get a small Spring Fling, but it can be tricky to get any use out of it and it only helps a small amount."
     },
     {
+      "id": 59,
       "link": [4, 1],
       "name": "Speed HiJump",
       "requires": [
         "HiJump",
         "SpeedBooster",
         {"or": [
-          "canTrickyJump",
-          "canWalljump"
+          {"and": [
+            "canWalljump",
+            {"or": [
+              "canTrickyJump",
+              {"spikeHits": 1}
+            ]}
+          ]},
+          {"and": [
+            "canTrickyDashJump",
+            "h_backIntoCorner",
+            "canInsaneJump"
+          ]},
+          {"and": [
+            "canTrickyDashJump",
+            {"spikeHits": 1}
+          ]}
         ]}
+      ],
+      "note": [
+        "Run and jump from the safe stair to just reach the door ledge.",
+        "To avoid walljumping, use a full speed jump or jump from on top of the spikes (stairs or floor)."
       ]
     },
     {
+      "id": 60,
       "link": [4, 1],
       "name": "HiJump Spring Ball Jump",
       "requires": [
@@ -833,29 +1087,31 @@
         {"or": [
           "canTrickySpringBallJump",
           {"and": [
-            "canIframeSpikeJump",
+            "canUseIFrames",
             {"spikeHits": 1}
           ]}
         ]}
       ]
     },
     {
+      "id": 61,
       "link": [4, 1],
       "name": "X-Ray Access SpikeJumps with HiJump",
-      "notable": true,
       "requires": [
+        {"notable": "X-Ray Access SpikeJumps with HiJump"},
         "HiJump",
         "canTrickyJump",
         {"or": [
           {"and": [
             "canInsaneWalljump",
             "canInsaneJump",
-            "h_canBackIntoCorner"
+            "h_backIntoCorner"
           ]},
           {"and": [
             {"spikeHits": 1},
+            "canHorizontalDamageBoost",
             "canPreciseWalljump",
-            "canIframeSpikeJump"
+            "canUseIFrames"
           ]}
         ]}
       ],
@@ -868,5 +1124,54 @@
         "The safe stair jump is much harder, but can be made without every pixel of runway."
       ]
     }
-  ]
+  ],
+  "notables": [
+    {
+      "id": 1,
+      "name": "Long Ceiling Bomb Jump",
+      "note": "This is a very long ceiling bomb jump."
+    },
+    {
+      "id": 2,
+      "name": "X-Ray Exit Damage Boost",
+      "note": [
+        "If you wait long enough, a Waver will arrive. After it turns around to go back to the right, damage boost off of it, then follow it.",
+        "Continue to hit it to get i-frames to avoid taking damage from any spikes.",
+        "The amount of Waver hits can be reduced by running ahead on the spikes and taking damage from a second Waver instead of following the first Waver."
+      ]
+    },
+    {
+      "id": 4,
+      "name": "X-Ray Access Damage Boost",
+      "note": [
+        "A precise strat that involves crossing both gaps by dboosting off Wavers.",
+        "The Wavers are also used for iframes to avoid taking damage from any spikes."
+      ]
+    },
+    {
+      "id": 5,
+      "name": "X-Ray Access Tricky SpringBall Jump",
+      "note": [
+        "Spring Ball jump from the safe spot on the spikey stairs. Moving over far enough left before the peak of the jump is the trickiest part of the jump.",
+        "There are multiple things which can help get further left:",
+        "Perform a lateral morph to maintain Samus' horizontal momentum.",
+        "Morphing and pausing quickly, then delay the Spring Ball jump until after getting a horizontal boost from equipping Spring Ball.",
+        "Start with a short run and spin jump to move over more before morphing."
+      ]
+    },
+    {
+      "id": 6,
+      "name": "X-Ray Access SpikeJumps with HiJump",
+      "note": [
+        "Jump to the door leading to X-Ray either by jumping from spikes or with a very precise jump.",
+        "Cross the room by Jumping atop the spikes.",
+        "Taking enemy damage can be used to reduce some spike damage.",
+        "The final jump can either be made by jumping from the bottommost spike stair or from the safe stair.",
+        "Setup run speed atop the spike stair by holding forward to be pushed backward.",
+        "The safe stair jump is much harder, but can be made without every pixel of runway."
+      ]
+    }
+  ],
+  "nextStratId": 63,
+  "nextNotableId": 7
 }

@@ -5,9 +5,14 @@
   "area": "Norfair",
   "subarea": "Upper",
   "subsubarea": "West",
-  "playable": true,
   "roomAddress": "0x7A8F8",
   "roomEnvironments": [{"heated": true}],
+  "mapTileMask": [
+    [1],
+    [1],
+    [1],
+    [1]
+  ],
   "nodes": [
     {
       "id": 1,
@@ -15,7 +20,14 @@
       "nodeType": "door",
       "nodeSubType": "blue",
       "nodeAddress": "0x001938a",
-      "doorEnvironments": [{"physics": "air"}]
+      "doorOrientation": "right",
+      "doorEnvironments": [{"physics": "air"}],
+      "mapTileMask": [
+        [2],
+        [2],
+        [2],
+        [1]
+      ]
     },
     {
       "id": 2,
@@ -23,7 +35,14 @@
       "nodeType": "door",
       "nodeSubType": "blue",
       "nodeAddress": "0x0019396",
-      "doorEnvironments": [{"physics": "air"}]
+      "doorOrientation": "right",
+      "doorEnvironments": [{"physics": "air"}],
+      "mapTileMask": [
+        [1],
+        [1],
+        [1],
+        [2]
+      ]
     },
     {
       "id": 3,
@@ -31,7 +50,13 @@
       "nodeType": "item",
       "nodeSubType": "hidden",
       "nodeItem": "Missile",
-      "nodeAddress": "0x78B46"
+      "nodeAddress": "0x78B46",
+      "mapTileMask": [
+        [2],
+        [1],
+        [1],
+        [1]
+      ]
     }
   ],
   "obstacles": [
@@ -47,8 +72,7 @@
       "groupName": "Crumble Shaft Sovas",
       "enemyName": "Sova",
       "quantity": 6,
-      "homeNodes": [1, 2],
-      "dropRequires": ["h_heatProof"]
+      "homeNodes": [1, 2]
     }
   ],
   "links": [
@@ -84,6 +108,7 @@
   ],
   "strats": [
     {
+      "id": 1,
       "link": [1, 1],
       "name": "Leave with Runway",
       "requires": [],
@@ -95,13 +120,16 @@
       }
     },
     {
+      "id": 2,
       "link": [1, 1],
       "name": "Crystal Flash",
       "requires": [
-        "h_canHeatedCrystalFlash"
-      ]
+        "h_heatedCrystalFlash"
+      ],
+      "flashSuitChecked": true
     },
     {
+      "id": 3,
       "link": [1, 2],
       "name": "Base",
       "requires": [
@@ -109,8 +137,76 @@
       ]
     },
     {
+      "id": 42,
+      "link": [1, 2],
+      "name": "G-Mode Setup - Get Hit By Sova",
+      "entranceCondition": {
+        "comeInNormally": {}
+      },
+      "requires": [
+        {"heatFrames": 405}
+      ],
+      "exitCondition": {
+        "leaveWithGModeSetup": {}
+      },
+      "unlocksDoors": [
+        {"types": ["missiles", "super"], "requires": []},
+        {"types": ["powerbomb"], "requires": ["never"]}
+      ],
+      "flashSuitChecked": true,
+      "note": "Fall into the room and land on the bottom right crumble platform to bring the Sova to the door."
+    },
+    {
+      "id": 48,
+      "link": [1, 2],
+      "name": "Come in Shinecharging, Leave With Temporary Blue",
+      "entranceCondition": {
+        "comeInShinecharging": {
+          "length": 1,
+          "openEnd": 0
+        }
+      },
+      "requires": [
+        "canChainTemporaryBlue",
+        "canXRayTurnaround",
+        {"heatFrames": 375},
+        {"or": [
+          "canXRayCancelShinecharge",
+          {"heatFrames": 160}
+        ]}
+      ],
+      "exitCondition": {
+        "leaveWithTemporaryBlue": {}
+      },
+      "unlocksDoors": [
+        {"types": ["super"], "requires": []},
+        {"types": ["powerbomb"], "requires": ["canInsaneJump"]},
+        {
+          "types": ["missiles"],
+          "requires": [{"heatFrames": 50}]
+        }
+      ]
+    },
+    {
+      "id": 45,
+      "link": [1, 2],
+      "name": "G-Mode",
+      "entranceCondition": {
+        "comeInWithGMode": {
+          "mode": "any",
+          "morphed": false
+        }
+      },
+      "requires": [
+        "h_heatedGMode",
+        {"heatFrames": 45}
+      ],
+      "flashSuitChecked": true
+    },
+    {
+      "id": 4,
       "link": [1, 3],
-      "name": "Crumble Shaft Top Item Crumble Jump",
+      "name": "Top Item Crumble Jump",
       "requires": [
         "canCrumbleJump",
         {"heatFrames": 150}
@@ -118,8 +214,9 @@
       "note": "Shoot the shot block, then crumble jump on the middle platform."
     },
     {
+      "id": 5,
       "link": [1, 3],
-      "name": "Crumble Shaft Top Item Crumble Spin Jump",
+      "name": "Top Item Crumble Spin Jump",
       "requires": [
         "canCrumbleJump",
         "canTrickyJump",
@@ -129,6 +226,7 @@
       "note": "Shoot the shot block, then crumble spin jump on the middle platform."
     },
     {
+      "id": 6,
       "link": [1, 3],
       "name": "Space Jump",
       "requires": [
@@ -138,25 +236,27 @@
       "clearsObstacles": ["A"]
     },
     {
+      "id": 7,
       "link": [1, 3],
-      "name": "Shinespark",
+      "name": "Come in Shinecharged, Shinespark",
       "entranceCondition": {
-        "comeInShinecharged": {
-          "framesRequired": 60
-        }
+        "comeInShinecharged": {}
       },
       "requires": [
+        {"shineChargeFrames": 60},
         "canHorizontalShinespark",
         {"shinespark": {"frames": 20}},
         {"heatFrames": 175}
-      ]
+      ],
+      "flashSuitChecked": true
     },
     {
+      "id": 8,
       "link": [1, 3],
-      "name": "Crumble Shaft Top Item Precise Walljump",
-      "notable": true,
+      "name": "Precise Walljump",
       "requires": [
         "canPreciseWalljump",
+        "canTrickyJump",
         "canCameraManip",
         {"heatFrames": 300}
       ],
@@ -167,11 +267,13 @@
       ]
     },
     {
+      "id": 9,
       "link": [1, 3],
-      "name": "Crumble Shaft Top Item Frozen Sova",
-      "notable": true,
+      "name": "Top Item Frozen Sova",
       "requires": [
-        "canUseFrozenEnemies",
+        {"notable": "Top Item Frozen Sova"},
+        "canTrickyUseFrozenEnemies",
+        "canCarefulJump",
         "canCameraManip",
         {"heatFrames": 350}
       ],
@@ -179,20 +281,26 @@
       "note": [
         "Jump and aim down to lower the camera so the middle platform Sova starts moving.",
         "Then freeze it by aiming down, shoot the shot block, and use the Sova as a stable platform."
+      ],
+      "devNote": [
+        "Wall jumping and using the same frozen Sova, or falling onto the Sova just below the item and then jumping to the top Sova could be added,",
+        "but this would require an obstacle to ensure they haven't fallen or died, and is not really easier than a crumble jump."
       ]
     },
     {
+      "id": 10,
       "link": [1, 3],
       "name": "Spring Ball",
       "requires": [
-        "h_canUseSpringBall",
+        "h_useSpringBall",
         {"heatFrames": 200}
       ],
       "note": "Shoot the shot block, then Spring Ball on the middle platform."
     },
     {
+      "id": 11,
       "link": [2, 1],
-      "name": "Crumble Shaft HiJump Climb",
+      "name": "HiJump Climb",
       "requires": [
         "HiJump",
         "canConsecutiveWalljump",
@@ -201,8 +309,9 @@
       "note": "Walljump up the right, then setup a walljump on the top-right crumble platform directly from the right wall."
     },
     {
+      "id": 12,
       "link": [2, 1],
-      "name": "Crumble Shaft HiJumpless Climb",
+      "name": "HiJumpless Climb",
       "requires": [
         "canPreciseWalljump",
         "canConsecutiveWalljump",
@@ -211,8 +320,9 @@
       "note": "Walljump up the right, then walljump off the top-middle crumble platform then off the top-right one."
     },
     {
+      "id": 13,
       "link": [2, 1],
-      "name": "Crumble Shaft Consecutive Crumble Climb",
+      "name": "Consecutive Crumble Jump Climb",
       "requires": [
         "canCrumbleJump",
         "canTrickyJump",
@@ -222,8 +332,9 @@
       "devNote": "This is only really useful without wall jumps."
     },
     {
+      "id": 14,
       "link": [2, 1],
-      "name": "Crumble Shaft Wall/Crumble Climb",
+      "name": "Wall Jump Climb Crumble Jump",
       "requires": [
         "canCrumbleJump",
         "canConsecutiveWalljump",
@@ -232,15 +343,17 @@
       "note": "Walljump up the right then do one crumble jump on the top middle platform."
     },
     {
+      "id": 15,
       "link": [2, 1],
       "name": "Spring Ball",
       "requires": [
-        "h_canUseSpringBall",
+        "h_useSpringBall",
         {"heatFrames": 800}
       ],
       "note": "Hold jump to easily do 9 successive spring ball bounces up the platforms."
     },
     {
+      "id": 16,
       "link": [2, 1],
       "name": "Wall Jump with Space Jump",
       "requires": [
@@ -251,6 +364,7 @@
       "note": "Walljump up the right, then use SpaceJump at the top."
     },
     {
+      "id": 17,
       "link": [2, 1],
       "name": "Space Jump",
       "requires": [
@@ -260,11 +374,12 @@
       "note": "Use SpaceJump to get to the top."
     },
     {
+      "id": 18,
       "link": [2, 1],
-      "name": "Crumble Shaft IBJ (Right)",
+      "name": "IBJ (Right)",
       "requires": [
-        "h_canIBJ",
-        "h_canStaggeredIBJ",
+        "canLongIBJ",
+        "canStaggeredIBJ",
         {"heatFrames": 4000}
       ],
       "note": [
@@ -274,11 +389,12 @@
       ]
     },
     {
+      "id": 19,
       "link": [2, 1],
-      "name": "Heatproof Crumble Shaft IBJ",
+      "name": "Heatproof IBJ",
       "requires": [
         "h_heatProof",
-        "h_canIBJ"
+        "canLongIBJ"
       ],
       "note": [
         "Kill the Sova on the bottom-right platform, then IBJ right next to the left of the platform.",
@@ -287,42 +403,46 @@
       ]
     },
     {
+      "id": 20,
       "link": [2, 1],
       "name": "WallJump and SpringBall",
       "requires": [
-        "h_canUseSpringBall",
+        "h_useSpringBall",
         "canConsecutiveWalljump",
         {"heatFrames": 500}
       ],
       "note": "Walljump up the right then SpringBall bounce on top of the highest Crumble Block platform to reach the door."
     },
     {
+      "id": 21,
       "link": [2, 1],
       "name": "Shinespark Climb",
       "entranceCondition": {
-        "comeInShinecharged": {
-          "framesRequired": 60
-        }
+        "comeInShinecharged": {}
       },
       "requires": [
+        {"shineChargeFrames": 60},
         {"shinespark": {"frames": 59}},
         {"heatFrames": 250}
       ],
+      "flashSuitChecked": true,
       "note": "It has to be setup really close to the left side of the right platforms, otherwise it also requires a crumble jump at the top."
     },
     {
+      "id": 22,
       "link": [2, 1],
-      "name": "Crumble Shaft Frozen Climb",
+      "name": "Frozen Sova Climb",
       "requires": [
-        "canUseFrozenEnemies",
+        "canTrickyUseFrozenEnemies",
         "canConsecutiveWalljump",
         {"heatFrames": 800}
       ],
       "note": "Climb up the left, freeze the top-left Sova, and use it as a platform to reach the door."
     },
     {
+      "id": 23,
       "link": [2, 1],
-      "name": "Crumble Shaft X-Ray Climb",
+      "name": "X-Ray Climb",
       "entranceCondition": {
         "comeInWithDoorStuckSetup": {}
       },
@@ -331,10 +451,12 @@
         {"heatFrames": 4000},
         "canBePatient"
       ],
+      "flashSuitChecked": true,
       "note": "Climb up 3 screens.",
       "devNote": "Heat frames split into the actual climb and the setup in the adjacent room."
     },
     {
+      "id": 24,
       "link": [2, 1],
       "name": "Very Deep Stuck X-Ray Climb",
       "entranceCondition": {
@@ -349,12 +471,65 @@
         "canBePatient"
       ],
       "bypassesDoorShell": true,
+      "flashSuitChecked": true,
       "note": [
         "Enter with G-mode direct, back up to between 1 and 6 pixels from the door transition, and activate X-ray to get very deep stuck in the door.",
         "Climb up 3 screens, and perform a turnaround buffered spin-jump away from the door to trigger the transition, bypassing any lock on the door."
       ]
     },
     {
+      "id": 43,
+      "link": [2, 1],
+      "name": "G-Mode Setup - Get Hit By Sova",
+      "requires": [
+        {"heatFrames": 2060},
+        {"or": [
+          "h_useSpringBall",
+          {"and": [
+            "canStaggeredWalljump",
+            {"heatFrames": 100}
+          ]},
+          {"and": [
+            "SpaceJump",
+            {"heatFrames": 100}
+          ]}
+        ]}
+      ],
+      "exitCondition": {
+        "leaveWithGModeSetup": {}
+      },
+      "unlocksDoors": [
+        {"types": ["missiles", "super"], "requires": []},
+        {"types": ["powerbomb"], "requires": ["h_heatProof"]}
+      ],
+      "flashSuitChecked": true,
+      "note": [
+        "Lure a Sova from the bottom to top of the room.",
+        "If wall jumping, it may be easiest to follow behind the Sova and pass it at the top of the room."
+      ],
+      "devNote": [
+        "FIXME: This could be doable with an x-ray climb and then carefully and slowly returning the camera.",
+        "This is also possible with a very large number of crumble jumps."
+      ]
+    },
+    {
+      "id": 46,
+      "link": [2, 1],
+      "name": "G-Mode",
+      "entranceCondition": {
+        "comeInWithGMode": {
+          "mode": "any",
+          "morphed": false
+        }
+      },
+      "requires": [
+        "h_heatedGModeOpenDifferentDoor"
+      ],
+      "flashSuitChecked": true,
+      "note": "Climb the solid crumble blocks."
+    },
+    {
+      "id": 25,
       "link": [2, 1],
       "name": "Grapple Teleport (from Red Brinstar Firefleas)",
       "entranceCondition": {
@@ -378,6 +553,7 @@
       ]
     },
     {
+      "id": 26,
       "link": [2, 1],
       "name": "Grapple Teleport (from Moat)",
       "entranceCondition": {
@@ -396,6 +572,7 @@
       ]
     },
     {
+      "id": 27,
       "link": [2, 2],
       "name": "Leave with Runway",
       "requires": [
@@ -409,10 +586,11 @@
       }
     },
     {
+      "id": 28,
       "link": [2, 2],
       "name": "Leave With Runway - Frozen Sova",
       "requires": [
-        "h_canFrozenEnemyRunway",
+        "h_frozenEnemyRunway",
         {"heatFrames": 360},
         {"or": [
           "canCrumbleJump",
@@ -430,31 +608,111 @@
       "devNote": "There are more alternatives to the single canCrumbleJump, but it is basically assumed at this difficulty."
     },
     {
+      "id": 47,
+      "link": [2, 2],
+      "name": "Leave With Side Platform",
+      "requires": [
+        {"heatFrames": 135},
+        "canTrickyJump"
+      ],
+      "exitCondition": {
+        "leaveWithSidePlatform": {
+          "height": 2,
+          "runway": {
+            "length": 3,
+            "openEnd": 2
+          },
+          "obstruction": [3, 2]
+        }
+      },
+      "devNote": "Max extra run speed $1.5"
+    },
+    {
+      "id": 29,
       "link": [2, 2],
       "name": "Sova Farm",
       "requires": [
         "h_heatProof",
+        "canDodgeWhileShooting",
         {"or": [
-          "canCrumbleJump",
-          "h_canUseSpringBall"
+          {"and": [
+            "canCrumbleJump",
+            "canConsecutiveWalljump"
+          ]},
+          "h_useSpringBall"
         ]},
         {"resetRoom": {
-          "nodes": [1, 2],
-          "mustStayPut": false
+          "nodes": [1, 2]
         }},
-        {"refill": ["Energy", "Missile", "Super"]}
-      ]
+        {"partialRefill": {"type": "Energy", "limit": 200}},
+        {"partialRefill": {"type": "Super", "limit": 5}},
+        {"partialRefill": {"type": "Missile", "limit": 8}}
+      ],
+      "resetsObstacles": ["A"],
+      "devNote": ["farm cycle = 23seconds(room time) for 6 Sova drops"]
     },
     {
+      "id": 30,
       "link": [2, 2],
       "name": "Crystal Flash",
       "requires": [
         {"heatFrames": 20},
-        "h_canHeatedCrystalFlash",
+        "h_heatedCrystalFlash",
         {"heatFrames": 20}
+      ],
+      "flashSuitChecked": true
+    },
+    {
+      "id": 31,
+      "link": [2, 2],
+      "name": "G-Mode Regain Mobility",
+      "requires": [
+        {"ammo": {"type": "Super", "count": 1}},
+        {"enemyDamage": {"enemy": "Sova", "type": "contact", "hits": 1}}
+      ],
+      "gModeRegainMobility": {},
+      "flashSuitChecked": true,
+      "note": "Use a Super to knock off the Sova to regain mobility."
+    },
+    {
+      "id": 44,
+      "link": [2, 2],
+      "name": "G-Mode Setup - Get Hit By Sova",
+      "entranceCondition": {
+        "comeInNormally": {}
+      },
+      "requires": [
+        {"heatFrames": 370},
+        {"or": [
+          "HiJump",
+          "SpaceJump",
+          "canWalljump",
+          "h_useSpringBall",
+          "canCrumbleJump",
+          "canTrickyJump",
+          {"ammo": {"type": "Super", "count": 1}},
+          {"and": [
+            "canJumpIntoIBJ",
+            {"heatFrames": 80}
+          ]}
+        ]}
+      ],
+      "exitCondition": {
+        "leaveWithGModeSetup": {}
+      },
+      "unlocksDoors": [
+        {"types": ["missiles", "super"], "requires": []},
+        {"types": ["powerbomb"], "requires": ["never"]}
+      ],
+      "flashSuitChecked": true,
+      "note": "Land on the crumble platform just above the door to release the Sova.",
+      "devNote": [
+        "It is possible to jump into the room if it is dry, but these options are easy enough to ignore adding that.",
+        "Opening the door with missiles will usually not add any heat frames, but will if using IBJ or a doorframe jump."
       ]
     },
     {
+      "id": 32,
       "link": [2, 3],
       "name": "Base",
       "requires": [
@@ -463,67 +721,61 @@
       ]
     },
     {
+      "id": 33,
       "link": [2, 3],
-      "name": "Crumble Shaft IBJ (Left)",
+      "name": "IBJ (Left)",
       "requires": [
-        "h_canIBJ",
-        "h_canStaggeredIBJ",
+        "canLongIBJ",
+        "canStaggeredIBJ",
         {"heatFrames": 4000}
       ],
       "note": "IBJ against the left-most wall. Changing the IBJ speed may be necessary to get past the Sova."
     },
     {
+      "id": 34,
       "link": [2, 3],
-      "name": "Heatproof Crumble Shaft IBJ",
+      "name": "Heatproof IBJ",
       "requires": [
         "h_heatProof",
-        "h_canIBJ"
+        "canLongIBJ"
       ],
       "note": "IBJ against the left-most wall. Place bombs to kill the Sova. Drop to the bottom and restart if necessary."
     },
     {
+      "id": 35,
       "link": [2, 3],
-      "name": "Crumble Shaft Shinespark Climb",
+      "name": "Shinespark Climb",
       "entranceCondition": {
-        "comeInShinecharged": {
-          "framesRequired": 30
-        }
+        "comeInShinecharged": {}
       },
       "requires": [
+        {"shineChargeFrames": 30},
         {"shinespark": {"frames": 59}},
         {"heatFrames": 250}
       ],
+      "flashSuitChecked": true,
       "note": "It is easiest to do a diagonal shinespark up the left wall, then hold left, angle down, and spam shoot to easily grab the item."
     },
     {
+      "id": 36,
       "link": [3, 1],
-      "name": "Crumble Shaft Top Door Crumble Jump",
+      "name": "Top Door Crumble Jump",
       "requires": [
         "canCrumbleJump",
         {"heatFrames": 200}
       ]
     },
     {
-      "link": [3, 1],
-      "name": "Frozen Sova",
-      "requires": [
-        "canUseFrozenEnemies",
-        {"heatFrames": 400}
-      ],
-      "note": [
-        "Expects to freeze and use two Sovas back-to-back, as leniency to account for position variations.",
-        "Also has an extra buffer for possibly needing to wait beforehand for the left Sova to position itself right."
-      ]
-    },
-    {
+      "id": 38,
       "link": [3, 1],
       "name": "Spring Ball",
       "requires": [
-        "h_canUseSpringBall",
+        "h_useSpringBall",
         {"heatFrames": 250}
       ]
     },
     {
+      "id": 39,
       "link": [3, 1],
       "name": "Space Jump",
       "requires": [
@@ -534,11 +786,36 @@
       "note": "Must have grabbed the item with a spinjump still active."
     },
     {
+      "id": 40,
+      "link": [3, 1],
+      "name": "Precise Walljump",
+      "requires": [
+        {"obstaclesCleared": ["A"]},
+        "canPreciseWalljump",
+        "canTrickyJump",
+        {"heatFrames": 300}
+      ],
+      "note": ["Walljump off the sides of the crumble block platforms to reach the door."]
+    },
+    {
+      "id": 41,
       "link": [3, 2],
       "name": "Base",
       "requires": [
         {"heatFrames": 250}
       ]
     }
-  ]
+  ],
+  "notables": [
+    {
+      "id": 1,
+      "name": "Top Item Frozen Sova",
+      "note": [
+        "Jump and aim down to lower the camera so the middle platform Sova starts moving.",
+        "Then freeze it by aiming down, shoot the shot block, and use the Sova as a stable platform."
+      ]
+    }
+  ],
+  "nextStratId": 49,
+  "nextNotableId": 2
 }

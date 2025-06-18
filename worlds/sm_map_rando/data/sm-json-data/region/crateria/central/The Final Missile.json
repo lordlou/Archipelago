@@ -4,9 +4,11 @@
   "name": "The Final Missile",
   "area": "Crateria",
   "subarea": "Central",
-  "playable": true,
   "roomAddress": "0x79A90",
   "roomEnvironments": [{"heated": false}],
+  "mapTileMask": [
+    [1]
+  ],
   "nodes": [
     {
       "id": 1,
@@ -14,7 +16,11 @@
       "nodeType": "door",
       "nodeSubType": "blue",
       "nodeAddress": "0x0018c9a",
-      "doorEnvironments": [{"physics": "air"}]
+      "doorOrientation": "right",
+      "doorEnvironments": [{"physics": "air"}],
+      "mapTileMask": [
+        [2]
+      ]
     },
     {
       "id": 2,
@@ -30,11 +36,10 @@
           "unlockStrats": [
             {
               "name": "Base",
-              "notable": false,
               "requires": [
                 {"or": [
                   "h_ZebesIsAwake",
-                  "h_AllItemsSpawned"
+                  "h_allItemsSpawned"
                 ]}
               ],
               "devNote": [
@@ -44,6 +49,9 @@
             }
           ]
         }
+      ],
+      "mapTileMask": [
+        [2]
       ]
     }
   ],
@@ -65,6 +73,7 @@
   ],
   "strats": [
     {
+      "id": 1,
       "link": [1, 1],
       "name": "Leave with Runway",
       "requires": [],
@@ -76,21 +85,28 @@
       }
     },
     {
+      "id": 2,
       "link": [1, 1],
       "name": "Crystal Flash",
       "requires": [
-        "h_canCrystalFlash"
-      ]
+        "h_CrystalFlash"
+      ],
+      "flashSuitChecked": true
     },
     {
+      "id": 3,
       "link": [1, 2],
       "name": "Base",
       "requires": []
     },
     {
+      "id": 4,
       "link": [2, 1],
       "name": "Base",
       "requires": []
     }
-  ]
+  ],
+  "notables": [],
+  "nextStratId": 5,
+  "nextNotableId": 1
 }

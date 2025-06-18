@@ -5,9 +5,11 @@
   "area": "Norfair",
   "subarea": "Upper",
   "subsubarea": "East",
-  "playable": true,
   "roomAddress": "0x7AFCE",
   "roomEnvironments": [{"heated": true}],
+  "mapTileMask": [
+    [1, 1, 1, 1]
+  ],
   "nodes": [
     {
       "id": 1,
@@ -15,7 +17,11 @@
       "nodeType": "door",
       "nodeSubType": "blue",
       "nodeAddress": "0x001974a",
-      "doorEnvironments": [{"physics": "air"}]
+      "doorOrientation": "left",
+      "doorEnvironments": [{"physics": "air"}],
+      "mapTileMask": [
+        [2, 1, 1, 1]
+      ]
     },
     {
       "id": 2,
@@ -23,7 +29,11 @@
       "nodeType": "door",
       "nodeSubType": "blue",
       "nodeAddress": "0x0019756",
-      "doorEnvironments": [{"physics": "air"}]
+      "doorOrientation": "right",
+      "doorEnvironments": [{"physics": "air"}],
+      "mapTileMask": [
+        [1, 1, 1, 2]
+      ]
     },
     {
       "id": 3,
@@ -31,13 +41,20 @@
       "nodeType": "door",
       "nodeSubType": "blue",
       "nodeAddress": "0x0019762",
-      "doorEnvironments": [{"physics": "air"}]
+      "doorOrientation": "up",
+      "doorEnvironments": [{"physics": "air"}],
+      "mapTileMask": [
+        [1, 1, 1, 2]
+      ]
     },
     {
       "id": 4,
       "name": "Gamet Farm Junction",
       "nodeType": "junction",
-      "nodeSubType": "junction"
+      "nodeSubType": "junction",
+      "mapTileMask": [
+        [1, 2, 2, 1]
+      ]
     }
   ],
   "enemies": [
@@ -46,25 +63,7 @@
       "groupName": "Acid Snakes Tunnel Gamets",
       "enemyName": "Gamet",
       "quantity": 5,
-      "homeNodes": [4],
-      "farmCycles": [
-        {
-          "name": "Crouch 3 tiles over Gamets",
-          "cycleFrames": 165,
-          "requires": [
-            {"heatFrames": 165}
-          ]
-        },
-        {
-          "name": "Lava Gamets down shots",
-          "cycleFrames": 120,
-          "requires": [
-            {"heatFrames": 120},
-            {"lavaFrames": 120}
-          ],
-          "note": "Works fine with lava immunity"
-        }
-      ]
+      "homeNodes": [4]
     },
     {
       "id": "e2",
@@ -72,7 +71,6 @@
       "enemyName": "Dragon",
       "quantity": 2,
       "homeNodes": [4, 2],
-      "dropRequires": ["h_heatProof"],
       "note": "Drops can be reached from land"
     }
   ],
@@ -81,6 +79,8 @@
       "from": 1,
       "to": [
         {"id": 1},
+        {"id": 2},
+        {"id": 3},
         {"id": 4}
       ]
     },
@@ -113,6 +113,175 @@
   ],
   "strats": [
     {
+      "id": 43,
+      "link": [1, 1],
+      "name": "Leave with Runway",
+      "requires": [],
+      "exitCondition": {
+        "leaveWithRunway": {
+          "length": 14,
+          "openEnd": 1
+        }
+      }
+    },
+    {
+      "id": 1,
+      "link": [1, 2],
+      "name": "Come in Getting Blue Speed, Leave With Temporary Blue",
+      "entranceCondition": {
+        "comeInGettingBlueSpeed": {
+          "length": 13,
+          "openEnd": 1
+        }
+      },
+      "requires": [
+        "canChainTemporaryBlue",
+        {"or": [
+          {"and": [
+            "canSpeedball",
+            "canSpringBallBounce",
+            {"heatFrames": 490}
+          ]},
+          {"and": [
+            "SpaceJump",
+            {"heatFrames": 420}
+          ]},
+          {"and": [
+            "canSpeedball",
+            "canLongChainTemporaryBlue",
+            {"heatFrames": 780}
+          ]}
+        ]}
+      ],
+      "exitCondition": {
+        "leaveWithTemporaryBlue": {}
+      },
+      "unlocksDoors": [
+        {"types": ["super", "powerbomb"], "requires": []},
+        {
+          "types": ["missiles"],
+          "requires": [{"heatFrames": 50}]
+        }
+      ],
+      "note": [
+        "Use Space Jump, Spring Ball, to carry blue speed across the room;",
+        "alternatively, use a long series of temporary blue chains."
+      ]
+    },
+    {
+      "id": 46,
+      "link": [1, 2],
+      "name": "G-Mode",
+      "entranceCondition": {
+        "comeInWithGMode": {
+          "mode": "any",
+          "morphed": false
+        }
+      },
+      "requires": [
+        {"or": [
+          "h_heatedGModePauseAbuse",
+          "h_heatedGModeOpenDifferentDoor"
+        ]}
+      ],
+      "flashSuitChecked": true,
+      "note": "It is possible to kill a Gamet by the door and pause abuse to grab its Energy drop on G-mode exit.",
+      "devNote": "This is not useful unless heat damage is increased or Energy capacity is reduced."
+    },
+    {
+      "id": 2,
+      "link": [1, 3],
+      "name": "Come in Shinecharging, Leave With Temporary Blue",
+      "entranceCondition": {
+        "comeInShinecharging": {
+          "length": 13,
+          "openEnd": 1
+        }
+      },
+      "requires": [
+        "canChainTemporaryBlue",
+        {"or": [
+          {"and": [
+            "canSpeedball",
+            "canSpringBallBounce",
+            {"heatFrames": 400}
+          ]},
+          {"and": [
+            "SpaceJump",
+            {"heatFrames": 420}
+          ]},
+          {"and": [
+            "canSpeedball",
+            "canLongChainTemporaryBlue",
+            {"heatFrames": 670}
+          ]}
+        ]}
+      ],
+      "exitCondition": {
+        "leaveWithTemporaryBlue": {
+          "direction": "right"
+        }
+      },
+      "unlocksDoors": [
+        {"types": ["super", "powerbomb"], "requires": []},
+        {
+          "types": ["missiles"],
+          "requires": [{"heatFrames": 50}]
+        }
+      ],
+      "note": [
+        "Use Space Jump, Spring Ball, to carry blue speed across the room;",
+        "alternatively, use a long series of temporary blue chains."
+      ]
+    },
+    {
+      "id": 47,
+      "link": [1, 3],
+      "name": "G-Mode",
+      "entranceCondition": {
+        "comeInWithGMode": {
+          "mode": "any",
+          "morphed": false
+        }
+      },
+      "requires": [
+        "h_heatedGMode",
+        {"heatFrames": 50}
+      ],
+      "flashSuitChecked": true
+    },
+    {
+      "id": 51,
+      "link": [1, 3],
+      "name": "G-Mode Ice Clip, Door Lock Skip",
+      "entranceCondition": {
+        "comeInWithGMode": {
+          "mode": "any",
+          "morphed": false
+        }
+      },
+      "requires": [
+        {"or": [
+          "h_preciseIceClip",
+          "h_highPixelIceClip"
+        ]}
+      ],
+      "exitCondition": {
+        "leaveWithGMode": {
+          "morphed": false
+        }
+      },
+      "bypassesDoorShell": true,
+      "flashSuitChecked": true,
+      "note": [
+        "Jump next to the Gamet farm until one is at the correct height, which is just over one tile above Samus.",
+        "Lure it to the right and use it to ice clip through the top door shell. Avoid killing any of the Gamets or they will all stop spawning.",
+        "With bad positioning, move the Gamets off camera to try again; ice can help get around them.",
+        "Also, be careful to avoid touching the invisible, stationary projectiles that the Dragons shoot."
+      ]
+    },
+    {
+      "id": 3,
       "link": [1, 4],
       "name": "Base",
       "requires": [
@@ -120,6 +289,71 @@
       ]
     },
     {
+      "id": 48,
+      "link": [1, 4],
+      "name": "G-Mode, To the Farm",
+      "entranceCondition": {
+        "comeInWithGMode": {
+          "mode": "any",
+          "morphed": false
+        }
+      },
+      "requires": [
+        "h_heatedGMode",
+        {"or": [
+          "h_heatedGModePauseAbuse",
+          {"heatFrames": 40}
+        ]}
+      ],
+      "flashSuitChecked": true,
+      "note": "Kill the Gamets where Samus can grab the drops. Exit G-mode, then pause abuse to pick them up without dying."
+    },
+    {
+      "id": 4,
+      "link": [2, 1],
+      "name": "Come in Getting Blue Speed, Leave With Temporary Blue",
+      "entranceCondition": {
+        "comeInGettingBlueSpeed": {
+          "length": 13,
+          "openEnd": 1
+        }
+      },
+      "requires": [
+        "canChainTemporaryBlue",
+        {"or": [
+          {"and": [
+            "canSpeedball",
+            "canSpringBallBounce",
+            {"heatFrames": 490}
+          ]},
+          {"and": [
+            "SpaceJump",
+            {"heatFrames": 420}
+          ]},
+          {"and": [
+            "canSpeedball",
+            "canLongChainTemporaryBlue",
+            {"heatFrames": 790}
+          ]}
+        ]}
+      ],
+      "exitCondition": {
+        "leaveWithTemporaryBlue": {}
+      },
+      "unlocksDoors": [
+        {"types": ["super", "powerbomb"], "requires": []},
+        {
+          "types": ["missiles"],
+          "requires": [{"heatFrames": 50}]
+        }
+      ],
+      "note": [
+        "Use Space Jump, Spring Ball, to carry blue speed across the room;",
+        "alternatively, use a long series of temporary blue chains."
+      ]
+    },
+    {
+      "id": 5,
       "link": [2, 1],
       "name": "Grapple Teleport",
       "entranceCondition": {
@@ -127,9 +361,58 @@
           "blockPositions": [[7, 2]]
         }
       },
-      "requires": []
+      "requires": [
+        {"heatFrames": 50}
+      ]
     },
     {
+      "id": 6,
+      "link": [2, 1],
+      "name": "Grapple Teleport Door Lock Skip",
+      "entranceCondition": {
+        "comeInWithGrappleTeleport": {
+          "blockPositions": [[3, 12], [3, 13]]
+        }
+      },
+      "requires": [],
+      "bypassesDoorShell": true
+    },
+    {
+      "id": 7,
+      "link": [2, 1],
+      "name": "Carry Grapple Teleport (Top Position)",
+      "entranceCondition": {
+        "comeInWithGrappleTeleport": {
+          "blockPositions": [[3, 12]]
+        }
+      },
+      "requires": [],
+      "exitCondition": {
+        "leaveWithGrappleTeleport": {
+          "blockPositions": [[3, 12]]
+        }
+      },
+      "bypassesDoorShell": true
+    },
+    {
+      "id": 8,
+      "link": [2, 1],
+      "name": "Carry Grapple Teleport (Bottom Position)",
+      "entranceCondition": {
+        "comeInWithGrappleTeleport": {
+          "blockPositions": [[3, 13]]
+        }
+      },
+      "requires": [],
+      "exitCondition": {
+        "leaveWithGrappleTeleport": {
+          "blockPositions": [[3, 13]]
+        }
+      },
+      "bypassesDoorShell": true
+    },
+    {
+      "id": 9,
       "link": [2, 2],
       "name": "Leave with Runway",
       "requires": [],
@@ -141,13 +424,16 @@
       }
     },
     {
+      "id": 10,
       "link": [2, 2],
       "name": "Crystal Flash",
       "requires": [
-        "h_canHeatedCrystalFlash"
-      ]
+        "h_heatedCrystalFlash"
+      ],
+      "flashSuitChecked": true
     },
     {
+      "id": 11,
       "link": [2, 3],
       "name": "Base",
       "requires": [
@@ -155,49 +441,58 @@
       ]
     },
     {
+      "id": 12,
       "link": [2, 3],
       "name": "In-Room Shortcharge",
       "requires": [
         {"or": [
-          {"canShineCharge": {
-            "usedTiles": 13,
-            "openEnd": 1
-          }},
+          {"canShineCharge": {"usedTiles": 13, "openEnd": 1}},
           {"and": [
             {"doorUnlockedAtNode": 2},
-            {"canShineCharge": {
-              "usedTiles": 14,
-              "openEnd": 1
-            }},
+            {"canShineCharge": {"usedTiles": 14, "openEnd": 1}},
             {"heatFrames": 20}
           ]}
         ]},
-        {"heatFrames": 240}
+        {"heatFrames": 240},
+        {"shineChargeFrames": 90}
       ],
       "exitCondition": {
-        "leaveShinecharged": {
-          "framesRemaining": 90
-        }
+        "leaveShinecharged": {}
       },
       "unlocksDoors": [
-        {"nodeId": 2, "types": ["missiles"], "requires": [{"heatFrames": 50}]},
+        {
+          "nodeId": 2,
+          "types": ["missiles"],
+          "requires": [{"heatFrames": 50}]
+        },
         {"nodeId": 2, "types": ["super"], "requires": []},
-        {"nodeId": 2, "types": ["powerbomb"], "requires": [{"heatFrames": 110}]},
-        {"types": ["missiles"], "requires": [{"heatFrames": 50}]},
+        {
+          "nodeId": 2,
+          "types": ["powerbomb"],
+          "requires": [{"heatFrames": 110}]
+        },
+        {
+          "types": ["missiles"],
+          "requires": [{"heatFrames": 50}]
+        },
         {"types": ["super"], "requires": []},
-        {"types": ["powerbomb"], "requires": [{"heatFrames": 110}]}
+        {
+          "types": ["powerbomb"],
+          "requires": [{"heatFrames": 110}]
+        }
       ],
+      "flashSuitChecked": true,
       "devNote": "FIXME: One Power Bomb would open both doors."
     },
     {
+      "id": 13,
       "link": [2, 3],
       "name": "Come In Shinecharged, Leave Sparking",
       "entranceCondition": {
-        "comeInShinecharged": {
-          "framesRequired": 40
-        }
+        "comeInShinecharged": {}
       },
       "requires": [
+        {"shineChargeFrames": 40},
         {"shinespark": {"frames": 8}},
         {"heatFrames": 50}
       ],
@@ -208,55 +503,55 @@
         {"types": ["super"], "requires": []},
         {"types": ["missiles", "powerbomb"], "requires": ["never"]}
       ],
+      "flashSuitChecked": true,
       "devNote": "FIXME: Missiles could unlock the door with more shinespark frames available."
     },
     {
+      "id": 14,
       "link": [2, 3],
       "name": "Carry Shinecharge",
       "entranceCondition": {
-        "comeInShinecharged": {
-          "framesRequired": 65
-        }
+        "comeInShinecharged": {}
       },
       "requires": [
+        {"shineChargeFrames": 65},
         "canShinechargeMovementComplex",
         {"heatFrames": 65}
       ],
       "exitCondition": {
-        "leaveShinecharged": {
-          "framesRemaining": "auto"
-        }
+        "leaveShinecharged": {}
       },
       "unlocksDoors": [
         {"types": ["super"], "requires": []},
         {"types": ["missiles", "powerbomb"], "requires": ["never"]}
       ],
+      "flashSuitChecked": true,
       "note": "Break spin to trigger the transition early, or use a wall jump."
     },
     {
+      "id": 15,
       "link": [2, 3],
       "name": "Carry Shinecharge (HiJump)",
       "entranceCondition": {
-        "comeInShinecharged": {
-          "framesRequired": 50
-        }
+        "comeInShinecharged": {}
       },
       "requires": [
+        {"shineChargeFrames": 50},
         "HiJump",
         "canShinechargeMovementComplex",
         {"heatFrames": 50}
       ],
       "exitCondition": {
-        "leaveShinecharged": {
-          "framesRemaining": "auto"
-        }
+        "leaveShinecharged": {}
       },
       "unlocksDoors": [
         {"types": ["super"], "requires": []},
         {"types": ["missiles", "powerbomb"], "requires": ["never"]}
-      ]
+      ],
+      "flashSuitChecked": true
     },
     {
+      "id": 16,
       "link": [2, 3],
       "name": "Come In Shinecharging, Leave Shinecharged",
       "entranceCondition": {
@@ -266,20 +561,21 @@
         }
       },
       "requires": [
-        {"heatFrames": 80}
+        {"heatFrames": 80},
+        {"shineChargeFrames": 90}
       ],
       "exitCondition": {
-        "leaveShinecharged": {
-          "framesRemaining": 90
-        }
+        "leaveShinecharged": {}
       },
       "unlocksDoors": [
         {"types": ["super"], "requires": []},
         {"types": ["missiles", "powerbomb"], "requires": ["never"]}
       ],
+      "flashSuitChecked": true,
       "devNote": "FIXME: Missiles could unlock the door but would end with fewer shinespark frames available."
     },
     {
+      "id": 17,
       "link": [2, 3],
       "name": "Leave With Door Frame Below",
       "requires": [
@@ -291,12 +587,19 @@
         }
       },
       "unlocksDoors": [
-        {"types": ["missiles"], "requires": [{"heatFrames": 50}]},
+        {
+          "types": ["missiles"],
+          "requires": [{"heatFrames": 50}]
+        },
         {"types": ["super"], "requires": []},
-        {"types": ["powerbomb"], "requires": [{"heatFrames": 110}]}
+        {
+          "types": ["powerbomb"],
+          "requires": [{"heatFrames": 110}]
+        }
       ]
     },
     {
+      "id": 18,
       "link": [2, 3],
       "name": "Leave With Platform Below (Small Runway)",
       "requires": [
@@ -309,15 +612,14 @@
           "rightPosition": 2
         }
       },
-      "unlocksDoors": [
-        {"types": ["ammo"], "requires": []}
-      ]
+      "unlocksDoors": [{"types": ["ammo"], "requires": []}]
     },
     {
+      "id": 19,
       "link": [2, 3],
       "name": "Leave With Platform Below (Full Runway)",
       "requires": [
-        "h_canBackIntoCorner",
+        "h_backIntoCorner",
         {"heatFrames": 100}
       ],
       "exitCondition": {
@@ -328,9 +630,15 @@
         }
       },
       "unlocksDoors": [
-        {"types": ["missiles"], "requires": [{"heatFrames": 50}]},
+        {
+          "types": ["missiles"],
+          "requires": [{"heatFrames": 50}]
+        },
         {"types": ["super"], "requires": []},
-        {"types": ["powerbomb"], "requires": [{"heatFrames": 110}]}
+        {
+          "types": ["powerbomb"],
+          "requires": [{"heatFrames": 110}]
+        }
       ],
       "devNote": [
         "This includes time to moonwalk back against the right door, without shooting it open.",
@@ -338,6 +646,101 @@
       ]
     },
     {
+      "id": 20,
+      "link": [2, 3],
+      "name": "Come in Shinecharging, Leave With Temporary Blue (Short Runway)",
+      "entranceCondition": {
+        "comeInShinecharging": {
+          "length": 5,
+          "openEnd": 0
+        }
+      },
+      "requires": [
+        {"or": [
+          {"heatFrames": 245},
+          {"and": [
+            {"heatFrames": 85},
+            "canXRayCancelShinecharge"
+          ]}
+        ]}
+      ],
+      "exitCondition": {
+        "leaveWithTemporaryBlue": {
+          "direction": "left"
+        }
+      },
+      "unlocksDoors": [
+        {"types": ["super", "powerbomb"], "requires": []},
+        {
+          "types": ["missiles"],
+          "requires": [{"heatFrames": 50}]
+        }
+      ],
+      "note": [
+        "Gain the shinecharge below the right edge of the door above to avoid bringing the Dragon on-camera."
+      ]
+    },
+    {
+      "id": 21,
+      "link": [2, 3],
+      "name": "Come in Shinecharging, Leave With Temporary Blue (Full Runway)",
+      "entranceCondition": {
+        "comeInShinecharging": {
+          "length": 13,
+          "openEnd": 0
+        }
+      },
+      "requires": [
+        "canXRayTurnaround",
+        "canXRayCancelShinecharge",
+        "canChainTemporaryBlue",
+        {"heatFrames": 240}
+      ],
+      "exitCondition": {
+        "leaveWithTemporaryBlue": {
+          "direction": "any"
+        }
+      },
+      "unlocksDoors": [
+        {"types": ["super", "powerbomb"], "requires": []},
+        {
+          "types": ["missiles"],
+          "requires": [{"heatFrames": 50}]
+        }
+      ]
+    },
+    {
+      "id": 52,
+      "link": [2, 3],
+      "name": "G-Mode Ice Clip, Door Lock Skip",
+      "entranceCondition": {
+        "comeInWithGMode": {
+          "mode": "any",
+          "morphed": false
+        }
+      },
+      "requires": [
+        {"or": [
+          "h_preciseIceClip",
+          "h_highPixelIceClip"
+        ]}
+      ],
+      "exitCondition": {
+        "leaveWithGMode": {
+          "morphed": false
+        }
+      },
+      "bypassesDoorShell": true,
+      "flashSuitChecked": true,
+      "note": [
+        "Jump next to the Gamet farm until one is at the correct height, which is just over one tile above Samus.",
+        "Lure it to the right and use it to ice clip through the top door shell. Avoid killing any of the Gamets or they will all stop spawning.",
+        "With bad positioning, move the Gamets off camera to try again; ice can help get around them.",
+        "Also, be careful to avoid touching the invisible, stationary projectiles that the Dragons shoot."
+      ]
+    },
+    {
+      "id": 22,
       "link": [2, 4],
       "name": "Base",
       "requires": [
@@ -345,6 +748,27 @@
       ]
     },
     {
+      "id": 49,
+      "link": [2, 4],
+      "name": "G-Mode, To the Farm",
+      "entranceCondition": {
+        "comeInWithGMode": {
+          "mode": "any",
+          "morphed": false
+        }
+      },
+      "requires": [
+        "h_heatedGMode",
+        {"or": [
+          "h_heatedGModePauseAbuse",
+          {"heatFrames": 40}
+        ]}
+      ],
+      "flashSuitChecked": true,
+      "note": "Kill the Gamets where Samus can grab the drops. Exit G-mode, then pause abuse to pick them up without dying."
+    },
+    {
+      "id": 23,
       "link": [3, 2],
       "name": "Base",
       "requires": [
@@ -352,38 +776,37 @@
       ]
     },
     {
+      "id": 24,
       "link": [3, 2],
       "name": "Carry Shinecharge",
       "entranceCondition": {
-        "comeInShinecharged": {
-          "framesRequired": 50
-        },
+        "comeInShinecharged": {},
         "comesThroughToilet": "any"
       },
       "requires": [
+        {"shineChargeFrames": 50},
         "canShinechargeMovementComplex",
         {"heatFrames": 50}
       ],
       "exitCondition": {
-        "leaveShinecharged": {
-          "framesRemaining": "auto"
-        }
+        "leaveShinecharged": {}
       },
       "unlocksDoors": [
         {"types": ["super"], "requires": []},
         {"types": ["missiles", "powerbomb"], "requires": ["never"]}
-      ]
+      ],
+      "flashSuitChecked": true
     },
     {
+      "id": 25,
       "link": [3, 2],
       "name": "Come in Shinecharged, Leave With Spark",
       "entranceCondition": {
-        "comeInShinecharged": {
-          "framesRequired": 30
-        },
+        "comeInShinecharged": {},
         "comesThroughToilet": "any"
       },
       "requires": [
+        {"shineChargeFrames": 30},
         "canShinechargeMovementComplex",
         {"shinespark": {"frames": 10, "excessFrames": 0}},
         {"heatFrames": 50}
@@ -394,9 +817,11 @@
       "unlocksDoors": [
         {"types": ["super"], "requires": []},
         {"types": ["missiles", "powerbomb"], "requires": ["never"]}
-      ]
+      ],
+      "flashSuitChecked": true
     },
     {
+      "id": 26,
       "link": [3, 3],
       "name": "Leave With Door Frame Below",
       "requires": [
@@ -409,6 +834,7 @@
       }
     },
     {
+      "id": 27,
       "link": [3, 3],
       "name": "Leave With Platform Below (Small Runway)",
       "requires": [
@@ -423,6 +849,7 @@
       }
     },
     {
+      "id": 28,
       "link": [3, 3],
       "name": "Leave With Platform Below (Full Runway)",
       "requires": [
@@ -438,28 +865,111 @@
       "devNote": "An additional tile could be used by opening the right door but there is not yet any known application."
     },
     {
+      "id": 29,
       "link": [3, 3],
       "name": "G-Mode Setup - Frozen Gammets",
-      "notable": false,
       "requires": [
         "h_heatProof",
         "canUpwardGModeSetup",
         "canTrickyUseFrozenEnemies",
-        "Morph"
+        {"or": [
+          "Morph",
+          "canInsaneJump"
+        ]}
       ],
       "exitCondition": {
         "leaveWithGModeSetup": {}
       },
+      "flashSuitChecked": true,
       "note": [
         "Freeze the stack of Gammets together a few times to try and raise them as high as possible.",
         "Run with them to the door and freeze the top two such that Samus can stand on the lower and take damage from the higher Gammet when it unfreezes."
       ],
-      "devNote": [
-        "Landing on the Gammet with an aim down, or spin, wasn't working.  So require Morph.",
-        "Would be notable but its a GMode strat."
-      ]
+      "detailNote": "It is possible to jump onto the Gamet without Morph, as long as it is not too high."
     },
     {
+      "id": 30,
+      "link": [3, 3],
+      "name": "Carry G-Mode Back Up",
+      "entranceCondition": {
+        "comeInWithGMode": {
+          "mode": "direct",
+          "morphed": false
+        },
+        "comesThroughToilet": "any"
+      },
+      "requires": [],
+      "exitCondition": {
+        "leaveWithGMode": {
+          "morphed": false
+        }
+      },
+      "bypassesDoorShell": "free",
+      "flashSuitChecked": true
+    },
+    {
+      "id": 31,
+      "link": [3, 3],
+      "name": "Carry G-Mode Morph Back Up",
+      "entranceCondition": {
+        "comeInWithGMode": {
+          "mode": "direct",
+          "morphed": true
+        },
+        "comesThroughToilet": "any"
+      },
+      "requires": [
+        {"or": [
+          "h_artificialMorphIBJ",
+          "h_artificialMorphSpringBallBombJump",
+          {"and": [
+            "HiJump",
+            "h_artificialMorphSpringBall"
+          ]}
+        ]}
+      ],
+      "exitCondition": {
+        "leaveWithGMode": {
+          "morphed": true
+        }
+      },
+      "bypassesDoorShell": "free",
+      "flashSuitChecked": true
+    },
+    {
+      "id": 53,
+      "link": [3, 3],
+      "name": "G-Mode Ice Clip, Door Lock Skip",
+      "entranceCondition": {
+        "comeInWithGMode": {
+          "mode": "indirect",
+          "morphed": false
+        },
+        "comesThroughToilet": "any"
+      },
+      "requires": [
+        {"or": [
+          "h_preciseIceClip",
+          "h_highPixelIceClip"
+        ]}
+      ],
+      "exitCondition": {
+        "leaveWithGMode": {
+          "morphed": false
+        }
+      },
+      "bypassesDoorShell": true,
+      "flashSuitChecked": true,
+      "note": [
+        "Jump next to the Gamet farm until one is at the correct height, which is just over one tile above Samus.",
+        "Lure it to the right and use it to ice clip through the top door shell. Avoid killing any of the Gamets or they will all stop spawning.",
+        "With bad positioning, move the Gamets off camera to try again; ice can help get around them.",
+        "Also, be careful to avoid touching the invisible, stationary projectiles that the Dragons shoot."
+      ],
+      "devNote": "This is only for indirect G-Mode, because it is trivial while in direct, and would use a different strat."
+    },
+    {
+      "id": 32,
       "link": [3, 4],
       "name": "Base",
       "requires": [
@@ -467,6 +977,28 @@
       ]
     },
     {
+      "id": 50,
+      "link": [3, 4],
+      "name": "G-Mode, To the Farm",
+      "entranceCondition": {
+        "comeInWithGMode": {
+          "mode": "any",
+          "morphed": false
+        },
+        "comesThroughToilet": "any"
+      },
+      "requires": [
+        "h_heatedGMode",
+        {"or": [
+          "h_heatedGModePauseAbuse",
+          {"heatFrames": 40}
+        ]}
+      ],
+      "flashSuitChecked": true,
+      "note": "Kill the Gamets where Samus can grab the drops. Exit G-mode, then pause abuse to pick them up without dying."
+    },
+    {
+      "id": 33,
       "link": [4, 1],
       "name": "Base",
       "requires": [
@@ -474,6 +1006,7 @@
       ]
     },
     {
+      "id": 34,
       "link": [4, 1],
       "name": "Leave with Runway",
       "requires": [
@@ -485,21 +1018,32 @@
           "openEnd": 1
         }
       },
-      "unlocksDoors": [
-        {"types": ["ammo"], "requires": []}
-      ]
+      "unlocksDoors": [{"types": ["ammo"], "requires": []}]
     },
     {
+      "id": 44,
+      "link": [4, 1],
+      "name": "G-Mode Setup - Get Hit By Gamet",
+      "requires": [
+        {"heatFrames": 290}
+      ],
+      "exitCondition": {
+        "leaveWithGModeSetup": {}
+      },
+      "unlocksDoors": [{"types": ["ammo"], "requires": []}],
+      "flashSuitChecked": true
+    },
+    {
+      "id": 35,
       "link": [4, 2],
       "name": "Base",
       "requires": [
         {"heatFrames": 210}
       ],
-      "unlocksDoors": [
-        {"types": ["missiles"], "requires": []}
-      ]
+      "unlocksDoors": [{"types": ["missiles"], "requires": []}]
     },
     {
+      "id": 36,
       "link": [4, 2],
       "name": "Leave with Runway",
       "requires": [
@@ -512,12 +1056,35 @@
         }
       },
       "unlocksDoors": [
-        {"types": ["missiles"], "requires": [{"heatFrames": 40}]},
+        {
+          "types": ["missiles"],
+          "requires": [{"heatFrames": 40}]
+        },
         {"types": ["super"], "requires": []},
-        {"types": ["powerbomb"], "requires": [{"heatFrames": 110}]}
+        {
+          "types": ["powerbomb"],
+          "requires": [{"heatFrames": 110}]
+        }
       ]
     },
     {
+      "id": 45,
+      "link": [4, 2],
+      "name": "G-Mode Setup - Get Hit By Gamet",
+      "requires": [
+        {"heatFrames": 440}
+      ],
+      "exitCondition": {
+        "leaveWithGModeSetup": {}
+      },
+      "unlocksDoors": [
+        {"types": ["missiles", "powerbomb"], "requires": ["never"]},
+        {"types": ["super"], "requires": []}
+      ],
+      "flashSuitChecked": true
+    },
+    {
+      "id": 37,
       "link": [4, 3],
       "name": "Base",
       "requires": [
@@ -525,13 +1092,7 @@
       ]
     },
     {
-      "link": [4, 3],
-      "name": "Base",
-      "requires": [
-        {"heatFrames": 210}
-      ]
-    },
-    {
+      "id": 39,
       "link": [4, 3],
       "name": "Leave With Door Frame Below",
       "requires": [
@@ -543,12 +1104,19 @@
         }
       },
       "unlocksDoors": [
-        {"types": ["missiles"], "requires": [{"heatFrames": 50}]},
+        {
+          "types": ["missiles"],
+          "requires": [{"heatFrames": 50}]
+        },
         {"types": ["super"], "requires": []},
-        {"types": ["powerbomb"], "requires": [{"heatFrames": 110}]}
+        {
+          "types": ["powerbomb"],
+          "requires": [{"heatFrames": 110}]
+        }
       ]
     },
     {
+      "id": 40,
       "link": [4, 3],
       "name": "Leave With Platform Below",
       "requires": [
@@ -562,35 +1130,49 @@
         }
       },
       "unlocksDoors": [
-        {"types": ["missiles"], "requires": [{"heatFrames": 50}]},
+        {
+          "types": ["missiles"],
+          "requires": [{"heatFrames": 50}]
+        },
         {"types": ["super"], "requires": []},
-        {"types": ["powerbomb"], "requires": [{"heatFrames": 110}]}
+        {
+          "types": ["powerbomb"],
+          "requires": [{"heatFrames": 110}]
+        }
       ]
     },
     {
+      "id": 41,
       "link": [4, 3],
       "name": "Gamet Ice Clip Door Lock Skip",
       "requires": [
         {"heatFrames": 560},
-        "canTrickyUseFrozenEnemies",
-        "h_canNonTrivialCeilingClip"
+        "h_iceClip"
       ],
       "bypassesDoorShell": true,
+      "flashSuitChecked": true,
       "note": [
         "Bring a Gamet from the farm and freeze it at a precise distance below the door in order to crouch-jump up and clip through the door shell.",
         "The pixel window is larger and higher with Morph and an X-Ray stand-up, in which case a standing jump is used."
       ]
     },
     {
+      "id": 42,
       "link": [4, 4],
       "name": "Gamet Farm",
       "requires": [
         {"or": [
-          "canPauseAbuse",
+          {"and": [
+            {"heatFrames": 0},
+            "canPauseAbuse"
+          ]},
           {"heatFrames": 60}
         ]},
         {"refill": ["Energy", "Missile", "Super", "PowerBomb"]}
       ]
     }
-  ]
+  ],
+  "notables": [],
+  "nextStratId": 54,
+  "nextNotableId": 1
 }

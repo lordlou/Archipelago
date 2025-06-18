@@ -5,9 +5,11 @@
   "area": "Norfair",
   "subarea": "Upper",
   "subsubarea": "East",
-  "playable": true,
   "roomAddress": "0x7AFFB",
   "roomEnvironments": [{"heated": true}],
+  "mapTileMask": [
+    [1, 1, 1, 1]
+  ],
   "nodes": [
     {
       "id": 1,
@@ -15,7 +17,11 @@
       "nodeType": "door",
       "nodeSubType": "blue",
       "nodeAddress": "0x001976e",
-      "doorEnvironments": [{"physics": "air"}]
+      "doorOrientation": "left",
+      "doorEnvironments": [{"physics": "air"}],
+      "mapTileMask": [
+        [2, 2, 1, 1]
+      ]
     },
     {
       "id": 2,
@@ -23,7 +29,11 @@
       "nodeType": "door",
       "nodeSubType": "blue",
       "nodeAddress": "0x001977a",
-      "doorEnvironments": [{"physics": "air"}]
+      "doorOrientation": "right",
+      "doorEnvironments": [{"physics": "air"}],
+      "mapTileMask": [
+        [1, 1, 2, 2]
+      ]
     }
   ],
   "enemies": [
@@ -32,22 +42,7 @@
       "groupName": "Spiky Acid Snakes Tunnel Yapping Maws",
       "enemyName": "Yapping Maw",
       "quantity": 3,
-      "betweenNodes": [1, 2],
-      "dropRequires": ["never"],
-      "note": "Possible but requires multiple spikehits in most configurations so rarely worth it"
-    }
-  ],
-  "reusableRoomwideNotable": [
-    {
-      "name": "Spiky Acid Snakes Frozen Platforms",
-      "note": [
-        "While crossing the Spiky Lava, land on frozen Yapping Maws to reduce the number of spike hits needed.",
-        "Delay the damage boost from the spikes slightly in order to rise above the lava before moving."
-      ]
-    },
-    {
-      "name": "Spiky Acid Snakes Suitless Damage Boosts",
-      "note": "Delay the damage boost from the spikes slightly in order to rise above the lava before moving."
+      "betweenNodes": [1, 2]
     }
   ],
   "links": [
@@ -68,6 +63,7 @@
   ],
   "strats": [
     {
+      "id": 1,
       "link": [1, 1],
       "name": "Leave with Runway",
       "requires": [],
@@ -79,13 +75,29 @@
       }
     },
     {
+      "id": 39,
+      "link": [1, 1],
+      "name": "Leave With Grapple Swing",
+      "requires": [
+        "h_heatProof"
+      ],
+      "exitCondition": {
+        "leaveWithGrappleSwing": {
+          "blocks": [{"position": [9, 2], "note": "Closest Grapple block to the left door"}]
+        }
+      }
+    },
+    {
+      "id": 2,
       "link": [1, 1],
       "name": "Crystal Flash",
       "requires": [
-        "h_canHeatedCrystalFlash"
-      ]
+        "h_heatedCrystalFlash"
+      ],
+      "flashSuitChecked": true
     },
     {
+      "id": 3,
       "link": [1, 2],
       "name": "Grapple",
       "requires": [
@@ -94,20 +106,67 @@
       ]
     },
     {
+      "id": 4,
       "link": [1, 2],
       "name": "Space Jump",
       "requires": [
         "SpaceJump",
-        {"heatFrames": 420}
+        {"heatFrames": 390}
       ]
     },
     {
+      "id": 51,
       "link": [1, 2],
-      "name": "Running Space Jump",
+      "name": "Running Space Jump (1-tile runway)",
       "entranceCondition": {
         "comeInRunning": {
-          "minTiles": 3,
-          "speedBooster": "any"
+          "speedBooster": "any",
+          "minTiles": 1
+        }
+      },
+      "requires": [
+        "SpaceJump",
+        {"heatFrames": 350}
+      ]
+    },
+    {
+      "id": 52,
+      "link": [1, 2],
+      "name": "Running Space Jump (2-tile runway)",
+      "entranceCondition": {
+        "comeInRunning": {
+          "speedBooster": "any",
+          "minTiles": 2
+        }
+      },
+      "requires": [
+        "SpaceJump",
+        {"heatFrames": 330}
+      ]
+    },
+    {
+      "id": 53,
+      "link": [1, 2],
+      "name": "Running Space Jump (3-tile runway)",
+      "entranceCondition": {
+        "comeInRunning": {
+          "speedBooster": "any",
+          "minTiles": 3
+        }
+      },
+      "requires": [
+        "SpaceJump",
+        {"heatFrames": 310}
+      ]
+    },
+    {
+      "id": 5,
+      "link": [1, 2],
+      "name": "Running Space Jump (4-tile runway)",
+      "entranceCondition": {
+        "comeInRunning": {
+          "speedBooster": "any",
+          "minTiles": 4
         }
       },
       "requires": [
@@ -116,6 +175,97 @@
       ]
     },
     {
+      "id": 54,
+      "link": [1, 2],
+      "name": "Speedy Running Space Jump (6-tile runway)",
+      "entranceCondition": {
+        "comeInRunning": {
+          "speedBooster": true,
+          "minTiles": 6
+        }
+      },
+      "requires": [
+        "SpaceJump",
+        {"heatFrames": 250}
+      ]
+    },
+    {
+      "id": 55,
+      "link": [1, 2],
+      "name": "Speedy Running Space Jump (9-tile runway)",
+      "entranceCondition": {
+        "comeInRunning": {
+          "speedBooster": true,
+          "minTiles": 9
+        }
+      },
+      "requires": [
+        "SpaceJump",
+        {"heatFrames": 225}
+      ]
+    },
+    {
+      "id": 56,
+      "link": [1, 2],
+      "name": "Speedy Running Space Jump (13-tile runway, closed end)",
+      "entranceCondition": {
+        "comeInRunning": {
+          "speedBooster": true,
+          "minTiles": 12.4375
+        }
+      },
+      "requires": [
+        "SpaceJump",
+        {"heatFrames": 195}
+      ]
+    },
+    {
+      "id": 57,
+      "link": [1, 2],
+      "name": "Speedy Running Space Jump (17-tile runway)",
+      "entranceCondition": {
+        "comeInRunning": {
+          "speedBooster": true,
+          "minTiles": 17
+        }
+      },
+      "requires": [
+        "SpaceJump",
+        {"heatFrames": 175}
+      ]
+    },
+    {
+      "id": 58,
+      "link": [1, 2],
+      "name": "Speedy Running Space Jump (26-tile runway)",
+      "entranceCondition": {
+        "comeInRunning": {
+          "speedBooster": true,
+          "minTiles": 26
+        }
+      },
+      "requires": [
+        "SpaceJump",
+        {"heatFrames": 145}
+      ]
+    },
+    {
+      "id": 59,
+      "link": [1, 2],
+      "name": "Speedy Running Space Jump (max runway)",
+      "entranceCondition": {
+        "comeInRunning": {
+          "speedBooster": true,
+          "minTiles": 45
+        }
+      },
+      "requires": [
+        "SpaceJump",
+        {"heatFrames": 120}
+      ]
+    },
+    {
+      "id": 6,
       "link": [1, 2],
       "name": "Tank the Damage",
       "requires": [
@@ -125,30 +275,31 @@
       ]
     },
     {
+      "id": 7,
       "link": [1, 2],
-      "name": "Spiky Acid Snakes Suitless Damage Boosts (Left to Right)",
-      "notable": true,
+      "name": "Suitless Damage Boosts (Left to Right)",
       "requires": [
+        {"notable": "Suitless Damage Boosts"},
         {"heatFrames": 520},
         {"lavaFrames": 80},
         {"spikeHits": 3},
-        "canIframeSpikeJump",
+        "canUseIFrames",
         "canHorizontalDamageBoost"
       ],
-      "reusableRoomwideNotable": "Spiky Acid Snakes Suitless Damage Boosts",
       "note": "Damage boosts can be used to save energy - delay the damage boost from the spikes slightly in order to rise above the lava before moving."
     },
     {
+      "id": 8,
       "link": [1, 2],
       "name": "Tank the Damage with Gravity",
       "requires": [
         "Gravity",
-        "canDisableEquipment",
+        {"disableEquipment": "SpeedBooster"},
         {"heatFrames": 350},
         {"lavaFrames": 100},
         {"spikeHits": 2},
         {"or": [
-          "canIframeSpikeJump",
+          "canUseIFrames",
           {"and": [
             {"spikeHits": 2},
             {"heatFrames": 50}
@@ -159,18 +310,18 @@
       "note": "Speedbooster significantly reduces your jump speed in lava and should be turned off."
     },
     {
+      "id": 9,
       "link": [1, 2],
       "name": "Gravity SpringBall Bounce (SpeedBooster Off)",
       "entranceCondition": {
         "comeInRunning": {
-          "minTiles": 4,
-          "speedBooster": false
+          "speedBooster": false,
+          "minTiles": 4
         }
       },
       "requires": [
         "Gravity",
         "canCarefulJump",
-        "canDisableEquipment",
         "canSpringBallBounce",
         {"spikeHits": 2},
         {"heatFrames": 350},
@@ -178,17 +329,18 @@
       ]
     },
     {
+      "id": 10,
       "link": [1, 2],
       "name": "Gravity SpringBall Bounce (SpeedBooster On)",
       "entranceCondition": {
         "comeInRunning": {
-          "minTiles": 14,
-          "speedBooster": true
+          "speedBooster": true,
+          "minTiles": 14
         }
       },
       "requires": [
         "Gravity",
-        "canDisableEquipment",
+        {"disableEquipment": "SpeedBooster"},
         "canSpringBallBounce",
         "canTrickyJump",
         {"spikeHits": 1},
@@ -201,18 +353,19 @@
       ]
     },
     {
+      "id": 11,
       "link": [1, 2],
       "name": "Suitless SpringBall Bounce (SpeedBooster Off)",
       "entranceCondition": {
         "comeInRunning": {
-          "minTiles": 4,
-          "speedBooster": false
+          "speedBooster": false,
+          "minTiles": 4
         }
       },
       "requires": [
         "canCarefulJump",
         "HiJump",
-        "canDisableEquipment",
+        {"disableEquipment": "HiJump"},
         "canSpringBallBounce",
         {"spikeHits": 3},
         {"heatFrames": 350},
@@ -221,18 +374,20 @@
       "note": "It may help to perform the first jump with HiJump disabled."
     },
     {
+      "id": 12,
       "link": [1, 2],
       "name": "Suitless SpringBall Bounce (SpeedBooster On)",
       "entranceCondition": {
         "comeInRunning": {
-          "minTiles": 8,
-          "speedBooster": true
+          "speedBooster": true,
+          "minTiles": 8
         }
       },
       "requires": [
         "canTrickyJump",
         "HiJump",
-        "canDisableEquipment",
+        {"disableEquipment": "HiJump"},
+        {"disableEquipment": "SpeedBooster"},
         "canSpringBallBounce",
         {"spikeHits": 2},
         {"heatFrames": 311},
@@ -245,17 +400,19 @@
       ]
     },
     {
+      "id": 13,
       "link": [1, 2],
       "name": "Suitless SpringBall Bounce (Long Runway)",
       "entranceCondition": {
         "comeInRunning": {
-          "minTiles": 21,
-          "speedBooster": true
+          "speedBooster": true,
+          "minTiles": 21
         }
       },
       "requires": [
         "HiJump",
-        "canDisableEquipment",
+        {"disableEquipment": "HiJump"},
+        {"disableEquipment": "SpeedBooster"},
         "canSpringBallBounce",
         "canTrickyJump",
         {"spikeHits": 1},
@@ -270,6 +427,7 @@
       "devNote": "SpringFling can be used to extend the last SpringBall bounce so that runway can be shortened, but it mostly inflates the number of strats."
     },
     {
+      "id": 14,
       "link": [1, 2],
       "name": "Shinespark",
       "entranceCondition": {
@@ -281,8 +439,9 @@
       ]
     },
     {
+      "id": 15,
       "link": [1, 2],
-      "name": "Come In Running and Shinespark",
+      "name": "Come In Shinecharging, Shinespark",
       "entranceCondition": {
         "comeInShinecharging": {
           "length": 3,
@@ -306,10 +465,46 @@
       ]
     },
     {
+      "id": 41,
       "link": [1, 2],
-      "name": "Spiky Acid Snakes Frozen Platforms (Left to Right)",
-      "notable": true,
+      "name": "Come In Getting Blue, Leave With Temporary Blue (Space Jump)",
+      "entranceCondition": {
+        "comeInGettingBlueSpeed": {
+          "length": 3,
+          "openEnd": 1,
+          "minExtraRunSpeed": "$1.A"
+        }
+      },
       "requires": [
+        "SpaceJump",
+        "canChainTemporaryBlue",
+        {"heatFrames": 330}
+      ],
+      "exitCondition": {
+        "leaveWithTemporaryBlue": {}
+      },
+      "unlocksDoors": [
+        {"types": ["super"], "requires": []},
+        {
+          "types": ["missiles"],
+          "requires": [{"heatFrames": 90}]
+        },
+        {
+          "types": ["powerbomb"],
+          "requires": [{"heatFrames": 90}]
+        }
+      ],
+      "devNote": [
+        "The minimum speed $1.A is arbitrary; lower speeds could work with larger heatFrames.",
+        "FIXME: set up a mechanism to automate heat frames required in cases like this."
+      ]
+    },
+    {
+      "id": 16,
+      "link": [1, 2],
+      "name": "Frozen Maw Platforms (Left to Right)",
+      "requires": [
+        {"notable": "Frozen Maw Platforms"},
         "canResetFallSpeed",
         "canTrickyUseFrozenEnemies",
         "canTrickyJump",
@@ -321,12 +516,11 @@
             {"heatFrames": 240}
           ]}
         ]},
-        "canIframeSpikeJump",
+        "canUseIFrames",
         {"spikeHits": 2},
         {"lavaFrames": 15},
         {"heatFrames": 580}
       ],
-      "reusableRoomwideNotable": "Spiky Acid Snakes Frozen Platforms",
       "note": [
         "While crossing the Spiky Lava, land on frozen Yapping Maws to reduce the number of spike hits needed.",
         "Damage boost towards then freeze the Leftmost enemy as it extends.",
@@ -336,6 +530,129 @@
       ]
     },
     {
+      "id": 37,
+      "link": [1, 2],
+      "name": "Ceiling Bomb Jump Over Spikes",
+      "requires": [
+        "h_heatProof",
+        "canLongCeilingBombJump",
+        "canResetFallSpeed"
+      ],
+      "note": [
+        "Samus can ceiling bomb jump up gentle slopes.",
+        "Going down gentle slopes is also possible but harder, instead an unmorph to reset fall speed is recommended here."
+      ]
+    },
+    {
+      "id": 43,
+      "link": [1, 2],
+      "name": "G-Mode",
+      "entranceCondition": {
+        "comeInWithGMode": {
+          "mode": "any",
+          "morphed": false
+        }
+      },
+      "requires": [
+        "SpaceJump",
+        "h_heatedGModeOpenDifferentDoor"
+      ],
+      "flashSuitChecked": true
+    },
+    {
+      "id": 44,
+      "link": [1, 2],
+      "name": "G-Mode, Tank the Spikes",
+      "entranceCondition": {
+        "comeInWithGMode": {
+          "mode": "any",
+          "morphed": false
+        }
+      },
+      "requires": [
+        {"or": [
+          {"and": [
+            {"lavaFrames": 150},
+            {"spikeHits": 7}
+          ]},
+          {"and": [
+            {"notable": "Suitless Damage Boosts"},
+            {"lavaFrames": 80},
+            {"spikeHits": 3},
+            "canUseIFrames",
+            "canHorizontalDamageBoost"
+          ]},
+          {"and": [
+            "Gravity",
+            {"disableEquipment": "SpeedBooster"},
+            {"lavaFrames": 100},
+            {"spikeHits": 2},
+            {"or": [
+              "canUseIFrames",
+              "canHorizontalDamageBoost"
+            ]}
+          ]},
+          {"and": [
+            {"notable": "Frozen Maw Platforms"},
+            "canResetFallSpeed",
+            "canTrickyUseFrozenEnemies",
+            "canTrickyJump",
+            "canHorizontalDamageBoost",
+            "canUseIFrames",
+            {"spikeHits": 2},
+            {"lavaFrames": 15}
+          ]}
+        ]},
+        "h_heatedGModeOpenDifferentDoor"
+      ],
+      "flashSuitChecked": true,
+      "devNote": "FIXME: Grapple could maybe be used to skip some damage by partially swinging across the room."
+    },
+    {
+      "id": 45,
+      "link": [1, 2],
+      "name": "G-Mode Morph, Long Ceiling Bomb Jump",
+      "entranceCondition": {
+        "comeInWithGMode": {
+          "mode": "any",
+          "morphed": true
+        }
+      },
+      "requires": [
+        "h_artificialMorphLongCeilingBombJump",
+        "h_artificialMorphResetFallSpeed",
+        "h_heatedGModeOpenDifferentDoor"
+      ],
+      "flashSuitChecked": true,
+      "note": [
+        "Samus can ceiling bomb jump up gentle slopes.",
+        "Going down gentle slopes is also possible but harder, instead an unmorph to reset fall speed is recommended here."
+      ]
+    },
+    {
+      "id": 49,
+      "link": [1, 2],
+      "name": "X-Mode Traversal",
+      "requires": [
+        "Gravity",
+        "canXMode",
+        "h_XModeSpikeHit",
+        {"heatFrames": 200},
+        {"lavaFrames": 15}
+      ],
+      "flashSuitChecked": true,
+      "note": [
+        "Enter X-mode in the spikes near the door.",
+        "Release forward to make Samus move forward at a rate of 1 pixel per frame.",
+        "After passing the third Yapping Maw, when Samus appears to move forward,",
+        "this is the indication that the camera scroll has locked against the opposite side of the room,",
+        "which is a good cue for when to stop, by holding forward again.",
+        "To avoid taking another spike hit,",
+        "press jump, then release dash to exit X-mode while jumping."
+      ]
+    },
+    {
+      "id": 17,
       "link": [2, 1],
       "name": "Grapple",
       "requires": [
@@ -344,20 +661,67 @@
       ]
     },
     {
+      "id": 18,
       "link": [2, 1],
       "name": "Space Jump",
       "requires": [
         "SpaceJump",
-        {"heatFrames": 420}
+        {"heatFrames": 390}
       ]
     },
     {
+      "id": 60,
       "link": [2, 1],
-      "name": "Running Space Jump",
+      "name": "Running Space Jump (1-tile runway)",
       "entranceCondition": {
         "comeInRunning": {
-          "minTiles": 3,
-          "speedBooster": "any"
+          "speedBooster": "any",
+          "minTiles": 1
+        }
+      },
+      "requires": [
+        "SpaceJump",
+        {"heatFrames": 350}
+      ]
+    },
+    {
+      "id": 61,
+      "link": [2, 1],
+      "name": "Running Space Jump (2-tile runway)",
+      "entranceCondition": {
+        "comeInRunning": {
+          "speedBooster": "any",
+          "minTiles": 2
+        }
+      },
+      "requires": [
+        "SpaceJump",
+        {"heatFrames": 330}
+      ]
+    },
+    {
+      "id": 62,
+      "link": [2, 1],
+      "name": "Running Space Jump (3-tile runway)",
+      "entranceCondition": {
+        "comeInRunning": {
+          "speedBooster": "any",
+          "minTiles": 3
+        }
+      },
+      "requires": [
+        "SpaceJump",
+        {"heatFrames": 310}
+      ]
+    },
+    {
+      "id": 19,
+      "link": [2, 1],
+      "name": "Running Space Jump (4-tile runway)",
+      "entranceCondition": {
+        "comeInRunning": {
+          "speedBooster": "any",
+          "minTiles": 4
         }
       },
       "requires": [
@@ -366,6 +730,97 @@
       ]
     },
     {
+      "id": 63,
+      "link": [2, 1],
+      "name": "Speedy Running Space Jump (6-tile runway)",
+      "entranceCondition": {
+        "comeInRunning": {
+          "speedBooster": true,
+          "minTiles": 6
+        }
+      },
+      "requires": [
+        "SpaceJump",
+        {"heatFrames": 250}
+      ]
+    },
+    {
+      "id": 64,
+      "link": [2, 1],
+      "name": "Speedy Running Space Jump (9-tile runway)",
+      "entranceCondition": {
+        "comeInRunning": {
+          "speedBooster": true,
+          "minTiles": 9
+        }
+      },
+      "requires": [
+        "SpaceJump",
+        {"heatFrames": 225}
+      ]
+    },
+    {
+      "id": 65,
+      "link": [2, 1],
+      "name": "Speedy Running Space Jump (13-tile runway, closed end)",
+      "entranceCondition": {
+        "comeInRunning": {
+          "speedBooster": true,
+          "minTiles": 12.4375
+        }
+      },
+      "requires": [
+        "SpaceJump",
+        {"heatFrames": 195}
+      ]
+    },
+    {
+      "id": 66,
+      "link": [2, 1],
+      "name": "Speedy Running Space Jump (17-tile runway)",
+      "entranceCondition": {
+        "comeInRunning": {
+          "speedBooster": true,
+          "minTiles": 17
+        }
+      },
+      "requires": [
+        "SpaceJump",
+        {"heatFrames": 175}
+      ]
+    },
+    {
+      "id": 67,
+      "link": [2, 1],
+      "name": "Speedy Running Space Jump (26-tile runway)",
+      "entranceCondition": {
+        "comeInRunning": {
+          "speedBooster": true,
+          "minTiles": 26
+        }
+      },
+      "requires": [
+        "SpaceJump",
+        {"heatFrames": 145}
+      ]
+    },
+    {
+      "id": 68,
+      "link": [2, 1],
+      "name": "Speedy Running Space Jump (max runway)",
+      "entranceCondition": {
+        "comeInRunning": {
+          "speedBooster": true,
+          "minTiles": 45
+        }
+      },
+      "requires": [
+        "SpaceJump",
+        {"heatFrames": 120}
+      ]
+    },
+    {
+      "id": 20,
       "link": [2, 1],
       "name": "Tank the Damage",
       "requires": [
@@ -375,30 +830,31 @@
       ]
     },
     {
+      "id": 21,
       "link": [2, 1],
-      "name": "Spiky Acid Snakes Suitless Damage Boosts (Right to Left)",
-      "notable": true,
+      "name": "Suitless Damage Boosts (Right to Left)",
       "requires": [
+        {"notable": "Suitless Damage Boosts"},
         {"heatFrames": 520},
         {"lavaFrames": 80},
         {"spikeHits": 3},
-        "canIframeSpikeJump",
+        "canUseIFrames",
         "canHorizontalDamageBoost"
       ],
-      "reusableRoomwideNotable": "Spiky Acid Snakes Suitless Damage Boosts",
       "note": "Damage boosts can be used to save energy - delay the damage boost from the spikes slightly in order to rise above the lava before moving."
     },
     {
+      "id": 22,
       "link": [2, 1],
       "name": "Tank the Damage with Gravity",
       "requires": [
         "Gravity",
-        "canDisableEquipment",
+        {"disableEquipment": "SpeedBooster"},
         {"heatFrames": 350},
         {"lavaFrames": 100},
         {"spikeHits": 2},
         {"or": [
-          "canIframeSpikeJump",
+          "canUseIFrames",
           {"and": [
             {"spikeHits": 2},
             {"heatFrames": 50}
@@ -409,17 +865,17 @@
       "note": "Speedbooster significantly reduces your jump speed in lava and should be turned off."
     },
     {
+      "id": 23,
       "link": [2, 1],
       "name": "Gravity SpringBall Bounce (SpeedBooster Off)",
       "entranceCondition": {
         "comeInRunning": {
-          "minTiles": 4,
-          "speedBooster": false
+          "speedBooster": false,
+          "minTiles": 4
         }
       },
       "requires": [
         "Gravity",
-        "canDisableEquipment",
         "canSpringBallBounce",
         {"spikeHits": 2},
         {"heatFrames": 350},
@@ -427,17 +883,18 @@
       ]
     },
     {
+      "id": 24,
       "link": [2, 1],
       "name": "Gravity SpringBall Bounce (SpeedBooster On)",
       "entranceCondition": {
         "comeInRunning": {
-          "minTiles": 14,
-          "speedBooster": true
+          "speedBooster": true,
+          "minTiles": 14
         }
       },
       "requires": [
         "Gravity",
-        "canDisableEquipment",
+        {"disableEquipment": "SpeedBooster"},
         "canSpringBallBounce",
         "canTrickyJump",
         {"spikeHits": 1},
@@ -450,18 +907,19 @@
       ]
     },
     {
+      "id": 25,
       "link": [2, 1],
       "name": "Suitless SpringBall Bounce (SpeedBooster Off)",
       "entranceCondition": {
         "comeInRunning": {
-          "minTiles": 4,
-          "speedBooster": false
+          "speedBooster": false,
+          "minTiles": 4
         }
       },
       "requires": [
         "canCarefulJump",
         "HiJump",
-        "canDisableEquipment",
+        {"disableEquipment": "HiJump"},
         "canSpringBallBounce",
         {"spikeHits": 3},
         {"heatFrames": 350},
@@ -470,18 +928,20 @@
       "note": "It may help to perform the first jump with HiJump disabled."
     },
     {
+      "id": 26,
       "link": [2, 1],
       "name": "Suitless SpringBall Bounce (SpeedBooster On)",
       "entranceCondition": {
         "comeInRunning": {
-          "minTiles": 8,
-          "speedBooster": true
+          "speedBooster": true,
+          "minTiles": 8
         }
       },
       "requires": [
         "canTrickyJump",
         "HiJump",
-        "canDisableEquipment",
+        {"disableEquipment": "HiJump"},
+        {"disableEquipment": "SpeedBooster"},
         "canSpringBallBounce",
         {"spikeHits": 2},
         {"heatFrames": 311},
@@ -494,17 +954,19 @@
       ]
     },
     {
+      "id": 27,
       "link": [2, 1],
       "name": "Suitless SpringBall Bounce (Long Runway)",
       "entranceCondition": {
         "comeInRunning": {
-          "minTiles": 21,
-          "speedBooster": true
+          "speedBooster": true,
+          "minTiles": 21
         }
       },
       "requires": [
         "HiJump",
-        "canDisableEquipment",
+        {"disableEquipment": "HiJump"},
+        {"disableEquipment": "SpeedBooster"},
         "canSpringBallBounce",
         "canTrickyJump",
         {"spikeHits": 1},
@@ -519,6 +981,7 @@
       "devNote": "SpringFling can be used to extend the last SpringBall bounce so that runway can be shortened, but it mostly inflates the number of strats."
     },
     {
+      "id": 28,
       "link": [2, 1],
       "name": "Shinespark",
       "entranceCondition": {
@@ -530,8 +993,9 @@
       ]
     },
     {
+      "id": 29,
       "link": [2, 1],
-      "name": "Come In Running and Shinespark",
+      "name": "Come In Shinecharging, Shinespark",
       "entranceCondition": {
         "comeInShinecharging": {
           "length": 3,
@@ -555,10 +1019,11 @@
       ]
     },
     {
+      "id": 30,
       "link": [2, 1],
-      "name": "Spiky Acid Snakes Frozen Platforms (Right to Left)",
-      "notable": true,
+      "name": "Frozen Maw Platforms (Right to Left)",
       "requires": [
+        {"notable": "Frozen Maw Platforms"},
         "canResetFallSpeed",
         "canTrickyUseFrozenEnemies",
         "canTrickyJump",
@@ -570,12 +1035,11 @@
             {"heatFrames": 240}
           ]}
         ]},
-        "canIframeSpikeJump",
+        "canUseIFrames",
         {"spikeHits": 2},
         {"lavaFrames": 15},
         {"heatFrames": 580}
       ],
-      "reusableRoomwideNotable": "Spiky Acid Snakes Frozen Platforms",
       "note": [
         "While crossing the Spiky Lava, land on frozen Yapping Maws to reduce the number of spike hits needed.",
         "Morph and unmorph while above the rightmost Yapping Maw to land on it just above the lava line.",
@@ -585,6 +1049,42 @@
       ]
     },
     {
+      "id": 42,
+      "link": [2, 1],
+      "name": "Come In Getting Blue, Leave With Temporary Blue (Space Jump)",
+      "entranceCondition": {
+        "comeInGettingBlueSpeed": {
+          "length": 3,
+          "openEnd": 1,
+          "minExtraRunSpeed": "$1.A"
+        }
+      },
+      "requires": [
+        "SpaceJump",
+        "canChainTemporaryBlue",
+        {"heatFrames": 330}
+      ],
+      "exitCondition": {
+        "leaveWithTemporaryBlue": {}
+      },
+      "unlocksDoors": [
+        {"types": ["super"], "requires": []},
+        {
+          "types": ["missiles"],
+          "requires": [{"heatFrames": 90}]
+        },
+        {
+          "types": ["powerbomb"],
+          "requires": [{"heatFrames": 90}]
+        }
+      ],
+      "devNote": [
+        "The minimum speed $1.A is arbitrary; lower speeds could work with larger heatFrames.",
+        "FIXME: set up a mechanism to automate heat frames required in cases like this."
+      ]
+    },
+    {
+      "id": 31,
       "link": [2, 1],
       "name": "Grapple Teleport",
       "entranceCondition": {
@@ -597,6 +1097,175 @@
       ]
     },
     {
+      "id": 32,
+      "link": [2, 1],
+      "name": "Grapple Teleport Door Lock Skip",
+      "entranceCondition": {
+        "comeInWithGrappleTeleport": {
+          "blockPositions": [[3, 12], [3, 13]]
+        }
+      },
+      "requires": [],
+      "bypassesDoorShell": true
+    },
+    {
+      "id": 33,
+      "link": [2, 1],
+      "name": "Carry Grapple Teleport (Top Position)",
+      "entranceCondition": {
+        "comeInWithGrappleTeleport": {
+          "blockPositions": [[3, 12]]
+        }
+      },
+      "requires": [],
+      "exitCondition": {
+        "leaveWithGrappleTeleport": {
+          "blockPositions": [[3, 12]]
+        }
+      },
+      "bypassesDoorShell": true
+    },
+    {
+      "id": 34,
+      "link": [2, 1],
+      "name": "Carry Grapple Teleport (Bottom Position)",
+      "entranceCondition": {
+        "comeInWithGrappleTeleport": {
+          "blockPositions": [[3, 13]]
+        }
+      },
+      "requires": [],
+      "exitCondition": {
+        "leaveWithGrappleTeleport": {
+          "blockPositions": [[3, 13]]
+        }
+      },
+      "bypassesDoorShell": true
+    },
+    {
+      "id": 38,
+      "link": [2, 1],
+      "name": "Ceiling Bomb Jump Over Spikes",
+      "requires": [
+        "h_heatProof",
+        "canLongCeilingBombJump",
+        "canResetFallSpeed"
+      ],
+      "note": [
+        "Samus can ceiling bomb jump up gentle slopes.",
+        "Going down gentle slopes is also possible but harder, instead an unmorph to reset fall speed is recommended here."
+      ]
+    },
+    {
+      "id": 46,
+      "link": [2, 1],
+      "name": "G-Mode",
+      "entranceCondition": {
+        "comeInWithGMode": {
+          "mode": "any",
+          "morphed": false
+        }
+      },
+      "requires": [
+        "SpaceJump",
+        "h_heatedGModeOpenDifferentDoor"
+      ],
+      "flashSuitChecked": true
+    },
+    {
+      "id": 47,
+      "link": [2, 1],
+      "name": "G-Mode, Tank the Spikes",
+      "entranceCondition": {
+        "comeInWithGMode": {
+          "mode": "any",
+          "morphed": false
+        }
+      },
+      "requires": [
+        {"or": [
+          {"and": [
+            {"lavaFrames": 150},
+            {"spikeHits": 7}
+          ]},
+          {"and": [
+            {"notable": "Suitless Damage Boosts"},
+            {"lavaFrames": 80},
+            {"spikeHits": 3},
+            "canUseIFrames",
+            "canHorizontalDamageBoost"
+          ]},
+          {"and": [
+            "Gravity",
+            {"disableEquipment": "SpeedBooster"},
+            {"lavaFrames": 100},
+            {"spikeHits": 2},
+            {"or": [
+              "canUseIFrames",
+              "canHorizontalDamageBoost"
+            ]}
+          ]},
+          {"and": [
+            {"notable": "Frozen Maw Platforms"},
+            "canResetFallSpeed",
+            "canTrickyUseFrozenEnemies",
+            "canTrickyJump",
+            "canHorizontalDamageBoost",
+            "canUseIFrames",
+            {"spikeHits": 2},
+            {"lavaFrames": 15}
+          ]}
+        ]},
+        "h_heatedGModeOpenDifferentDoor"
+      ],
+      "flashSuitChecked": true,
+      "devNote": "FIXME: Grapple could maybe be used to skip some damage by partially swinging across the room."
+    },
+    {
+      "id": 48,
+      "link": [2, 1],
+      "name": "G-Mode Morph, Long Ceiling Bomb Jump",
+      "entranceCondition": {
+        "comeInWithGMode": {
+          "mode": "any",
+          "morphed": true
+        }
+      },
+      "requires": [
+        "h_artificialMorphLongCeilingBombJump",
+        "h_artificialMorphResetFallSpeed",
+        "h_heatedGModeOpenDifferentDoor"
+      ],
+      "flashSuitChecked": true,
+      "note": [
+        "Samus can ceiling bomb jump up gentle slopes.",
+        "Going down gentle slopes is also possible but harder, instead an unmorph to reset fall speed is recommended here."
+      ]
+    },
+    {
+      "id": 50,
+      "link": [2, 1],
+      "name": "X-Mode Traversal",
+      "requires": [
+        "Gravity",
+        "canXMode",
+        "h_XModeSpikeHit",
+        {"heatFrames": 200},
+        {"lavaFrames": 15}
+      ],
+      "flashSuitChecked": true,
+      "note": [
+        "Enter X-mode in the spikes near the door.",
+        "Release forward to make Samus move forward at a rate of 1 pixel per frame.",
+        "After passing the third Yapping Maw, when Samus appears to move forward,",
+        "this is the indication that the camera scroll has locked against the opposite side of the room,",
+        "which is a good cue for when to stop, by holding forward again.",
+        "To avoid taking another spike hit,",
+        "press jump, then release dash to exit X-mode while jumping."
+      ]
+    },
+    {
+      "id": 35,
       "link": [2, 2],
       "name": "Leave with Runway",
       "requires": [],
@@ -608,11 +1277,47 @@
       }
     },
     {
+      "id": 40,
+      "link": [2, 2],
+      "name": "Leave With Grapple Swing",
+      "requires": [
+        "h_heatProof"
+      ],
+      "exitCondition": {
+        "leaveWithGrappleSwing": {
+          "blocks": [{"position": [6, 2], "note": "Closest Grapple block to the right door"}]
+        }
+      }
+    },
+    {
+      "id": 36,
       "link": [2, 2],
       "name": "Crystal Flash",
       "requires": [
-        "h_canHeatedCrystalFlash"
-      ]
+        "h_heatedCrystalFlash"
+      ],
+      "flashSuitChecked": true
     }
+  ],
+  "notables": [
+    {
+      "id": 1,
+      "name": "Frozen Maw Platforms",
+      "note": [
+        "While crossing the Spiky Lava, land on frozen Yapping Maws to reduce the number of spike hits needed.",
+        "Delay the damage boost from the spikes slightly in order to rise above the lava before moving."
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Suitless Damage Boosts",
+      "note": "Delay the damage boost from the spikes slightly in order to rise above the lava before moving."
+    }
+  ],
+  "nextStratId": 69,
+  "nextNotableId": 3,
+  "devNote": [
+    "Add `comeInSpinning` Space Jump strats, with variants for different run speeds.",
+    "Add more spring ball bounce variants, for different run speeds and combinations of Gravity and/or HiJump."
   ]
 }

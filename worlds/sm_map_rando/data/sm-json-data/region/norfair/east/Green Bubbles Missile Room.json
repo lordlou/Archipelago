@@ -5,9 +5,11 @@
   "area": "Norfair",
   "subarea": "Upper",
   "subsubarea": "East",
-  "playable": true,
   "roomAddress": "0x7AC83",
   "roomEnvironments": [{"heated": true}],
+  "mapTileMask": [
+    [1, 1]
+  ],
   "nodes": [
     {
       "id": 1,
@@ -15,7 +17,11 @@
       "nodeType": "door",
       "nodeSubType": "blue",
       "nodeAddress": "0x0019546",
-      "doorEnvironments": [{"physics": "air"}]
+      "doorOrientation": "left",
+      "doorEnvironments": [{"physics": "air"}],
+      "mapTileMask": [
+        [2, 1]
+      ]
     },
     {
       "id": 2,
@@ -23,7 +29,11 @@
       "nodeType": "door",
       "nodeSubType": "blue",
       "nodeAddress": "0x001953a",
-      "doorEnvironments": [{"physics": "air"}]
+      "doorOrientation": "right",
+      "doorEnvironments": [{"physics": "air"}],
+      "mapTileMask": [
+        [1, 2]
+      ]
     },
     {
       "id": 3,
@@ -31,7 +41,10 @@
       "nodeType": "item",
       "nodeSubType": "visible",
       "nodeItem": "Missile",
-      "nodeAddress": "0x78C52"
+      "nodeAddress": "0x78C52",
+      "mapTileMask": [
+        [1, 2]
+      ]
     }
   ],
   "enemies": [
@@ -40,8 +53,7 @@
       "groupName": "Green Bubbles Missile Room Geruta",
       "enemyName": "Geruta",
       "quantity": 1,
-      "homeNodes": [2, 3],
-      "dropRequires": ["h_heatProof"]
+      "homeNodes": [2, 3]
     }
   ],
   "links": [
@@ -56,6 +68,7 @@
     {
       "from": 2,
       "to": [
+        {"id": 1},
         {"id": 2},
         {"id": 3}
       ]
@@ -71,6 +84,7 @@
   ],
   "strats": [
     {
+      "id": 1,
       "link": [1, 1],
       "name": "Leave with Runway",
       "requires": [],
@@ -82,13 +96,16 @@
       }
     },
     {
+      "id": 2,
       "link": [1, 1],
       "name": "Crystal Flash",
       "requires": [
-        "h_canHeatedCrystalFlash"
-      ]
+        "h_heatedCrystalFlash"
+      ],
+      "flashSuitChecked": true
     },
     {
+      "id": 3,
       "link": [1, 2],
       "name": "Tricky Movement Shinespark",
       "entranceCondition": {
@@ -104,19 +121,9 @@
         {"or": [
           {"enemyKill": {
             "enemies": [["Geruta"]],
-            "explicitWeapons": [
-              "Missile",
-              "Super",
-              "Wave",
-              "Spazer",
-              "Plasma"
-            ]
+            "explicitWeapons": ["Missile", "Super", "Wave", "Spazer", "Plasma"]
           }},
-          {"enemyDamage": {
-            "enemy": "Geruta",
-            "type": "contact",
-            "hits": 1
-          }}
+          {"enemyDamage": {"enemy": "Geruta", "type": "contact", "hits": 1}}
         ]},
         {"heatFrames": 200},
         {"shinespark": {"frames": 16, "excessFrames": 0}}
@@ -135,6 +142,38 @@
       ]
     },
     {
+      "id": 16,
+      "link": [1, 2],
+      "name": "Come in Shinecharging, Leave With Temporary Blue",
+      "entranceCondition": {
+        "comeInShinecharging": {
+          "length": 2,
+          "openEnd": 1
+        }
+      },
+      "requires": [
+        "canLongChainTemporaryBlue",
+        "canTrickySpringBallBounce",
+        {"heatFrames": 865},
+        {"or": [
+          "canXRayCancelShinecharge",
+          {"heatFrames": 160}
+        ]}
+      ],
+      "exitCondition": {
+        "leaveWithTemporaryBlue": {}
+      },
+      "unlocksDoors": [
+        {"types": ["super", "powerbomb"], "requires": []},
+        {
+          "types": ["missiles"],
+          "requires": [{"heatFrames": 50}]
+        }
+      ],
+      "note": ["Use angle-down shots to kill the Geruta from the left of the morph tunnel."]
+    },
+    {
+      "id": 4,
       "link": [1, 3],
       "name": "Quick Geruta Kill",
       "requires": [
@@ -147,6 +186,7 @@
       ]
     },
     {
+      "id": 5,
       "link": [1, 3],
       "name": "Slow Geruta Kill",
       "requires": [
@@ -155,6 +195,143 @@
       ]
     },
     {
+      "id": 18,
+      "link": [1, 3],
+      "name": "G-Mode",
+      "entranceCondition": {
+        "comeInWithGMode": {
+          "mode": "any",
+          "morphed": false
+        }
+      },
+      "requires": [
+        "h_heatedGMode",
+        "Morph",
+        {"or": [
+          {"heatFrames": 260},
+          {"and": [
+            {"heatFrames": 130},
+            {"enemyKill": {
+              "enemies": [["Geruta"]],
+              "explicitWeapons": ["Super", "Missile", "Plasma", "Wave"]
+            }}
+          ]}
+        ]}
+      ],
+      "flashSuitChecked": true
+    },
+    {
+      "id": 17,
+      "link": [2, 1],
+      "name": "Come in Shinecharging, Leave With Temporary Blue",
+      "entranceCondition": {
+        "comeInShinecharging": {
+          "length": 2,
+          "openEnd": 0
+        }
+      },
+      "requires": [
+        "canLongChainTemporaryBlue",
+        "canTrickySpringBallBounce",
+        {"heatFrames": 650},
+        {"or": [
+          "canXRayCancelShinecharge",
+          {"heatFrames": 190}
+        ]}
+      ],
+      "exitCondition": {
+        "leaveWithTemporaryBlue": {}
+      },
+      "unlocksDoors": [
+        {"types": ["super", "powerbomb"], "requires": []},
+        {
+          "types": ["missiles"],
+          "requires": [{"heatFrames": 50}]
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "link": [2, 1],
+      "name": "G-Mode, Raise the Elevator",
+      "entranceCondition": {
+        "comeInWithGMode": {
+          "mode": "any",
+          "morphed": false
+        }
+      },
+      "requires": [
+        "h_heatedGMode",
+        "Morph",
+        {"or": [
+          "Wave",
+          {"ammo": {"type": "Super", "count": 1}},
+          {"ammo": {"type": "Missile", "count": 3}},
+          "h_usePowerBomb",
+          {"and": [
+            "Charge",
+            "h_useMorphBombs"
+          ]},
+          {"and": [
+            "h_lavaProof",
+            "ScrewAttack",
+            "canKago"
+          ]}
+        ]},
+        {"heatFrames": 160}
+      ],
+      "flashSuitChecked": true,
+      "note": "Raise the elevator with Wave, Missiles, a Super, a Power Bomb, or a Bomb Spread to then cross the room with less heat damage.",
+      "devNote": "FIXME: The item would be collected (before the heat frames) if Samus entered in direct G-mode."
+    },
+    {
+      "id": 6,
+      "link": [2, 1],
+      "name": "Grapple Teleport Door Lock Skip",
+      "entranceCondition": {
+        "comeInWithGrappleTeleport": {
+          "blockPositions": [[3, 12], [3, 13]]
+        }
+      },
+      "requires": [],
+      "bypassesDoorShell": true
+    },
+    {
+      "id": 7,
+      "link": [2, 1],
+      "name": "Carry Grapple Teleport (Top Position)",
+      "entranceCondition": {
+        "comeInWithGrappleTeleport": {
+          "blockPositions": [[3, 12]]
+        }
+      },
+      "requires": [],
+      "exitCondition": {
+        "leaveWithGrappleTeleport": {
+          "blockPositions": [[3, 12]]
+        }
+      },
+      "bypassesDoorShell": true
+    },
+    {
+      "id": 8,
+      "link": [2, 1],
+      "name": "Carry Grapple Teleport (Bottom Position)",
+      "entranceCondition": {
+        "comeInWithGrappleTeleport": {
+          "blockPositions": [[3, 13]]
+        }
+      },
+      "requires": [],
+      "exitCondition": {
+        "leaveWithGrappleTeleport": {
+          "blockPositions": [[3, 13]]
+        }
+      },
+      "bypassesDoorShell": true
+    },
+    {
+      "id": 9,
       "link": [2, 2],
       "name": "Leave with Runway",
       "requires": [
@@ -168,13 +345,32 @@
       }
     },
     {
+      "id": 10,
       "link": [2, 2],
       "name": "Crystal Flash",
       "requires": [
-        "h_canHeatedCrystalFlash"
-      ]
+        "h_heatedCrystalFlash"
+      ],
+      "flashSuitChecked": true
     },
     {
+      "id": 20,
+      "link": [2, 2],
+      "name": "G-Mode, Remote Acquire Item",
+      "entranceCondition": {
+        "comeInWithGMode": {
+          "mode": "direct",
+          "morphed": false
+        }
+      },
+      "requires": [
+        "h_heatedDirectGModeLeaveSameDoor"
+      ],
+      "collectsItems": [3],
+      "flashSuitChecked": true
+    },
+    {
+      "id": 11,
       "link": [2, 3],
       "name": "Base",
       "requires": [
@@ -182,26 +378,67 @@
       ]
     },
     {
+      "id": 21,
+      "link": [2, 3],
+      "name": "G-Mode",
+      "entranceCondition": {
+        "comeInWithGMode": {
+          "mode": "any",
+          "morphed": false
+        }
+      },
+      "requires": [
+        "h_heatedGMode",
+        {"heatFrames": 0}
+      ],
+      "collectsItems": [3],
+      "flashSuitChecked": true
+    },
+    {
+      "id": 12,
       "link": [3, 1],
       "name": "Base",
       "requires": [
-        "Morph",
+        {"or": [
+          "canTrivialMidAirMorph",
+          "h_useSpringBall",
+          {"and": [
+            "h_usePowerBomb",
+            {"heatFrames": 260}
+          ]},
+          {"and": [
+            "Morph",
+            "Wave",
+            {"heatFrames": 180}
+          ]}
+        ]},
         {"heatFrames": 200}
-      ]
+      ],
+      "collectsItems": [3],
+      "devNote": "The Wave and Power Bomb options ride the rising tower, to avoid a mid-air morph."
     },
     {
+      "id": 13,
       "link": [3, 2],
       "name": "Base",
       "requires": [
         {"heatFrames": 150}
       ],
       "unlocksDoors": [
-        {"types": ["missiles"], "requires": [{"heatFrames": 20}]},
+        {
+          "types": ["missiles"],
+          "requires": [{"heatFrames": 20}]
+        },
         {"types": ["super"], "requires": []},
-        {"types": ["powerbomb"], "requires": [{"heatFrames": 80}]}
-      ]
+        {
+          "types": ["powerbomb"],
+          "requires": [{"heatFrames": 80}]
+        }
+      ],
+      "collectsItems": [3]
     },
     {
+      "id": 14,
       "link": [3, 2],
       "name": "Leave with Runway",
       "requires": [
@@ -214,17 +451,30 @@
         }
       },
       "unlocksDoors": [
-        {"types": ["missiles"], "requires": [{"heatFrames": 30}]},
+        {
+          "types": ["missiles"],
+          "requires": [{"heatFrames": 30}]
+        },
         {"types": ["super"], "requires": []},
-        {"types": ["powerbomb"], "requires": [{"heatFrames": 80}]}
-      ]
+        {
+          "types": ["powerbomb"],
+          "requires": [{"heatFrames": 80}]
+        }
+      ],
+      "collectsItems": [3]
     },
     {
+      "id": 15,
       "link": [3, 3],
       "name": "Crystal Flash",
       "requires": [
-        "h_canHeatedCrystalFlash"
-      ]
+        "h_heatedCrystalFlash"
+      ],
+      "collectsItems": [3],
+      "flashSuitChecked": true
     }
-  ]
+  ],
+  "notables": [],
+  "nextStratId": 22,
+  "nextNotableId": 1
 }

@@ -5,9 +5,13 @@
   "area": "Norfair",
   "subarea": "Lower",
   "subsubarea": "West",
-  "playable": true,
   "roomAddress": "0x7B1E5",
   "roomEnvironments": [{"heated": true}],
+  "mapTileMask": [
+    [1, 1, 0],
+    [1, 1, 0],
+    [1, 1, 1]
+  ],
   "nodes": [
     {
       "id": 1,
@@ -15,7 +19,13 @@
       "nodeType": "door",
       "nodeSubType": "blue",
       "nodeAddress": "0x0019846",
-      "doorEnvironments": [{"physics": "air"}]
+      "doorOrientation": "right",
+      "doorEnvironments": [{"physics": "air"}],
+      "mapTileMask": [
+        [1, 2, 0],
+        [1, 1, 0],
+        [1, 1, 1]
+      ]
     },
     {
       "id": 2,
@@ -23,6 +33,7 @@
       "nodeType": "door",
       "nodeSubType": "blue",
       "nodeAddress": "0x001983a",
+      "doorOrientation": "right",
       "doorEnvironments": [
         {
           "physics": "air",
@@ -31,46 +42,47 @@
             "The acid is not there regardless when entering from node 2."
           ]
         }
+      ],
+      "mapTileMask": [
+        [1, 1, 0],
+        [1, 1, 0],
+        [1, 2, 2]
       ]
     },
     {
       "id": 3,
       "name": "Acid Chozo Statue",
-      "nodeType": "event",
-      "nodeSubType": "flag",
-      "yields": ["f_UsedAcidChozoStatue"],
-      "locks": [
-        {
-          "name": "Acid Statue Lock",
-          "lockType": "triggeredEvent",
-          "unlockStrats": [
-            {
-              "name": "Base",
-              "notable": false,
-              "requires": [
-                "h_canActivateAcidChozo",
-                {"obstaclesNotCleared": ["A"]},
-                "h_canUsePowerBombs",
-                {"heatFrames": 1000}
-              ]
-            }
-          ]
-        }
+      "nodeType": "junction",
+      "nodeSubType": "junction",
+      "mapTileMask": [
+        [2, 1, 0],
+        [1, 1, 0],
+        [1, 1, 1]
       ],
-      "note": "This node represents the ledge the statue is on. This is why it can be reached without breaking the PB blocks, but not unlocked."
+      "devNote": "FIXME: This node can be eliminated."
     },
     {
       "id": 4,
       "name": "Junction Above Acid Plug, Without Acid",
       "nodeType": "junction",
       "nodeSubType": "junction",
+      "mapTileMask": [
+        [1, 1, 0],
+        [2, 2, 0],
+        [1, 1, 1]
+      ],
       "note": "Because going here while there is acid is pointless unless traveling from 1 to 3, this node will be considered to only be visitable when the acid is gone"
     },
     {
       "id": 5,
       "name": "Bottom Junction Right of Morph Tunnel",
       "nodeType": "junction",
-      "nodeSubType": "junction"
+      "nodeSubType": "junction",
+      "mapTileMask": [
+        [1, 1, 0],
+        [1, 1, 0],
+        [2, 2, 1]
+      ]
     }
   ],
   "obstacles": [
@@ -87,16 +99,14 @@
       "groupName": "Acid Statue Room Holtzes",
       "enemyName": "Holtz",
       "quantity": 3,
-      "homeNodes": [2],
-      "dropRequires": ["h_heatProof"]
+      "homeNodes": [2]
     },
     {
       "id": "e2",
       "groupName": "Acid Statue Room Magdollite",
       "enemyName": "Magdollite",
       "quantity": 1,
-      "homeNodes": [2],
-      "dropRequires": ["Grapple", "h_heatProof"]
+      "homeNodes": [2]
     }
   ],
   "links": [
@@ -105,7 +115,8 @@
       "to": [
         {"id": 1},
         {"id": 3},
-        {"id": 4}
+        {"id": 4},
+        {"id": 5}
       ]
     },
     {
@@ -147,6 +158,7 @@
   ],
   "strats": [
     {
+      "id": 1,
       "link": [1, 1],
       "name": "Leave With Runway",
       "requires": [],
@@ -158,52 +170,39 @@
       }
     },
     {
+      "id": 2,
       "link": [1, 1],
       "name": "Crystal Flash",
       "requires": [
-        "h_canHeatedCrystalFlash"
-      ]
+        "h_heatedCrystalFlash"
+      ],
+      "flashSuitChecked": true
     },
     {
+      "id": 3,
       "link": [1, 3],
       "name": "Base",
       "requires": [
-        "h_canNavigateHeatRooms",
+        "h_navigateHeatRooms",
         "SpaceJump",
         {"heatFrames": 180}
       ]
     },
     {
-      "link": [1, 3],
-      "name": "Without Acid",
-      "requires": [
-        "h_canNavigateHeatRooms",
-        "f_UsedAcidChozoStatue",
-        {"or": [
-          "HiJump",
-          "canWalljump",
-          "canSpringBallJumpMidAir",
-          {"and": [
-            "h_canIBJ",
-            {"heatFrames": 780}
-          ]}
-        ]},
-        {"heatFrames": 270}
-      ]
-    },
-    {
+      "id": 5,
       "link": [1, 3],
       "name": "Shinespark",
       "entranceCondition": {
         "comeInWithSpark": {}
       },
       "requires": [
-        "h_canNavigateHeatRooms",
+        "h_navigateHeatRooms",
         {"heatFrames": 125},
         {"shinespark": {"frames": 36}}
       ]
     },
     {
+      "id": 6,
       "link": [1, 3],
       "name": "SpringFling over the acid",
       "requires": [
@@ -220,10 +219,11 @@
       ]
     },
     {
+      "id": 7,
       "link": [1, 3],
       "name": "Gravityless Acid Dive",
       "requires": [
-        "h_canNavigateHeatRooms",
+        "h_navigateHeatRooms",
         "canSuitlessLavaDive",
         {"or": [
           "HiJump",
@@ -239,10 +239,11 @@
       ]
     },
     {
+      "id": 8,
       "link": [1, 3],
       "name": "Gravity Acid Dive",
       "requires": [
-        "h_canNavigateHeatRooms",
+        "h_navigateHeatRooms",
         "canSuitlessLavaDive",
         "Gravity",
         {"or": [
@@ -251,7 +252,7 @@
           "canSpringBallJumpMidAir",
           "canGravityJump",
           {"and": [
-            "h_canIBJ",
+            "canJumpIntoIBJ",
             {"acidFrames": 1050},
             {"heatFrames": 1050}
           ]}
@@ -261,11 +262,11 @@
       ]
     },
     {
+      "id": 9,
       "link": [1, 3],
       "name": "Wall Pocket Acid Dive",
       "requires": [
-        "h_canNavigateHeatRooms",
-        "canPartialFloorClip",
+        {"tech": "canPartialFloorClip"},
         "canSuitlessLavaDive",
         {"or": [
           {"and": [
@@ -286,6 +287,7 @@
         ]},
         {"heatFrames": 285}
       ],
+      "flashSuitChecked": true,
       "note": [
         "There is a hole in the left side wall that Samus can fit into by shrinking her hitbox.",
         "Once in the wall, stand up if crouched then turnaround into a buffered spinjump to jump out of the acid."
@@ -293,14 +295,16 @@
       "devNote": "Not notable because it only skips a walljump."
     },
     {
+      "id": 10,
       "link": [1, 3],
       "name": "Ceiling Bomb Jump",
       "requires": [
         "h_heatProof",
-        "h_canCeilingBombJump"
+        "canCeilingBombJump"
       ]
     },
     {
+      "id": 11,
       "link": [1, 3],
       "name": "Grapple Teleport Crystal Flash (from Red Brinstar Firefleas)",
       "entranceCondition": {
@@ -310,11 +314,12 @@
       },
       "requires": [
         {"heatFrames": 220},
-        "h_canCrystalFlash",
+        "h_CrystalFlash",
         {"heatFrames": 20},
         "canOffScreenMovement"
       ],
       "clearsObstacles": ["A"],
+      "flashSuitChecked": true,
       "note": [
         "Grapple teleporting here will spawn Samus inside the wall behind the Acid Chozo statue.",
         "To escape, perform a Crystal Flash to stand up, then morph and roll out to the right.",
@@ -323,6 +328,7 @@
       ]
     },
     {
+      "id": 12,
       "link": [1, 3],
       "name": "Grapple Teleport Power Bomb (from Moat)",
       "entranceCondition": {
@@ -331,7 +337,7 @@
         }
       },
       "requires": [
-        "h_canUsePowerBombs",
+        "h_usePowerBomb",
         {"heatFrames": 220},
         "canOffScreenMovement"
       ],
@@ -347,15 +353,46 @@
       ]
     },
     {
+      "id": 13,
       "link": [1, 4],
       "name": "Base",
       "requires": [
-        "h_canNavigateHeatRooms",
+        "h_navigateHeatRooms",
         "f_UsedAcidChozoStatue",
         {"heatFrames": 100}
       ]
     },
     {
+      "id": 45,
+      "link": [1, 5],
+      "name": "Direct G-Mode Morph",
+      "entranceCondition": {
+        "comeInWithGMode": {
+          "mode": "direct",
+          "morphed": true
+        }
+      },
+      "requires": [
+        "h_heatedGMode",
+        "f_UsedAcidChozoStatue",
+        "h_artificialMorphMovement",
+        {"heatFrames": 200}
+      ],
+      "flashSuitChecked": true,
+      "note": [
+        "Enter the room in Direct G-mode, otherwise the acid will still be present.",
+        "Jump in the vertical shaft to touch the camera scroll block and overload PLMs, then roll through the bomb blocks.",
+        "Exit G-mode and jump multiple times to fix the camera before crossing the section with the Holtzes."
+      ],
+      "devNote": [
+        "It is possible but not expected to cross the lower section while completely blind.",
+        "The Holtz still damage Samus, and the middle one is low enough to make it difficult to bomb boost across.",
+        "Other strats in the room are ignored because Samus needs real Morph and Varia or a lot of Energy to use the statue,",
+        "and there is no way to overload PLMs to go through the bomb blocks from the bottom of the room."
+      ]
+    },
+    {
+      "id": 14,
       "link": [2, 2],
       "name": "Leave With Runway",
       "requires": [],
@@ -367,13 +404,32 @@
       }
     },
     {
+      "id": 15,
       "link": [2, 2],
       "name": "Crystal Flash",
       "requires": [
-        "h_canHeatedCrystalFlash"
-      ]
+        "h_heatedCrystalFlash"
+      ],
+      "flashSuitChecked": true
     },
     {
+      "id": 43,
+      "link": [2, 2],
+      "name": "G-Mode Setup - Get Hit By Holtz",
+      "entranceCondition": {
+        "comeInNormally": {}
+      },
+      "requires": [
+        {"heatFrames": 440}
+      ],
+      "exitCondition": {
+        "leaveWithGModeSetup": {}
+      },
+      "unlocksDoors": [{"types": ["ammo"], "requires": []}],
+      "flashSuitChecked": true
+    },
+    {
+      "id": 16,
       "link": [2, 3],
       "name": "Grapple Teleport Crystal Flash (from Red Brinstar Firefleas)",
       "entranceCondition": {
@@ -383,11 +439,12 @@
       },
       "requires": [
         {"heatFrames": 220},
-        "h_canCrystalFlash",
+        "h_CrystalFlash",
         {"heatFrames": 20},
         "canOffScreenMovement"
       ],
       "clearsObstacles": ["A"],
+      "flashSuitChecked": true,
       "note": [
         "Grapple teleporting here will spawn Samus inside the wall behind the Acid Chozo statue.",
         "To escape, perform a Crystal Flash to stand up, then morph and roll out to the right.",
@@ -396,6 +453,7 @@
       ]
     },
     {
+      "id": 17,
       "link": [2, 3],
       "name": "Grapple Teleport Power Bomb (from Moat)",
       "entranceCondition": {
@@ -404,7 +462,7 @@
         }
       },
       "requires": [
-        "h_canUsePowerBombs",
+        "h_usePowerBomb",
         {"heatFrames": 220},
         "canOffScreenMovement"
       ],
@@ -420,54 +478,50 @@
       ]
     },
     {
+      "id": 18,
       "link": [2, 5],
       "name": "Base",
       "requires": [
-        "h_canNavigateHeatRooms",
+        "h_navigateHeatRooms",
         "ScrewAttack",
         {"heatFrames": 270}
       ]
     },
     {
+      "id": 19,
       "link": [2, 5],
       "name": "Avoid Damage",
       "requires": [
-        "h_canNavigateHeatRooms",
+        "h_navigateHeatRooms",
         {"or": [
           "canTrickyJump",
           {"and": [
             "canHorizontalDamageBoost",
-            "canCarefulJump",
-            {"enemyDamage": {
-              "enemy": "Magdollite",
-              "type": "flame",
-              "hits": 1
-            }}
+            "canUseIFrames",
+            {"enemyDamage": {"enemy": "Magdollite", "type": "flame", "hits": 1}}
           ]}
         ]},
         {"heatFrames": 330}
       ],
-      "note": "Wait for the first Holtz to attack then either use the Magdollite for IFrames, or avoid the projectiles and continue dodging bats."
+      "note": "Wait for the first Holtz to attack then either use the Magdollite for i-frames, or avoid the projectiles and continue dodging bats."
     },
     {
+      "id": 20,
       "link": [2, 5],
       "name": "Tank the Damage",
       "requires": [
-        "h_canNavigateHeatRooms",
-        {"enemyDamage": {
-          "enemy": "Holtz",
-          "type": "contact",
-          "hits": 1
-        }},
+        "h_navigateHeatRooms",
+        {"enemyDamage": {"enemy": "Holtz", "type": "contact", "hits": 1}},
         {"heatFrames": 375}
       ],
       "note": "Wait for the first Holtz before trying to cross."
     },
     {
+      "id": 21,
       "link": [2, 5],
       "name": "Full Beam Kill",
       "requires": [
-        "h_canNavigateHeatRooms",
+        "h_navigateHeatRooms",
         "Charge",
         "Ice",
         "Wave",
@@ -476,71 +530,123 @@
       ]
     },
     {
+      "id": 22,
       "link": [2, 5],
       "name": "Shinespark",
       "entranceCondition": {
         "comeInWithSpark": {}
       },
       "requires": [
-        "h_canNavigateHeatRooms",
+        "h_navigateHeatRooms",
         {"heatFrames": 125},
         {"shinespark": {"frames": 41, "excessFrames": 6}}
       ]
     },
     {
+      "id": 23,
       "link": [3, 1],
       "name": "Base",
       "requires": [
-        "h_canNavigateHeatRooms",
+        "h_navigateHeatRooms",
         "SpaceJump",
         {"heatFrames": 300}
       ]
     },
     {
+      "id": 24,
       "link": [3, 1],
       "name": "Without Acid",
       "requires": [
-        "h_canNavigateHeatRooms",
+        "h_navigateHeatRooms",
         "f_UsedAcidChozoStatue",
         {"heatFrames": 300}
       ]
     },
     {
+      "id": 40,
+      "link": [3, 3],
+      "name": "Use Acid Statue",
+      "requires": [
+        "h_activateAcidChozo",
+        {"obstaclesNotCleared": ["A"]},
+        "h_usePowerBomb",
+        {"heatFrames": 1020}
+      ],
+      "setsFlags": ["f_UsedAcidChozoStatue"]
+    },
+    {
+      "id": 25,
       "link": [3, 3],
       "name": "Crystal Flash",
       "requires": [
-        "h_canHeatedCrystalFlash"
-      ]
+        "h_heatedCrystalFlash"
+      ],
+      "flashSuitChecked": true
     },
     {
+      "id": 41,
+      "link": [3, 3],
+      "name": "Crystal Flash, Use Acid Statue",
+      "requires": [
+        "h_heatedCrystalFlash",
+        "h_activateAcidChozo",
+        {"obstaclesNotCleared": ["A"]},
+        {"heatFrames": 920}
+      ],
+      "setsFlags": ["f_UsedAcidChozoStatue"],
+      "flashSuitChecked": true,
+      "note": "Using the Crystal Flash Power Bomb to clear the statue can save some heat frames."
+    },
+    {
+      "id": 42,
+      "link": [3, 3],
+      "name": "Acid Statue with Reserve Trigger",
+      "requires": [
+        "h_activateAcidChozo",
+        {"obstaclesNotCleared": ["A"]},
+        "h_usePowerBomb",
+        {"heatFrames": 180},
+        "canManageReserves",
+        {"autoReserveTrigger": {}},
+        {"heatFrames": 50}
+      ],
+      "setsFlags": ["f_UsedAcidChozoStatue"]
+    },
+    {
+      "id": 26,
       "link": [3, 4],
       "name": "Base",
       "requires": [
-        "h_canNavigateHeatRooms",
+        "h_navigateHeatRooms",
         "f_UsedAcidChozoStatue",
         {"heatFrames": 100}
       ]
     },
     {
+      "id": 27,
       "link": [4, 1],
       "name": "Base",
       "requires": [
-        "h_canNavigateHeatRooms",
+        "h_navigateHeatRooms",
         {"heatFrames": 250}
       ],
       "devNote": "4 requires that the acid is gone."
     },
     {
+      "id": 28,
       "link": [4, 3],
       "name": "Base",
       "requires": [
-        "h_canNavigateHeatRooms",
+        "h_navigateHeatRooms",
         {"or": [
           "HiJump",
           "canWalljump",
           "canSpringBallJumpMidAir",
           {"and": [
-            "h_canIBJ",
+            {"or": [
+              "canLongIBJ",
+              "canJumpIntoIBJ"
+            ]},
             {"heatFrames": 780}
           ]}
         ]},
@@ -548,88 +654,84 @@
       ]
     },
     {
+      "id": 29,
       "link": [4, 4],
       "name": "Crystal Flash",
       "requires": [
-        "h_canHeatedCrystalFlash"
-      ]
+        "h_heatedCrystalFlash"
+      ],
+      "flashSuitChecked": true
     },
     {
+      "id": 30,
       "link": [4, 5],
       "name": "Bombs",
       "requires": [
-        "h_canNavigateHeatRooms",
+        "h_navigateHeatRooms",
         "f_UsedAcidChozoStatue",
-        "h_canUseMorphBombs",
+        "h_useMorphBombs",
         {"heatFrames": 400}
       ]
     },
     {
+      "id": 31,
       "link": [4, 5],
       "name": "PowerBombs",
       "requires": [
-        "h_canNavigateHeatRooms",
+        "h_navigateHeatRooms",
         "f_UsedAcidChozoStatue",
-        "h_canUsePowerBombs",
+        "h_usePowerBomb",
         {"heatFrames": 250}
       ]
     },
     {
+      "id": 32,
       "link": [5, 2],
       "name": "Base",
       "requires": [
-        "h_canNavigateHeatRooms",
+        "h_navigateHeatRooms",
         "ScrewAttack",
         {"heatFrames": 240}
       ]
     },
     {
+      "id": 33,
       "link": [5, 2],
       "name": "Avoid Damage",
       "requires": [
-        "h_canNavigateHeatRooms",
+        "h_navigateHeatRooms",
         {"or": [
           "canTrickyJump",
           {"and": [
             "canHorizontalDamageBoost",
-            "canCarefulJump",
-            {"enemyDamage": {
-              "enemy": "Magdollite",
-              "type": "flame",
-              "hits": 1
-            }}
+            "canUseIFrames",
+            {"enemyDamage": {"enemy": "Magdollite", "type": "flame", "hits": 1}}
           ]}
         ]},
         {"heatFrames": 375}
       ],
-      "note": "Wait for the Magdollite to attack then either use it for IFrames, or jump over the swooping Holtzes."
+      "note": "Wait for the Magdollite to attack then either use it for i-frames, or jump over the swooping Holtzes."
     },
     {
+      "id": 34,
       "link": [5, 2],
       "name": "Tank the Damage",
       "requires": [
-        "h_canNavigateHeatRooms",
-        {"enemyDamage": {
-          "enemy": "Holtz",
-          "type": "contact",
-          "hits": 1
-        }},
+        "h_navigateHeatRooms",
+        {"enemyDamage": {"enemy": "Holtz", "type": "contact", "hits": 1}},
         {"or": [
-          {"enemyDamage": {
-            "enemy": "Holtz",
-            "type": "contact",
-            "hits": 1
-          }},
+          {"enemyDamage": {"enemy": "Holtz", "type": "contact", "hits": 1}},
           "canCarefulJump"
         ]},
         {"heatFrames": 330}
       ]
     },
     {
+      "id": 35,
       "link": [5, 2],
       "name": "Full Beam Kill",
       "requires": [
-        "h_canNavigateHeatRooms",
+        "h_navigateHeatRooms",
         "Charge",
         "Ice",
         "Wave",
@@ -638,18 +740,47 @@
       ]
     },
     {
+      "id": 44,
+      "link": [5, 2],
+      "name": "G-Mode Setup - Get Hit By Holtz",
+      "requires": [
+        {"or": [
+          {"and": [
+            "canTrickyJump",
+            {"heatFrames": 820}
+          ]},
+          {"and": [
+            "ScrewAttack",
+            {"heatFrames": 660}
+          ]},
+          {"and": [
+            "canHorizontalDamageBoost",
+            "canUseIFrames",
+            {"enemyDamage": {"enemy": "Magdollite", "type": "flame", "hits": 1}},
+            {"heatFrames": 660}
+          ]}
+        ]}
+      ],
+      "exitCondition": {
+        "leaveWithGModeSetup": {}
+      },
+      "unlocksDoors": [{"types": ["ammo"], "requires": []}],
+      "flashSuitChecked": true
+    },
+    {
+      "id": 36,
       "link": [5, 4],
       "name": "Bombs",
       "requires": [
-        "h_canNavigateHeatRooms",
+        "h_navigateHeatRooms",
         "f_UsedAcidChozoStatue",
-        "h_canUseMorphBombs",
+        "h_useMorphBombs",
         {"or": [
           "HiJump",
           "canWalljump",
           "canSpringBallJumpMidAir",
           {"and": [
-            "h_canIBJ",
+            "canIBJ",
             {"heatFrames": 1020}
           ]}
         ]},
@@ -657,18 +788,19 @@
       ]
     },
     {
+      "id": 37,
       "link": [5, 4],
       "name": "Power Bombs",
       "requires": [
-        "h_canNavigateHeatRooms",
+        "h_navigateHeatRooms",
         "f_UsedAcidChozoStatue",
-        "h_canUsePowerBombs",
+        "h_usePowerBomb",
         {"or": [
           "HiJump",
           "canWalljump",
           "canSpringBallJumpMidAir",
           {"and": [
-            "h_canIBJ",
+            "canIBJ",
             {"heatFrames": 1020}
           ]}
         ]},
@@ -676,24 +808,31 @@
       ]
     },
     {
+      "id": 38,
       "link": [5, 4],
       "name": "CF Grapple Clip",
       "requires": [
         "h_heatProof",
-        "h_canBombThings",
-        "h_canJumpIntoCrystalFlashClip",
+        "h_bombThings",
+        "h_jumpIntoCrystalFlashClip",
         "HiJump",
         "Grapple"
       ],
+      "flashSuitChecked": true,
       "note": "Menu to Grappling Beam before the crystal flash ends and mash shoot while holding down.",
       "devNote": "The extra Power Bomb or bombs is to get through the bomb blocks."
     },
     {
+      "id": 39,
       "link": [5, 5],
       "name": "Crystal Flash",
       "requires": [
-        "h_canHeatedCrystalFlash"
-      ]
+        "h_heatedCrystalFlash"
+      ],
+      "flashSuitChecked": true
     }
-  ]
+  ],
+  "notables": [],
+  "nextStratId": 46,
+  "nextNotableId": 1
 }

@@ -4,9 +4,11 @@
   "name": "Tourian Escape Room 1",
   "area": "Tourian",
   "subarea": "Main",
-  "playable": true,
   "roomAddress": "0x7DE4D",
   "roomEnvironments": [{"heated": false}],
+  "mapTileMask": [
+    [1, 1]
+  ],
   "nodes": [
     {
       "id": 1,
@@ -14,6 +16,7 @@
       "nodeType": "door",
       "nodeSubType": "closedWall",
       "nodeAddress": "0x001aae0",
+      "doorOrientation": "right",
       "doorEnvironments": [{"physics": "air"}],
       "locks": [
         {
@@ -22,13 +25,15 @@
           "unlockStrats": [
             {
               "name": "Base",
-              "notable": false,
               "requires": [
-                "h_AccessTourianEscape1RightDoor"
+                "h_openTourianEscape1RightDoor"
               ]
             }
           ]
         }
+      ],
+      "mapTileMask": [
+        [1, 2]
       ],
       "note": "It's really just a wall. You can't go back."
     },
@@ -38,7 +43,11 @@
       "nodeType": "door",
       "nodeSubType": "blue",
       "nodeAddress": "0x001aaec",
-      "doorEnvironments": [{"physics": "air"}]
+      "doorOrientation": "down",
+      "doorEnvironments": [{"physics": "air"}],
+      "mapTileMask": [
+        [2, 1]
+      ]
     }
   ],
   "enemies": [],
@@ -60,6 +69,7 @@
   ],
   "strats": [
     {
+      "id": 1,
       "link": [1, 1],
       "name": "Leave with Runway",
       "requires": [],
@@ -71,18 +81,22 @@
       }
     },
     {
+      "id": 2,
       "link": [1, 1],
       "name": "Crystal Flash",
       "requires": [
-        "h_canCrystalFlash"
-      ]
+        "h_CrystalFlash"
+      ],
+      "flashSuitChecked": true
     },
     {
+      "id": 3,
       "link": [1, 2],
       "name": "Base",
       "requires": []
     },
     {
+      "id": 4,
       "link": [1, 2],
       "name": "Stored Moonfall Clip",
       "entranceCondition": {
@@ -96,38 +110,52 @@
       "bypassesDoorShell": true
     },
     {
+      "id": 5,
       "link": [2, 1],
       "name": "Base",
       "requires": []
     },
     {
+      "id": 6,
       "link": [2, 2],
       "name": "Leave Shinecharged",
       "requires": [
-        {"canShineCharge": {
-          "usedTiles": 21,
-          "openEnd": 1
-        }}
+        {"canShineCharge": {"usedTiles": 21, "openEnd": 1}},
+        {"shineChargeFrames": 10}
       ],
       "exitCondition": {
-        "leaveShinecharged": {
-          "framesRemaining": 170
-        }
+        "leaveShinecharged": {}
       },
+      "flashSuitChecked": true,
       "devNote": [
         "It is possible to run in from the right while shooting the first gate, then quickly leave charged through the bottom door,",
         "but it's not really easier than a 21 tile Shinecharge."
       ]
     },
     {
+      "id": 7,
       "link": [2, 2],
-      "name": "Leave Normally",
+      "name": "Leave With Temporary Blue",
+      "requires": [
+        {"canShineCharge": {"usedTiles": 21, "openEnd": 0}}
+      ],
       "exitCondition": {
-        "leaveNormally": {}
-      },
-      "requires": []
+        "leaveWithTemporaryBlue": {
+          "direction": "left"
+        }
+      }
     },
     {
+      "id": 8,
+      "link": [2, 2],
+      "name": "Leave Normally",
+      "requires": [],
+      "exitCondition": {
+        "leaveNormally": {}
+      }
+    },
+    {
+      "id": 9,
       "link": [2, 2],
       "name": "Shinespark",
       "entranceCondition": {
@@ -139,5 +167,8 @@
       ],
       "devNote": "This strat is not useful in-room, but can satisfy a strat in the room before with an exit shinespark."
     }
-  ]
+  ],
+  "notables": [],
+  "nextStratId": 10,
+  "nextNotableId": 1
 }

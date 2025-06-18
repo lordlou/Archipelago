@@ -5,19 +5,23 @@
   "area": "Norfair",
   "subarea": "Upper",
   "subsubarea": "East",
-  "playable": true,
   "roomAddress": "0x7AE32",
   "roomEnvironments": [
     {
-      "entranceNodes": [1],
       "heated": false,
+      "entranceNodes": [1],
       "note": "This room is not heated when entering from the top"
     },
     {
-      "entranceNodes": [2],
       "heated": true,
+      "entranceNodes": [2],
       "note": "This room is only heated when entering from the bottom"
     }
+  ],
+  "mapTileMask": [
+    [0, 0, 1],
+    [0, 0, 1],
+    [1, 1, 1]
   ],
   "nodes": [
     {
@@ -26,7 +30,13 @@
       "nodeType": "door",
       "nodeSubType": "blue",
       "nodeAddress": "0x001964e",
-      "doorEnvironments": [{"physics": "air"}]
+      "doorOrientation": "left",
+      "doorEnvironments": [{"physics": "air"}],
+      "mapTileMask": [
+        [0, 0, 2],
+        [0, 0, 2],
+        [1, 1, 2]
+      ]
     },
     {
       "id": 2,
@@ -34,6 +44,7 @@
       "nodeType": "door",
       "nodeSubType": "blue",
       "nodeAddress": "0x001965a",
+      "doorOrientation": "left",
       "doorEnvironments": [
         {
           "physics": "lava",
@@ -45,6 +56,11 @@
           "entranceNodes": [2],
           "note": "Lava can eventually rise up to this door entering from node 2, but it's possible to have air physics"
         }
+      ],
+      "mapTileMask": [
+        [0, 0, 1],
+        [0, 0, 1],
+        [2, 2, 1]
       ]
     }
   ],
@@ -54,16 +70,14 @@
       "groupName": "Volcano Room Top Funes",
       "enemyName": "Fune",
       "quantity": 5,
-      "homeNodes": [1],
-      "dropRequires": ["h_heatProof"]
+      "homeNodes": [1]
     },
     {
       "id": "e2",
       "groupName": "Volcano Room Bottom Fune",
       "enemyName": "Fune",
       "quantity": 1,
-      "homeNodes": [2],
-      "dropRequires": ["h_heatProof", "Gravity"]
+      "homeNodes": [2]
     }
   ],
   "links": [
@@ -87,6 +101,7 @@
   ],
   "strats": [
     {
+      "id": 1,
       "link": [1, 1],
       "name": "Leave with Runway",
       "requires": [],
@@ -98,18 +113,20 @@
       }
     },
     {
+      "id": 2,
       "link": [1, 1],
       "name": "Crystal Flash",
       "requires": [
         {"resetRoom": {
-          "nodes": [1],
-          "mustStayPut": false
+          "nodes": [1]
         }},
-        "h_canCrystalFlash"
+        "h_CrystalFlash"
       ],
+      "flashSuitChecked": true,
       "devNote": "Resetting the room through node 1 ensures that there is no heat."
     },
     {
+      "id": 3,
       "link": [1, 2],
       "name": "Base",
       "requires": [
@@ -133,8 +150,9 @@
       ]
     },
     {
+      "id": 4,
       "link": [1, 2],
-      "name": "Suitless Volcano Dive",
+      "name": "Suitless Lava Dive",
       "requires": [
         "canSuitlessLavaDive",
         "Morph",
@@ -156,31 +174,39 @@
       ]
     },
     {
+      "id": 5,
       "link": [2, 1],
       "name": "Base",
       "requires": [
         "Morph",
         {"or": [
           "canMockball",
-          {"heatFrames": 25}
+          {"heatFrames": 35}
         ]},
-        {"heatFrames": 480}
+        {"heatFrames": 420}
       ],
       "unlocksDoors": [
-        {"types": ["missiles"], "requires": [{"heatFrames": 20}]},
-        {"types": ["powerbomb"], "requires": [{"heatFrames": 60}]}
+        {
+          "types": ["missiles"],
+          "requires": [{"heatFrames": 20}]
+        },
+        {
+          "types": ["powerbomb"],
+          "requires": [{"heatFrames": 60}]
+        }
       ]
     },
     {
+      "id": 6,
       "link": [2, 1],
       "name": "Leave with Runway",
       "requires": [
         "Morph",
         {"or": [
           "canMockball",
-          {"heatFrames": 25}
+          {"heatFrames": 35}
         ]},
-        {"heatFrames": 440}
+        {"heatFrames": 380}
       ],
       "exitCondition": {
         "leaveWithRunway": {
@@ -189,12 +215,19 @@
         }
       },
       "unlocksDoors": [
-        {"types": ["missiles"], "requires": [{"heatFrames": 50}]},
+        {
+          "types": ["missiles"],
+          "requires": [{"heatFrames": 50}]
+        },
         {"types": ["super"], "requires": []},
-        {"types": ["powerbomb"], "requires": [{"heatFrames": 60}]}
+        {
+          "types": ["powerbomb"],
+          "requires": [{"heatFrames": 60}]
+        }
       ]
     },
     {
+      "id": 7,
       "link": [2, 1],
       "name": "SpaceJump",
       "requires": [
@@ -202,38 +235,152 @@
         "SpaceJump",
         {"or": [
           "canMockball",
-          {"heatFrames": 25}
+          {"heatFrames": 35}
         ]},
-        {"heatFrames": 440}
+        {"heatFrames": 405}
       ]
     },
     {
+      "id": 10,
+      "link": [2, 1],
+      "name": "Come In Getting Blue Speed, Leave With Temporary Blue (Big Jump)",
+      "entranceCondition": {
+        "comeInGettingBlueSpeed": {
+          "length": 4,
+          "openEnd": 1,
+          "minExtraRunSpeed": "$4.7"
+        }
+      },
+      "requires": [
+        "canLongChainTemporaryBlue",
+        "canXRayTurnaround",
+        {"heatFrames": 760}
+      ],
+      "exitCondition": {
+        "leaveWithTemporaryBlue": {}
+      },
+      "unlocksDoors": [
+        {"types": ["super", "powerbomb"], "requires": []},
+        {
+          "types": ["missiles"],
+          "requires": [{"heatFrames": 50}]
+        }
+      ],
+      "note": [
+        "Move quickly (when X-Ray is not active) to climb the shaft before the Fune fireballs would reach Samus."
+      ],
+      "devNote": [
+        "The last runway tile is considered unusable, as Samus is likely to clip down through it."
+      ]
+    },
+    {
+      "id": 11,
+      "link": [2, 1],
+      "name": "Come In Getting Blue Speed, Leave With Temporary Blue (Spring Ball Bounce)",
+      "entranceCondition": {
+        "comeInGettingBlueSpeed": {
+          "length": 5,
+          "openEnd": 1
+        }
+      },
+      "requires": [
+        "canTrickySpringBallBounce",
+        "canLongChainTemporaryBlue",
+        "canXRayTurnaround",
+        {"heatFrames": 1020}
+      ],
+      "exitCondition": {
+        "leaveWithTemporaryBlue": {}
+      },
+      "unlocksDoors": [
+        {"types": ["super", "powerbomb"], "requires": []},
+        {
+          "types": ["missiles"],
+          "requires": [{"heatFrames": 50}]
+        }
+      ],
+      "note": [
+        "Move quickly (when X-Ray is not active) to climb the shaft before the Fune fireballs would reach Samus."
+      ]
+    },
+    {
+      "id": 12,
+      "link": [2, 1],
+      "name": "G-Mode Morph, Blind Movement",
+      "entranceCondition": {
+        "comeInWithGMode": {
+          "mode": "any",
+          "morphed": true
+        }
+      },
+      "requires": [
+        "h_heatedGMode",
+        "canOffScreenMovement",
+        {"or": [
+          "h_artificialMorphMovement",
+          {"ammo": {"type": "PowerBomb", "count": 3}}
+        ]},
+        {"or": [
+          "canInsaneJump",
+          {"and": [
+            "canTrickyJump",
+            "h_heatProof"
+          ]},
+          {"and": [
+            "h_heatProof",
+            "h_lavaProof",
+            {"or": [
+              "Gravity",
+              "HiJump"
+            ]}
+          ]}
+        ]},
+        {"heatFrames": 1000}
+      ],
+      "flashSuitChecked": true,
+      "note": [
+        "Enter the morph tunnel then exit G-mode. Shooting the shot block off screen can be done by jumping and shooting up or with Grapple or a Power Bomb.",
+        "Getting positioned under the shot block can be done by walking into the camera scroll block and then walking against the right wall,",
+        "jump to the left and walk a little more (about one more tile). This will also give some visibility of Samus.",
+        "Without heat damage, it is recommended to jump up past the shot block and wait for it to respawn; with the block intact, Samus can't accidentally touch the lava."
+      ],
+      "devNote": "These heat frames are not very tight, as the room is difficult to do consistently."
+    },
+    {
+      "id": 8,
       "link": [2, 2],
       "name": "Leave with Runway",
+      "entranceCondition": {
+        "comeInNormally": {}
+      },
       "requires": [
-        {"resetRoom": {
-          "nodes": [2],
-          "mustStayPut": true
-        }}
+        {"heatFrames": 60}
       ],
       "exitCondition": {
         "leaveWithRunway": {
           "length": 6,
           "openEnd": 1
         }
-      }
+      },
+      "unlocksDoors": [{"types": ["ammo"], "requires": []}]
     },
     {
+      "id": 9,
       "link": [2, 2],
       "name": "Crystal Flash",
+      "entranceCondition": {
+        "comeInNormally": {}
+      },
       "requires": [
-        {"resetRoom": {
-          "nodes": [2],
-          "mustStayPut": false
-        }},
-        "h_canHeatedCrystalFlash"
+        "h_heatedCrystalFlash"
       ],
-      "devNote": "Resetting the room ensures that the lava is not a factor."
+      "flashSuitChecked": true,
+      "devNote": [
+        "When coming from 1: A lava proof CF could CF at 1, otherwise going through this door should be less damage than staying in Lava."
+      ]
     }
-  ]
+  ],
+  "notables": [],
+  "nextStratId": 13,
+  "nextNotableId": 1
 }

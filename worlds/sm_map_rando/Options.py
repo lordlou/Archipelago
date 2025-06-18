@@ -1,7 +1,7 @@
 import typing
 from Options import Choice, OptionSet, PerGameCommonOptions, Range, OptionDict, OptionList, Option, StartInventoryPool, Toggle, DefaultOnToggle
 from dataclasses import dataclass
-from . import map_rando_game_data
+from . import map_rando_app_data
 
 from schema import Schema, And
 
@@ -42,12 +42,12 @@ class Preset(Choice):
 class Techs(OptionSet):
     "Custom list of techs used when Preset is set to Custom. The list can also contain one of the Preset name to include all its Techs."
     display_name = "Techs"
-    valid_keys = frozenset(map_rando_game_data.tech_isv + ["Basic", "Medium", "Hard", "VeryHard", "Expert", "Extreme", "Insane", "Beyond"])
+    valid_keys = frozenset(["Basic", "Medium", "Hard", "VeryHard", "Expert", "Extreme", "Insane", "Beyond"])
 
 class Strats(OptionSet):
     "Custom list of strats used when Preset is set to Custom. The list can also contain one of the Preset name to include all its Strats."
     display_name = "Strats"
-    valid_keys = frozenset(map_rando_game_data.notable_strat_isv + ["Basic", "Medium", "Hard", "VeryHard", "Expert", "Extreme", "Insane", "Beyond"])
+    valid_keys = frozenset(["Basic", "Medium", "Hard", "VeryHard", "Expert", "Extreme", "Insane", "Beyond"])
 
 class ItemPool(Choice):
     """

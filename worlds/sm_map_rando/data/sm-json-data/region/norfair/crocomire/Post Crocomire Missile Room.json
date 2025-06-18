@@ -5,9 +5,11 @@
   "area": "Norfair",
   "subarea": "Upper",
   "subsubarea": "Crocomire",
-  "playable": true,
   "roomAddress": "0x7AB3B",
   "roomEnvironments": [{"heated": false}],
+  "mapTileMask": [
+    [1, 1, 1, 1]
+  ],
   "nodes": [
     {
       "id": 1,
@@ -15,7 +17,11 @@
       "nodeType": "door",
       "nodeSubType": "blue",
       "nodeAddress": "0x00194aa",
-      "doorEnvironments": [{"physics": "air"}]
+      "doorOrientation": "left",
+      "doorEnvironments": [{"physics": "air"}],
+      "mapTileMask": [
+        [2, 2, 1, 1]
+      ]
     },
     {
       "id": 2,
@@ -23,7 +29,17 @@
       "nodeType": "item",
       "nodeSubType": "visible",
       "nodeItem": "Missile",
-      "nodeAddress": "0x78C14"
+      "nodeAddress": "0x78C14",
+      "mapTileMask": [
+        [1, 1, 2, 2]
+      ]
+    }
+  ],
+  "obstacles": [
+    {
+      "id": "A",
+      "name": "G-Mode Morph - Remote Acquire the item",
+      "obstacleType": "abstract"
     }
   ],
   "enemies": [
@@ -39,15 +55,7 @@
       "groupName": "Cosine Room Gamets",
       "enemyName": "Gamet",
       "quantity": 5,
-      "homeNodes": [2],
-      "farmCycles": [
-        {
-          "name": "Crouch 3 tiles over Gamets",
-          "cycleFrames": 165,
-          "requires": []
-        }
-      ],
-      "devNote": "With the gamets spawning over acid, there probably isn't a more effective strat."
+      "homeNodes": [2]
     }
   ],
   "links": [
@@ -68,6 +76,7 @@
   ],
   "strats": [
     {
+      "id": 1,
       "link": [1, 1],
       "name": "Leave with Runway",
       "requires": [],
@@ -83,6 +92,43 @@
       }
     },
     {
+      "id": 2,
+      "link": [1, 1],
+      "name": "G-Mode Setup - Get Hit By Gamet",
+      "requires": [
+        "Morph"
+      ],
+      "exitCondition": {
+        "leaveWithGModeSetup": {}
+      },
+      "flashSuitChecked": true,
+      "note": [
+        "Lure the Gamets while preventing them from going off camera.",
+        "Spawn them when the acid is high and rising to avoid running through it."
+      ]
+    },
+    {
+      "id": 9,
+      "link": [1, 1],
+      "name": "Gain Flash Suit (Spikesuit)",
+      "requires": [
+        {"canShineCharge": {
+          "usedTiles": 33,
+          "openEnd": 0,
+          "gentleUpTiles": 8,
+          "gentleDownTiles": 8,
+          "steepUpTiles": 2,
+          "steepDownTiles": 2
+        }},
+        {"spikeHits": 1},
+        "canSpikeSuit",
+        {"shinespark": {"frames": 3, "excessFrames": 3}}
+      ],
+      "flashSuitChecked": true,
+      "devNote": ["Leniency is not included, because a farm is available."]
+    },
+    {
+      "id": 3,
       "link": [1, 2],
       "name": "Base",
       "requires": [
@@ -90,6 +136,93 @@
       ]
     },
     {
+      "id": 4,
+      "link": [1, 2],
+      "name": "G-Mode Morph",
+      "entranceCondition": {
+        "comeInWithGMode": {
+          "mode": "any",
+          "morphed": true
+        }
+      },
+      "requires": [],
+      "flashSuitChecked": true,
+      "note": "Wait for the acid to lower then quickly roll part way forward to trigger the Metarees and return. Then go again without any difficulty.",
+      "devNote": "This is only useful if the item is Morph."
+    },
+    {
+      "id": 5,
+      "link": [1, 2],
+      "name": "G-Mode Morph Remote Acquire",
+      "entranceCondition": {
+        "comeInWithGMode": {
+          "mode": "direct",
+          "morphed": true
+        }
+      },
+      "requires": [
+        {"or": [
+          {"and": [
+            "h_artificialMorphIBJ",
+            {"or": [
+              "canInsaneJump",
+              {"acidFrames": 106}
+            ]}
+          ]},
+          {"and": [
+            "h_artificialMorphSpringBall",
+            {"or": [
+              "h_artificialMorphBombThings",
+              "canTrickyJump"
+            ]}
+          ]}
+        ]}
+      ],
+      "clearsObstacles": ["A"],
+      "flashSuitChecked": true,
+      "note": [
+        "Wait for the acid to lower then quickly roll part way forward to trigger the Metarees and return. Then go again without any difficulty.",
+        "Killing any of the Gamets will prevent them from respawning.",
+        "With Bombs, horizontally boost then IBJ above the acid while waiting for it.",
+        "It is possible with Spring Ball alone, but it is easy to take damage; perform small jumps but hold jump before landing to prevent a small bounce in which Samus can't jump.",
+        "On the return route, jump over the Gamets to let them pass instead of racing to get them off screen."
+      ],
+      "devNote": "The requirements here are to get the item and return, as the item cannot be used during the return."
+    },
+    {
+      "id": 10,
+      "link": [1, 2],
+      "name": "G-Mode Morph Remote Acquire, Power Bomb Boosts",
+      "entranceCondition": {
+        "comeInWithGMode": {
+          "mode": "direct",
+          "morphed": true
+        }
+      },
+      "requires": [
+        "h_artificialMorphBombHorizontally",
+        {"ammo": {"type": "PowerBomb", "count": 6}},
+        {"or": [
+          "canTrickyGMode",
+          {"acidFrames": 212}
+        ]}
+      ],
+      "clearsObstacles": ["A"],
+      "flashSuitChecked": true,
+      "note": [
+        "Wait for the acid to lower then quickly roll part way forward to trigger the Metarees and return. Then go again without any difficulty.",
+        "With Power Bombs alone is particularly challenging. Use a Power Bomb to kill the Gamets to prevent them from respawning.",
+        "Place a bomb at the edge of the runway and hit it with momentum and precise timing to get a boost to skip the first and land on the next safe platform.",
+        "As quickly as possible place another and let it boost horizontally to the next platform, then another to get to the item."
+      ],
+      "devNote": [
+        "The requirements here are to get the item and return, as the item cannot be used during the return.",
+        "It appears that there is virtually no risk in overloading PLMs - the left runway isn't close enough, and even placing two on each pillar will not overload PLMs.",
+        "FIXME: Hitting the bomb with momentum needs a tech."
+      ]
+    },
+    {
+      "id": 6,
       "link": [2, 1],
       "name": "Base",
       "requires": [
@@ -97,11 +230,26 @@
       ]
     },
     {
+      "id": 7,
+      "link": [2, 1],
+      "name": "G-mode Morph Remote Acquire",
+      "requires": [
+        "canEnterGMode",
+        {"obstaclesCleared": ["A"]}
+      ],
+      "flashSuitChecked": true
+    },
+    {
+      "id": 8,
       "link": [2, 2],
       "name": "Gamet Farm",
       "requires": [
+        {"obstaclesNotCleared": ["A"]},
         {"refill": ["Energy", "Missile", "Super", "PowerBomb"]}
       ]
     }
-  ]
+  ],
+  "notables": [],
+  "nextStratId": 11,
+  "nextNotableId": 1
 }
