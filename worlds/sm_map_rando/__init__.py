@@ -617,8 +617,8 @@ class SMMapRandoWorld(World):
         patches.append(IPS_Patch(mergedData))
 
         # commit all the changes we've made here to the ROM
-        # for ips in patches:
-        #     patched_rom_bytes = ips.apply(patched_rom_bytes)
+        for ips in patches:
+            patched_rom_bytes = ips.apply(patched_rom_bytes)
 
         outfilebase = self.multiworld.get_out_file_name_base(self.player)
         outputFilename = os.path.join(output_directory, f"{outfilebase}.sfc")
