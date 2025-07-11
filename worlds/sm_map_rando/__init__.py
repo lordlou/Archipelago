@@ -34,7 +34,7 @@ class WrongVersionError(Exception):
 try:
     if version("pysmmaprando") != required_pysmmaprando_version:
         raise WrongVersionError
-    from pysmmaprando import build_app_data, randomize_ap, customize_seed_ap, CustomizeRequest
+    from pysmmaprando import build_app_data, randomize_ap, customize_seed_ap, CustomizeRequest, Item as MapRandoItem
 
 # required for APWorld distribution outside official AP releases as stated at https://docs.python.org/3/library/zipimport.html:
 # ZIP import of dynamic modules (.pyd, .so) is disallowed.
@@ -66,7 +66,7 @@ except (ImportError, WrongVersionError, PackageNotFoundError) as e:
             z = zipfile.ZipFile(io.BytesIO(r.content))
             z.extractall(f"{os.path.dirname(sys.executable)}/lib")
             
-    from pysmmaprando import build_app_data, randomize_ap, customize_seed_ap, CustomizeRequest
+    from pysmmaprando import build_app_data, randomize_ap, customize_seed_ap, CustomizeRequest, Item as MapRandoItem
 
 def GetAPWorldPath():
     filename = sys.modules[__name__].__file__
@@ -175,6 +175,9 @@ class SMMapRandoWorld(World):
 
         # create regions
         self.region_dict = []
+        for spoilerSummary in self.randomizer_ap.spoiler_log.summary:
+            for spoilerItemSummary in spoilerSummary.items:
+                print(f"Map rando Item placement: {spoilerItemSummary.item} {spoilerItemSummary.location.room} {spoilerItemSummary.location.node}")
         for spoilerSummary in self.randomizer_ap.spoiler_log.summary:
             self.region_dict.append(self.create_region(  self.multiworld, 
                                                         self.player, 
@@ -367,13 +370,25 @@ class SMMapRandoWorld(World):
             "on",
             False
         )
+        sorted_item_locs = list(self.locations.values())
+        items = [MapRandoItem(
+                (itemLoc.item.code 
+                    if isinstance(itemLoc.item, SMMRItem) else 
+                (self.item_name_to_id['ArchipelagoProgItem'] 
+                    if itemLoc.item.classification == ItemClassification.progression else
+                self.item_name_to_id['ArchipelagoItem']))
+                - items_start_id)
+                    for itemLoc in sorted_item_locs if itemLoc.address is not None]
+
+        #self.randomizer_ap.randomization.item_placement = items
         patched_rom_bytes = customize_seed_ap(
             customize_request, 
             map_rando_app_data, 
             map_rando_app_data.preset_data.default_preset,
             self.randomizer_ap.randomization,
             self.randomizer_ap.randomization.map,
-            False
+            False,
+            items
             )
         #patched_rom_bytes = None
         #with open(get_base_rom_path(), "rb") as stream:
