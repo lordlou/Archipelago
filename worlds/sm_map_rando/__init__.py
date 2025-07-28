@@ -118,10 +118,15 @@ class SMMapRandoWorld(World):
     options_dataclass = SMMROptions
     options: SMMROptions
 
-    item_name_to_id = {item_name: items_start_id + idx for idx, item_name in enumerate(map_rando_app_data.game_data.item_isv.keys)}
+    smmr_location_names = map_rando_app_data.game_data.get_location_names()
+
+    item_name_to_id = {item_name: items_start_id + idx for idx, item_name in 
+                                enumerate(itertools.chain(map_rando_app_data.game_data.item_isv.keys,
+                                                          ["ArchipelagoItem", "ArchipelagoProgItem"]))}
     location_name_to_id = {loc_name: locations_start_id + location_address_to_id[str(addr)] for idx, (loc_name, addr) in 
-                                enumerate(itertools.chain(zip(  map_rando_app_data.game_data.get_location_names(), 
+                                enumerate(itertools.chain(zip(  smmr_location_names, 
                                                                 map_rando_app_data.game_data.get_location_addresses())))}
+    
     
     locations_idx_range_to_area = {
         12 : "Crateria",
@@ -169,25 +174,37 @@ class SMMapRandoWorld(World):
         return ret
 
     def create_regions(self):
+        remaining_locations = []
         # create locations
         for loc_name, id in SMMapRandoWorld.location_name_to_id.items():
             self.locations[loc_name] = SMMRLocation(self.player, loc_name, id)
+            remaining_locations.append(loc_name)
 
         # create regions
         self.region_dict = []
         for spoilerSummary in self.randomizer_ap.spoiler_log.summary:
             for spoilerItemSummary in spoilerSummary.items:
                 print(f"Map rando Item placement: {spoilerItemSummary.item} {spoilerItemSummary.location.room} {spoilerItemSummary.location.node}")
+
+        cumulative_required_items = []
+
         for spoilerSummary in self.randomizer_ap.spoiler_log.summary:
+            cumulative_required_items.extend([spoilerItemSummary.item for spoilerItemSummary in spoilerSummary.items])
             self.region_dict.append(self.create_region(  self.multiworld, 
                                                         self.player, 
                                                         f"step {spoilerSummary.step}",
                                                         [f"{spoilerItemSummary.location.room} {spoilerItemSummary.location.node}" for spoilerItemSummary in spoilerSummary.items],
                                                         f"to step {spoilerSummary.step + 1}" if spoilerSummary.step < len(self.randomizer_ap.spoiler_log.summary) else None,
-                                                        [spoilerItemSummary.item for spoilerItemSummary in spoilerSummary.items]))
+                                                        cumulative_required_items[:]))
+            for spoilerItemSummary in spoilerSummary.items:
+                remaining_locations.remove(f"{spoilerItemSummary.location.room} {spoilerItemSummary.location.node}")
 
-        # self.region_area_name = self.map_rando.randomizer.ap_get_vertex_area_names()
         self.multiworld.regions += self.region_dict
+
+        for loc_name in remaining_locations:
+            region = self.multiworld.get_region(f"step {len(self.randomizer_ap.spoiler_log.summary) - 1}", self.player)
+            self.locations[loc_name].parent_region = region
+            region.locations.append(self.locations[loc_name])
 
         for spoilerSummary in self.randomizer_ap.spoiler_log.summary[:-1]:
             entrance = self.multiworld.get_entrance(f"to step {spoilerSummary.step + 1}", self.player)
@@ -201,17 +218,90 @@ class SMMapRandoWorld(World):
         startAP.connect(self.multiworld.get_region("step 1", self.player))
 
     def create_items(self):
+        self.items_step_to_pre_fill = []
+        self.locations_step_to_pre_fill = {}
         pool = []
-        for spoilerItemLoc in self.randomizer_ap.spoiler_log.all_items:
-            mr_item = SMMRItem(spoilerItemLoc.item, 
-                        ItemClassification.progression, 
-                        SMMapRandoWorld.item_name_to_id[spoilerItemLoc.item], 
-                        player=self.player)
-            pool.append(mr_item)
+        is_pre_fill_spheres_done = False
+        sphere_item_count_threshold = 3
+        total_item_count_threshold = 5
+        item_placement = [item.to_int() for item in self.randomizer_ap.randomization.item_placement]
+        seen_item_type = set()    
+        for spoilerSummary in self.randomizer_ap.spoiler_log.summary:
+            # needs_to_pre_fill =  not is_pre_fill_spheres_done and (len(spoilerSummary.items) < sphere_item_count_threshold or len(self.items_step_to_pre_fill) < total_item_count_threshold)
+            for spoilerItemSummary in spoilerSummary.items:
+                new_item_id = SMMapRandoWorld.item_name_to_id[spoilerItemSummary.item]
+                item_placement[SMMapRandoWorld.smmr_location_names.index(f"{spoilerItemSummary.location.room} {spoilerItemSummary.location.node}")] = -1
+                needs_to_pre_fill = True # new_item_id not in seen_item_type or spoilerItemSummary.item == "ETank" or spoilerItemSummary.item == "ReserveTank"
+                seen_item_type.add(new_item_id)
+                mr_item = SMMRItem(spoilerItemSummary.item, 
+                            ItemClassification.progression if needs_to_pre_fill else ItemClassification.filler, 
+                            new_item_id, 
+                            player=self.player)
+                
+                if needs_to_pre_fill:
+                    self.items_step_to_pre_fill.append((mr_item, spoilerSummary.step))
+                    self.locations_step_to_pre_fill[f"{spoilerItemSummary.location.room} {spoilerItemSummary.location.node}"] = spoilerSummary.step
+                #else:
+                    # is_pre_fill_spheres_done = True
+                    # pool.append(mr_item)
+
+        for i, item_id in enumerate(item_placement):
+            if item_id != -1:
+                mr_item = SMMRItem(SMMapRandoWorld.item_id_to_name[item_id + items_start_id], 
+                                ItemClassification.filler, 
+                                item_id + items_start_id, 
+                                player=self.player)
+                # pool.append(mr_item)
+                self.items_step_to_pre_fill.append((mr_item, len(self.randomizer_ap.spoiler_log.summary) - 1))
+                self.locations_step_to_pre_fill[SMMapRandoWorld.smmr_location_names[i]] = len(self.randomizer_ap.spoiler_log.summary) - 1
+            
         self.multiworld.itempool += pool
         
     def set_rules(self):     
         self.multiworld.completion_condition[self.player] = lambda state: state.can_reach(self.multiworld.get_entrance(f"to step {len(self.randomizer_ap.spoiler_log.summary)}", self.player))
+
+    def get_pre_fill_items(self):
+        return list(map(lambda item: item[0], self.items_step_to_pre_fill))
+
+    @classmethod
+    def stage_pre_fill(cls, multiworld):
+        # we help the main fill stage to not get stuck by pre filling early narrow Map Rando's spheres
+        items_step_to_pre_fill = []
+        sorted_items_to_pre_fill = []
+        for subworld in multiworld.get_game_worlds(SMMapRandoWorld.game):
+            player = subworld.player
+            if player not in multiworld.groups:
+                items_step_to_pre_fill.extend(subworld.items_step_to_pre_fill)
+
+        if items_step_to_pre_fill:
+            all_unfilled_locations = multiworld.get_unfilled_locations()
+            multiworld.random.shuffle(all_unfilled_locations)
+            map_rando_unfilled_locations = []
+            for loc in all_unfilled_locations:
+                if (loc.game == SMMapRandoWorld.game):
+                    map_rando_unfilled_locations.append(loc)
+            
+            step = (len(all_unfilled_locations) * 9 / 10 + 1) / len(map_rando_unfilled_locations)
+
+            for loc in map_rando_unfilled_locations:
+                all_unfilled_locations.remove(loc)
+
+            start_insert = round(len(all_unfilled_locations) / 10)
+                
+            map_rando_unfilled_locations.sort(key=lambda location: multiworld.worlds[location.player].locations_step_to_pre_fill[location.name] if location.game == SMMapRandoWorld.game else 0)
+            
+            for i, element in enumerate(map_rando_unfilled_locations):
+                insert_index = start_insert + round(i * step)
+                all_unfilled_locations.insert(insert_index, element)
+
+            items_step_to_pre_fill.sort(key=lambda item: item[1], reverse=True)
+            sorted_items_to_pre_fill = list(map(lambda item: item[0], items_step_to_pre_fill))
+
+            all_state = multiworld.get_all_state(use_cache=False)
+            for item in sorted_items_to_pre_fill:
+                all_state.remove(item)
+
+            fill_restrictive(multiworld, all_state, all_unfilled_locations, sorted_items_to_pre_fill, lock=True, name="Map Rando pre fill")
 
     def post_fill(self):
         self.startItems = [variaItem for item in self.multiworld.precollected_items[self.player] for variaItem in self.item_name_to_id.keys() if variaItem == item.name]
