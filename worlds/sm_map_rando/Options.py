@@ -768,6 +768,7 @@ class ControllerButton(Choice):
     option_Select = 11
     option_Start = 12
 
+    """
     free_controller_button_per_player = {}
 
     def verify(self, world, player_name: str, plando_options) -> None:
@@ -787,6 +788,7 @@ class ControllerButton(Choice):
             return
         raise Exception(f"Controller button '{self.value}' is already used. Possible buttons are: \
                         {ControllerButton.free_controller_button_per_player[player_name]}")
+    """
 
 class Shot(ControllerButton):
     """
