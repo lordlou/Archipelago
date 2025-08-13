@@ -34,7 +34,7 @@ class WrongVersionError(Exception):
 try:
     if version("pysmmaprando") != required_pysmmaprando_version:
         raise WrongVersionError
-    from pysmmaprando import build_app_data, randomize_ap, customize_seed_ap, CustomizeRequest, Item as MapRandoItem
+    from pysmmaprando import build_app_data, validate_settings_ap, randomize_ap, customize_seed_ap, CustomizeRequest, Item as MapRandoItem
 
 # required for APWorld distribution outside official AP releases as stated at https://docs.python.org/3/library/zipimport.html:
 # ZIP import of dynamic modules (.pyd, .so) is disallowed.
@@ -66,7 +66,7 @@ except (ImportError, WrongVersionError, PackageNotFoundError) as e:
             z = zipfile.ZipFile(io.BytesIO(r.content))
             z.extractall(f"{os.path.dirname(sys.executable)}/lib")
             
-    from pysmmaprando import build_app_data, randomize_ap, customize_seed_ap, CustomizeRequest, Item as MapRandoItem
+    from pysmmaprando import build_app_data, validate_settings_ap, randomize_ap, customize_seed_ap, CustomizeRequest, Item as MapRandoItem
 
 def GetAPWorldPath():
     filename = sys.modules[__name__].__file__
@@ -153,16 +153,20 @@ class SMMapRandoWorld(World):
         rom_file = get_base_rom_path()
         if not os.path.exists(rom_file):
             raise FileNotFoundError(rom_file)
+        
+    @classmethod
+    def validate_settings(cls, settings_string: str) -> bool:
+        return validate_settings_ap(settings_string, map_rando_app_data) is not None
 
     def generate_early(self):
-        with openFile("/".join((os.path.dirname(__file__), "data", "presets", "full-settings", "Default.json")), "r") as stream:
-            # settings_string = stream.read()
-            # index = settings_string.find("random_seed")
-            # if (index != -1):
-            #     digits_only = "".join(filter(str.isdigit, settings_string[index+14:]))
-            #     new_seed = str(self.random.randrange(9999999999))
-            #     settings_string1 = settings_string.replace(digits_only, new_seed)
-            self.randomizer_ap = randomize_ap(stream.read(), self.random.randrange(9999999999), map_rando_app_data)
+        self.map_rando_settings = validate_settings_ap(json.dumps(self.options.map_rando_options.value), map_rando_app_data)
+        self.randomizer_ap = randomize_ap(self.map_rando_settings, 
+                                            self.random.randrange(9999999999),
+                                            (self.multiworld.seed & 0xFFFFFFFF) if self.options.common_map.value else None,
+                                            (self.multiworld.seed & 0xFFFFFFFF) if self.options.common_map.value and self.options.common_door_colors.value else None,
+                                            map_rando_app_data)
+        if self.randomizer_ap is None:
+            raise Exception(f"Map Rando failed to randomize for player {self.player_name}")
 
     def create_region(self, world: MultiWorld, player: int, name: str, locations, exit, items_required = None):
         print(f"create_region: {name} {locations} {items_required}")
@@ -226,18 +230,12 @@ class SMMapRandoWorld(World):
         startAP.connect(self.multiworld.get_region("step 1", self.player))
 
     def create_items(self):
-        self.items_step_to_pre_fill = []
-        self.locations_step_to_pre_fill = {}
         pool = []
-        is_pre_fill_spheres_done = False
-        sphere_item_count_threshold = 3
-        total_item_count_threshold = 5
         item_placement = [item.to_int() for item in self.randomizer_ap.randomization.item_placement]
         seen_item_type = set() 
         weaponCount = [0, 0, 0]         
 
         for spoilerSummary in self.randomizer_ap.spoiler_log.summary:
-            # needs_to_pre_fill =  not is_pre_fill_spheres_done and (len(spoilerSummary.items) < sphere_item_count_threshold or len(self.items_step_to_pre_fill) < total_item_count_threshold)
             for spoilerItemSummary in spoilerSummary.items:
                 isAdvancement = True
                 if spoilerItemSummary.item == 'Missile':
@@ -259,21 +257,13 @@ class SMMapRandoWorld(World):
                     isAdvancement = False
                 new_item_id = SMMapRandoWorld.item_name_to_id[spoilerItemSummary.item]
                 item_placement[SMMapRandoWorld.smmr_location_names.index(f"{spoilerItemSummary.location.room} {spoilerItemSummary.location.node}")] = -1
-                needs_to_pre_fill = False # new_item_id not in seen_item_type or spoilerItemSummary.item == "ETank" or spoilerItemSummary.item == "ReserveTank"
                 seen_item_type.add(new_item_id)
                 mr_item = SMMRItem(spoilerItemSummary.item, 
                             ItemClassification.progression if isAdvancement else ItemClassification.filler, 
                             new_item_id, 
                             player=self.player,
                             step=spoilerSummary.step)
-                
-                if needs_to_pre_fill:
-                    self.items_step_to_pre_fill.append((mr_item, spoilerSummary.step))
-                    self.locations_step_to_pre_fill[f"{spoilerItemSummary.location.room} {spoilerItemSummary.location.node}"] = spoilerSummary.step
-                else:
-                    # is_pre_fill_spheres_done = True
-                    self.locations_step_to_pre_fill[f"{spoilerItemSummary.location.room} {spoilerItemSummary.location.node}"] = spoilerSummary.step
-                    pool.append(mr_item)
+                pool.append(mr_item)
 
         for i, item_id in enumerate(item_placement):
             if item_id != -1:
@@ -283,8 +273,6 @@ class SMMapRandoWorld(World):
                                 player=self.player,
                                 step=len(self.randomizer_ap.spoiler_log.summary) - 1)
                 pool.append(mr_item)
-                # self.items_step_to_pre_fill.append((mr_item, len(self.randomizer_ap.spoiler_log.summary) - 1))
-                self.locations_step_to_pre_fill[SMMapRandoWorld.smmr_location_names[i]] = len(self.randomizer_ap.spoiler_log.summary) - 1
             
         self.multiworld.itempool += pool
         
@@ -310,51 +298,6 @@ class SMMapRandoWorld(World):
 
         sort_list_by_step(progitempool, True)
         sort_list_by_step(fill_locations)
-
-    """
-    def get_pre_fill_items(self):
-        return list(map(lambda item: item[0], self.items_step_to_pre_fill))
-
-    @classmethod
-    def stage_pre_fill(cls, multiworld):
-        # we help the main fill stage to not get stuck by pre filling early narrow Map Rando's spheres
-        items_step_to_pre_fill = []
-        sorted_items_to_pre_fill = []
-        for subworld in multiworld.get_game_worlds(SMMapRandoWorld.game):
-            player = subworld.player
-            if player not in multiworld.groups:
-                items_step_to_pre_fill.extend(subworld.items_step_to_pre_fill)
-
-        if items_step_to_pre_fill:
-            all_unfilled_locations = multiworld.get_unfilled_locations()
-            multiworld.random.shuffle(all_unfilled_locations)
-            map_rando_unfilled_locations = []
-            for loc in all_unfilled_locations:
-                if (loc.game == SMMapRandoWorld.game):
-                    map_rando_unfilled_locations.append(loc)
-            
-            step = (len(all_unfilled_locations) * 9 / 10 + 1) / len(map_rando_unfilled_locations)
-
-            for loc in map_rando_unfilled_locations:
-                all_unfilled_locations.remove(loc)
-
-            start_insert = round(len(all_unfilled_locations) / 10)
-                
-            map_rando_unfilled_locations.sort(key=lambda location: multiworld.worlds[location.player].locations_step_to_pre_fill[location.name] if location.game == SMMapRandoWorld.game else 0)
-            
-            for i, element in enumerate(map_rando_unfilled_locations):
-                insert_index = start_insert + round(i * step)
-                all_unfilled_locations.insert(insert_index, element)
-
-            items_step_to_pre_fill.sort(key=lambda item: item[1], reverse=True)
-            sorted_items_to_pre_fill = list(map(lambda item: item[0], items_step_to_pre_fill))
-
-            all_state = multiworld.get_all_state(use_cache=False)
-            for item in sorted_items_to_pre_fill:
-                all_state.remove(item)
-
-            fill_restrictive(multiworld, all_state, all_unfilled_locations, sorted_items_to_pre_fill, lock=True, name="Map Rando pre fill")
-    """
 
     def post_fill(self):
         self.startItems = [variaItem for item in self.multiworld.precollected_items[self.player] for variaItem in self.item_name_to_id.keys() if variaItem == item.name]
@@ -470,48 +413,48 @@ class SMMapRandoWorld(World):
         customize_request = CustomizeRequest(
             self.rom,
             "",
-            "FF00FF",
-            True,
-            "vanilla",
-            "none",
-            "vanilla",
-            "area",
-            False,
-            "Vanilla",
-            "Vanilla",
-            True,
-            "X",
-            "A",
-            "B",
-            "Select",
-            "Y",
-            "R",
-            "L",
-            "off",
-            "off",
-            "on",
-            "off",
-            "off",
-            "off",
-            "on",
-            "off",
-            "on",
-            "on",
-            "off",
-            "off",
-            "off",
-            "off",
-            "off",
-            "off",
-            "off",
-            "off",
-            "off",
-            "off",
-            "on",
-            "on",
-            "on",
-            "on",
-            False
+            f"{self.options.etank_color_red.value:02X}{self.options.etank_color_green.value:02X}{self.options.etank_color_blue.value:02X}",
+            bool(self.options.reserve_hud_style.value),
+            self.options.room_palettes.current_key,
+            self.options.tile_theme.current_key_pascal(),
+            self.options.door_colors.current_key,
+            self.options.music.current_key,
+            bool(self.options.disable_beeping.value),
+            self.options.screen_shaking.current_key.title(),
+            self.options.screen_flashing.current_key.title(),
+            bool(self.options.screw_attack_animation.value),
+            self.options.shot.current_key.title(),
+            self.options.jump.current_key.title(),
+            self.options.dash.current_key.title(),
+            self.options.item_select.current_key.title(),
+            self.options.item_cancel.current_key.title(),
+            self.options.angle_up.current_key.title(),
+            self.options.angle_down.current_key.title(),
+            "on" if "Left" in self.options.spin_lock_buttons else "off",
+            "on" if "Right" in self.options.spin_lock_buttons else "off",
+            "on" if "Up" in self.options.spin_lock_buttons else "off",
+            "on" if "Down" in self.options.spin_lock_buttons else "off",
+            "on" if "X" in self.options.spin_lock_buttons else "off",
+            "on" if "Y" in self.options.spin_lock_buttons else "off",
+            "on" if "A" in self.options.spin_lock_buttons else "off",
+            "on" if "B" in self.options.spin_lock_buttons else "off",
+            "on" if "L" in self.options.spin_lock_buttons else "off",
+            "on" if "R" in self.options.spin_lock_buttons else "off",
+            "on" if "Select" in self.options.spin_lock_buttons else "off",
+            "on" if "Start" in self.options.spin_lock_buttons else "off",
+            "on" if "Left" in self.options.quick_reload_buttons else "off",
+            "on" if "Right" in self.options.quick_reload_buttons else "off",
+            "on" if "Up" in self.options.quick_reload_buttons else "off",
+            "on" if "Down" in self.options.quick_reload_buttons else "off",
+            "on" if "X" in self.options.quick_reload_buttons else "off",
+            "on" if "Y" in self.options.quick_reload_buttons else "off",
+            "on" if "A" in self.options.quick_reload_buttons else "off",
+            "on" if "B" in self.options.quick_reload_buttons else "off",
+            "on" if "L" in self.options.quick_reload_buttons else "off",
+            "on" if "R" in self.options.quick_reload_buttons else "off",
+            "on" if "Select" in self.options.quick_reload_buttons else "off",
+            "on" if "Start" in self.options.quick_reload_buttons else "off",
+            bool(self.options.moonwalk.value)
         )
         sorted_item_locs = list(self.locations.values())
         items = [MapRandoItem(
@@ -527,7 +470,7 @@ class SMMapRandoWorld(World):
         patched_rom_bytes = customize_seed_ap(
             customize_request, 
             map_rando_app_data, 
-            map_rando_app_data.preset_data.default_preset,
+            self.map_rando_settings,
             self.randomizer_ap.randomization,
             self.randomizer_ap.randomization.map,
             False,
