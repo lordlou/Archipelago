@@ -827,12 +827,16 @@ class SMMapRandoWorld(World):
                 
         return slot_data
     
-    # def extend_hint_information(self, hint_data: Dict[int, Dict[int, str]]):
-    #    player_hint_data = {}
-    #    for (loc_name, location) in self.locations.items():
-    #        if not loc_name.startswith("f_"):
-    #            player_hint_data[location.address] = self.region_area_name[location.parent_region.index]
-    #    hint_data[self.player] = player_hint_data
+    def extend_hint_information(self, hint_data: Dict[int, Dict[int, str]]):
+        map_layout = self.options.map_rando_options.value.get("map_layout", None)
+        if map_layout is not None and map_layout == "Vanilla":
+            return
+        player_hint_data = {}
+        for spoilerSummary in self.randomizer_ap.spoiler_log.summary:
+            for spoilerItemSummary in spoilerSummary.items:
+                loc_name = f"{spoilerItemSummary.location.room} {spoilerItemSummary.location.node}"
+                player_hint_data[self.location_name_to_id[loc_name]] = spoilerItemSummary.location.area
+        hint_data[self.player] = player_hint_data
     
     
 class SMMRLocation(Location):
