@@ -151,6 +151,10 @@ class SMMapRandoWorld(World):
                                             (self.multiworld.seed & 0xFFFFFFFF) if self.options.common_map.value else None,
                                             (self.multiworld.seed & 0xFFFFFFFF) if self.options.common_map.value and self.options.common_door_colors.value else None,
                                             map_rando_app_data)
+        
+        # cached highly costly operation
+        self.spoiler_log_summary_size = len(self.randomizer_ap.spoiler_log.summary)
+
         if self.randomizer_ap is None:
             raise Exception(f"Map Rando failed to randomize for player {self.player_name}")
 
@@ -173,7 +177,7 @@ class SMMapRandoWorld(World):
         remaining_locations = []
         # create locations
         for loc_name, id in SMMapRandoWorld.location_name_to_id.items():
-            self.locations[loc_name] = SMMRLocation(self.player, loc_name, len(self.randomizer_ap.spoiler_log.summary) - 1, id)
+            self.locations[loc_name] = SMMRLocation(self.player, loc_name, self.spoiler_log_summary_size - 1, id)
             remaining_locations.append(loc_name)
 
         # create regions
@@ -205,7 +209,7 @@ class SMMapRandoWorld(World):
                                                         self.player, 
                                                         f"step {spoilerSummary.step}",
                                                         [f"{spoilerItemSummary.location.room} {spoilerItemSummary.location.node}" for spoilerItemSummary in spoilerSummary.items],
-                                                        f"to step {spoilerSummary.step + 1}" if spoilerSummary.step < len(self.randomizer_ap.spoiler_log.summary) else None,
+                                                        f"to step {spoilerSummary.step + 1}" if spoilerSummary.step < self.spoiler_log_summary_size else None,
                                                         cumulative_required_items[:]))
             for spoilerItemSummary in spoilerSummary.items:
                 loc_name = f"{spoilerItemSummary.location.room} {spoilerItemSummary.location.node}"
@@ -213,11 +217,11 @@ class SMMapRandoWorld(World):
                 remaining_locations.remove(loc_name)
 
         # if start location isnt Escape
-        if (len(self.randomizer_ap.spoiler_log.summary) > 0):
+        if (self.spoiler_log_summary_size > 0):
             self.multiworld.regions += self.region_dict
 
             for loc_name in remaining_locations:
-                region = self.multiworld.get_region(f"step {len(self.randomizer_ap.spoiler_log.summary) - 1}", self.player)
+                region = self.multiworld.get_region(f"step {self.spoiler_log_summary_size - 1}", self.player)
                 self.locations[loc_name].parent_region = region
                 region.locations.append(self.locations[loc_name])
 
@@ -280,14 +284,14 @@ class SMMapRandoWorld(World):
                                 ItemClassification.filler, 
                                 item_id + items_start_id, 
                                 player=self.player,
-                                step=len(self.randomizer_ap.spoiler_log.summary) - 1)
+                                step=self.spoiler_log_summary_size - 1)
                 pool.append(mr_item)
             
         self.multiworld.itempool += pool
         
     def set_rules(self):
-        if (len(self.randomizer_ap.spoiler_log.summary) > 0):     
-            self.multiworld.completion_condition[self.player] = lambda state: state.can_reach(self.multiworld.get_entrance(f"to step {len(self.randomizer_ap.spoiler_log.summary)}", self.player))
+        if ( self.spoiler_log_summary_size> 0):     
+            self.multiworld.completion_condition[self.player] = lambda state: state.can_reach(self.multiworld.get_entrance(f"to step {self.spoiler_log_summary_size}", self.player))
         else:
             self.multiworld.completion_condition[self.player] = lambda state: True
 
