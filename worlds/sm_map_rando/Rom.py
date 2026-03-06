@@ -42,7 +42,7 @@ class SMMapRandoPatchExtensions(APPatchExtension):
     def patch_rom(caller: SMMapRandoProcedurePatch, rom: bytes, rando_data_file: str) -> bytes:
         from Generate import roll_settings
         from pysmmaprando import CustomizeRequest, customize_seed_ap, validate_settings_ap
-        from . import map_rando_app_data
+        from . import SMMapRandoWorld
 
         randomizer_data = json.loads(caller.get_file(rando_data_file).decode("utf-8"))
 
@@ -105,8 +105,8 @@ class SMMapRandoPatchExtensions(APPatchExtension):
 
         patched_rom_bytes = customize_seed_ap(
             customize_request,
-            map_rando_app_data,
-            validate_settings_ap(json.dumps(randomizer_data["map_rando_settings"]), map_rando_app_data),
+            SMMapRandoWorld.map_rando_app_data,
+            validate_settings_ap(json.dumps(randomizer_data["map_rando_settings"]), SMMapRandoWorld.map_rando_app_data),
             randomizer_data["randomization"]
         )
         return patched_rom_bytes
@@ -155,7 +155,7 @@ class ByteEdit(TypedDict):
     values: Iterable[int]
 
 def make_ips_patches(world: "SMMapRandoWorld") -> dict[str, IPS_Patch]:
-    from . import SMMRItem, locations_start_id, items_start_id, required_pysmmaprando_version
+    from . import SMMRItem, SMMapRandoWorld, required_pysmmaprando_version
     patches = dict()
     symbols = get_sm_symbols("/".join(("data", "SMBasepatch_prebuilt", "sm-basepatch-symbols.json")))
 
@@ -210,12 +210,12 @@ def make_ips_patches(world: "SMMapRandoWorld") -> dict[str, IPS_Patch]:
     for itemLoc in world.multiworld.get_locations():
         if itemLoc.player == world.player:
             # item to place in this SMMR world: write full item data to tables
-            if isinstance(itemLoc.item, SMMRItem) and itemLoc.item.code < items_start_id + vanillaItemTypesCount:
-                if itemLoc.item.code == items_start_id + world.nothing_item_id:
-                    locations_nothing[(itemLoc.address - locations_start_id)//8] |= 1 << (itemLoc.address % 8)
-                itemId = itemLoc.item.code - items_start_id
+            if isinstance(itemLoc.item, SMMRItem) and itemLoc.item.code < SMMapRandoWorld.items_start_id + vanillaItemTypesCount:
+                if itemLoc.item.code == SMMapRandoWorld.items_start_id + world.nothing_item_id:
+                    locations_nothing[(itemLoc.address - SMMapRandoWorld.locations_start_id)//8] |= 1 << (itemLoc.address % 8)
+                itemId = itemLoc.item.code - SMMapRandoWorld.items_start_id
             else:
-                itemId = world.item_name_to_id['ArchipelagoItem'] - items_start_id + idx
+                itemId = world.item_name_to_id['ArchipelagoItem'] - SMMapRandoWorld.items_start_id + idx
                 multiWorldItems.append({"sym": symbols["message_item_names"],
                                         "offset": (vanillaItemTypesCount + idx)*64,
                                         "values": convertToROMItemName(itemLoc.item.name)})
@@ -237,7 +237,7 @@ def make_ips_patches(world: "SMMapRandoWorld") -> dict[str, IPS_Patch]:
                                          otherPlayerIndex else 0)
             [w6, w7] = getWordArray(0 if itemLoc.item.advancement else 1)
             multiWorldLocations.append({"sym": symbols["rando_item_table"],
-                                        "offset": (itemLoc.address - locations_start_id)*8,
+                                        "offset": (itemLoc.address - SMMapRandoWorld.locations_start_id)*8,
                                         "values": [w0, w1, w2, w3, w4, w5, w6, w7]})
 
     itemSprites = [{"fileName":          "off_world_prog_item.bin",

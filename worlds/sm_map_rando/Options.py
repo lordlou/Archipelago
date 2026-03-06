@@ -2,7 +2,6 @@ import json
 import typing
 from Options import Choice, OptionSet, PerGameCommonOptions, Range, OptionDict, OptionList, Option, StartInventoryPool, Toggle, DefaultOnToggle
 from dataclasses import dataclass
-from . import map_rando_app_data
 
 from schema import Schema
 
