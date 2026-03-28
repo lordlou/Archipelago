@@ -1,6 +1,6 @@
 import json
 import typing
-from Options import Choice, OptionSet, PerGameCommonOptions, Range, OptionDict, OptionList, Option, StartInventoryPool, Toggle, DefaultOnToggle
+from Options import Choice, OptionSet, PerGameCommonOptions, Range, OptionDict, OptionList, Option, StartInventoryPool, TextChoice, Toggle, DefaultOnToggle
 from dataclasses import dataclass
 
 from schema import Schema
@@ -19,12 +19,19 @@ class RemoteItems(Toggle):
     """Indicates you get items sent from your own world. This allows coop play of a world."""
     display_name = "Remote Items"
 
-class CommonMap(Toggle):
+class CommonMap(TextChoice):
     """
     If On, the common multiworld seed will be used to choose the map. This overrides the "random_seed" of "other_settings" from "map_rando_options".
     All Map Rando worlds having this On will use the same map.
     """
     display_name = "Common Map"
+    alias_false = 0
+    alias_off = 0
+    option_no = 0
+    alias_true = 1
+    alias_on = 1
+    option_yes = 1
+    default = 0
 
 class CommonDoorColors(Toggle):
     """

@@ -13,7 +13,7 @@ import threading
 import base64
 import itertools
 import json
-from typing import Any, Dict, Iterable, List, Optional, Set, TextIO, TypedDict
+from typing import Any, Dict, Iterable, List, Optional, Set, TextIO, Tuple, TypedDict
 
 from BaseClasses import LocationProgressType, Region, Entrance, Location, MultiWorld, Item, ItemClassification, CollectionState, Tutorial
 from Fill import fill_restrictive
@@ -82,7 +82,7 @@ def GetAPWorldPath():
     else:
         return None
 
-from .Options import SMMROptions
+from .Options import CommonMap, SMMROptions
 
 class SMMapRandoWeb(WebWorld):
     tutorials = [Tutorial(
@@ -119,6 +119,8 @@ class SMMapRandoWorld(World):
     nothing_item_id = 22
     prog_missile_item_id = 27
 
+    seed_groups: Dict[str, List[SMMapRandoWorld]] = {}
+
     web = SMMapRandoWeb()
 
     required_client_version = (0, 4, 4)
@@ -134,20 +136,63 @@ class SMMapRandoWorld(World):
         if SMMapRandoWorld.map_rando_app_data is None:
             SMMapRandoWorld.map_rando_app_data = build_app_data(GetAPWorldPath())
         return validate_settings_ap(settings_string, SMMapRandoWorld.map_rando_app_data) is not None
+    
+    @classmethod
+    def stage_generate_early(cls, multiworld: MultiWorld) -> None:
+        maprando_worlds: Tuple[SMMapRandoWorld] = multiworld.get_game_worlds("Super Metroid Map Rando")
+        for maprando in maprando_worlds:
+            # if it's one of the options, then it isn't a custom seed group
+            if maprando.options.common_map.value in CommonMap.options.values():
+                continue
 
+            group = maprando.options.common_map.value
+            if group not in cls.seed_groups:
+                cls.seed_groups[group] = [maprando]
+            else:
+                cls.seed_groups[group].append(maprando)
+
+        for seed, map_rando_worlds in cls.seed_groups.items():
+            for map_rando_world in map_rando_worlds:
+                map_rando_world.map_rando_settings = validate_settings_ap(json.dumps(map_rando_world.options.map_rando_options.value), SMMapRandoWorld.map_rando_app_data)
+            
+            group_success = False
+            while not group_success:
+                group_first_item_idx = []
+                current_map_seed = (multiworld.random.randrange(9999999999) ^ int.from_bytes(seed.encode())) & 0xFFFFFFFF
+                for map_rando_world in map_rando_worlds:
+                    print(group_first_item_idx)
+                    map_rando_world.randomizer_ap = randomize_ap(
+                        map_rando_world.map_rando_settings, 
+                        map_rando_world.random.randrange(9999999999),
+                        current_map_seed,
+                        (multiworld.seed & 0xFFFFFFFF) if map_rando_world.options.common_door_colors.value else None,
+                        SMMapRandoWorld.map_rando_app_data,
+                        group_first_item_idx)
+                    group_success = map_rando_world.randomizer_ap is not None
+                    if not group_success:
+                        break
+                    group_first_item_idx.extend(map_rando_world.randomizer_ap.randomization.first_item_idx)
+            
+            # cached highly costly operation
+            for map_rando_world in map_rando_worlds:
+                map_rando_world.spoiler_log_summary_size = len(map_rando_world.randomizer_ap.spoiler_log.summary)
+                
     def generate_early(self):
-        self.map_rando_settings = validate_settings_ap(json.dumps(self.options.map_rando_options.value), SMMapRandoWorld.map_rando_app_data)
-        self.randomizer_ap = randomize_ap(self.map_rando_settings, 
-                                            self.random.randrange(9999999999),
-                                            (self.multiworld.seed & 0xFFFFFFFF) if self.options.common_map.value else None,
-                                            (self.multiworld.seed & 0xFFFFFFFF) if self.options.common_map.value and self.options.common_door_colors.value else None,
-                                            SMMapRandoWorld.map_rando_app_data)
-        
-        # cached highly costly operation
-        self.spoiler_log_summary_size = len(self.randomizer_ap.spoiler_log.summary)
+        if self.options.common_map.value in CommonMap.options.values():
+            self.map_rando_settings = validate_settings_ap(json.dumps(self.options.map_rando_options.value), SMMapRandoWorld.map_rando_app_data)
+            group_first_item_idx = []
+            self.randomizer_ap = randomize_ap(self.map_rando_settings, 
+                                                self.random.randrange(9999999999),
+                                                (self.multiworld.seed & 0xFFFFFFFF) if self.options.common_map.value else None,
+                                                (self.multiworld.seed & 0xFFFFFFFF) if self.options.common_map.value and self.options.common_door_colors.value else None,
+                                                SMMapRandoWorld.map_rando_app_data,
+                                                group_first_item_idx)
 
-        if self.randomizer_ap is None:
-            raise Exception(f"Map Rando failed to randomize for player {self.player_name}")
+            if self.randomizer_ap is None:
+                raise Exception(f"Map Rando failed to randomize for player {self.player_name}")
+            
+            # cached highly costly operation
+            self.spoiler_log_summary_size = len(self.randomizer_ap.spoiler_log.summary)
 
     def create_region(self, world: MultiWorld, player: int, name: str, locations, exit, items_required = None):
         logger.debug(f"create_region: {name} {locations} {items_required}")
