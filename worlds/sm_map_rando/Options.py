@@ -36,9 +36,20 @@ class CommonMap(TextChoice):
 class CommonDoorColors(Toggle):
     """
     If On, the common multiworld seed will be used to choose the doors randomization. This overrides the "random_seed" of "other_settings" from "map_rando_options".
-    All Map Rando worlds having this On will use the same map This setting is ignored if "common_map" is Off.
+    All Map Rando worlds in the same common_map group having this On will use the same door colors. 
+    This setting is ignored if "common_map" is Off.
     """
     display_name = "Common Door Colors"
+
+class UniqueStartLocations(Toggle):
+    """
+    When Common Map is set to a group name, controls start location uniqueness within the group.
+    If enabled (default), each player in the group will have a different sphere 1 locations.
+    If disabled, start locations are chosen independently and may share the same sphere 1.
+    This setting is ignored if "common_map" is Off.
+    """
+    display_name = "Unique Start Locations"
+    default = 1
 
 class EtankColorRed(Range):
     """
@@ -357,7 +368,7 @@ class Moonwalk(Toggle):
     Moonwalk
     """
     display_name = "Moonwalk"
-    default = 0  
+    default = 0
 
 class MapRandoOptions(OptionDict):
     """
@@ -451,4 +462,5 @@ class SMMROptions(PerGameCommonOptions):
     spin_lock_buttons: SpinLockButtons
     quick_reload_buttons: QuickReloadButtons
     moonwalk: Moonwalk
+    unique_start_locations: UniqueStartLocations
     map_rando_options: MapRandoOptions

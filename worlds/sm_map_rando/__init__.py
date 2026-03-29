@@ -82,7 +82,7 @@ def GetAPWorldPath():
     else:
         return None
 
-from .Options import CommonMap, SMMROptions
+from .Options import CommonMap, SMMROptions, UniqueStartLocations
 
 class SMMapRandoWeb(WebWorld):
     tutorials = [Tutorial(
@@ -152,28 +152,33 @@ class SMMapRandoWorld(World):
                 cls.seed_groups[group].append(maprando)
 
         for seed, map_rando_worlds in cls.seed_groups.items():
+            # Validate settings for all worlds in the group
             for map_rando_world in map_rando_worlds:
                 map_rando_world.map_rando_settings = validate_settings_ap(json.dumps(map_rando_world.options.map_rando_options.value), SMMapRandoWorld.map_rando_app_data)
-            
+
+            # Keep track of which worlds need coordination
+            needs_coordination = [w for w in map_rando_worlds if w.options.unique_start_locations.value]
+
             group_success = False
             while not group_success:
                 group_first_item_idx = []
                 current_map_seed = (multiworld.random.randrange(9999999999) ^ int.from_bytes(seed.encode())) & 0xFFFFFFFF
                 for map_rando_world in map_rando_worlds:
-                    print(group_first_item_idx)
+                    passed_first_item_idx = [] if map_rando_world not in needs_coordination else group_first_item_idx
                     map_rando_world.randomizer_ap = randomize_ap(
-                        map_rando_world.map_rando_settings, 
+                        map_rando_world.map_rando_settings,
                         map_rando_world.random.randrange(9999999999),
                         current_map_seed,
                         (multiworld.seed & 0xFFFFFFFF) if map_rando_world.options.common_door_colors.value else None,
                         SMMapRandoWorld.map_rando_app_data,
-                        group_first_item_idx)
-                    group_success = map_rando_world.randomizer_ap is not None
-                    if not group_success:
+                        passed_first_item_idx)
+                    if map_rando_world.randomizer_ap is None:
                         break
-                    group_first_item_idx.extend(map_rando_world.randomizer_ap.randomization.first_item_idx)
-            
-            # cached highly costly operation
+                    if map_rando_world in needs_coordination:
+                        group_first_item_idx.extend(map_rando_world.randomizer_ap.randomization.first_item_idx)
+                group_success = all(map_rando_world.randomizer_ap is not None for map_rando_world in map_rando_worlds)
+
+            # Cache spoiler log summary size for all worlds in the group
             for map_rando_world in map_rando_worlds:
                 map_rando_world.spoiler_log_summary_size = len(map_rando_world.randomizer_ap.spoiler_log.summary)
                 
