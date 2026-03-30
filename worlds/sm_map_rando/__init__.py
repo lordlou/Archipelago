@@ -134,11 +134,13 @@ class SMMapRandoWorld(World):
     @classmethod
     def validate_settings(cls, settings_string: str) -> bool:
         if SMMapRandoWorld.map_rando_app_data is None:
-            SMMapRandoWorld.map_rando_app_data = build_app_data(GetAPWorldPath())
+            debug = os.getenv("SMMAPRANDO_DEBUG", "0") == "1"
+            SMMapRandoWorld.map_rando_app_data = build_app_data(GetAPWorldPath(), debug)
         return validate_settings_ap(settings_string, SMMapRandoWorld.map_rando_app_data) is not None
     
     @classmethod
     def stage_generate_early(cls, multiworld: MultiWorld) -> None:
+        cls.seed_groups.clear()
         maprando_worlds: Tuple[SMMapRandoWorld] = multiworld.get_game_worlds("Super Metroid Map Rando")
         for maprando in maprando_worlds:
             # if it's one of the options, then it isn't a custom seed group
@@ -181,6 +183,9 @@ class SMMapRandoWorld(World):
             # Cache spoiler log summary size for all worlds in the group
             for map_rando_world in map_rando_worlds:
                 map_rando_world.spoiler_log_summary_size = len(map_rando_world.randomizer_ap.spoiler_log.summary)
+
+        # Clear seed_groups to release references and prevent memory leak
+        cls.seed_groups.clear()
                 
     def generate_early(self):
         if self.options.common_map.value in CommonMap.options.values():
