@@ -21,8 +21,8 @@ class RemoteItems(Toggle):
 
 class CommonMap(TextChoice):
     """
-    If On, the common multiworld seed will be used to choose the map. This overrides the "random_seed" of "other_settings" from "map_rando_options".
-    All Map Rando worlds having this On will use the same map.
+    This allows multiple Map Rando players in a multiworld to share a common map layout by 
+    setting CommonMap to the same group name
     """
     display_name = "Common Map"
     alias_false = 0
@@ -41,15 +41,17 @@ class CommonDoorColors(Toggle):
     """
     display_name = "Common Door Colors"
 
-class UniqueStartLocations(Toggle):
+class UniqueStartLocations(Range):
     """
     When Common Map is set to a group name, controls start location uniqueness within the group.
-    If enabled (default), each player in the group will have a different sphere 1 locations.
-    If disabled, start locations are chosen independently and may share the same sphere 1.
+    The integer value sets the maximum number of attempts to achieve unique start locations.
+    If attempts are exhausted, generation proceeds as if this option were disabled.
     This setting is ignored if "common_map" is Off.
     """
     display_name = "Unique Start Locations"
-    default = 1
+    range_start = 0
+    range_end = 10
+    default = 5
 
 class EtankColorRed(Range):
     """
@@ -436,6 +438,7 @@ class SMMROptions(PerGameCommonOptions):
     death_link: DeathLink
     common_map: CommonMap
     common_door_colors: CommonDoorColors
+    unique_start_locations: UniqueStartLocations
     etank_color_red: EtankColorRed
     etank_color_green: EtankColorGreen
     etank_color_blue: EtankColorBlue
@@ -462,5 +465,4 @@ class SMMROptions(PerGameCommonOptions):
     spin_lock_buttons: SpinLockButtons
     quick_reload_buttons: QuickReloadButtons
     moonwalk: Moonwalk
-    unique_start_locations: UniqueStartLocations
     map_rando_options: MapRandoOptions

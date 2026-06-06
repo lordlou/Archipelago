@@ -158,11 +158,19 @@ class SMMapRandoWorld(World):
             for map_rando_world in map_rando_worlds:
                 map_rando_world.map_rando_settings = validate_settings_ap(json.dumps(map_rando_world.options.map_rando_options.value), SMMapRandoWorld.map_rando_app_data)
 
-            # Keep track of which worlds need coordination
-            needs_coordination = [w for w in map_rando_worlds if w.options.unique_start_locations.value]
+            # Determine max attempts for unique start locations (0 disables uniqueness)
+            max_attempts = max((w.options.unique_start_locations.value for w in map_rando_worlds), default=0)
+            # Worlds that require coordination when attempts > 0
+            needs_coordination = [w for w in map_rando_worlds if w.options.unique_start_locations.value > 0]
 
             group_success = False
+            attempts = 0
             while not group_success:
+                # If we've exceeded the attempt limit and uniqueness was requested,
+                # fall back to non‑unique generation by clearing coordination.
+                if max_attempts and attempts >= max_attempts:
+                    needs_coordination = []
+                attempts += 1
                 group_first_item_idx = []
                 current_map_seed = (multiworld.random.randrange(9999999999) ^ int.from_bytes(seed.encode())) & 0xFFFFFFFF
                 for map_rando_world in map_rando_worlds:
