@@ -145,8 +145,8 @@ class SMMRSNIClient(SNIClient):
                     if location_id not in ctx.locations_checked:
                         location_unchecked.append(location_id)
                 
-                for loc in location_unchecked:
-                    location_id = SMMapRandoWorld.locations_start_id + loc
+                for location_id in location_unchecked:
+                    loc = location_id - SMMapRandoWorld.locations_start_id
                     if (clean_message[loc//8] & (1 << loc % 8)) and (message_nothing_location[loc//8] & (1 << loc % 8)) == 0: #and loc not in self.locations_nothing
                         ctx.locations_checked.add(location_id)
                         location = ctx.location_names.lookup_in_game(location_id)
