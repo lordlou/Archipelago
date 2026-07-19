@@ -38,7 +38,7 @@ jobs:
         with:
           draft: true
           prerelease: true
-          name: ${{ env.AP_WORLD_NAME }} APWorld ${{ GITHUB_REF#refs/*/ }}
+          name: ${{ env.AP_WORLD_NAME }} APWorld ${{ github.ref_name }}
           files: build/apworlds/${{ env.AP_WORLD_DIR }}.apworld
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
