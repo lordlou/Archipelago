@@ -1,0 +1,44 @@
+# This workflow will create an AP world release and store builds to it when an vX.Y.Z tag is pushed
+
+name: Release AP World
+
+on:
+  push:
+    tags:
+      - v*.*.*
+
+env:
+  # Name of AP World
+  AP_WORLD_NAME: Super Metroid Map Rando
+  # Name of world's directory (in the worlds directory).
+  AP_WORLD_DIR: sm_map_rando
+
+jobs:
+  create-release:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout APWorld Repo
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: worlds/${{ env.AP_WORLD_DIR }}
+      - name: Install python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '~3.12.7'
+          check-latest: true
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python ModuleUpdate.py --yes --force
+      - name: Create AP World Archive
+        run: |
+          python Launcher.py "Build APWorlds" -- "${{ env.AP_WORLD_NAME }}"
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          draft: true
+          prerelease: true
+          name: ${{ env.AP_WORLD_NAME }} APWorld ${{ GITHUB_REF#refs/*/ }}
+          files: build/apworlds/${{ env.AP_WORLD_DIR }}.apworld
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
