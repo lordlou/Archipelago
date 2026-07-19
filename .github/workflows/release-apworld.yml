@@ -19,8 +19,6 @@ jobs:
     steps:
       - name: Checkout APWorld Repo
         uses: actions/checkout@v4
-        with:
-          sparse-checkout: worlds/${{ env.AP_WORLD_DIR }}
       - name: Install python
         uses: actions/setup-python@v5
         with:
